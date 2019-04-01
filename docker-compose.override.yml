@@ -1,0 +1,22 @@
+#dev settings - stubs for now
+version: '3.3'
+services:
+  web:
+    volumes:
+      - ./app:/app
+
+      #early terminate, execution done with
+      #./docker_run.sh or ./docker_test.sh
+      #command: "echo DONE"
+
+#  db:
+    # volumes:
+    #   - type: volume
+    #     source: mongodb
+    #     target: /data
+    #   - type: bind
+    #     source: /tmp
+    #     target: /tmpHost #utility
+
+#volumes:
+#  mongodb:
