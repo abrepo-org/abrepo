@@ -9,6 +9,7 @@ if [ $# -gt "0" ]; then
 fi
 
 sudo docker run \
+     --user $(id -u):$(id -g) \
      --mount type=bind,source="$(pwd)"/app,target=/app \
      --env-file .env \
      -it abrepo_web \
