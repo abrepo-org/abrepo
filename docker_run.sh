@@ -12,5 +12,5 @@ sudo docker run \
      --user $(id -u):$(id -g) \
      --mount type=bind,source="$(pwd)"/app,target=/app \
      --env-file .env \
-     -it abrepo_web \
+     -it 424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abrepo:latest \
      $DEFAULT_CMD
