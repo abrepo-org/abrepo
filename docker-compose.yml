@@ -5,11 +5,15 @@ services:
     image: postgres
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
+    user: "1000:1000"
   web:
     build: ./app
     image: '424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abrepo:latest'
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 8081 -b '0.0.0.0'"
+    env_file:
+      - .env
+    user: "1000:1000"
+    command: bash -c "rm -f tmp/pids/server.pid && rake tmp:cache:clear && bundle exec rails s -p 8081 -b '0.0.0.0'"
     ports:
-      - "80:8081"
+      - "8081:8081"
     depends_on:
       - db

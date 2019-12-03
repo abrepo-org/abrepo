@@ -8,9 +8,12 @@ if [ $# -gt "0" ]; then
     DEFAULT_CMD=$1
 fi
 
-sudo docker run \
-     --user $(id -u):$(id -g) \
-     --mount type=bind,source="$(pwd)"/app,target=/app \
-     --env-file .env \
-     -it 424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abrepo:latest \
-     $DEFAULT_CMD
+# sudo docker run \
+#      --user $(id -u):$(id -g) \
+#      --mount type=bind,source="$(pwd)"/app,target=/app \
+#      --env-file .env \
+#      -it 424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abrepo:latest \
+#      $DEFAULT_CMD
+
+sudo chown -R $USER:$USER .
+sudo docker-compose run web $DEFAULT_CMD

@@ -2,21 +2,39 @@
 
 Rails based frontend for abrepo web app
 
+## Quickstart
+
+To run stack:
+
+```
+sudo docker-compose up
+```
+
+For shell, once off commands
+
+```
+./docker_run bash
+
+#alternatively
+sudo docker-compose run web <CMD>
+```
+
+
 ## Postgres in Rails + Docker
 
 General instructions: https://docs.docker.com/compose/rails/
 
 ``` bash
-#1. add 'pg' to Gemfile,
-#2. install bundle:
+# 1. add 'pg' to Gemfile,
+# 2. install bundle:
 
 sudo docker-compose build
 
-#3. update config/database.yml
-# important to note host is "db" which is a docker-compose generated host variable
-# so 'db' host is unknown when using 'docker run' or similar
+# 3. update config/database.yml
+#  important to note host is "db" which is a docker-compose generated host variable
+#  so 'db' host is unknown when using 'docker run' or similar
 
-#4. create db, run migrations: `rake db:migrate` `rake db:setup`
+# 4. create db, run migrations: `rake db:migrate` `rake db:setup`
 
 sudo docker-compose run web rake db:create
 sudo docker-compose run web rake db:setup
@@ -26,7 +44,8 @@ sudo docker-compose run web rake db:migrate
 sudo chown -R $USER:$USER .
 
 
-#5. Note: postgres uses a bind mount volume ./tmp/db on host as internally mapping to default directory /var/lib/postgresql/data
+# 5. Note: postgres uses a bind mount volume ./tmp/db on host as internally
+mapping to default directory /var/lib/postgresql/data
 
 ```
 
