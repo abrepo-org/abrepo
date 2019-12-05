@@ -2,25 +2,13 @@
 #
 # Table name: actions
 #
-#  id            :bigint           not null, primary key
-#  selector      :string
-#  type          :string
-#  url           :string
-#  waitfor       :integer
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  renderable_id :bigint
-#  variation_id  :bigint
-#
-# Indexes
-#
-#  index_actions_on_renderable_id  (renderable_id)
-#  index_actions_on_variation_id   (variation_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (renderable_id => renderables.id)
-#  fk_rails_...  (variation_id => variations.id)
+#  id         :bigint           not null, primary key
+#  selector   :string
+#  type       :string
+#  url        :string
+#  waitfor    :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 require 'test_helper'

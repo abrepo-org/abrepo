@@ -22,5 +22,7 @@
 class Variation < ApplicationRecord
   belongs_to :experiment
   has_one :vendor
-  has_many :renderables, :through => :actions
+
+  has_many :renderables
+  has_many :actions, through: :renderables
 end

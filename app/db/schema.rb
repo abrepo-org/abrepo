@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_04_190920) do
+ActiveRecord::Schema.define(version: 2019_12_04_235917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,12 +20,8 @@ ActiveRecord::Schema.define(version: 2019_12_04_190920) do
     t.string "url"
     t.string "selector"
     t.integer "waitfor"
-    t.bigint "variation_id"
-    t.bigint "renderable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["renderable_id"], name: "index_actions_on_renderable_id"
-    t.index ["variation_id"], name: "index_actions_on_variation_id"
   end
 
   create_table "audiences", force: :cascade do |t|
@@ -69,6 +65,10 @@ ActiveRecord::Schema.define(version: 2019_12_04_190920) do
     t.string "domain"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "variation_id"
+    t.bigint "action_id"
+    t.index ["action_id"], name: "index_renderables_on_action_id"
+    t.index ["variation_id"], name: "index_renderables_on_variation_id"
   end
 
   create_table "variations", force: :cascade do |t|
@@ -96,11 +96,11 @@ ActiveRecord::Schema.define(version: 2019_12_04_190920) do
     t.index ["variation_id"], name: "index_vendors_on_variation_id"
   end
 
-  add_foreign_key "actions", "renderables"
-  add_foreign_key "actions", "variations"
   add_foreign_key "audiences", "experiments"
   add_foreign_key "campaigns", "experiments"
   add_foreign_key "experiments", "profiles"
+  add_foreign_key "renderables", "actions"
+  add_foreign_key "renderables", "variations"
   add_foreign_key "variations", "experiments"
   add_foreign_key "vendors", "experiments"
   add_foreign_key "vendors", "variations"
