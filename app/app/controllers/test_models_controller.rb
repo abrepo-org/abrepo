@@ -5,6 +5,11 @@ class TestModelsController < ApplicationController
        rake db:purge
        rake db:migrate
 
+# guess the phases would be 
+1. profile
+2. E, VCA
+3. Action, Renderables, Diffs
+4. Vendor if neceessayr
 
 =end
   end
@@ -69,26 +74,27 @@ class TestModelsController < ApplicationController
 
     p @renderable1.controlRenderable
     p @controlRenderable.controlRenderable
-    #Diff (TODO)
-    #can models store json objects - probably easiest
-    #diff belongs_to renderable
-    #renderbale has_many diffs
-    # @diff1 = Diff.create(type: "ADDED",
-    #                      selector: ".test",
-    #                      visible: true, #false,
-    #                      boundingBox: {
-    #                        #rect: x,y,z.... #rect Object?
-    #                        visible: true,
-    #                        renderLayer: active || false #what is this again
-    #                      },
-    #                      calculated: {
-    #                        #text, tag, css: [ { count:1, added/removed/changed: true, value: somei}]
-    #                      }
-    #                      renderable: @renderable1);
 
+    #Diff - based off single renderable (control is implied)
+    @diff1 = Diff.create(change: "ADDED",
+                         selector: ".test",
+                         visible: true,
+                         boundingBox: {
+                           rect: {'x': 1}
+                           #renderLayer: active #what is this again
+                         },
+                         calculated: {
+                           text: ['count': 1, 'added':true, value: "hi"]
+                         },
+                         renderable: @renderable1);
 
+    p @diff1.boundingBox
+    x= @diff1.boundingBox
+    p x['rect']
     # what if need to edit stuff? Or resubmit? - i guess this would be PATCH route
     # to update the individual model
+
+    p @renderable1.diffs
 
     # association tests
 

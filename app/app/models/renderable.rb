@@ -31,4 +31,5 @@ class Renderable < ApplicationRecord
   belongs_to :variation, optional: true
   belongs_to :controlRenderable, class_name: "Renderable",
              foreign_key: :renderable_id, optional:true
+  has_many :diffs
 end
