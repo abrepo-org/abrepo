@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_04_235917) do
+ActiveRecord::Schema.define(version: 2019_12_09_223357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2019_12_04_235917) do
     t.integer "waitfor"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "crawlID"
   end
 
   create_table "audiences", force: :cascade do |t|
@@ -67,7 +68,10 @@ ActiveRecord::Schema.define(version: 2019_12_04_235917) do
     t.datetime "updated_at", null: false
     t.bigint "variation_id"
     t.bigint "action_id"
+    t.boolean "control"
+    t.bigint "renderable_id"
     t.index ["action_id"], name: "index_renderables_on_action_id"
+    t.index ["renderable_id"], name: "index_renderables_on_renderable_id"
     t.index ["variation_id"], name: "index_renderables_on_variation_id"
   end
 
@@ -76,7 +80,6 @@ ActiveRecord::Schema.define(version: 2019_12_04_235917) do
     t.bigint "experiment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "control"
     t.string "url"
     t.index ["experiment_id"], name: "index_variations_on_experiment_id"
   end

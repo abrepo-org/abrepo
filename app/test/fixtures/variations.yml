@@ -3,7 +3,6 @@
 # Table name: variations
 #
 #  id            :bigint           not null, primary key
-#  control       :boolean
 #  name          :string
 #  url           :string
 #  created_at    :datetime         not null

@@ -3,6 +3,7 @@
 # Table name: renderables
 #
 #  id                 :bigint           not null, primary key
+#  control            :boolean
 #  domain             :string
 #  renderedTitle      :string
 #  renderedURL        :string
@@ -10,12 +11,14 @@
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  action_id          :bigint
+#  renderable_id      :bigint
 #  variation_id       :bigint
 #
 # Indexes
 #
-#  index_renderables_on_action_id     (action_id)
-#  index_renderables_on_variation_id  (variation_id)
+#  index_renderables_on_action_id      (action_id)
+#  index_renderables_on_renderable_id  (renderable_id)
+#  index_renderables_on_variation_id   (variation_id)
 #
 # Foreign Keys
 #
