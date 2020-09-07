@@ -4,17 +4,32 @@ services:
   web:
     volumes:
       - ./app:/app
+    labels:
+      - "traefik.enable=false"
 
-      #early terminate, execution done with
-      #./docker_run.sh or ./docker_test.sh
-      #command: "echo DONE"
 
   db:
+    command:
+      - --log.level=DEBUG
+      - --api.insecure=true
+      - --api.dashboard=true
+      - --providers.docker=true
+      - --providers.docker.watch=true
+      - --entryPoints.db.address=:5432
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`traefik.localhost.com`)"
+      - "traefik.http.routers.api.service=api@internal"
+      - "traefik.http.services.api.loadbalancer.server.port=8080"
+
+  pg1:
+    #chown -R 1001:1001 /tmp
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
-  #     - type: volume
-  #       source: mongodb
-  #       target: /data
-  #     - type: bind
-  #       source: /tmp
-  #       target: /tmpHost #utility
+      - ./tmp/db:/bitnami/postgresql
+    #NB: Service level labels
+    labels:
+      - "traefik.enable=true"
+      - "traefik.tcp.routers.to-db.entrypoints=db"
+      - "traefik.tcp.routers.to-db.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.to-db.service=primary"
+      - "traefik.tcp.services.primary.loadbalancer.server.port=5432"

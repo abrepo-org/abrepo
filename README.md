@@ -51,6 +51,10 @@ mapping to default directory /var/lib/postgresql/data
 
 #### PSQL info on creating user
 
+Update: don't really need all this below.
+
+Just need to init with a `RAILS_ENV=x rake db:setup`.
+
 ```
 # pg admin users
 su - postgres

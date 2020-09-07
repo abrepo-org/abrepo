@@ -1,19 +1,62 @@
 #prod first
 version: '3.3'
 services:
+  #
+  #PROXY
+  #
   db:
-    image: postgres
-    env_file:
-      - .env
+    # The official v2 Traefik docker image
+    image: traefik:v2.2
+    # Enables the web UI and tells Traefik to listen to docker
+    command:
+      - --log.level=DEBUG
+      - --api.insecure=true
+      - --api.dashboard=true
+      - --providers.docker=true
+      - --providers.docker.swarmMode=true
+      - --providers.docker.watch=true
+      #- --providers.docker.network=traefik_proxy_network
+      #entry
+      - --entryPoints.db.address=:5432
+
+    ports:
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+
     volumes:
-      - /root/tmp/db:/var/lib/postgresql/data
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
     deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
       placement:
         constraints:
           - node.role == manager
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.api.rule=Host(`traefik.localhost.com`)"
+        - "traefik.http.routers.api.service=api@internal"
+        - "traefik.http.services.api.loadbalancer.server.port=8080"
+
+  #PRIMARY DB
+  pg1:
+    image: 'bitnami/postgresql:latest'
+    volumes:
+      - pg1data:/bitnami/postgresql
+    env_file:
+      - .env.db
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=master
+    deploy:
+      placement:
+        constraints:
+        - node.role == manager
+      labels:
+        - "traefik.enable=true"
+        - "traefik.tcp.routers.to-db.entrypoints=db"
+        - "traefik.tcp.routers.to-db.rule=HostSNI(`*`)"
+        - "traefik.tcp.routers.to-db.service=primary"
+        - "traefik.tcp.services.primary.loadbalancer.server.port=5432"
+
+
   web:
     build: ./app
     image: '424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abrepo:latest'
@@ -29,5 +72,7 @@ services:
       placement:
         constraints:
           - node.role == worker
+      labels:
+        - "traefik.enable=false"
     depends_on:
       - db

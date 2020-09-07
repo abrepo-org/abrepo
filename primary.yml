@@ -1,0 +1,33 @@
+#
+# PRIMARY DB Config
+#
+
+version: '3.3'
+services:
+  #increment pg-x
+  pg-1:
+  #pg-2:
+    image: 'bitnami/postgresql:latest'
+    # networks:
+    #   - traefik_proxy_network
+    volumes:
+      - pg-1_data:/bitnami/postgresql
+
+    env_file:
+      - .env.db
+    environment:
+       #overwrite
+      - POSTGRESQL_REPLICATION_MODE=master
+
+    deploy:
+      placement:
+        constraints:
+        - node.role == manager
+      labels:
+        - "traefik.enable=true"
+        - "traefik.tcp.routers.to-db.entrypoints=db"
+        - "traefik.tcp.routers.to-db.rule=HostSNI(`*`)"
+        - "traefik.tcp.routers.to-db.service=primary"
+        - "traefik.tcp.services.primary.loadbalancer.server.port=5432"
+        #not sure why, but this breaks pg connection
+        #- "traefik.tcp.routers.to-db.tls.passthrough=true"
