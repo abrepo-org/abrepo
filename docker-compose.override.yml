@@ -9,14 +9,12 @@ services:
       #./docker_run.sh or ./docker_test.sh
       #command: "echo DONE"
 
-#  db:
-    # volumes:
-    #   - type: volume
-    #     source: mongodb
-    #     target: /data
-    #   - type: bind
-    #     source: /tmp
-    #     target: /tmpHost #utility
-
-#volumes:
-#  mongodb:
+  db:
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+  #     - type: volume
+  #       source: mongodb
+  #       target: /data
+  #     - type: bind
+  #       source: /tmp
+  #       target: /tmpHost #utility
