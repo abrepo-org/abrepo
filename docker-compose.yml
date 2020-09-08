@@ -36,21 +36,49 @@ services:
         - "traefik.http.routers.api.service=api@internal"
         - "traefik.http.services.api.loadbalancer.server.port=8080"
 
+#
+# Failover:
+# 0. promote replica to primary via shell: pg_ctl promote -D <pg db path>
+# 1. change POSTGRESQL_REPLICATION_MODE=master/slave on each service
+# 2. toggle traefik.enable = true/false (traefik enabled true only on master)
+# 3. rename volume in cloud, or set new volume here
+#
   #PRIMARY DB
   pg1:
     image: 'bitnami/postgresql:latest'
-    volumes:
-      - pg1data:/bitnami/postgresql
     env_file:
       - .env.db
+    volumes:
+      - pg1data:/bitnami/postgresql
     environment:
       - POSTGRESQL_REPLICATION_MODE=master
     deploy:
       placement:
         constraints:
-        - node.role == manager
+        - node.hostname == db-1
       labels:
         - "traefik.enable=true"
+        - "traefik.tcp.routers.to-db.entrypoints=db"
+        - "traefik.tcp.routers.to-db.rule=HostSNI(`*`)"
+        - "traefik.tcp.routers.to-db.service=primary"
+        - "traefik.tcp.services.primary.loadbalancer.server.port=5432"
+
+
+  #REPLICA DB - traefik disabled
+  pg2:
+    image: 'bitnami/postgresql:latest'
+    env_file:
+      - .env.db
+    volumes:
+      - pg2data:/bitnami/postgresql
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=slave
+    deploy:
+      placement:
+        constraints:
+        - node.hostname == db-2
+      labels:
+        - "traefik.enable=false"
         - "traefik.tcp.routers.to-db.entrypoints=db"
         - "traefik.tcp.routers.to-db.rule=HostSNI(`*`)"
         - "traefik.tcp.routers.to-db.service=primary"
@@ -81,6 +109,10 @@ services:
 
 volumes:
   pg1data:
+    driver: rexray/dobs
+    driver_opts:
+      size: 1
+  pg2data:
     driver: rexray/dobs
     driver_opts:
       size: 1
