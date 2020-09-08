@@ -33,3 +33,11 @@ services:
       - "traefik.tcp.routers.to-db.rule=HostSNI(`*`)"
       - "traefik.tcp.routers.to-db.service=primary"
       - "traefik.tcp.services.primary.loadbalancer.server.port=5432"
+
+volumes:
+  pg1data:
+    driver: local
+  pg2data:
+    driver: local
+  portainer_data:
+    driver: local

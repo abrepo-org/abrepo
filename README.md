@@ -19,8 +19,7 @@ For shell, once off commands
 sudo docker-compose run web <CMD>
 ```
 
-
-## Postgres in Rails + Docker
+## Install Postgres in Rails + Docker
 
 General instructions: https://docs.docker.com/compose/rails/
 
@@ -34,11 +33,7 @@ sudo docker-compose build
 #  important to note host is "db" which is a docker-compose generated host variable
 #  so 'db' host is unknown when using 'docker run' or similar
 
-# 4. create db, run migrations: `rake db:migrate` `rake db:setup`
-
-sudo docker-compose run web rake db:create
 sudo docker-compose run web rake db:setup
-sudo docker-compose run web rake db:migrate
 
 # fix permissions /tmp/db
 sudo chown -R $USER:$USER .
@@ -55,15 +50,6 @@ Update: don't really need all this below.
 
 Just need to init with a `RAILS_ENV=x rake db:setup`.
 
-```
-# pg admin users
-su - postgres
-psql
-
-create role rails_dev with createdb login password 'password1';
-\du
-
-#add creds above (rails_dev, password1) to config/database.yml
 
 ```
 
@@ -78,4 +64,21 @@ create role rails_dev with createdb login password 'password1';
 
 ```
 (sudo) rake tmp:cache:clear
+```
+
+
+
+#### Portainer / Monitoring
+
+Open port 9000 on firewall for web interface
+
+Deploy as a separate stack on master node. Agent needed on each node
+to get stats.
+
+Leaks a lot of info (env etc) and what I need can be done on command line.
+
+
+```
+$ curl -L https://downloads.portainer.io/portainer-agent-stack.yml -o portainer-agent-stack.yml
+$ docker stack deploy --compose-file=portainer-agent-stack.yml portainer
 ```

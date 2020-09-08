@@ -39,6 +39,8 @@ services:
 #
 # Failover:
 # 0. promote replica to primary via shell: pg_ctl promote -D <pg db path>
+# 0. set proxy to new primary
+#
 # 1. change POSTGRESQL_REPLICATION_MODE=master/slave on each service
 # 2. toggle traefik.enable = true/false (traefik enabled true only on master)
 # 3. rename volume in cloud, or set new volume here
@@ -53,6 +55,7 @@ services:
     environment:
       - POSTGRESQL_REPLICATION_MODE=master
     deploy:
+      replicas: 1
       placement:
         constraints:
         - node.hostname == db-1
@@ -74,6 +77,7 @@ services:
     environment:
       - POSTGRESQL_REPLICATION_MODE=slave
     deploy:
+      replicas: 1
       placement:
         constraints:
         - node.hostname == db-2
@@ -99,13 +103,34 @@ services:
         condition: on-failure
       placement:
         constraints:
-          - node.role == worker
+          #- node.role == worker
           - node.labels.type == app
           #- node.role == manager
       labels:
         - "traefik.enable=false"
     depends_on:
       - db
+
+  # portainer:
+  #   image: portainer/portainer
+  #   command: -H unix:///var/run/docker.sock
+  #   restart: always
+  #   ports:
+  #     - 9000:9000 #access
+  #     - 8000:8000
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - portainer_data:/data
+  #   deploy:
+  #     replicas: 1
+  #     restart_policy:
+  #       condition: on-failure
+  #     placement:
+  #       constraints:
+  #         - node.role == manager
+  #         - node.hostname == db-1
+  #     labels:
+  #       - "traefik.enable=false"
 
 volumes:
   pg1data:
@@ -116,3 +141,5 @@ volumes:
     driver: rexray/dobs
     driver_opts:
       size: 1
+  portainer_data:
+    driver: local
