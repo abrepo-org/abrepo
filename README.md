@@ -10,6 +10,15 @@ To run stack:
 sudo docker-compose up
 ```
 
+Piecemeal runs:
+
+```
+sudo docker-compose -f replica-pg2.yml -f docker-compose.yml up
+
+sudo docker stack deploy -c replica-pg2.yml -c docker-compose.yml <stack name>
+
+```
+
 For shell, once off commands
 
 ```
@@ -18,6 +27,17 @@ For shell, once off commands
 #alternatively
 sudo docker-compose run web <CMD>
 ```
+
+For "external" 3rd party vendor services to be added to stack, easier
+to have separate stack.yml file
+e.g. [Portainer](https://www.portainer.io/installation/) and "attach"
+to running stack:
+
+```
+$ curl -L https://downloads.portainer.io/portainer-agent-stack.yml -o portainer-agent-stack.yml
+$ docker stack deploy --compose-file=portainer-agent-stack.yml abrepo
+```
+
 
 ## Install Postgres in Rails + Docker
 

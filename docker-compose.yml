@@ -5,7 +5,6 @@ services:
   #PROXY
   #
   db:
-    # The official v2 Traefik docker image
     image: traefik:v2.2
     # Enables the web UI and tells Traefik to listen to docker
     command:
@@ -27,24 +26,13 @@ services:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
     deploy:
-      placement:
-        constraints:
-          - node.role == manager
+      mode: global
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.api.rule=Host(`traefik.localhost.com`)"
         - "traefik.http.routers.api.service=api@internal"
         - "traefik.http.services.api.loadbalancer.server.port=8080"
 
-#
-# Failover:
-# 0. promote replica to primary via shell: pg_ctl promote -D <pg db path>
-# 0. set proxy to new primary
-#
-# 1. change POSTGRESQL_REPLICATION_MODE=master/slave on each service
-# 2. toggle traefik.enable = true/false (traefik enabled true only on master)
-# 3. rename volume in cloud, or set new volume here
-#
   #PRIMARY DB
   pg1:
     image: 'bitnami/postgresql:latest'
@@ -65,29 +53,6 @@ services:
         - "traefik.tcp.routers.to-db.rule=HostSNI(`*`)"
         - "traefik.tcp.routers.to-db.service=primary"
         - "traefik.tcp.services.primary.loadbalancer.server.port=5432"
-
-
-  #REPLICA DB - traefik disabled
-  pg2:
-    image: 'bitnami/postgresql:latest'
-    env_file:
-      - .env.db
-    volumes:
-      - pg2data:/bitnami/postgresql
-    environment:
-      - POSTGRESQL_REPLICATION_MODE=slave
-    deploy:
-      replicas: 1
-      placement:
-        constraints:
-        - node.hostname == db-2
-      labels:
-        - "traefik.enable=false"
-        - "traefik.tcp.routers.to-db.entrypoints=db"
-        - "traefik.tcp.routers.to-db.rule=HostSNI(`*`)"
-        - "traefik.tcp.routers.to-db.service=primary"
-        - "traefik.tcp.services.primary.loadbalancer.server.port=5432"
-
 
   web:
     build: ./app
@@ -110,27 +75,6 @@ services:
         - "traefik.enable=false"
     depends_on:
       - db
-
-  # portainer:
-  #   image: portainer/portainer
-  #   command: -H unix:///var/run/docker.sock
-  #   restart: always
-  #   ports:
-  #     - 9000:9000 #access
-  #     - 8000:8000
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #     - portainer_data:/data
-  #   deploy:
-  #     replicas: 1
-  #     restart_policy:
-  #       condition: on-failure
-  #     placement:
-  #       constraints:
-  #         - node.role == manager
-  #         - node.hostname == db-1
-  #     labels:
-  #       - "traefik.enable=false"
 
 volumes:
   pg1data:

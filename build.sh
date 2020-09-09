@@ -15,7 +15,19 @@ echo "";
 echo "building artifacts to $DEFAULT_DIR/"
 echo "";
 
+#
+# Maintain stack.yml as a signular deploy file
+#
 sudo docker-compose -f docker-compose.yml config > $DEFAULT_DIR/stack.yml
+
+#
+# If I want to add a different service configuration, build that into
+# a separate stack.yml, but try to consisently deploying from a single point
+# single file "compiled" at this build stage
+#
+#sudo docker-compose -f docker-compose.yml -f replica-pg2.yml \
+#     config > $DEFAULT_DIR/stack-replica.yml
+
 
 echo "";
 ls -g $DEFAULT_DIR
