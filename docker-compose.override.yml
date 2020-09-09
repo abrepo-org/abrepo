@@ -4,6 +4,8 @@ services:
   web:
     volumes:
       - ./app:/app
+    environment:
+      - RAILS_ENV=development
     labels:
       - "traefik.enable=false"
 

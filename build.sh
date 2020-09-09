@@ -16,7 +16,7 @@ echo "building artifacts to $DEFAULT_DIR/"
 echo "";
 
 #
-# Maintain stack.yml as a signular deploy file
+# Maintain stack.yml as a singular deploy file
 #
 sudo docker-compose -f docker-compose.yml config > $DEFAULT_DIR/stack.yml
 
