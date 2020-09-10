@@ -17,6 +17,11 @@ services:
       - --providers.docker=true
       - --providers.docker.watch=true
       - --entryPoints.db.address=:5432
+
+      # healthcheck port
+      - --ping.entryPoint=ping
+      - --entryPoints.ping.address=:8082
+
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.api.rule=Host(`traefik.localhost.com`)"

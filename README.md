@@ -64,6 +64,33 @@ mapping to default directory /var/lib/postgresql/data
 
 ```
 
+#### Healthcheck
+
+Typical check run via docker-compose. Operates in all env; dev, prod, etc:
+
+```
+
+#traefik - needs an endpoint setup
+test: "wget -q -O- localhost:8082/ping || exit 1"
+
+#web, nginx
+healthcheck:
+  test: ["CMD-SHELL",
+    "curl -o /dev/null -I -f -s -w %{http_code} http://localhost:8081/?healthcheck=true || exit 1"]
+  interval: 1
+  timeout: 1m30s
+  retries: 3
+
+#pg
+  test: ["CMD-SHELL", "pg_isready -U postgres"]
+```
+
+
+Look at status:
+
+`sudo docker inspect abrepo_web_1 --format='{{json .State.Health}}'  | jq`
+
+
 #### PSQL info on creating user
 
 Update: don't really need all this below.
