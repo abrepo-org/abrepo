@@ -5,8 +5,9 @@ RUN apt-get update -qq && apt-get install -y nodejs postgresql-client sqlite3 li
 WORKDIR /app
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
-
 COPY . /app
+
+RUN bundle exec rake assets:precompile
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/

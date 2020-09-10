@@ -35,6 +35,12 @@ services:
       - "traefik.tcp.routers.to-db.service=primary"
       - "traefik.tcp.services.primary.loadbalancer.server.port=5432"
 
+  nginx:
+    volumes:
+      - ./app/public:/app/public
+      - ./app/app/assets:/app/app/assets
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+
 volumes:
   pg1data:
     driver: local

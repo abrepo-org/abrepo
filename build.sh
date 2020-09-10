@@ -5,7 +5,7 @@ DEFAULT_DIR=~/dev/ab/abrepo_ops/releases/abrepo
 mkdir -p $DEFAULT_DIR
 
 #build from app's local Dockerfile
-sudo docker-compose build
+sudo `< .env` docker-compose build
 
 sudo `< .env` docker-compose push
 
