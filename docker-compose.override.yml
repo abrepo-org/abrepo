@@ -45,6 +45,9 @@ services:
       - ./app/public:/app/public
       - ./app/app/assets:/app/app/assets
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    #needed for build
+    depends_on:
+      - web
 
 volumes:
   pg1data:

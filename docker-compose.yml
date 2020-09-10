@@ -10,7 +10,7 @@ services:
       test: ["CMD-SHELL",
       "wget -q -O- localhost:8082/ping || exit 1"
       ]
-      interval: 30s
+      interval: 3s
       timeout: 10s
       retries: 3
     # Enables the web UI and tells Traefik to listen to docker
@@ -32,7 +32,6 @@ services:
     ports:
       # The Web UI (enabled by --api.insecure=true)
       - "8080:8080"
-
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
@@ -52,9 +51,10 @@ services:
     image: 'bitnami/postgresql:latest'
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
+      interval: 3s
       timeout: 10s
       retries: 3
+
     env_file:
       - .env.db
     volumes:
@@ -79,12 +79,13 @@ services:
     env_file:
       - .env
     command: bash -c "rm -f tmp/pids/server.pid && rake tmp:cache:clear && bundle exec rails s -p 8081 -b '0.0.0.0'"
-    healthcheck:
-      test: ["CMD-SHELL",
-      "curl -o /dev/null -I -f -s -w %{http_code} http://localhost:8081/?healthcheck=true || exit 1"]
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
+    # healthcheck:
+    #   test: ["CMD-SHELL",
+    #   "curl -o /dev/null -I -f -s -w %{http_code} http://localhost:8081/?healthcheck=true || exit 1"]
+    #   interval: 3s
+    #   timeout: 10s
+    #   retries: 3
+
     deploy:
       replicas: 1
       restart_policy:
@@ -96,23 +97,18 @@ services:
           #- node.role == manager
       labels:
         - "traefik.enable=false"
-    depends_on:
-      - db
 
   nginx:
     build:
       context: .
       dockerfile: ./nginx/Dockerfile
     image: '424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abnginx:latest'
-    healthcheck:
-      test: ["CMD-SHELL",
-      "curl -o /dev/null -I -f -s -w %{http_code} http://localhost:80/?healthcheck=true || exit 1"]
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
-    # volumes:
-    #   - ./app:/app
-    #   - ./config/nginx.conf:/etc/nginx/nginx.conf
+    # healthcheck:
+    #   test: ["CMD-SHELL",
+    #   "curl -o /dev/null -I -f -s -w %{http_code} http://localhost:80/?healthcheck=true || exit 1"]
+    #   interval: 3s
+    #   timeout: 10s
+    #   retries: 3
     ports:
       - "80:80"
     deploy:
@@ -126,8 +122,6 @@ services:
           #- node.role == manager
       labels:
         - "traefik.enable=false"
-    depends_on:
-      - web
 
 
 volumes:
