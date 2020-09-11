@@ -21,6 +21,15 @@ echo "";
 sudo docker-compose -f docker-compose.yml config > $DEFAULT_DIR/stack.yml
 
 #
+# Misc Scripts
+#
+echo "";
+echo "copying database backup.sh to $DEFAULT_DIR/"
+echo "";
+
+sudo cp ./db/db_backup.sh $DEFAULT_DIR/
+
+#
 # If I want to add a different service configuration, build that into
 # a separate stack.yml, but try to consisently deploying from a single point
 # single file "compiled" at this build stage
