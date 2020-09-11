@@ -59,6 +59,7 @@ services:
       - .env.db
     volumes:
       - pg1data:/bitnami/postgresql
+      - /tmp:/tmpdb #for database backups
     environment:
       - POSTGRESQL_REPLICATION_MODE=master
     deploy:

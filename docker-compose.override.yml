@@ -29,9 +29,9 @@ services:
       - "traefik.http.services.api.loadbalancer.server.port=8080"
 
   pg1:
-    #chown -R 1001:1001 /tmp
+    #chown -R 1001:1001 /db
     volumes:
-      - ./tmp/db:/bitnami/postgresql
+      - ./db/postgres:/bitnami/postgresql
     #NB: Service level labels
     labels:
       - "traefik.enable=true"

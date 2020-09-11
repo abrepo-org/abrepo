@@ -1,4 +1,4 @@
 .env*
 !.env.stub
 !.env.db.stub
-tmp
+db
