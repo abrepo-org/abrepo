@@ -30,7 +30,7 @@ services:
       replicas: 1
       placement:
         constraints:
-        - node.hostname == db-2
+        - node.labels.instance == db-2
       labels:
         - "traefik.enable=false"
         - "traefik.tcp.routers.to-db.entrypoints=db"
