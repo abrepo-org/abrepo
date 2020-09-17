@@ -39,7 +39,7 @@ services:
       mode: global
       placement:
         constraints:
-        - node.labels.type == db
+        - node.labels.db == true
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.api.rule=Host(`traefik.localhost.com`)"
@@ -65,7 +65,7 @@ services:
       replicas: 1
       placement:
         constraints:
-        - node.labels.instance == db-1
+        - node.labels.instance == db1
       labels:
         - "traefik.enable=true"
         - "traefik.tcp.routers.to-db.entrypoints=db"
@@ -84,7 +84,7 @@ services:
       replicas: 1
       placement:
         constraints:
-        - node.labels.instance == db-2
+        - node.labels.instance == db2
       labels:
         - "traefik.enable=false"
         - "traefik.tcp.routers.to-db.entrypoints=db"
@@ -113,7 +113,7 @@ services:
       placement:
         constraints:
           #- node.role == worker
-          - node.labels.type == app
+          - node.labels.app == true
           #- node.role == manager
       labels:
         - "traefik.enable=false"
@@ -138,7 +138,7 @@ services:
       placement:
         constraints:
           #- node.role == worker
-          - node.labels.type == app
+          - node.labels.app == true
           #- node.role == manager
       labels:
         - "traefik.enable=false"
