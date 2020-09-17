@@ -1,0 +1,35 @@
+# == Schema Information
+#
+# Table name: renderables
+#
+#  id                 :bigint           not null, primary key
+#  control            :boolean
+#  domain             :string
+#  renderedTitle      :string
+#  renderedURL        :string
+#  screenshotFilename :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  action_id          :bigint
+#  renderable_id      :bigint
+#  variation_id       :bigint
+#
+# Indexes
+#
+#  index_renderables_on_action_id      (action_id)
+#  index_renderables_on_renderable_id  (renderable_id)
+#  index_renderables_on_variation_id   (variation_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (action_id => actions.id)
+#  fk_rails_...  (variation_id => variations.id)
+#
+
+class Renderable < ApplicationRecord
+  belongs_to :action
+  belongs_to :variation, optional: true
+  belongs_to :controlRenderable, class_name: "Renderable",
+             foreign_key: :renderable_id, optional:true
+  has_many :diffs
+end

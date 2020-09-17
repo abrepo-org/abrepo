@@ -1,0 +1,31 @@
+# == Schema Information
+#
+# Table name: actions
+#
+#  id         :bigint           not null, primary key
+#  crawlID    :string
+#  selector   :string
+#  type       :string
+#  url        :string
+#  waitfor    :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: MyString
+  url: MyString
+  selector: MyString
+  waitfor: 1
+  variation: one
+  renderable: one
+
+two:
+  type: MyString
+  url: MyString
+  selector: MyString
+  waitfor: 1
+  variation: two
+  renderable: two

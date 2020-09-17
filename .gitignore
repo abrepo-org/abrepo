@@ -1,4 +1,5 @@
 .env*
 !.env.stub
-
-tmp
+!.env.db.stub
+db/*
+!db/db_backup.sh

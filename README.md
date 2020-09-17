@@ -10,6 +10,15 @@ To run stack:
 sudo docker-compose up
 ```
 
+Piecemeal runs:
+
+```
+sudo docker-compose -f replica-pg2.yml -f docker-compose.yml up
+
+sudo docker stack deploy -c replica-pg2.yml -c docker-compose.yml <stack name>
+
+```
+
 For shell, once off commands
 
 ```
@@ -19,8 +28,18 @@ For shell, once off commands
 sudo docker-compose run web <CMD>
 ```
 
+For "external" 3rd party vendor services to be added to stack, easier
+to have separate stack.yml file
+e.g. [Portainer](https://www.portainer.io/installation/) and "attach"
+to running stack:
 
-## Postgres in Rails + Docker
+```
+$ curl -L https://downloads.portainer.io/portainer-agent-stack.yml -o portainer-agent-stack.yml
+$ docker stack deploy --compose-file=portainer-agent-stack.yml abrepo
+```
+
+
+## Install Postgres in Rails + Docker
 
 General instructions: https://docs.docker.com/compose/rails/
 
@@ -34,11 +53,7 @@ sudo docker-compose build
 #  important to note host is "db" which is a docker-compose generated host variable
 #  so 'db' host is unknown when using 'docker run' or similar
 
-# 4. create db, run migrations: `rake db:migrate` `rake db:setup`
-
-sudo docker-compose run web rake db:create
 sudo docker-compose run web rake db:setup
-sudo docker-compose run web rake db:migrate
 
 # fix permissions /tmp/db
 sudo chown -R $USER:$USER .
@@ -49,17 +64,39 @@ mapping to default directory /var/lib/postgresql/data
 
 ```
 
-#### PSQL info on creating user
+#### Healthcheck
+
+Typical check run via docker-compose. Operates in all env; dev, prod, etc:
 
 ```
-# pg admin users
-su - postgres
-psql
 
-create role rails_dev with createdb login password 'password1';
-\du
+#traefik - needs an endpoint setup
+test: "wget -q -O- localhost:8082/ping || exit 1"
 
-#add creds above (rails_dev, password1) to config/database.yml
+#web, nginx
+healthcheck:
+  test: ["CMD-SHELL",
+    "curl -o /dev/null -I -f -s -w %{http_code} http://localhost:8081/?healthcheck=true || exit 1"]
+  interval: 1
+  timeout: 1m30s
+  retries: 3
+
+#pg
+  test: ["CMD-SHELL", "pg_isready -U postgres"]
+```
+
+
+Look at status:
+
+`sudo docker inspect abrepo_web_1 --format='{{json .State.Health}}'  | jq`
+
+
+#### PSQL info on creating user
+
+Update: don't really need all this below.
+
+Just need to init with a `RAILS_ENV=x rake db:setup`.
+
 
 ```
 
@@ -74,4 +111,21 @@ create role rails_dev with createdb login password 'password1';
 
 ```
 (sudo) rake tmp:cache:clear
+```
+
+
+
+#### Portainer / Monitoring
+
+Open port 9000 on firewall for web interface
+
+Deploy as a separate stack on master node. Agent needed on each node
+to get stats.
+
+Leaks a lot of info (env etc) and what I need can be done on command line.
+
+
+```
+$ curl -L https://downloads.portainer.io/portainer-agent-stack.yml -o portainer-agent-stack.yml
+$ docker stack deploy --compose-file=portainer-agent-stack.yml portainer
 ```

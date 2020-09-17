@@ -1,19 +1,167 @@
 #prod first
-version: '3.3'
+version: '3.4'
 services:
+  #
+  #PROXY
+  #
   db:
-    image: postgres
+    image: traefik:v2.2
+    healthcheck:
+      test: ["CMD-SHELL",
+      "wget -q -O- localhost:8082/ping || exit 1"
+      ]
+      interval: 3s
+      timeout: 10s
+      retries: 3
+    # Enables the web UI and tells Traefik to listen to docker
+    command:
+      - --log.level=DEBUG
+      - --api.insecure=true
+      - --api.dashboard=true
+      - --providers.docker=true
+      - --providers.docker.swarmMode=true
+      - --providers.docker.watch=true
+      #- --providers.docker.network=traefik_proxy_network
+      #entry
+      - --entryPoints.db.address=:5432
+
+      # healthcheck port
+      - --ping.entryPoint=ping
+      - --entryPoints.ping.address=:8082
+
+    ports:
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
-    user: "1000:1000"
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      mode: global
+      placement:
+        constraints:
+        - node.labels.type == db
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.api.rule=Host(`traefik.localhost.com`)"
+        - "traefik.http.routers.api.service=api@internal"
+        - "traefik.http.services.api.loadbalancer.server.port=8080"
+
+  #PRIMARY DB
+  pg1:
+    image: 'bitnami/postgresql:latest'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 3s
+      timeout: 10s
+      retries: 3
+    env_file:
+      - .env.db
+    volumes:
+      - pg1data:/bitnami/postgresql
+      - /tmp:/tmpdb #for database backups
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=master
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+        - node.labels.instance == db-1
+      labels:
+        - "traefik.enable=true"
+        - "traefik.tcp.routers.to-db.entrypoints=db"
+        - "traefik.tcp.routers.to-db.rule=HostSNI(`*`)"
+        - "traefik.tcp.routers.to-db.service=primary"
+        - "traefik.tcp.services.primary.loadbalancer.server.port=5432"
+  pg2:
+    image: 'bitnami/postgresql:latest'
+    env_file:
+      - .env.db
+    volumes:
+      - pg2data:/bitnami/postgresql
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=slave
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+        - node.labels.instance == db-2
+      labels:
+        - "traefik.enable=false"
+        - "traefik.tcp.routers.to-db.entrypoints=db"
+        - "traefik.tcp.routers.to-db.rule=HostSNI(`*`)"
+        - "traefik.tcp.routers.to-db.service=primary"
+        - "traefik.tcp.services.primary.loadbalancer.server.port=5432"
+
   web:
     build: ./app
     image: '424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abrepo:latest'
     env_file:
       - .env
-    user: "1000:1000"
     command: bash -c "rm -f tmp/pids/server.pid && rake tmp:cache:clear && bundle exec rails s -p 8081 -b '0.0.0.0'"
+    healthcheck:
+      test: ["CMD-SHELL",
+      "curl -o /dev/null -I -f -s -w %{http_code} http://127.0.0.1:8081/healthcheck || exit 1"]
+      interval: 5s
+      start_period: 15s
+      timeout: 5s
+      retries: 10
+
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          #- node.role == worker
+          - node.labels.type == app
+          #- node.role == manager
+      labels:
+        - "traefik.enable=false"
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    image: '424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abnginx:latest'
+    # healthcheck:
+    #   test: ["CMD-SHELL",
+    #   "curl -o /dev/null -I -f -s -w %{http_code} http://localhost:80/healthcheck || exit 1"]
+    #   interval: 3s
+    #   timeout: 10s
+    #   retries: 3
     ports:
-      - "8081:8081"
-    depends_on:
-      - db
+      - "80:80"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          #- node.role == worker
+          - node.labels.type == app
+          #- node.role == manager
+      labels:
+        - "traefik.enable=false"
+
+
+volumes:
+  pg1data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/abrepo_pg1data
+    #driver: rexray/dobs
+    #driver_opts:
+    #  size: 1
+  pg2data:
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/abrepo_pg2data
+#    driver: rexray/dobs
+#    driver_opts:
+#      size: 1
+
+  portainer_data:
+    driver: local
