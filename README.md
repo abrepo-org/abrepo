@@ -4,11 +4,30 @@ Rails based frontend for abrepo web app
 
 ## Quickstart
 
+*Permissions*: For bitnami postgres image, requires chown user
+directory 1001:1001 usually freezes because userid/grp is vergeman.
+
+```
+sudo chown -R 1001:1001 /db
+
+```
+
 To run stack:
 
 ```
 sudo docker-compose up
 ```
+
+If db not initialized: while docker-compose is running, spin up
+another web (rails container) and run migration.
+
+```
+sudo docker-compose run web bash
+RAILS_ENV=development rake db:setup
+
+```
+
+---
 
 Piecemeal runs:
 
@@ -22,6 +41,7 @@ sudo docker stack deploy -c replica-pg2.yml -c docker-compose.yml <stack name>
 For shell, once off commands
 
 ```
+#careful about db permissions
 ./docker_run bash
 
 #alternatively
@@ -53,7 +73,7 @@ sudo docker-compose build
 #  important to note host is "db" which is a docker-compose generated host variable
 #  so 'db' host is unknown when using 'docker run' or similar
 
-sudo docker-compose run web rake db:setup
+sudo docker-compose run -e RAILS_ENV=development web rake db:setup
 
 # fix permissions /tmp/db
 sudo chown -R $USER:$USER .

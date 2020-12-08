@@ -16,4 +16,5 @@ fi
 #      $DEFAULT_CMD
 
 sudo chown -R $USER:$USER .
+sudo chown 1001:1001 -R db #bitnami image
 sudo docker-compose run web $DEFAULT_CMD
