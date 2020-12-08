@@ -64,7 +64,11 @@ $ docker stack deploy --compose-file=portainer-agent-stack.yml abrepo
 General instructions: https://docs.docker.com/compose/rails/
 
 ``` bash
-# 1. add 'pg' to Gemfile,
+# 1. add 'pg', or adding any gem to Gemfile,
+
+#open Gemfile
+gem 'pg'
+
 # 2. install bundle:
 
 sudo docker-compose build
