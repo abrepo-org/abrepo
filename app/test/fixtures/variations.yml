@@ -2,12 +2,15 @@
 #
 # Table name: variations
 #
-#  id            :bigint           not null, primary key
-#  name          :string
-#  url           :string
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  experiment_id :bigint
+#  id               :bigint           not null, primary key
+#  gen_desc         :string
+#  name             :string
+#  url              :string
+#  variationSummary :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  a_id             :string
+#  experiment_id    :bigint
 #
 # Indexes
 #

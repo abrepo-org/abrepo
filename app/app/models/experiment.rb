@@ -2,13 +2,16 @@
 #
 # Table name: experiments
 #
-#  id         :bigint           not null, primary key
-#  crawlID    :string
-#  domain     :string
-#  name       :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  profile_id :bigint
+#  id                :bigint           not null, primary key
+#  crawlID           :string
+#  domain            :string
+#  experimentSummary :string
+#  gen_desc          :string
+#  name              :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  a_id              :string
+#  profile_id        :bigint
 #
 # Indexes
 #
