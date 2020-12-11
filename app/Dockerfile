@@ -1,5 +1,9 @@
-FROM ruby:2.6.2
+FROM ruby:2.7.2
 RUN apt-get update -qq && apt-get install -y nodejs postgresql-client sqlite3 libsqlite3-dev
+RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash -
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && apt-get install yarn
 
 #do this first to take advantage of caching?
 WORKDIR /app
@@ -7,6 +11,7 @@ COPY Gemfile Gemfile.lock ./
 RUN bundle install
 COPY . /app
 
+# Could put precompile in entrypoint
 RUN bundle exec rake assets:precompile
 
 # Add a script to be executed every time the container starts.
