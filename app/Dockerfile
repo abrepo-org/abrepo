@@ -12,6 +12,7 @@ RUN bundle install
 
 # Webpacker & Yarn
 RUN bundle exec rails webpacker:install
+RUN bundle exec rails webpacker:install:react
 RUN yarn install
 COPY yarn.lock ./
 

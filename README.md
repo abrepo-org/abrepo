@@ -148,6 +148,55 @@ Just need to init with a `RAILS_ENV=x rake db:setup`.
   upgrade (they can break) e.g update_attributes() -> update()
 
 
+#### Rails + Webpack
+
+No longer use sprockets, replaced with webpack
+
+https://mariochavez.io/desarrollo/2020/05/19/from-the-asset-pipeline-to-webpack.html
+
+Commands:
+rails g webpacker:install
+rails g webpacker:install:react
+
+Move asset directories:
+
+* app/assets/javascript -> app/javascript/packs
+* app/assets/stylesheets -> /app/javascript/stylesheets/
+* app/assets/images/  -> app/javascript/images
+* app/assets: basically becomes empty directory
+
+Change vews/layouts/application.html.erb to reference load pack tags:
+
+* stylesheet_tag --> stylesheet_pack_tag
+* javascript_tag --> javascript_pack_tag
+
+
+Change assets (scss, images) to be packed in `/javscript/packs/application.js`:
+
+```
+# scss
+import "../stylesheets/application.scss"
+
+# static images
+const images = require.context('../images', true)
+const imagePath = (name) => images(name, true)
+
+# .jsx - relative path is important
+import "./hello_react.jsx"
+import Hello from "./hello_react.jsx"
+
+```
+
+
+```
+#javascript/packs/application.js
+import "../stylesheets/application.scss"
+
+#application.scss:
+#example of loading module
+import "body.scss"
+
+```
 
 ```
 (sudo) rake tmp:cache:clear

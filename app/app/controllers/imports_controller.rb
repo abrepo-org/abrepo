@@ -3,7 +3,7 @@ class ImportsController < ApplicationController
 
 
   def test
-    puts "TEST HI"
+    render json: params
   end
 
   #
