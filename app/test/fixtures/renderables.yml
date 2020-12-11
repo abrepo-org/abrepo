@@ -4,12 +4,14 @@
 #
 #  id                 :bigint           not null, primary key
 #  control            :boolean
+#  diff               :json
 #  domain             :string
 #  renderedTitle      :string
 #  renderedURL        :string
 #  screenshotFilename :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  a_id               :string
 #  action_id          :bigint
 #  renderable_id      :bigint
 #  variation_id       :bigint

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_09_232202) do
+ActiveRecord::Schema.define(version: 2020_12_10_045221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2019_12_09_232202) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "crawlID"
+    t.string "a_id"
   end
 
   create_table "audiences", force: :cascade do |t|
@@ -39,6 +40,7 @@ ActiveRecord::Schema.define(version: 2019_12_09_232202) do
     t.bigint "experiment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "a_id"
     t.index ["experiment_id"], name: "index_campaigns_on_experiment_id"
   end
 
@@ -51,6 +53,7 @@ ActiveRecord::Schema.define(version: 2019_12_09_232202) do
     t.bigint "renderable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "summarization"
     t.index ["renderable_id"], name: "index_diffs_on_renderable_id"
   end
 
@@ -61,6 +64,9 @@ ActiveRecord::Schema.define(version: 2019_12_09_232202) do
     t.datetime "updated_at", null: false
     t.string "domain"
     t.string "crawlID"
+    t.string "experimentSummary"
+    t.string "a_id"
+    t.string "gen_desc"
     t.index ["profile_id"], name: "index_experiments_on_profile_id"
   end
 
@@ -69,6 +75,7 @@ ActiveRecord::Schema.define(version: 2019_12_09_232202) do
     t.string "company_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "a_id"
   end
 
   create_table "renderables", force: :cascade do |t|
@@ -82,6 +89,8 @@ ActiveRecord::Schema.define(version: 2019_12_09_232202) do
     t.bigint "action_id"
     t.boolean "control"
     t.bigint "renderable_id"
+    t.json "diff"
+    t.string "a_id"
     t.index ["action_id"], name: "index_renderables_on_action_id"
     t.index ["renderable_id"], name: "index_renderables_on_renderable_id"
     t.index ["variation_id"], name: "index_renderables_on_variation_id"
@@ -93,6 +102,9 @@ ActiveRecord::Schema.define(version: 2019_12_09_232202) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "url"
+    t.string "variationSummary"
+    t.string "a_id"
+    t.string "gen_desc"
     t.index ["experiment_id"], name: "index_variations_on_experiment_id"
   end
 
