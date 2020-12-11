@@ -122,8 +122,6 @@ Update: don't really need all this below.
 Just need to init with a `RAILS_ENV=x rake db:setup`.
 
 
-```
-
 
 ## Rails Notes
 
@@ -132,6 +130,24 @@ Just need to init with a `RAILS_ENV=x rake db:setup`.
 
 
 * Permission issues? Try clearing cache generated as route.
+
+#### Rails & Docker Updates
+
+
+* ruby version is managed by Dockerfile; make sure to change
+  `.ruby-version`, and `ruby` gem version in `Gemfile`.
+* nodesource: https://github.com/nodesource/distributions#deb - also
+  installed via Dockerfile, alongside `yarn`.
+* `docker-compose build`: for `bundler` and `ruby` upgrades: have to
+  comment out Gemfile.lock `COPY Gemfile.lock` directive in
+  `Dockerfile` to ensure the same (systems) installed versions.
+* Other gems can be upgraded in Gemfile - simpy need to run `bundle
+  install` in docker shell to generate the Gemfile.lock. Make sure
+  Dockerfile copies it over so its used in `docker-compose build`.
+* `entrypoint.sh` may or may not be a good place to put init scripts on
+  upgrade (they can break) e.g update_attributes() -> update()
+
+
 
 ```
 (sudo) rake tmp:cache:clear

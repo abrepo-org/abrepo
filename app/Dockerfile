@@ -9,6 +9,12 @@ RUN apt-get update && apt-get install yarn
 WORKDIR /app
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
+
+# Webpacker & Yarn
+RUN bundle exec rails webpacker:install
+RUN yarn install
+COPY yarn.lock ./
+
 COPY . /app
 
 # Could put precompile in entrypoint
