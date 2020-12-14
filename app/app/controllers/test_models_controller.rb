@@ -1,11 +1,12 @@
 class TestModelsController < ApplicationController
+  before_action :authenticate_user!
 
   def clear
 =begin
        rake db:purge
        rake db:migrate
 
-# guess the phases would be 
+# guess the phases would be
 1. profile
 2. E, VCA
 3. Action, Renderables, Diffs
@@ -15,6 +16,9 @@ class TestModelsController < ApplicationController
   end
 
   def test
+
+    @user = current_user || "NOT LOGGED IN"
+
     crawlId = "5dca06c77e4e6c003e5364ba"
     url = "https://www.optimizely.com"
     domain = "optimizely.com"
