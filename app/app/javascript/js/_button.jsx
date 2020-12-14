@@ -25,7 +25,8 @@ export default class Button extends React.Component {
     }
 
     render() {
-        return( <button onClick={this.clickHandler.bind(this)}>
+        return( <button className="button is-dark"
+                onClick={this.clickHandler.bind(this)}>
                 {this.props.children}
                 </button>);
     }

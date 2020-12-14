@@ -1,8 +1,7 @@
 /*
  * example overrides
  */
-body {
-  width: 65%
-}
+/* body { width: 65% } */
 
-/* $link: $red;*/
+$link: $red;
+a { color:$link }
