@@ -5,4 +5,7 @@ Rails.application.routes.draw do
 
   post 'imports/test', action: :test, controller: 'imports'
   post 'imports', action: :create, controller: 'imports'
+
+  #default page
+  root to: "rails/welcome#index"
 end
