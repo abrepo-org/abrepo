@@ -13,4 +13,8 @@
  *= require_tree .
  *= require_self
  */
-@import "body.scss"
+
+@import "bulma";
+@import "mystyles.scss";
+
+a { color:$link }
