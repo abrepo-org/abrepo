@@ -19,3 +19,4 @@ console.log('Hello World from application.js');
 
 import Hello from "../js/hello_react.jsx";
 import "../js/hello_react.jsx";
+import "../js/layouts/navbar_hamburger.js";
