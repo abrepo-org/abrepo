@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <title>App</title>
@@ -11,11 +11,31 @@
   </head>
 
   <body>
-      <div class="container.is-max-desktop">
-          <p class="notice"><%= notice %></p>
-          <p class="alert"><%= alert %></p>
+      <header>
+          <%= render "/layouts/navbar" %>
+      </header>
 
-          <%= yield %>
-      </div>
+      <main class="container.is-fluid">
+          <div class="columns ">
+              <div class="column is-narrow">
+                  <!--
+                       TODO: fixed width sidebar + dynamic content:
+                       might center content with container or large fixed-width
+                       defer until we have content
+                     -->
+                  <div class="sidebar">
+                      <%= render "/layouts/sidebar" %>
+                  </div>
+              </div>
+
+              <div class="column">
+                  <!-- variable len, center accordingly? -->
+                  <%= yield %>
+              </div>
+          </div>
+      </main>
+
+      <%= render "/layouts/footer" %>
+
   </body>
 </html>
