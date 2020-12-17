@@ -1,0 +1,34 @@
+<h1>Profiles#show</h1>
+<p>Find me in app/views/profiles/show.html.erb</p>
+
+<!-- TODO: profile "header" company display
+company_name
+domain
+industry
+created_at -> detected
+
+//calculated
+num_experiments
+num_variations
+tags
+
+-->
+
+
+
+<%= @profile.id %>
+<%= @profile.domain %>
+Num Experiments <%= @experiments.length %>
+Num Variations: <%= @num_variations %>
+
+<!--
+experiments loop
+-->
+<% @experiments.each do |experiment| %>
+<div class="experiment">
+  <p>Name: <%= experiment.name %></p>
+    <% experiment.variations.each do |variation| %>
+      <p>Variation Name: <%= variation.name %></p>
+    <% end %>
+</div>
+<% end %>
