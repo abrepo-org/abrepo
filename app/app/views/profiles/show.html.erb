@@ -25,10 +25,5 @@ Num Variations: <%= @num_variations %>
 experiments loop
 -->
 <% @experiments.each do |experiment| %>
-<div class="experiment">
-  <p>Name: <%= experiment.name %></p>
-    <% experiment.variations.each do |variation| %>
-      <p>Variation Name: <%= variation.name %></p>
-    <% end %>
-</div>
+<%= render partial: "experiment_card", locals: {experiment:experiment} %>
 <% end %>
