@@ -64,10 +64,10 @@ class ImportsController < ApplicationController
         action_id: d['action_id'],
         calculated: d['calculated'],
         crawlId: d['crawlId'],
-        diffSummary: d['diffSummary'],
+        diffSummary: d['diffSummary'], #text (not object)
         is_ignore: d['is_ignore'],
-        newDim: d['newDim'],
-        origDim: d['origDim'],
+        newDim: d['newDim'], #json
+        origDim: d['origDim'], #json
         selector: d['selector'],
         summarization: d['summarization'],
         type: d['type']

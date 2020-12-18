@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_14_180120) do
+ActiveRecord::Schema.define(version: 2020_12_18_221009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,15 +45,18 @@ ActiveRecord::Schema.define(version: 2020_12_14_180120) do
   end
 
   create_table "diffs", force: :cascade do |t|
-    t.string "change"
     t.string "selector"
     t.boolean "visible"
-    t.json "boundingBox"
     t.json "calculated"
     t.bigint "renderable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "summarization"
+    t.json "newDim"
+    t.json "origDim"
+    t.string "diffSummary"
+    t.boolean "is_ignore"
+    t.string "type"
     t.index ["renderable_id"], name: "index_diffs_on_renderable_id"
   end
 

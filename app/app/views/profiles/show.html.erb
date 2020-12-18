@@ -5,7 +5,7 @@
 company_name
 domain
 industry
-created_at -> detected
+
 
 //calculated
 num_experiments
@@ -14,16 +14,21 @@ tags
 
 -->
 
-
-
 <%= @profile.id %>
 <%= @profile.domain %>
 Num Experiments <%= @experiments.length %>
 Num Variations: <%= @num_variations %>
+<hr />
 
 <!--
 experiments loop
 -->
 <% @experiments.each do |experiment| %>
-<%= render partial: "experiment_card", locals: {experiment:experiment} %>
+<%= render partial: "/shared/card",
+    locals: {type: "profile-show",
+    profile: @profile,
+    experiment: experiment,
+    renderable: @renderable,
+    audience: @audience,
+    vendor: @vendor} %>
 <% end %>

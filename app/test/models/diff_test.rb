@@ -3,11 +3,14 @@
 # Table name: diffs
 #
 #  id            :bigint           not null, primary key
-#  boundingBox   :json
 #  calculated    :json
-#  change        :string
+#  diffSummary   :string
+#  is_ignore     :boolean
+#  newDim        :json
+#  origDim       :json
 #  selector      :string
 #  summarization :json
+#  type          :string
 #  visible       :boolean
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null

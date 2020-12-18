@@ -30,9 +30,9 @@
 
 class Renderable < ApplicationRecord
   belongs_to :action
-  belongs_to :variation, optional: true
+  belongs_to :variation
   belongs_to :controlRenderable, class_name: "Renderable",
-             foreign_key: :renderable_id, optional:true
+             foreign_key: :renderable_id
   has_many :diffs
 
   #add method to parse json diff

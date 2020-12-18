@@ -1,9 +1,71 @@
 <!--
-not sure what /shared. Defer this until we start hitting actual duplication.
-But looks like it works e.g
+card: exp->variations:
+  - used on /profiles/:id: filtered by company, adjusted
+  - used on /home: filtered by user preferences
+  - used on search results /search?q=xyz: highlighted search terms
+-->
 
-<%= #render partial: "/shared/card", locals: {test: "HIbye"}
-%>
+<div class="card">
+
+    <div class="profile">
+        <p>Company Name: <%= profile.company_name %></p>
+        <p>Domain: <%= profile.domain %></p>
+        <p>Favicon: <%= profile.domain + "/favicon.ico" %> </p>
+        <p>Vendor: <%= vendor['name'] %></p>
+    </div>
+
+    <hr />
+    <div class="experiment">
+
+        <p>Name: <%= experiment.name %></p>
+        <p>Summary: <%= experiment.experimentSummary %></p>
+        <p>Audience: <%= audience['name'] %></p>
+        <p>created: <%= experiment.created_at %></p>
+        <p>Tags: ...</p>
+
+        <% experiment.variations.each do |variation| %>
+
+            <div class="variation">
+                <p>Variation Name: <%= link_to variation.name, variation_path(variation) %></p>
+                <p>Variation Summary: <%= variation.variationSummary %></p>
+                <p>Action: ...</p>
+                <p>Page Title: <%= renderable.renderedTitle %></p>
+                <p>Page URL: <%= renderable.renderedURL %></p>
+                <p>Screenshot: <%= renderable.screenshotFilename %></p>
+
+            </div>
+        <% end %>
+
+    </div>
+
+</div>
+
+<!--
+     EXPERIMENT CARD CONTENT OUTLINE
+     toggle off certain info depending on source used to access
+
+     favicon
+     profile.company_name
+     profile.domain
+     vendor ID
+
+
+     exp.name
+     exp.experimentSummary
+     exp.target / audience
+     exp.createdAt
+
+
+     variation.name
+     variation.variationSummary
+     variation.page/view name or url
+     Renderable.renderedTitle
+     Renderable.renderedURL
+     Renderable.screenshotFilename (thumbnail)
+
+Calc:
+  Tags
+
+
 
 -->
-<h3><%= test %>, I am card</h3>

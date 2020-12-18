@@ -1,0 +1,56 @@
+<h1>Variations#show</h1>
+<p>Find me in app/views/variations/show.html.erb</p>
+
+<div> Profile: <%= @profile.domain %> </div>
+
+<div> Experiment: <%= @experiment.name %> </div>
+
+<hr />
+
+<!--
+TODO: maybe show some kind of variation list? (5 with expansion)
+
+Easier to scroll vs return to profile page
+to navigate the variations across expermient
+-->
+
+<h3>Variation</h3>
+<%= @variation.name %>
+<hr />
+
+<h3> Actions </h3>
+<% @actions.each do |action| %>
+<p> Action Type: <%= action.type %> </p>
+<p> Selector Type: <%= action.selector %> </p>
+<p> URL: <%= action.url %> </p>
+<% end %>
+<hr/>
+
+
+<h3> Renderables & Diff </h3>
+<!-- Col 1 -->
+<h4> Diffs </h4>
+<% @renderable.diffs.each do |diff| %>
+    <p> Selector: <%= diff.selector %> </p>
+    <p> type: <%= diff.type %> </p>
+    <p> is_ignore: <%= diff.is_ignore %> </p> <!-- TODO: filter out qry -->
+    <p> visible: <%= diff.visible %> </p>
+    <p> diffSummary: <%= diff.diffSummary %> </p>
+    <p> newDim: <%= diff.newDim %> </p>
+    <p> origDim: <%= diff.origDim %> </p>
+    <p> summarization: <%= diff.summarization %> </p>
+    <p> newDim: <%= diff.newDim %> </p>
+    <p> origDim: <%= diff.origDim %> </p>
+<% end %>
+<hr/>
+
+<!-- Col 2 -->
+<h4> Renderable </h4>
+<p><%= @renderable.screenshotFilename %></p>
+<p><%= @renderable.action_id %></p>
+<hr/>
+
+<!-- Col 3 -->
+<h4> ControlRenderable</h4>
+<p><%= @controlRenderable.screenshotFilename %></p>
+<p><%= @controlRenderable.action_id %></p>
