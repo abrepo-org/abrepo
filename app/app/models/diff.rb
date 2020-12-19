@@ -4,16 +4,17 @@
 #
 #  id            :bigint           not null, primary key
 #  calculated    :json
-#  diffSummary   :string
+#  diffSummary   :json
+#  diffType      :string
 #  is_ignore     :boolean
 #  newDim        :json
 #  origDim       :json
 #  selector      :string
 #  summarization :json
-#  type          :string
 #  visible       :boolean
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  a_id          :string
 #  renderable_id :bigint
 #
 # Indexes
@@ -27,4 +28,5 @@
 
 class Diff < ApplicationRecord
   belongs_to :renderable
+  validates :a_id, :renderable_id, presence: true
 end

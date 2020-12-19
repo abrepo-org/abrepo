@@ -27,4 +27,6 @@ class Variation < ApplicationRecord
 
   has_many :renderables
   has_many :actions, through: :renderables
+
+  validates :a_id, :experiment_id, presence: true
 end

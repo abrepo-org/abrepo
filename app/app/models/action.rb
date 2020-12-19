@@ -35,4 +35,6 @@
 class Action < ApplicationRecord
   has_many :renderables
   has_many :variations, through: :renderables
+
+  validates :a_id, :url, presence: true
 end

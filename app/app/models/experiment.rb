@@ -26,4 +26,6 @@ class Experiment < ApplicationRecord
   belongs_to :profile
   has_many :variations
   has_one :vendor
+
+  validates :crawlID, :domain, :a_id, :profile_id, presence: true
 end

@@ -12,4 +12,6 @@
 
 class Profile < ApplicationRecord
   has_many :experiments
+
+  validates :domain, :a_id, presence: true
 end

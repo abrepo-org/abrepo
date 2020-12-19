@@ -4,7 +4,6 @@
 #
 #  id                 :bigint           not null, primary key
 #  control            :boolean
-#  diff               :json
 #  domain             :string
 #  renderedTitle      :string
 #  renderedURL        :string

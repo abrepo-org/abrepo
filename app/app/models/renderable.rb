@@ -4,7 +4,6 @@
 #
 #  id                 :bigint           not null, primary key
 #  control            :boolean
-#  diff               :json
 #  domain             :string
 #  renderedTitle      :string
 #  renderedURL        :string
@@ -32,8 +31,10 @@ class Renderable < ApplicationRecord
   belongs_to :action
   belongs_to :variation
   belongs_to :controlRenderable, class_name: "Renderable",
-             foreign_key: :renderable_id
+             foreign_key: :renderable_id, optional: true
   has_many :diffs
 
-  #add method to parse json diff
+  #validates :control, :a_id, :action_id, :variation_id, presence: true
+
+  #TODO: add method to parse json diff
 end

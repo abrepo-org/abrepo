@@ -21,4 +21,5 @@
 
 class Campaign < ApplicationRecord
   belongs_to :experiment
+  validates :a_id, :experiment_id, presence: true
 end

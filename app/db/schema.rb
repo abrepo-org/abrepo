@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_18_221009) do
+ActiveRecord::Schema.define(version: 2020_12_19_180221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,9 +54,10 @@ ActiveRecord::Schema.define(version: 2020_12_18_221009) do
     t.json "summarization"
     t.json "newDim"
     t.json "origDim"
-    t.string "diffSummary"
     t.boolean "is_ignore"
-    t.string "type"
+    t.string "diffType"
+    t.json "diffSummary"
+    t.string "a_id"
     t.index ["renderable_id"], name: "index_diffs_on_renderable_id"
   end
 
@@ -92,7 +93,6 @@ ActiveRecord::Schema.define(version: 2020_12_18_221009) do
     t.bigint "action_id"
     t.boolean "control"
     t.bigint "renderable_id"
-    t.json "diff"
     t.string "a_id"
     t.index ["action_id"], name: "index_renderables_on_action_id"
     t.index ["renderable_id"], name: "index_renderables_on_renderable_id"
