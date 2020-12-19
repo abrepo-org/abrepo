@@ -87,7 +87,7 @@ class ImportsController < ApplicationController
                                         action: @action,
                                         variation: @variation).first_or_create
 
-    puts @base_renderable.inspect
+
     @active_renderable = Renderable.where(a_id: active_renderable['_id'],
                                           domain: active_renderable['domain'],
                                           renderedTitle: active_renderable['renderedTitle'],
@@ -103,7 +103,7 @@ class ImportsController < ApplicationController
 
     diffs = diffs.each do |d|
 
-      #TODO: add crawlId: d['crawlId'], #doesn't exist, need to add in model
+      #TODO: add crawlId?: d['crawlId'], #doesn't exist, need to add in model
       _d = Diff.where(a_id: d['_id'],
                       is_ignore: d['is_ignore'],
                       selector: d['selector'],

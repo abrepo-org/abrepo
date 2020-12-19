@@ -34,7 +34,6 @@ class Renderable < ApplicationRecord
              foreign_key: :renderable_id, optional: true
   has_many :diffs
 
-  #validates :control, :a_id, :action_id, :variation_id, presence: true
-
-  #TODO: add method to parse json diff
+  validates :a_id, :action_id, :variation_id, presence: true
+  validates :control, inclusion: [true, false]
 end
