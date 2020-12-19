@@ -15,7 +15,7 @@ to navigate the variations across expermient
 -->
 
 <h3>Variation</h3>
-<%= @variation.name %>
+<p>Variation Name: <%= @variation.name %></p>
 <hr />
 
 <h3> Actions </h3>
@@ -32,13 +32,13 @@ to navigate the variations across expermient
 <h4> Diffs </h4>
 <% @renderable.diffs.each do |diff| %>
     <p> Selector: <%= diff.selector %> </p>
-    <p> type: <%= diff.type %> </p>
+    <p> type: <%= diff.diffType %> </p>
     <p> is_ignore: <%= diff.is_ignore %> </p> <!-- TODO: filter out qry -->
     <p> visible: <%= diff.visible %> </p>
-    <p> diffSummary: <%= diff.diffSummary %> </p>
-    <p> summarization: <%= diff.summarization %> </p>
-    <p> newDim: <%= diff.newDim %> </p>
-    <p> origDim: <%= diff.origDim %> </p>
+    <pre> diffSummary: <%= diff.diffSummary %> </pre>
+    <pre> summarization: <%= diff.summarization %> </pre>
+    <pre> newDim: <%= diff.newDim %> </pre>
+    <pre> origDim: <%= diff.origDim %> </pre>
 <% end %>
 <hr/>
 
