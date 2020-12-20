@@ -11,6 +11,7 @@
 #  updated_at       :datetime         not null
 #  a_id             :string
 #  experiment_id    :bigint
+#  vendor_id        :string
 #
 # Indexes
 #
@@ -28,5 +29,5 @@ class Variation < ApplicationRecord
   has_many :renderables
   has_many :actions, through: :renderables
 
-  validates :a_id, :experiment_id, presence: true
+  validates :a_id, :experiment_id, :vendor_id, presence: true
 end

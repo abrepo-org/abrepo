@@ -4,6 +4,7 @@
 #
 #  id            :bigint           not null, primary key
 #  calculated    :json
+#  crawlId       :string
 #  diffSummary   :json
 #  diffType      :string
 #  is_ignore     :boolean

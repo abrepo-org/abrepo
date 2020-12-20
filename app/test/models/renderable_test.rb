@@ -4,6 +4,7 @@
 #
 #  id                 :bigint           not null, primary key
 #  control            :boolean
+#  crawlId            :string
 #  domain             :string
 #  renderedTitle      :string
 #  renderedURL        :string

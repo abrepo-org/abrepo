@@ -8,6 +8,7 @@
 #  updated_at    :datetime         not null
 #  a_id          :string
 #  experiment_id :bigint
+#  vendor_id     :string
 #
 # Indexes
 #

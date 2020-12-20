@@ -8,6 +8,7 @@
 #  updated_at    :datetime         not null
 #  a_id          :string
 #  experiment_id :bigint
+#  vendor_id     :string
 #
 # Indexes
 #
@@ -21,5 +22,5 @@
 
 class Campaign < ApplicationRecord
   belongs_to :experiment
-  validates :a_id, :experiment_id, presence: true
+  validates :a_id, :experiment_id, :vendor_id, presence: true
 end

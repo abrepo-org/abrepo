@@ -3,7 +3,7 @@
 # Table name: actions
 #
 #  id         :bigint           not null, primary key
-#  crawlID    :string
+#  crawlId    :string
 #  selector   :string
 #  type       :string
 #  url        :string

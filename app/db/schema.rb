@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_19_180221) do
+ActiveRecord::Schema.define(version: 2020_12_20_202531) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2020_12_19_180221) do
     t.integer "waitfor"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "crawlID"
+    t.string "crawlId"
     t.string "a_id"
   end
 
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 2020_12_19_180221) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "a_id"
+    t.string "vendor_id"
     t.index ["experiment_id"], name: "index_campaigns_on_experiment_id"
   end
 
@@ -58,6 +59,7 @@ ActiveRecord::Schema.define(version: 2020_12_19_180221) do
     t.string "diffType"
     t.json "diffSummary"
     t.string "a_id"
+    t.string "crawlId"
     t.index ["renderable_id"], name: "index_diffs_on_renderable_id"
   end
 
@@ -67,10 +69,11 @@ ActiveRecord::Schema.define(version: 2020_12_19_180221) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "domain"
-    t.string "crawlID"
+    t.string "crawlId"
     t.string "experimentSummary"
     t.string "a_id"
     t.string "gen_desc"
+    t.string "vendor_id"
     t.index ["profile_id"], name: "index_experiments_on_profile_id"
   end
 
@@ -94,6 +97,7 @@ ActiveRecord::Schema.define(version: 2020_12_19_180221) do
     t.boolean "control"
     t.bigint "renderable_id"
     t.string "a_id"
+    t.string "crawlId"
     t.index ["action_id"], name: "index_renderables_on_action_id"
     t.index ["renderable_id"], name: "index_renderables_on_renderable_id"
     t.index ["variation_id"], name: "index_renderables_on_variation_id"
@@ -134,6 +138,7 @@ ActiveRecord::Schema.define(version: 2020_12_19_180221) do
     t.string "variationSummary"
     t.string "a_id"
     t.string "gen_desc"
+    t.string "vendor_id"
     t.index ["experiment_id"], name: "index_variations_on_experiment_id"
   end
 

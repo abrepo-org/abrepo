@@ -27,7 +27,7 @@ class TestModelsController < ApplicationController
                               domain: domain)
 
     @experiment = Experiment.create(:name => "Something Experiment Name",
-                                    crawlID: crawlId,
+                                    crawlId: crawlId,
                                     domain: domain,
                                     profile: @profile)
 
@@ -55,7 +55,7 @@ class TestModelsController < ApplicationController
 
     @action = Action.create(selector: "#someSelector",
                             type: nil,
-                            crawlID: crawlId,
+                            crawlId: crawlId,
                             url: url,
                             waitfor: 1000)
 

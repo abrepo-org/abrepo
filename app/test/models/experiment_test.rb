@@ -3,7 +3,7 @@
 # Table name: experiments
 #
 #  id                :bigint           not null, primary key
-#  crawlID           :string
+#  crawlId           :string
 #  domain            :string
 #  experimentSummary :string
 #  gen_desc          :string
@@ -12,6 +12,7 @@
 #  updated_at        :datetime         not null
 #  a_id              :string
 #  profile_id        :bigint
+#  vendor_id         :string
 #
 # Indexes
 #

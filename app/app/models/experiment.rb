@@ -3,7 +3,7 @@
 # Table name: experiments
 #
 #  id                :bigint           not null, primary key
-#  crawlID           :string
+#  crawlId           :string
 #  domain            :string
 #  experimentSummary :string
 #  gen_desc          :string
@@ -12,6 +12,7 @@
 #  updated_at        :datetime         not null
 #  a_id              :string
 #  profile_id        :bigint
+#  vendor_id         :string
 #
 # Indexes
 #
@@ -29,5 +30,5 @@ class Experiment < ApplicationRecord
   has_one :campaign
   has_one :audience
 
-  validates :crawlID, :domain, :a_id, :profile_id, presence: true
+  validates :crawlId, :domain, :a_id, :profile_id, :vendor_id, presence: true
 end
