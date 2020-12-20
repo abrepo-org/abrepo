@@ -10,7 +10,7 @@ class VariationsController < ApplicationController
     @profile = @experiment.profile
     @actions = @variation.actions
     #action sort?
-    renderables = @variation.renderables
+    renderables = Renderable.where(variation_id: @variation, control:false)
 
     @renderable = renderables[0]
     @controlRenderable = @renderable.controlRenderable
