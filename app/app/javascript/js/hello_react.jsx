@@ -9,22 +9,26 @@ import PropTypes from 'prop-types';
 import Button from './_button.jsx';
 
 const Hello = props => (
-  <div>Hello {props.name}!</div>
+    <div>
+    <div>Hello {props.name}!</div>
+    <div>Helo data: {props.data.renderable.crawlId} </div>
+    </div>
 )
 
 Hello.defaultProps = {
-  name: 'Alan'
+    name: 'Alan',
 }
 
 Hello.propTypes = {
-  name: PropTypes.string
+    name: PropTypes.string,
+    data: PropTypes.object
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log("hello_react.jsx");
 
     ReactDOM.render(
-        <Hello name="ReactoPresto" />,
+        <Hello name="ReactoPresto" data={window.abrepo} />,
         document.body.appendChild(document.createElement('div')),
     )
 

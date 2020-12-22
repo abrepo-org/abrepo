@@ -16,3 +16,14 @@
 
 @import "bulma";
 @import "../stylesheets/sidebar.scss";
+
+main.container{
+  margin-top: 4px;
+}
+
+.profile_favicon {
+  display:inline-block;
+  width: 1em;
+}
+/*align search bar with main columns*/
+//#navbarBasicExample { padding-left: 1.25rem; }
