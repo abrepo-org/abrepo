@@ -14,4 +14,10 @@ class Profile < ApplicationRecord
   has_many :experiments
 
   validates :domain, :a_id, presence: true
+
+
+  def as_json(options)
+    super(only: [:company_name, :domain])
+  end
+
 end

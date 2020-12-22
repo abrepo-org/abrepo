@@ -1,54 +1,94 @@
-<h1>Variations#show</h1>
-<p>Find me in app/views/variations/show.html.erb</p>
+<section class="header">
+    <div class="columns">
+        <div class="column is-full">
+            <!-- Profile -->
+            <div>
+                <span class="profile_favicon">
+                    <%= image_tag('https://www.' + @profile.domain + '/favicon.ico')%>
+                </span>
+                <span><%= @profile.domain %></span>
+            </div>
 
-<div> Profile: <%= @profile.domain %> </div>
+            <div> Experiment: <%= @experiment.name %> </div>
+            <!--
+            <div> campaign: <%= @campaign.name %> </div>
+            -->
+            <div> Targeting: <%= @audience.name %> </div>
 
-<div> Experiment: <%= @experiment.name %> </div>
-
-<hr />
+            <div>Variation: <%= @variation.name %></div>
+        </div>
+    </div>
+</section>
 
 <!--
-TODO: maybe show some kind of variation list? (5 with expansion)
-
-Easier to scroll vs return to profile page
-to navigate the variations across expermient
+     separate variation here, make it navigable toggle?
+     fixed size, that can scroll and render a new for comparison
 -->
 
-<h3>Variation</h3>
-<p>Variation Name: <%= @variation.name %></p>
-<hr />
+<% if (@actions.length == 1 && !@actions.first.type.nil?) %>
+    <section class="action ">
+        <div class="columns">
+            <div class="column is-full">
 
-<h3> Actions </h3>
-<% @actions.each do |action| %>
-<p> Action Type: <%= action.type %> </p>
-<p> Selector Type: <%= action.selector %> </p>
-<p> URL: <%= action.url %> </p>
+                <h3> Actions </h3>
+                <% @actions.each do |action| %>
+
+                    <p> id: <%= action.id %></p>
+                    <p> Action Type: <%= action.type %> </p>
+                    <p> Selector Type: <%= action.selector %> </p>
+                    <!--<p> URL: <%= action.url %> </p>  -->
+
+                <% end %>
+            </div>
+        </div>
+    </section>
 <% end %>
-<hr/>
 
+<section class="renderableDiffs">
 
-<h3> Renderables & Diff </h3>
-<!-- Col 1 -->
-<h4> Diffs </h4>
-<% @renderable.diffs.each do |diff| %>
-    <p> Selector: <%= diff.selector %> </p>
-    <p> type: <%= diff.diffType %> </p>
-    <p> is_ignore: <%= diff.is_ignore %> </p> <!-- TODO: filter out qry -->
-    <p> visible: <%= diff.visible %> </p>
-    <pre> diffSummary: <%= diff.diffSummary %> </pre>
-    <pre> summarization: <%= diff.summarization %> </pre>
-    <pre> newDim: <%= diff.newDim %> </pre>
-    <pre> origDim: <%= diff.origDim %> </pre>
-<% end %>
-<hr/>
+    <script id="renderableData" type="text/javascript">
+     window.abrepo = window.abrepo || {}
+     window.abrepo.renderable = <%= @renderable.to_render.html_safe %>
+    </script>
 
-<!-- Col 2 -->
-<h4> Renderable </h4>
-<p><%= @renderable.screenshotFilename %></p>
-<p><%= @renderable.action_id %></p>
-<hr/>
+    <div class="columns" >
+        <div class="column is-full">
+            <h3> Renderables & Diff Controls </h3>
+            <p>icons, controls, etc. (e.g. text diff side vs interspersed) </p>
+        </div>
+    </div>
 
-<!-- Col 3 -->
-<h4> ControlRenderable</h4>
-<p><%= @controlRenderable.screenshotFilename %></p>
-<p><%= @controlRenderable.action_id %></p>
+    <div class="columns">
+
+        <div class="column">
+            <!-- Col 1 -->
+            <h4> Diffs </h4>
+            <% @renderable.diffs.each do |diff| %>
+                <p> Selector: <%= diff.selector %> </p>
+                <p> type: <%= diff.diffType %> </p>
+                <p> is_ignore: <%= diff.is_ignore %> </p> <!-- TODO: filter out qry -->
+                <p> visible: <%= diff.visible %> </p>
+                <p> diffSummary: <%= diff.diffSummary %> </p>
+                <p> summarization: <%= diff.summarization %> </p>
+                <p> newDim: <%= diff.newDim %> </p>
+                <p> origDim: <%= diff.origDim %> </p>
+            <% end %>
+
+        </div>
+
+        <!-- Col 2 -->
+        <!-- TODO: need s3 bucket host address -->
+        <div class="column">
+            <h4> Renderable </h4>
+            <p><%= image_tag(@renderable.screenshot) %> </p>
+            <p><%= @renderable.action_id %></p>
+        </div>
+
+        <!-- Col 3 -->
+        <div class="column">
+            <h4> ControlRenderable</h4>
+            <p><%= image_tag(@controlRenderable.screenshot) %></p>
+            <p><%= @controlRenderable.action_id %></p>
+        </div>
+    </div>
+</section>
