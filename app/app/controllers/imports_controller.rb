@@ -23,23 +23,18 @@ class ImportsController < ApplicationController
                  .order(id: :desc)
                  .first_or_create(company_name: profile['company_name'])
 
-    experiment = group['experiment']
-    expSummary =  input['experimentSummary'].nil? ? {'manual_summarization':nil} :
-                    input['experimentSummary']
-    exp_name = experiment['name']
 
     #
     # EXPERIMENT
     #
-    #experiment['experiment_id'],
+
+    experiment = group['experiment']
     @experiment = Experiment.where(vendor_id: experiment['experiment_id'],
                                    a_id: experiment['_id'])
                     .order(id: :desc)
                     .first_or_create(crawlId: experiment['crawlId'],
                                      domain: experiment['domain'],
-                                     name: exp_name,
-                                     gen_desc: experiment['gen_desc'],
-                                     experimentSummary: expSummary['manual_summarization'],
+                                     summary_name: experiment['summary_name'],
                                      profile: @profile)
 
     @audience = Audience.where(name: experiment['audienceName'],
@@ -59,14 +54,10 @@ class ImportsController < ApplicationController
     # VARIATION
     # TODO: add crawlId: variation['crawlId'],
     variation = group['variation']
-    varSummary = input['variationSummary'].nil? ? {'manual_summarization':nil} :
-                   input['variationSummary']
     @variation = Variation.where(a_id: variation['_id'],
                                  vendor_id: variation['variation_id'])
                    .order(id: :desc)
-                   .first_or_create(name: variation['name'],
-                                    gen_desc: variation['gen_desc'],
-                                    variationSummary: varSummary['manual_summarization'],
+                   .first_or_create(summary_name: variation['summary_name'],
                                     url: variation['crawlURL'],
                                     experiment: @experiment)
 

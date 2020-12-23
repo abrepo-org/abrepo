@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_23_030740) do
+ActiveRecord::Schema.define(version: 2020_12_23_162624) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,16 +64,14 @@ ActiveRecord::Schema.define(version: 2020_12_23_030740) do
   end
 
   create_table "experiments", force: :cascade do |t|
-    t.string "name"
     t.bigint "profile_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "domain"
     t.string "crawlId"
-    t.string "experimentSummary"
     t.string "a_id"
-    t.string "gen_desc"
     t.string "vendor_id"
+    t.string "summary_name"
     t.index ["profile_id"], name: "index_experiments_on_profile_id"
   end
 
@@ -130,15 +128,13 @@ ActiveRecord::Schema.define(version: 2020_12_23_030740) do
   end
 
   create_table "variations", force: :cascade do |t|
-    t.string "name"
     t.bigint "experiment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "url"
-    t.string "variationSummary"
     t.string "a_id"
-    t.string "gen_desc"
     t.string "vendor_id"
+    t.string "summary_name"
     t.index ["experiment_id"], name: "index_variations_on_experiment_id"
   end
 
