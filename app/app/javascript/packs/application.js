@@ -15,8 +15,5 @@
 const images = require.context('../images', true);
 const imagePath = (name) => images(name, true);
 
-console.log('Hello World from application.js');
-
-import Hello from "../js/hello_react.jsx";
-import "../js/hello_react.jsx";
+import "../js/init.jsx";
 import "../js/layouts/navbar_hamburger.js";
