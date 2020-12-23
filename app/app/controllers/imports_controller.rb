@@ -136,14 +136,14 @@ class ImportsController < ApplicationController
         #json isn't directly comparable in postgres (where clause)
         #TODO: trim this, throwing json is lazy
         diff.calculated = d['calculated']
-        diff.diffSummary = d['diffSummary']
         diff.newDim = d['newDim']
         diff.origDim = d['origDim']
-        diff.summarization = d['summarization']
-
-        diff.is_ignore = d['is_ignore']
+        diff.summary_delta = d['summary_delta']
+        diff.summary_added = d['summary_added']
+        diff.summary_removed = d['summary_removed']
         diff.selector = d['selector']
         diff.diffType = d['type']
+
 
       end
 

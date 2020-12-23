@@ -24,7 +24,7 @@
      separate variation here, make it navigable toggle?
      fixed size, that can scroll and render a new for comparison
 -->
-
+<div id="diffApp">
 <% if (@actions.length == 1 && !@actions.first.type.nil?) %>
     <section class="action ">
         <div class="columns">
@@ -46,11 +46,6 @@
 
 <section class="renderableDiffs">
 
-    <script id="renderableData" type="text/javascript">
-     window.abrepo = window.abrepo || {}
-     window.abrepo.renderable = <%= @renderable.to_render.html_safe %>
-    </script>
-
     <div class="columns" >
         <div class="column is-full">
             <h3> Renderables & Diff Controls </h3>
@@ -66,10 +61,9 @@
             <% @renderable.diffs.each do |diff| %>
                 <p> Selector: <%= diff.selector %> </p>
                 <p> type: <%= diff.diffType %> </p>
-                <p> is_ignore: <%= diff.is_ignore %> </p> <!-- TODO: filter out qry -->
-                <p> visible: <%= diff.visible %> </p>
-                <p> diffSummary: <%= diff.diffSummary %> </p>
-                <p> summarization: <%= diff.summarization %> </p>
+                <p> summary_delta: <%= diff.summary_delta %> </p>
+                <p> summary_added: <%= diff.summary_added %> </p>
+                <p> summary_removed: <%= diff.summary_removed %> </p>
                 <p> newDim: <%= diff.newDim %> </p>
                 <p> origDim: <%= diff.origDim %> </p>
             <% end %>
@@ -92,3 +86,9 @@
         </div>
     </div>
 </section>
+</div>
+
+<script id="renderableData" type="text/javascript">
+  window.abrepo = window.abrepo || {}
+  window.abrepo.renderable = <%= @renderable.to_render.html_safe %>
+</script>
