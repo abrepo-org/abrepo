@@ -5,7 +5,20 @@ export default class BoundingBox extends React.Component {
 
     constructor(props) {
         super(props);
-        //console.log("BoundingBox", this.props.diff);
+
+        //DiffType colors
+        const colors = {
+            'ADDED': 'green',
+            'CHANGED': 'pink',
+            'REMOVED': 'red'
+        };
+
+        const hoverColor = 'blue';
+
+        this.state = {
+            hoverColor,
+            color: colors[this.props.diff.diffType]
+        }
     }
 
     rectClickHandler() {
@@ -13,20 +26,23 @@ export default class BoundingBox extends React.Component {
     }
 
     render() {
-        //settings
+        //style settings
         const lineWidth = 3;
         const defaultStyle = {
-            outline: `${lineWidth}px solid red`,
+            outline: `${lineWidth}px solid ${this.state.color}`,
             visbility: "visible" //TODO: toggle individual box visibility
             //visibility: this.props.bbox.isVisible ? "visible" : "hidden"
         };
 
         const hoverStyle = {
-            outline: `${lineWidth}px solid blue`
+            outline: `${lineWidth}px solid ${this.state.hoverColor}`
         };
 
-        const rectStyle = defaultStyle; //TODO: hover or default
+        const rectStyle = !(this.props.diffHoverId== this.props.diff.id) ?
+                          defaultStyle : hoverStyle;
 
+        console.log("RECT", this.props.diffHoverId, rectStyle)
+        //data
         const id = this.props.diff.id;
         const dim = this.props.isControl? this.props.diff.origDim : this.props.diff.newDim;
         const boundingBox = dim.boundingBox;
@@ -39,14 +55,12 @@ export default class BoundingBox extends React.Component {
         return(
 
             <rect id={`svgRect${id}`} style={rectStyle}
-                  //ref={(ref) => { this.rectRefs[i] = ref; } }
-              x={coord.x - lineWidth} y={coord.y - lineWidth}
-              width={coord.width + lineWidth} height={coord.height + lineWidth}
-              stroke="red" fill="red" fillOpacity="0.2"
-              cursor="pointer"
-              onClick={() => { this.rectClickHandler() }}
-              // onMouseEnter={this.mouseEnterHandler.bind(that, i) }
-
+                  x={coord.x - lineWidth} y={coord.y - lineWidth}
+                  width={coord.width + lineWidth} height={coord.height + lineWidth}
+                  stroke={this.state.color} fill={this.state.color} fillOpacity="0.2"
+                  onClick={() => { this.rectClickHandler() }}
+                  //cursor="pointer"
+                  // onMouseEnter={this.mouseEnterHandler.bind(that, i) }
               >
 
               <title>{selector}</title>

@@ -16,7 +16,8 @@ export default class Variation extends React.Component {
 
         this.state = {
             diffs: this.props.data.renderable.diffs,
-            bboxVisible: true
+            bboxVisible: true,
+            diffHoverId: null
         }
 
     }
@@ -35,6 +36,9 @@ export default class Variation extends React.Component {
     //diff_id 0 to "turn off?"
     diffHoverHandler(diff_id) {
         console.log("diffHoverHandler", diff_id);
+        this.setState({
+            diffHoverId: diff_id
+        });
     }
 
     diffClickHandler(diff_id) {
@@ -85,13 +89,14 @@ export default class Variation extends React.Component {
 
                 <DiffContainer diffs={this.state.diffs}
                                diffClickHandler={this.diffClickHandler}
-                               diffHoverHandler={this.diffHoverHandler}
+                               diffHoverHandler={this.diffHoverHandler.bind(this)}
                                {...this.props} />
 
 
                 <RenderableContainer diffs={this.state.diffs}
                                      renderable={this.props.data.renderable}
                                      bboxVisible={this.state.bboxVisible}
+                                     diffHoverId={this.state.diffHoverId}
                                      bboxClickHandler={this.bboxClickHandler}
                                      {...this.props} />
 
@@ -99,6 +104,7 @@ export default class Variation extends React.Component {
                 <RenderableContainer diffs={this.state.diffs}
                                      renderable={this.props.data.controlRenderable}
                                      bboxVisible={this.state.bboxVisible}
+                                     diffHoverId={this.state.diffHoverId}
                                      bboxClickHandler={this.bboxClickHandler}
                                      {...this.props} />
             </div>
