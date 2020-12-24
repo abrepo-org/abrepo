@@ -17,8 +17,7 @@ card: exp->variations:
     <hr />
     <div class="experiment">
 
-        <p>Experiment Name: <%= experiment.name %></p>
-        <p>Summary: <%= experiment.experimentSummary %></p>
+        <p>Experiment Name: <%= experiment.summary_name %></p>
         <p>Audience: <%= audience['name'] %></p>
         <p>created: <%= experiment.created_at %></p>
         <p>Tags: ...</p>
@@ -26,8 +25,7 @@ card: exp->variations:
         <% experiment.variations.each do |variation| %>
 
             <div class="variation">
-                <p>Variation Name: <%= link_to variation.name, variation_path(variation) %></p>
-                <p>Variation Summary: <%= variation.variationSummary %></p>
+                <p>Variation Name: <%= link_to variation.summary_name, variation_path(variation) %></p>
                 <p>Action: ...</p>
                 <p>Page Title: <%= renderable.renderedTitle %></p>
                 <p>Page URL: <%= renderable.renderedURL %></p>
