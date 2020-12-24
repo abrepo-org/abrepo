@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ActionContainer from './ActionContainer.jsx';
-import DiffsContainer from './DiffsContainer.jsx';
+import DiffContainer from './DiffContainer.jsx';
 import RenderableContainer from './RenderableContainer.jsx';
 
 
@@ -73,10 +73,10 @@ export default class Variation extends React.Component {
 
             <div className="columns">
 
-                <DiffsContainer diffs={this.state.diffs}
-                                diffClickHandler={this.diffClickHandler}
-                                diffHoverHandler={this.diffHoverHandler}
-                                {...this.props} />
+                <DiffContainer diffs={this.state.diffs}
+                               diffClickHandler={this.diffClickHandler}
+                               diffHoverHandler={this.diffHoverHandler}
+                               {...this.props} />
 
 
                 <RenderableContainer diffs={this.state.diffs}

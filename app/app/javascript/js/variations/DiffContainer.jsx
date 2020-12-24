@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Diff from './Diff.jsx';
 
-export default class DiffsContainer extends React.Component {
+export default class DiffContainer extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log("DiffsContainer");
+        console.log("DiffContainer");
     }
 
     render() {
