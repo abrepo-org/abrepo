@@ -11,8 +11,7 @@ export default class RenderableContainer extends React.Component {
 
         this.state = {
             isControl: this.props.renderable.control,
-            bboxVisible: true,
-            //TDOO:replace
+
             imgWidth: this.props.renderable.screenshotWidth,
             imgHeight: this.props.renderable.screenshotHeight
         };
@@ -23,8 +22,8 @@ export default class RenderableContainer extends React.Component {
         const svgStyle = {
             position: 'absolute',
             zIndex:10, //need to be on top
-            display: this.state.bboxVisible ? 'block' : 'none',
-            visibility: this.state.bboxVisible ? 'visible' : 'hidden'
+            display: this.props.bboxVisible ? 'block' : 'none',
+            visibility: this.props.bboxVisible ? 'visible' : 'hidden'
         };
 
         const rects = this.props.diffs.map( diff => {
@@ -35,22 +34,11 @@ export default class RenderableContainer extends React.Component {
 
         return(
             <svg style={svgStyle} className="svg"
-                 onClick={() => this.imgClickHandler()}
                  viewBox={`0 0 ${this.state.imgWidth} ${this.state.imgHeight}`}
                  xmlns="http://www.w3.org/2000/svg">
                 {rects}
             </svg>
         )
-
-    }
-
-    //handler: click img toggle on/off bbox
-    //TODO: need to lift up, currently sets individual renderable
-    imgClickHandler(isControl) {
-        console.log("imgClick");
-        this.setState({
-            bboxVisible: !this.state.bboxVisible
-        });
     }
 
     render() {
@@ -68,9 +56,7 @@ export default class RenderableContainer extends React.Component {
 
                 { this.drawSVGRects() }
 
-                <Img imgClickHandler={this.imgClickHandler.bind(this)}
-                     bboxVisible = {this.state.bboxVisible}
-                     {...this.props} />
+                <Img {...this.props} />
             </div>
         )
     }

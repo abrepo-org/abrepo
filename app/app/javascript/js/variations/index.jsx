@@ -15,7 +15,8 @@ export default class Variation extends React.Component {
         console.log(this.props.data);
 
         this.state = {
-            diffs: this.props.data.renderable.diffs
+            diffs: this.props.data.renderable.diffs,
+            bboxVisible: true
         }
 
     }
@@ -45,6 +46,14 @@ export default class Variation extends React.Component {
         console.log("bboxClickhandler", diff_id);
     }
 
+    togglebboxClickHandler() {
+        console.log("togglebboxClickHandler");
+        this.setState({
+            bboxVisible: !this.state.bboxVisible
+        });
+
+    }
+
     render() {
 
         if(!this.state.diffs) return <div></div>
@@ -53,7 +62,7 @@ export default class Variation extends React.Component {
 
         return (
         <>
-        <section classNameName="action ">
+        <section class = "action">
             <ActionContainer {...this.props} />
         </section>
 
@@ -67,6 +76,7 @@ export default class Variation extends React.Component {
                     <p>icons, controls, etc. (e.g. text diff side vs interspersed) </p>
                     <p>place bboxClickhandler control here instead of img</p>
                     <p>TODO: make this a sticky nav scroll</p>
+                    <button onClick={() => this.togglebboxClickHandler()}>Toggle bbox</button>
                 </div>
 
             </div>
@@ -81,12 +91,14 @@ export default class Variation extends React.Component {
 
                 <RenderableContainer diffs={this.state.diffs}
                                      renderable={this.props.data.renderable}
+                                     bboxVisible={this.state.bboxVisible}
                                      bboxClickHandler={this.bboxClickHandler}
                                      {...this.props} />
 
 
                 <RenderableContainer diffs={this.state.diffs}
                                      renderable={this.props.data.controlRenderable}
+                                     bboxVisible={this.state.bboxVisible}
                                      bboxClickHandler={this.bboxClickHandler}
                                      {...this.props} />
             </div>
