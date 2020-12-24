@@ -9,13 +9,13 @@
                 <span><%= @profile.domain %></span>
             </div>
 
-            <div> Experiment: <%= @experiment.name %> </div>
+            <div> Experiment: <%= @experiment.summary_name %> </div>
             <!--
             <div> campaign: <%= @campaign.name %> </div>
             -->
             <div> Targeting: <%= @audience.name %> </div>
 
-            <div>Variation: <%= @variation.name %></div>
+            <div>Variation: <%= @variation.summary_name %></div>
         </div>
     </div>
 </section>
@@ -91,4 +91,5 @@
 <script id="renderableData" type="text/javascript">
   window.abrepo = window.abrepo || {}
   window.abrepo.renderable = <%= @renderable.to_render.html_safe %>
+  window.abrepo.controlRenderable = <%= @controlRenderable.to_render.html_safe %>
 </script>
