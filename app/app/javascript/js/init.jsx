@@ -13,9 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const $app = document.getElementById('diffApp');
 
     ReactDOM.render(
-        <App name="ReactoPresto" data={window.abrepo} />,
-        //$app
-        $app.appendChild(document.createElement('div'))
+        <App data={window.abrepo} />,
+        $app
+        //$app.appendChild(document.createElement('div'))
     );
 
 
