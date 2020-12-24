@@ -29,4 +29,29 @@
 class Diff < ApplicationRecord
   belongs_to :renderable
   validates :a_id, :renderable_id, presence: true
+
+
+  def avgY()
+
+    #if not visible change, set to maxY
+    if !(self.newDim['isVisible'] && self.origDim['isVisible'])
+      return Float::INFINITY
+    end
+
+    #take average or value of y
+    newY = self.newDim['boundingBox'] && self.newDim['boundingBox']['rect']['y']
+    origY = self.origDim['boundingBox'] && self.origDim['boundingBox']['rect']['y']
+
+    if (newY && origY)
+      return (newY + origY) / 2.0
+    elsif (newY)
+      return newY
+    elsif (origY)
+      return origY
+    end
+
+    return Float::INFINITY
+
+  end
+
 end

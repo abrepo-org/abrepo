@@ -45,15 +45,20 @@ class Renderable < ApplicationRecord
     "#{ENV['FILE_HOST']}#{self.screenshotFilename}"
   end
 
+  def sortedDiffs()
+    self.diffs.sort{ |d| d.avgY }
+      .map{ |d| d.attributes.except("a_id", "renderable_id", "created_at", "updated_at") }
+  end
   #TODO:
   #https://thoughtbot.com/blog/better-serialization-less-as-json
   #
+
   def to_render(options = {})
-    to_json({methods: :screenshot,
-             include: {diffs: {except: [:a_id, :renderable_id,
-                                        :created_at, :updated_at]}},
+
+    to_json({methods: [:screenshot, :sortedDiffs],
              except: [:id, :a_id, :variation_id, :renderable_id, :action_id,
-                      :updated_at, :created_at]}.merge(options))
+                      :updated_at, :created_at]}
+              .merge(options))
 
   end
 

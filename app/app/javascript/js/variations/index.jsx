@@ -15,7 +15,7 @@ export default class Variation extends React.Component {
         console.log(this.props.data);
 
         this.state = {
-            diffs: this.props.data.renderable.diffs,
+            diffs: this.props.data.renderable.sortedDiffs,
             bboxVisible: true,
             diffHoverId: null
         }

@@ -28,6 +28,8 @@ export default class BoundingBox extends React.Component {
     render() {
         //style settings
         const lineWidth = 3;
+        const hoverLineWidth = 3;
+
         const defaultStyle = {
             outline: `${lineWidth}px solid ${this.state.color}`,
             visbility: "visible" //TODO: toggle individual box visibility
@@ -35,7 +37,7 @@ export default class BoundingBox extends React.Component {
         };
 
         const hoverStyle = {
-            outline: `${lineWidth}px solid ${this.state.hoverColor}`
+            outline: `${lineWidth + hoverLineWidth}px solid ${this.state.hoverColor}`
         };
 
         const rectStyle = !(this.props.diffHoverId== this.props.diff.id) ?
