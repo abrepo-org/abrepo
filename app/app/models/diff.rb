@@ -12,7 +12,6 @@
 #  summary_added   :string
 #  summary_delta   :string
 #  summary_removed :string
-#  visible         :boolean
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  a_id            :string

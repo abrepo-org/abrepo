@@ -9,6 +9,8 @@
 #  renderedTitle      :string
 #  renderedURL        :string
 #  screenshotFilename :string
+#  screenshotHeight   :integer
+#  screenshotWidth    :integer
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  a_id               :string

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_23_162624) do
+ActiveRecord::Schema.define(version: 2020_12_24_050751) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,7 +47,6 @@ ActiveRecord::Schema.define(version: 2020_12_23_162624) do
 
   create_table "diffs", force: :cascade do |t|
     t.string "selector"
-    t.boolean "visible"
     t.json "calculated"
     t.bigint "renderable_id"
     t.datetime "created_at", null: false
@@ -96,6 +95,8 @@ ActiveRecord::Schema.define(version: 2020_12_23_162624) do
     t.bigint "renderable_id"
     t.string "a_id"
     t.string "crawlId"
+    t.integer "screenshotWidth"
+    t.integer "screenshotHeight"
     t.index ["action_id"], name: "index_renderables_on_action_id"
     t.index ["renderable_id"], name: "index_renderables_on_renderable_id"
     t.index ["variation_id"], name: "index_renderables_on_variation_id"

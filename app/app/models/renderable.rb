@@ -9,6 +9,8 @@
 #  renderedTitle      :string
 #  renderedURL        :string
 #  screenshotFilename :string
+#  screenshotHeight   :integer
+#  screenshotWidth    :integer
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  a_id               :string
@@ -47,7 +49,8 @@ class Renderable < ApplicationRecord
   #https://thoughtbot.com/blog/better-serialization-less-as-json
   #
   def to_render(options = {})
-    to_json({include: {diffs: {except: [:id, :a_id, :renderable_id,
+    to_json({methods: :screenshot,
+             include: {diffs: {except: [:a_id, :renderable_id,
                                         :created_at, :updated_at]}},
              except: [:id, :a_id, :variation_id, :renderable_id, :action_id,
                       :updated_at, :created_at]}.merge(options))

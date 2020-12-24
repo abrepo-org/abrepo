@@ -95,6 +95,8 @@ class ImportsController < ApplicationController
                          .first_or_create(renderedTitle: base_renderable['renderedTitle'],
                                           renderedURL: base_renderable['renderedURL'],
                                           control: true,
+                                          screenshotWidth: base_renderable['screenshotDimensions']['width'],
+                                          screenshotHeight: base_renderable['screenshotDimensions']['height'],
                                           screenshotFilename: base_renderable['screenshotFilename'])
 
 
@@ -107,6 +109,8 @@ class ImportsController < ApplicationController
                            .first_or_create(renderedTitle: active_renderable['renderedTitle'],
                                             renderedURL: active_renderable['renderedURL'],
                                             control: false,
+                                            screenshotWidth: active_renderable['screenshotDimensions']['width'],
+                                            screenshotHeight: active_renderable['screenshotDimensions']['height'],
                                             screenshotFilename: active_renderable['screenshotFilename'],
                                             controlRenderable: @base_renderable)
 
