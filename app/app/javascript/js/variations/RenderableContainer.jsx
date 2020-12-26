@@ -23,7 +23,9 @@ export default class RenderableContainer extends React.Component {
             position: 'absolute',
             zIndex:10, //need to be on top
             display: this.props.bboxVisible ? 'block' : 'none',
-            visibility: this.props.bboxVisible ? 'visible' : 'hidden'
+            visibility: this.props.bboxVisible ? 'visible' : 'hidden',
+            maxWidth: this.state.imgWidth,
+            maxHeight: this.state.imgHeight
         };
 
         const rects = this.props.diffs.map( diff => {
