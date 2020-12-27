@@ -32,9 +32,6 @@ export default class Variation extends React.Component {
     //diff onhover -> bbox diffs color
     //diff click -> bbox scrollTo
 
-    //bbox click -> diff scrollTo
-
-
     //diff_id 0 to "turn off?"
     diffHoverHandler(diff_id) {
         console.log("diffHoverHandler", diff_id);
@@ -43,13 +40,22 @@ export default class Variation extends React.Component {
         });
     }
 
-    diffClickHandler(diff_id) {
+    diffClickHandler(currentRef, diff) {
         //setState clicked, toggle diff visible
-        console.log("diffClickHandler", diff_id);
+        //bboxRef are set in BoundingBox.jsx, Diff.jsx on componentDidMount
+        console.log("diffClickHandler", diff, currentRef);
+
+        if (diff.newDim && diff.newDim.bboxRef.current) {
+            diff.newDim.bboxRef.current.scrollIntoView({behavior: "smooth", block: "center"});
+        } else if (diff.origDim && diff.origDim.bboxRef.current) {
+            diff.origDim.bboxRef.current.scrollIntoView({behavior: "smooth", block: "center"});
+        }
+
     }
 
-    bboxClickHandler(diff_id) {
-        console.log("bboxClickhandler", diff_id);
+    bboxClickHandler(currentRef, diff) {
+        console.log("bboxClickhandler", this, diff.diffRef.current, currentRef);
+        diff.diffRef.current.scrollIntoView({behavior: "smooth", block: "center"});
     }
 
     togglebboxClickHandler() {
@@ -118,6 +124,7 @@ export default class Variation extends React.Component {
                     <DiffContainer diffs={this.state.diffs}
                                    diffClickHandler={this.diffClickHandler}
                                    diffHoverHandler={this.diffHoverHandler.bind(this)}
+                                   //setDiffRef={this.setDiffRef.bind(this)}
                                    {...this.props}
                     />
                 </div>
@@ -130,6 +137,7 @@ export default class Variation extends React.Component {
                                              bboxVisible={this.state.bboxVisible}
                                              diffHoverId={this.state.diffHoverId}
                                              bboxClickHandler={this.bboxClickHandler}
+                                             //setBboxRef={this.setBboxRef.bind(this)}
                                              {...this.props} />
 
 
@@ -138,6 +146,7 @@ export default class Variation extends React.Component {
                                              bboxVisible={this.state.bboxVisible}
                                              diffHoverId={this.state.diffHoverId}
                                              bboxClickHandler={this.bboxClickHandler}
+                                             //setBboxRef={this.setBboxRef.bind(this)}
                                              {...this.props} />
                     </div>
                 </div>

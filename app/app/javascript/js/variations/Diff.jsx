@@ -5,12 +5,34 @@ export default class Diff extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            diff: this.props.diff
+        };
+
+        this.diffRef = React.createRef();
+    }
+
+    //guess the idea is passing up a ref through callback
+    //and then setting it on the diff?
+    //so diff.bboxRef and diff.diffRef?
+    componentDidMount() {
+        const diff = this.state.diff;
+        diff['diffRef']=this.diffRef;
+        this.setState({
+            diff
+        });
+    }
+
+    componentWillUnmount() {
+        this.diffRef = null;
     }
 
     render() {
         return(
             <div
-              onClick={() => this.props.diffClickHandler(this.props.diff.id)}
+              ref={this.diffRef}
+              onClick={() => this.props.diffClickHandler(this.diffRef, this.props.diff)}
               onMouseEnter={ () => this.props.diffHoverHandler(this.props.diff.id)}
               onMouseLeave={ () => this.props.diffHoverHandler(0)} >
 

@@ -33,6 +33,7 @@ export default class RenderableContainer extends React.Component {
                                 diff={diff}
                                 isControl={this.state.isControl}
                                 diffHoverId={this.props.diffHoverId}
+                                {...this.props}
                    />;
         });
 
