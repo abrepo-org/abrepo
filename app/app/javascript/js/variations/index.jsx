@@ -45,10 +45,14 @@ export default class Variation extends React.Component {
         //bboxRef are set in BoundingBox.jsx, Diff.jsx on componentDidMount
         console.log("diffClickHandler", diff, currentRef);
 
+        //https://stackoverflow.com/questions/11039885/scrollintoview-causing-the-whole-page-to-move
+        //or just have a "toggled" state
+        const opts = { behavior: 'smooth', block: 'center', inline: 'center' }
+
         if (diff.newDim && diff.newDim.bboxRef.current) {
-            diff.newDim.bboxRef.current.scrollIntoView({behavior: "smooth", block: "center"});
+            diff.newDim.bboxRef.current.scrollIntoView(opts);
         } else if (diff.origDim && diff.origDim.bboxRef.current) {
-            diff.origDim.bboxRef.current.scrollIntoView({behavior: "smooth", block: "center"});
+            diff.origDim.bboxRef.current.scrollIntoView(opts);
         }
 
     }
