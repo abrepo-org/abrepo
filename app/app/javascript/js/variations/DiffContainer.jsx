@@ -15,10 +15,10 @@ export default class DiffContainer extends React.Component {
         });
 
         return(
-            <div className="column">
-                <h4> Diffs </h4>
-                { diffs }
-            </div>
+            <>
+              <h4> Diffs </h4>
+              { diffs }
+            </>
         )
     }
 }

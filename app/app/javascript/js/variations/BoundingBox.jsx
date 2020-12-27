@@ -43,7 +43,7 @@ export default class BoundingBox extends React.Component {
         const rectStyle = !(this.props.diffHoverId== this.props.diff.id) ?
                           defaultStyle : hoverStyle;
 
-        console.log("RECT", this.props.diffHoverId, rectStyle)
+        //console.log("RECT", this.props.diffHoverId, rectStyle)
         //data
         const id = this.props.diff.id;
         const dim = this.props.isControl? this.props.diff.origDim : this.props.diff.newDim;

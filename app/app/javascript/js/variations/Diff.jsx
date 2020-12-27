@@ -5,7 +5,6 @@ export default class Diff extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log("Diff", this.props.diff);
     }
 
     render() {
@@ -21,7 +20,7 @@ export default class Diff extends React.Component {
                 <p> summary_delta: { this.props.diff.summary_delta } </p>
                 <p> summary_added: { this.props.diff.summary_added } </p>
                 <p> summary_removed: { this.props.diff.summary_removed } </p>
-
+                <hr/>
             </div>
         );
     }
