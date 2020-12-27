@@ -62,10 +62,10 @@ export default class BoundingBox extends React.Component {
             outline: `${lineWidth + hoverLineWidth}px solid ${this.state.hoverColor}`
         };
 
-        const rectStyle = !(this.props.diffHoverId== this.props.diff.id) ?
-                          defaultStyle : hoverStyle;
+        const rectStyle = !(this.props.diffBboxHoverId== this.props.diff.id) ?
+              defaultStyle : hoverStyle;
 
-        //console.log("RECT", this.props.diffHoverId, rectStyle)
+        //console.log("RECT", this.props.diffBboxHoverId, rectStyle)
         //data
         const id = this.props.diff.id;
         const dim = this.props.isControl? this.props.diff.origDim : this.props.diff.newDim;
@@ -83,6 +83,8 @@ export default class BoundingBox extends React.Component {
                   width={coord.width + lineWidth} height={coord.height + lineWidth}
                   stroke={this.state.color} fill={this.state.color} fillOpacity="0.2"
                   onClick={() => this.props.bboxClickHandler(this.bboxRef, this.props.diff) }
+                  onMouseEnter={ () => this.props.diffBboxHoverHandler(this.props.diff.id)}
+                  onMouseLeave={ () => this.props.diffBboxHoverHandler(0)}
                   ref={this.bboxRef}
                   //cursor="pointer"
                   // onMouseEnter={this.mouseEnterHandler.bind(that, i) }

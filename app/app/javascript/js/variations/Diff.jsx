@@ -6,8 +6,13 @@ export default class Diff extends React.Component {
     constructor(props) {
         super(props);
 
+        const hoverColor = 'blue';
+        const color = '#faa';
+
         this.state = {
-            diff: this.props.diff
+            diff: this.props.diff,
+            hoverColor,
+            color
         };
 
         this.diffRef = React.createRef();
@@ -29,12 +34,30 @@ export default class Diff extends React.Component {
     }
 
     render() {
+
+        //style settings
+        const lineWidth = 3;
+        const hoverLineWidth = 3;
+
+        const defaultStyle = {
+            //outline: `${lineWidth}px solid ${this.state.color}`,
+            visbility: "visible" //TODO: toggle individual box visibility
+            //visibility: this.props.bbox.isVisible ? "visible" : "hidden"
+        };
+
+        const hoverStyle = {
+            outline: `${lineWidth + hoverLineWidth}px solid ${this.state.hoverColor}`
+        };
+
+        const rectStyle = !(this.props.diffBboxHoverId == this.props.diff.id) ?
+              defaultStyle : hoverStyle;
+
         return(
             <div
-              ref={this.diffRef}
+              ref={this.diffRef} style={rectStyle}
               onClick={() => this.props.diffClickHandler(this.diffRef, this.props.diff)}
-              onMouseEnter={ () => this.props.diffHoverHandler(this.props.diff.id)}
-              onMouseLeave={ () => this.props.diffHoverHandler(0)} >
+              onMouseEnter={ () => this.props.diffBboxHoverHandler(this.props.diff.id)}
+              onMouseLeave={ () => this.props.diffBboxHoverHandler(0)} >
 
                 <p> Diff: {this.props.diff.id} </p>
                 <p> Selector: { this.props.diff.selector } </p>

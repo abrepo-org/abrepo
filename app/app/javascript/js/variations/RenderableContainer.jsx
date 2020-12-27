@@ -32,7 +32,7 @@ export default class RenderableContainer extends React.Component {
             return <BoundingBox key={diff.id}
                                 diff={diff}
                                 isControl={this.state.isControl}
-                                diffHoverId={this.props.diffHoverId}
+                                diffBboxHoverId={this.props.diffBboxHoverId}
                                 {...this.props}
                    />;
         });

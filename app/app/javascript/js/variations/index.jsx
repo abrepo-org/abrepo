@@ -19,7 +19,7 @@ export default class Variation extends React.Component {
             //used for height of diff & renderable scrollbars
             renderableHeight: window.innerHeight,
             bboxVisible: true,
-            diffHoverId: null
+            diffBboxHoverId: null
         }
 
     }
@@ -31,12 +31,12 @@ export default class Variation extends React.Component {
 
     //diff onhover -> bbox diffs color
     //diff click -> bbox scrollTo
-
     //diff_id 0 to "turn off?"
-    diffHoverHandler(diff_id) {
-        console.log("diffHoverHandler", diff_id);
+
+    diffBboxHoverHandler(diff_id) {
+        console.log("diffBboxHoverHandler", diff_id);
         this.setState({
-            diffHoverId: diff_id
+            diffBboxHoverId: diff_id
         });
     }
 
@@ -122,9 +122,9 @@ export default class Variation extends React.Component {
 
                 <div className="column is-3" style={diffWrapStyle}>
                     <DiffContainer diffs={this.state.diffs}
+                                   diffBboxHoverId={this.state.diffBboxHoverId}
                                    diffClickHandler={this.diffClickHandler}
-                                   diffHoverHandler={this.diffHoverHandler.bind(this)}
-                                   //setDiffRef={this.setDiffRef.bind(this)}
+                                   diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
                                    {...this.props}
                     />
                 </div>
@@ -135,18 +135,18 @@ export default class Variation extends React.Component {
                         <RenderableContainer diffs={this.state.diffs}
                                              renderable={this.props.data.renderable}
                                              bboxVisible={this.state.bboxVisible}
-                                             diffHoverId={this.state.diffHoverId}
+                                             diffBboxHoverId={this.state.diffBboxHoverId}
+                                             diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
                                              bboxClickHandler={this.bboxClickHandler}
-                                             //setBboxRef={this.setBboxRef.bind(this)}
                                              {...this.props} />
 
 
                         <RenderableContainer diffs={this.state.diffs}
                                              renderable={this.props.data.controlRenderable}
                                              bboxVisible={this.state.bboxVisible}
-                                             diffHoverId={this.state.diffHoverId}
                                              bboxClickHandler={this.bboxClickHandler}
-                                             //setBboxRef={this.setBboxRef.bind(this)}
+                                             diffBboxHoverId={this.state.diffBboxHoverId}
+                                             diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
                                              {...this.props} />
                     </div>
                 </div>
