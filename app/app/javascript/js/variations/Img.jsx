@@ -22,7 +22,7 @@ export default class Img extends React.Component {
             //filter: this.props.bboxVisible ? 'grayscale(1)' : false
         };
 
-        console.log("IMG BBOXVISIBLE", this.props.bboxVisible);
+        //console.log("IMG BBOXVISIBLE", this.props.bboxVisible);
 
         return(
             <img src={this.props.renderable.screenshot}

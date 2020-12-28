@@ -22,6 +22,8 @@ export default class Variation extends React.Component {
             diffBboxHoverId: null
         }
 
+        this.diffPanelRef = React.createRef();
+        this.renderablePanelRef = React.createRef();
     }
 
     //handlers:
@@ -34,7 +36,7 @@ export default class Variation extends React.Component {
     //diff_id 0 to "turn off?"
 
     diffBboxHoverHandler(diff_id) {
-        console.log("diffBboxHoverHandler", diff_id);
+        //console.log("diffBboxHoverHandler", diff_id);
         this.setState({
             diffBboxHoverId: diff_id
         });
@@ -43,23 +45,35 @@ export default class Variation extends React.Component {
     diffClickHandler(currentRef, diff) {
         //setState clicked, toggle diff visible
         //bboxRef are set in BoundingBox.jsx, Diff.jsx on componentDidMount
+        //key for scrollBy is to aim at viewport midpoint - innerHeight/2
         console.log("diffClickHandler", diff, currentRef);
 
-        //https://stackoverflow.com/questions/11039885/scrollintoview-causing-the-whole-page-to-move
-        //or just have a "toggled" state
-        const opts = { behavior: 'smooth', block: 'center', inline: 'center' }
-
         if (diff.newDim && diff.newDim.bboxRef.current) {
-            diff.newDim.bboxRef.current.scrollIntoView(opts);
-        } else if (diff.origDim && diff.origDim.bboxRef.current) {
-            diff.origDim.bboxRef.current.scrollIntoView(opts);
-        }
+            const y = diff.newDim.bboxRef.current.getClientRects()[0].y
+            const height = diff.newDim.bboxRef.current.getClientRects()[0].height
+            this.renderablePanelRef.current.scrollBy({left:0,
+                                                      top: y - window.innerHeight/2,
+                                                      behavior: "smooth"});
 
+        } else if (diff.origDim && diff.origDim.bboxRef.current) {
+            const y = diff.origDim.bboxRef.current.getClientRects()[0].y
+            const height = diff.origDim.bboxRef.current.getClientRects()[0].height
+            this.renderablePanelRef.current.scrollBy({left:0,
+                                                      top: y - window.innerHeight/2,
+                                                      behavior: "smooth"});
+        }
     }
 
     bboxClickHandler(currentRef, diff) {
         console.log("bboxClickhandler", this, diff.diffRef.current, currentRef);
-        diff.diffRef.current.scrollIntoView({behavior: "smooth", block: "center"});
+
+        const y = diff.diffRef.current.getClientRects()[0].y
+        const height = diff.diffRef.current.getClientRects()[0].height
+
+        this.diffPanelRef.current.scrollBy({left:0,
+                                            top: y - window.innerHeight/2,
+                                            behavior: "smooth"});
+
     }
 
     togglebboxClickHandler() {
@@ -124,33 +138,34 @@ export default class Variation extends React.Component {
 
             <div className="columns">
 
-                <div className="column is-3" style={diffWrapStyle}>
+                <div className="column is-3" style={diffWrapStyle} ref={this.diffPanelRef}>
                     <DiffContainer diffs={this.state.diffs}
                                    diffBboxHoverId={this.state.diffBboxHoverId}
-                                   diffClickHandler={this.diffClickHandler}
+                                   diffClickHandler={this.diffClickHandler.bind(this)}
                                    diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
                                    {...this.props}
                     />
                 </div>
 
                 <div className="column">
-                    <div className="columns" style={renderableContainerWrapStyle}>
+                    <div className="columns" style={renderableContainerWrapStyle}
+                         ref={this.renderablePanelRef}>
 
                         <RenderableContainer diffs={this.state.diffs}
                                              renderable={this.props.data.renderable}
                                              bboxVisible={this.state.bboxVisible}
                                              diffBboxHoverId={this.state.diffBboxHoverId}
                                              diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
-                                             bboxClickHandler={this.bboxClickHandler}
+                                             bboxClickHandler={this.bboxClickHandler.bind(this)}
                                              {...this.props} />
 
 
                         <RenderableContainer diffs={this.state.diffs}
                                              renderable={this.props.data.controlRenderable}
                                              bboxVisible={this.state.bboxVisible}
-                                             bboxClickHandler={this.bboxClickHandler}
                                              diffBboxHoverId={this.state.diffBboxHoverId}
                                              diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
+                                             bboxClickHandler={this.bboxClickHandler.bind(this)}
                                              {...this.props} />
                     </div>
                 </div>
