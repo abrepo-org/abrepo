@@ -59,6 +59,8 @@ export default class Diff extends React.Component {
               onMouseEnter={ () => this.props.diffBboxHoverHandler(this.props.diff.id)}
               onMouseLeave={ () => this.props.diffBboxHoverHandler(0)} >
 
+              {/*TODO: font awesome icons for summary_x*/ }
+
                 <p> Diff: {this.props.diff.id} </p>
                 <p> Selector: { this.props.diff.selector } </p>
                 <p> type: { this.props.diff.diffType } </p>

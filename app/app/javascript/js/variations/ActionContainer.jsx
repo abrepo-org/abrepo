@@ -47,7 +47,7 @@ export default class ActionContainer extends React.Component {
                   <p> URL: { this.props.action.url } </p>
                   </>
                 }
-
+                  <hr/>
               </div>
             </div>
 
