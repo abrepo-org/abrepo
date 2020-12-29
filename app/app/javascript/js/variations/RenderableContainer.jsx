@@ -55,8 +55,11 @@ export default class RenderableContainer extends React.Component {
             margin: '.75rem'
         };
 
+        const isHidden = this.state.isControl ?
+                         "is-hidden-touch is-hidden-desktop-only" : "";
+
         return(
-            <div className="column" style={wrapStyle}>
+            <div className={`column ${isHidden}`} style={wrapStyle}>
                 <h4>{this.props.label}</h4>
 
                 { this.drawSVGRects() }
