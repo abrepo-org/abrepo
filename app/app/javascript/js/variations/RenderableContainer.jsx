@@ -57,7 +57,7 @@ export default class RenderableContainer extends React.Component {
 
         return(
             <div className="column" style={wrapStyle}>
-                <h4>Renderable</h4>
+                <h4>{this.props.label}</h4>
 
                 { this.drawSVGRects() }
 

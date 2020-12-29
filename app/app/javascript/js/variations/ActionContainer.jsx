@@ -9,8 +9,29 @@ export default class ActionContainer extends React.Component {
     }
 
     render() {
-        if (!this.props.action) return null;
+/*
 
+        Behavior:
+
+        if only default action, "null action" row is hidden - no
+        discernable action.
+
+        if only action visible change (no bbox on null action
+        renderables), set the action set renderables as the default
+        "start" selected view
+
+        ----
+
+        Layout: fixed row above controls: table view?  action [click,
+        scroll]: selector: <body>, description
+
+        on click triggers view of new diff/renderables on hover,
+        highlights blue
+
+        default action 'bbox' - 'flickering'
+
+        on mobile, stack
+*/
         return(
 
             <div className="columns">
@@ -18,10 +39,14 @@ export default class ActionContainer extends React.Component {
 
                 <h3> Actions </h3>
 
-                <p> id: { this.props.action.id }</p>
-                <p> Action Type: { this.props.action.type } </p>
-                <p> Selector Type: { this.props.action.selector } </p>
-                <p> URL: { this.props.action.url } </p>
+                { this.props.action &&
+                  <>
+                  <p> id: { this.props.action.id }</p>
+                  <p> Action Type: { this.props.action.type } </p>
+                  <p> Selector Type: { this.props.action.selector } </p>
+                  <p> URL: { this.props.action.url } </p>
+                  </>
+                }
 
               </div>
             </div>

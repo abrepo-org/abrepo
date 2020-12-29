@@ -122,36 +122,53 @@ export default class Variation extends React.Component {
 
         <section className="renderableDiffs">
 
-            {/*TODO: componentify*/}
-            <div className="columns" >
-
-                <div className="column is-full">
-                    <h3> Renderables & Diff Controls </h3>
-                    <p>icons, controls, etc. (e.g. text diff side vs interspersed) </p>
-                    <p>place bboxClickhandler control here instead of img</p>
-                    <p>TODO: make this a sticky nav scroll</p>
-                    <button onClick={() => this.togglebboxClickHandler()}>Toggle bbox</button>
-                </div>
-
-            </div>
-
-
             <div className="columns">
 
-                <div className="column is-3" style={diffWrapStyle} ref={this.diffPanelRef}>
-                    <DiffContainer diffs={this.state.diffs}
-                                   diffBboxHoverId={this.state.diffBboxHoverId}
-                                   diffClickHandler={this.diffClickHandler.bind(this)}
-                                   diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
-                                   {...this.props}
-                    />
+                <div className="column is-3">
+
+                    <div className="columns">
+                        <div className="column is-full">
+                            {/* not sure controls should be sticky */}
+                            {/* diff control placeholders */}
+                            <button>text</button>
+                            <button>css</button>
+                        </div>
+                    </div>
+
+                    <div className="columns" >
+                        <div className="column" style={diffWrapStyle} ref={this.diffPanelRef}>
+                            <DiffContainer diffs={this.state.diffs}
+                                           diffBboxHoverId={this.state.diffBboxHoverId}
+                                           diffClickHandler={this.diffClickHandler.bind(this)}
+                                           diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
+                                           {...this.props}
+                            />
+
+                        </div>
+                    </div>
                 </div>
 
                 <div className="column">
+
+                    <div className="columns">
+                        <div className="column is-full">
+                            {/* renderable control placeholders */}
+
+                            <button>double view split</button>
+                            <button>single full view</button>
+                            <button onClick={() => this.togglebboxClickHandler()}>
+                                Toggle
+                            </button>
+
+                        </div>
+                    </div>
+
+
                     <div className="columns" style={renderableContainerWrapStyle}
                          ref={this.renderablePanelRef}>
 
-                        <RenderableContainer diffs={this.state.diffs}
+                        <RenderableContainer label="Variation"
+                                             diffs={this.state.diffs}
                                              renderable={this.props.data.renderable}
                                              bboxVisible={this.state.bboxVisible}
                                              diffBboxHoverId={this.state.diffBboxHoverId}
@@ -160,7 +177,8 @@ export default class Variation extends React.Component {
                                              {...this.props} />
 
 
-                        <RenderableContainer diffs={this.state.diffs}
+                        <RenderableContainer label="Original"
+                                             diffs={this.state.diffs}
                                              renderable={this.props.data.controlRenderable}
                                              bboxVisible={this.state.bboxVisible}
                                              diffBboxHoverId={this.state.diffBboxHoverId}
