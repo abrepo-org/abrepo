@@ -1,33 +1,28 @@
-<h1>Profiles#show</h1>
 
-<!-- TODO: profile "header" company display
-company_name
-domain
-industry
+    <!-- refactor this into header and mini view parital: shared/_profile_header -->
+    <div class="company-profile">
+        <p>Company Name: </p>
+        <p>Domain: <%=  @profile.domain %></p>
+        <p>Industry:</p>
+
+        <p>Num Experiments <%= @experiments.length %></p>
+        <p>Num Variations: <%= @num_variations %></p>
+        <p>Top Tags: [..]</p>
+    </div>
+    <hr />
 
 
-//calculated
-num_experiments
-num_variations
-tags
+    <!--
+         experiments loop
+       -->
+    <% @experiments.each do |experiment| %>
+        <%= render partial: "/shared/card",
+        locals: {type: "profile#show",
+                 profile: @profile,
+                 experiment: experiment,
+                 renderable: @renderable,
+                 audience: @audience,
+                 vendor: @vendor}
+        %>
+    <% end %>
 
--->
-
-<%= @profile.id %>
-<%= @profile.domain %>
-Num Experiments <%= @experiments.length %>
-Num Variations: <%= @num_variations %>
-<hr />
-
-<!--
-experiments loop
--->
-<% @experiments.each do |experiment| %>
-<%= render partial: "/shared/card",
-    locals: {type: "profile-show",
-    profile: @profile,
-    experiment: experiment,
-    renderable: @renderable,
-    audience: @audience,
-    vendor: @vendor} %>
-<% end %>

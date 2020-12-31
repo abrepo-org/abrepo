@@ -1,40 +1,88 @@
 <!--
-card: exp->variations:
-  - used on /profiles/:id: filtered by company, adjusted
-  - used on /home: filtered by user preferences
-  - used on search results /search?q=xyz: highlighted search terms
--->
+     card: exp->variations:
+   - some toggled variation used on:
+   - used on /profiles/:id: filtered by company, adjusted
+   - used on /home?industry=tech filtered by category / tag
+   - used on search results /search?q=xyz: highlighted search terms
+   -->
 
-<div class="card">
-
-    <div class="profile">
+<!--
+     each experiment profile could be different depending on query search
+     but for profile#show it would be repetitive
+   -->
+<%# unless type == "profile#show" %>
+<div class="columns profile">
+    <div class="column is-full">
         <p>Company Name: <%= profile.company_name %></p>
         <p>Domain: <%= profile.domain %></p>
-        <p>Favicon: <%= profile.domain + "/favicon.ico" %> </p>
+        <p>
+            <span class="profile_favicon">
+                <%= image_tag('https://www.' + profile.domain + '/favicon.ico')%>
+            </span>
+        </p>
+
         <p>Vendor: <%= vendor['name'] %></p>
     </div>
+</div>
+<hr />
+<%# end %>
 
-    <hr />
-    <div class="experiment">
+<div class="experiment">
 
-        <p>Experiment Name: <%= experiment.summary_name %></p>
-        <p>Audience: <%= audience['name'] %></p>
-        <p>created: <%= experiment.created_at %></p>
-        <p>Tags: ...</p>
+    <div class="columns">
+        <div class="column is-full">
+            <p class="is-size-5">
+                Experiment Name: <%= experiment.summary_name %>
+            </p>
 
-        <% experiment.variations.each do |variation| %>
-
-            <div class="variation">
-                <p>Variation Name: <%= link_to variation.summary_name, variation_path(variation) %></p>
-                <p>Action: ...</p>
-                <p>Page Title: <%= renderable.renderedTitle %></p>
-                <p>Page URL: <%= renderable.renderedURL %></p>
-                <p>Screenshot: <%= renderable.screenshotFilename %></p>
-
-            </div>
-        <% end %>
+            <!-- might not be available -->
+            <p>Targeting: <%= audience['name'] %></p>
+            <!--
+                 not sure..
+                 <p>URLS [url1, url2, url] </p>
+               -->
+            <p>created: <%= experiment.created_at %></p>
+            <p>Tags: [finance, ui, click]</p>
+        </div>
+        <hr/>
 
     </div>
+
+    <% experiment.variations.each do |variation| %>
+
+        <div class="columns ml-6">
+
+            <div class="column is-full is-size-5">
+                <%= link_to variation_path(variation) do %>
+                    <p>Variation Name:
+                        <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
+                    </p>
+                <% end %>
+                <p class="ml-3 is-size-6-5">Page Title: <%= renderable.renderedTitle %></p>
+                <p class="ml-3 is-size-6-5">Page URL: <%= renderable.renderedURL %></p>
+
+                <span class="tag is-primary is-light">finance</span>
+                <span class="tag is-primary is-light">ui/ux</span>
+                <span class="tag is-primary is-light">navbar</span>
+
+                <div>
+
+                    <button>save</button>
+                    <button>report</button>
+
+                </div>
+            </div>
+            <!-- Need to generate? Ignore for now
+                 <p>Number of views</p>
+                 <p>Thumnail: <%= renderable.screenshotFilename %></p>
+               -->
+
+        </div>
+
+
+
+        <hr/>
+    <% end %>
 
 </div>
 

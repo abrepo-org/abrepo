@@ -18,19 +18,43 @@
       <main class="container is-fluid">
           <div class="columns ">
               <div class="column is-narrow is-hidden-touch">
-                  <!--
-                       TODO: fixed width sidebar + dynamic content:
-                       might center content with container or large fixed-width
-                       defer until we have content
-                     -->
-                  <div class="sidebar">
+
+                <div class="sidebar">
                       <%= render "/layouts/sidebar" %>
                   </div>
               </div>
 
               <div class="column">
-                  <!-- variable len, center accordingly? -->
-                  <%= yield %>
+
+
+                  <% if controller.controller_name == "variations" &&
+                      controller.action_name == "show" %>
+                      <div class="columns">
+                          <div class="column">
+                              <%= yield %>
+                          </div>
+                      </div>
+                  <%else%>
+                      <div class="columns container">
+                          <div class="column is-9">
+                              <%= yield %>
+                          </div>
+                          <div class="column is-3 is-hidden-touch">
+                              sidebar
+                              <!-- Most popular -->
+                              <!-- ? -->
+                          </div>
+                      </div>
+                  <%end %>
+
+
+
+
+                  <!--
+                       <div class="columns is-max-widescreen">
+
+                       </div>
+                     -->
               </div>
           </div>
       </main>
