@@ -53,11 +53,21 @@
         <div class="columns">
 
             <div class="column is-full is-size-5">
-                <%= link_to variation_path(variation) do %>
-                    <p>Variation Name:
-                        <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
-                    </p>
-                <% end %>
+                <div class="is-flex is-justify-content-space-between is-align-items-flex-start 	">
+                    <%= link_to variation_path(variation) do %>
+                        Variation Name:
+                            <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
+
+                    <% end %>
+
+
+                    <div class="is-flex is-flex-direction-row">
+                        <button>save</button>
+                        <button>report</button>
+                    </div>
+
+                </div>
+
                 <p class="is-size-6-5">Page Title: <%= renderable.renderedTitle %></p>
                 <p class="is-size-6-5">Page URL: <%= renderable.renderedURL %></p>
 
@@ -65,13 +75,11 @@
                 <span class="tag is-primary is-light">ui/ux</span>
                 <span class="tag is-primary is-light">navbar</span>
 
-                <div>
 
-                    <button>save</button>
-                    <button>report</button>
 
-                </div>
             </div>
+
+
             <!-- Need to generate? Ignore for now
                  <p>Number of views</p>
                  <p>Thumnail: <%= renderable.screenshotFilename %></p>

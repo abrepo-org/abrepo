@@ -13,13 +13,29 @@
  *= require_tree .
  *= require_self
  */
+$navbar-height: 4rem;
+$off-grey-color: rgb(247, 250, 252);
 
 @import "bulma";
 @import "../stylesheets/sidebar.scss";
 @import "../stylesheets/variation.scss";
 
+#maxContainer, #navbarBasicExample {
+  /*max-width: 1920px;*/
+}
+
 main.container{
-  margin-top: 4px;
+  margin-top: 12px;
+  background: #fff;
+
+  @include from($desktop) {
+    background: $off-grey-color
+  }
+
+}
+
+#maxContainer {
+  background: #fff;
 }
 
 .profile_favicon {
@@ -29,5 +45,3 @@ main.container{
 .is-size-6-5 {
   font-size: .875rem !important;
 }
-/*align search bar with main columns*/
-//#navbarBasicExample { padding-left: 1.25rem; }

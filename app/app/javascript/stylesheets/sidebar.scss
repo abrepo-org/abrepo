@@ -3,9 +3,14 @@
 }
 
 .navbar-logo {
-  width: calc(240px + 1.5rem);
+  width: calc(264px + 1.25rem); /*align search bar with main columns*/
 }
+
 
 .menu {
   position: fixed;
+}
+
+.navbar-menu, .navbar-brand {
+  background: $off-grey-color
 }
