@@ -30,6 +30,12 @@ $border-grey: rgb(227, 232, 238); //#e2e7ee
   box-shadow: $border-grey -1px 1px 0px 0px;
 }
 
+#search-control {
+  @include from($desktop) {
+    width: 40rem;
+  }
+}
+
 #maxContainer {
   background: #fff;
   @include from ($desktop) {
