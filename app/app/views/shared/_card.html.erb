@@ -50,7 +50,7 @@
 
     <% experiment.variations.each do |variation| %>
 
-        <div class="columns ml-6">
+        <div class="columns">
 
             <div class="column is-full is-size-5">
                 <%= link_to variation_path(variation) do %>
@@ -58,8 +58,8 @@
                         <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
                     </p>
                 <% end %>
-                <p class="ml-3 is-size-6-5">Page Title: <%= renderable.renderedTitle %></p>
-                <p class="ml-3 is-size-6-5">Page URL: <%= renderable.renderedURL %></p>
+                <p class="is-size-6-5">Page Title: <%= renderable.renderedTitle %></p>
+                <p class="is-size-6-5">Page URL: <%= renderable.renderedURL %></p>
 
                 <span class="tag is-primary is-light">finance</span>
                 <span class="tag is-primary is-light">ui/ux</span>

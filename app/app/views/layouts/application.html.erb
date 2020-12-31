@@ -29,22 +29,24 @@
 
                   <% if controller.controller_name == "variations" &&
                       controller.action_name == "show" %>
-                      <div class="columns">
+                      <section class="columns">
                           <div class="column">
                               <%= yield %>
                           </div>
-                      </div>
+                      </section>
                   <%else%>
-                      <div class="columns container">
+                      <!-- this container 'fixes' and contains the section width -->
+                      <section class="columns container">
                           <div class="column is-9">
                               <%= yield %>
                           </div>
                           <div class="column is-3 is-hidden-touch">
                               sidebar
                               <!-- Most popular -->
-                              <!-- ? -->
+                              <!-- Recommended -->
+                              <!-- etc -->
                           </div>
-                      </div>
+                      </section>
                   <%end %>
 
 
