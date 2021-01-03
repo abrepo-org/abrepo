@@ -9,42 +9,43 @@
 <!--
      each experiment profile could be different depending on query search
      but for profile#show it would be repetitive
-   -->
-<%# unless type == "profile#show" %>
-<div class="columns profile">
-    <div class="column is-full">
-        <p>Company Name: <%= profile.company_name %></p>
-        <p>Domain: <%= profile.domain %></p>
-        <p>
-            <span class="profile_favicon">
-                <%= image_tag('https://www.' + profile.domain + '/favicon.ico')%>
-            </span>
-        </p>
+  -->
 
-        <p>Vendor: <%= vendor['name'] %></p>
-    </div>
-</div>
-<hr />
+<%# unless type == "profile#show" %>
 <%# end %>
 
 <div class="experiment">
 
     <div class="columns">
-        <div class="column is-full">
+        <div class="column is-8">
+
             <p class="is-size-5">
                 Experiment Name: <%= experiment.summary_name %>
             </p>
 
-            <!-- might not be available -->
-            <p>Targeting: <%= audience['name'] %></p>
-            <!--
-                 not sure..
-                 <p>URLS [url1, url2, url] </p>
-               -->
-            <p>created: <%= experiment.created_at %></p>
-            <p>Tags: [finance, ui, click]</p>
+            <p>
+                <span class="profile_favicon">
+                    <%= image_tag('https://www.' + profile.domain + '/favicon.ico',
+                                  width: '16px') %>
+                </span>
+                <span><%= profile.domain %></span>
+            </p>
+
+
+            <p><%= audience['name'] %></p>
+
+            <p>
+                <span class="tag is-info is-light">finance</span>
+                <span class="tag is-info is-light">audience</span>
+                <span class="tag is-info is-light">optimizely.com</span>
+            </p>
         </div>
-        <hr/>
+
+        <div class="column is-4 has-text-right">
+            <p><%= experiment.created_at %></p>
+            <p><%= pluralize(experiment.variations.count, 'variation') %> </p>
+            <p><%= @vendor['name'] %></p>
+        </div>
 
     </div>
 
@@ -52,18 +53,25 @@
 
         <div class="columns">
 
-            <div class="column is-full is-size-5">
-                <div class="is-flex is-justify-content-space-between is-align-items-flex-start 	">
+            <div class="column is-full is-size-5 pl-6">
+
+                <div class="is-flex is-justify-content-space-between is-align-items-flex-start">
+
                     <%= link_to variation_path(variation) do %>
                         Variation Name:
-                            <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
-
+                        <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
                     <% end %>
 
-
                     <div class="is-flex is-flex-direction-row">
-                        <button>save</button>
-                        <button>report</button>
+
+                      <button title="Watch" class="button is-small watch">
+                        <span class="icon-text">
+                          <span class="icon">
+                            <i class="far fa-star"></i>
+                          </span><span class="text">Watch</span>
+                        </span>
+                      </button>
+
                     </div>
 
                 </div>
@@ -75,25 +83,16 @@
                 <span class="tag is-primary is-light">ui/ux</span>
                 <span class="tag is-primary is-light">navbar</span>
 
-
-
+                <!-- screenshot? -->
             </div>
-
-
-            <!-- Need to generate? Ignore for now
-                 <p>Number of views</p>
-                 <p>Thumnail: <%= renderable.screenshotFilename %></p>
-               -->
 
         </div>
 
-
-
-        <hr/>
     <% end %>
 
 </div>
 
+<hr />
 <!--
      EXPERIMENT CARD CONTENT OUTLINE
      toggle off certain info depending on source used to access
