@@ -18,6 +18,7 @@ $off-grey-color: rgb(247, 250, 252);
 $border-grey: rgb(227, 232, 238); //#e2e7ee
 
 @import "bulma";
+@import "../stylesheets/icons.scss";
 @import "../stylesheets/sidebar.scss";
 @import "../stylesheets/variation.scss";
 
@@ -56,10 +57,18 @@ main.container{
 
 }
 
-.profile_favicon {
-  display:inline-block;
-  width: 1em;
-}
 .is-size-6-5 {
   font-size: .875rem !important;
+}
+
+/*
+ * navbar
+ */
+#signin {
+  border: 1px solid #dbdbdb;
+}
+
+#signup {
+  //matches is-primary color
+  border: 1px solid #d1eae6;
 }
