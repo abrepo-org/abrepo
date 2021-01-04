@@ -1,13 +1,53 @@
 <aside class="menu">
 
-  <ul class="menu-list">
-    <li><%= link_to "Home", "/" %></li>
-    <li><%= link_to "Company Profiles", "/profiles/" %></li>
-    <li><%= link_to "Tags", "/tags/" %></li>
-    <li><%= link_to "Pages", "/pages/" %></li>
-    <li><%= link_to "Saved", "#" %></li>
-    <!-- might merge in user settings for now -->
-    <li><%= link_to "Settings", "#" %></li>
+    <ul class="menu-list">
+        <li>
+
+            <%= render partial: '/layouts/navlink', locals: {
+                linkurl: "/", linkclass:"navbar-item", text: "Home",
+                icon: "home"
+            } %>
+
+        </li>
+
+        <li>
+
+            <%= render partial: '/layouts/navlink', locals: {
+                linkurl: "/profiles/", linkclass:"navbar-item", text: "Companies",
+                icon: "building"
+            } %>
+
+        </li>
+
+        <li>
+
+            <%= render partial: '/layouts/navlink', locals: {
+                linkurl: "/tags/", linkclass:"navbar-item", text: "Tags",
+                icon: "tags"
+            } %>
+
+        </li>
+
+        <!-- not sure maybe add pages (page types) -->
+
+        <li>
+
+            <%= render partial: '/layouts/navlink', locals: {
+                linkurl: "/saved/", linkclass:"navbar-item", text: "Saved",
+                icon: "star"
+            } %>
+
+        </li>
+
+        <!-- might merge in user settings for now -->
+        <li>
+
+            <%= render partial: '/layouts/navlink', locals: {
+                linkurl: "/user/settings/", linkclass:"navbar-item", text: "Settings",
+                icon: "cog"
+            } %>
+
+        </li>
   </ul>
 
 </aside>

@@ -38,13 +38,35 @@
             <!-- Menu Mobile -->
 
             <div class="navbar-item is-hidden-desktop">
-                <%= link_to "Home", "/", class: "navbar-item" %>
-                <%= link_to "Company Profiles", "/profiles/", class: "navbar-item" %>
-                <%= link_to "Tags", "/tags/", class: "navbar-item"  %>
-                <%= link_to "Pages", "/pages/", class: "navbar-item"  %>
-                <%= link_to "Saved", "#", class: "navbar-item"  %>
+
+                <%= render partial: '/layouts/navlink', locals: {
+                    linkurl: "/", linkclass:"navbar-item", text: "Home",
+                    icon: "home"
+                } %>
+
+                <%= render partial: '/layouts/navlink', locals: {
+                    linkurl: "/profiles/", linkclass:"navbar-item", text: "Companies",
+                    icon: "building"
+                } %>
+
+                <%= render partial: '/layouts/navlink', locals: {
+                    linkurl: "/tags/", linkclass:"navbar-item", text: "Tags",
+                    icon: "tags"
+                } %>
+
+                <!-- not sure maybe add pages (page types) -->
+
+                <%= render partial: '/layouts/navlink', locals: {
+                    linkurl: "/saved/", linkclass:"navbar-item", text: "Saved",
+                    icon: "star"
+                } %>
+
                 <!-- might merge in user settings for now -->
-                <%= link_to "Settings", "#", class: "navbar-item"  %>
+
+                <%= render partial: '/layouts/navlink', locals: {
+                    linkurl: "/user/settings/", linkclass:"navbar-item", text: "Settings",
+                    icon: "cog"
+                } %>
 
             </div>
 
