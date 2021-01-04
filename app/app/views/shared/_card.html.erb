@@ -51,9 +51,18 @@
 
     <% experiment.variations.each do |variation| %>
 
-        <div class="columns">
+        <div class="columns is-vcentered">
 
-            <div class="column is-full is-size-5 pl-6">
+            <div class="column is-narrow is-hidden-touch">
+                <span class="icon">
+                    <% unless variation %>
+                        <!-- TODO: variation.verified attribute -->
+                        <i class="fas fa-check" title="Variation implemented"></i>
+                    <% end %>
+                </span>
+            </div>
+
+            <div class="column is-size-5">
 
                 <div class="is-flex is-justify-content-space-between is-align-items-flex-start">
 
@@ -62,27 +71,38 @@
                         <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
                     <% end %>
 
+
                     <div class="is-flex is-flex-direction-row">
-
-                      <button title="Watch" class="button is-small watch">
-                        <span class="icon-text">
-                          <span class="icon">
-                            <i class="far fa-star"></i>
-                          </span><span class="text">Watch</span>
-                        </span>
-                      </button>
-
+                        <button title="Watch" class="button is-small watch">
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="far fa-star"></i>
+                                </span><span class="text">Watch</span>
+                            </span>
+                        </button>
                     </div>
 
                 </div>
 
-                <p class="is-size-6-5">Page Title: <%= renderable.renderedTitle %></p>
-                <p class="is-size-6-5">Page URL: <%= renderable.renderedURL %></p>
+                <!-- <p class="is-size-6-5">Page Title: <%= renderable.renderedTitle %></p> -->
+                <p class="is-size-6-5"><%= renderable.renderedURL %></p>
 
-                <span class="tag is-primary is-light">finance</span>
-                <span class="tag is-primary is-light">ui/ux</span>
-                <span class="tag is-primary is-light">navbar</span>
+                <!-- TODO: variation.verified attribute -->
+                <div class="is-hidden-desktop">
+                    <% if variation %>
+                        <span class="tag is-success is-light"
+                              title="Variation implemented">
+                            Verified
+                        </span>
+                    <% end %>
+                </div>
 
+                <!--
+                    Tags seem redundant
+                <span class="tag is-info is-light">finance</span>
+                <span class="tag is-info is-light">ui/ux</span>
+                <span class="tag is-info is-light">navbar</span>
+                -->
                 <!-- screenshot? -->
             </div>
 
