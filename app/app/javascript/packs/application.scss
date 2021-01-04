@@ -67,6 +67,12 @@ main.container{
   font-size: .875rem !important;
 }
 
+.mt-3-tablet {
+  @include from($tablet) {
+    margin-top: 0.75rem;
+  }
+}
+
 /*
  * navbar
  */
@@ -89,4 +95,37 @@ main.container{
 
 .experiment i.fa-check {
   color: green;
+}
+
+
+.num_expvar {
+
+  //@include from($tablet) {
+    display: inline-block;
+    margin-right: 1rem;
+  //}
+
+  @include from($tablet) {
+    //padding: .75rem;
+    display: flex;
+    justify-content: end;
+    margin-right: 0;
+
+    p {
+      display:flex;
+      flex-direction:column;
+      text-align:center;
+/*
+      border: 1px solid #f0f0f0;
+      border-radius: 4px;
+      padding: 4px;
+      margin: 12px 0;
+*/
+    }
+
+  }
+}
+.num_expvar_label {
+  font-size: .75rem;
+  min-width: 70px
 }

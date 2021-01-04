@@ -1,26 +1,86 @@
-    <!-- refactor this into header and mini view parital: shared/_profile_header -->
-    <div class="company-profile">
-        <p>Company Name: </p>
-        <p>Domain: <%=  @profile.domain %></p>
-        <p>Industry:</p>
+<!-- refactor this into header and mini view parital: shared/_profile_header -->
+<div class="company-profile">
+    <div class="columns">
 
-        <p>Num Experiments <%= @experiments.length %></p>
-        <p>Num Variations: <%= @num_variations %></p>
-        <p>Top Tags: [..]</p>
+        <div class="column is-8">
+
+            <div class="is-size-3"><%= @profile.company_name %></div>
+            <div  class="is-size-5">
+                <%= link_to @profile.domain do %>
+
+                    <span class="profile_favicon">
+                        <%= image_tag('https://www.' + @profile.domain + '/favicon.ico',
+                                      width: '16px') %>
+                    </span>
+                    <span><%= @profile.domain %></span>
+
+                <% end %>
+
+            </div>
+
+            <!-- - About -->
+            <div class="profile-label has-text-grey mt-3">About</div>
+            <p>This is a blurb. Optimizely helps businesses test out different ways to make their websites or apps more effective.</p>
+
+            <div class="profile-label has-text-grey mt-3">Related Companies</div>
+            <div>VWO, Uber</div>
+
+            <!-- Industry Tags -->
+            <div class="profile-label has-text-grey mt-3">Industries</div>
+            <div class="tags are-medium">
+                <span class="tag">One</span>
+                <span class="tag">Two</span>
+                <span class="tag">Three</span>
+            </div>
+
+            <!-- - Calc Top Tags: ignore for now?
+                 <div class="profile-label has-text-grey mt-3">Top Tags</div>
+                 <div class="tags are-medium">
+                 <span class="tag">finance</span>
+                 <span class="tag">ui/ux</span>
+                 </div>
+               -->
+
+        </div>
+
+        <div class="column is-4 has-text-right has-text-left-mobile">
+
+            <div class="num_expvar">
+                <p>
+                    <span><%= @experiments.length %></span>
+                    <span class="num_expvar_label has-text-grey">
+                        <%= 'Experiment'.pluralize(@experiments.length) %>
+                    </span>
+                </p>
+            </div>
+
+            <div class="num_expvar mt-3-tablet">
+                <p>
+                    <span><%= @num_variations %></span>
+                    <span class="num_expvar_label has-text-grey">
+                        <%= 'Variation'.pluralize(@num_variations) %>
+                    </span>
+                </p>
+            </div>
+
+        </div>
     </div>
-    <hr />
 
 
-    <!--
-         experiments loop
-       -->
-    <% @experiments.each do |experiment| %>
-        <%= render partial: "/shared/card",
-        locals: {type: "profile#show",
-                 profile: @profile,
-                 experiment: experiment,
-                 renderable: @renderable,
-                 audience: @audience,
-                 vendor: @vendor}
-        %>
-    <% end %>
+</div>
+<hr />
+
+
+<!--
+     experiments loop
+   -->
+<% @experiments.each do |experiment| %>
+    <%= render partial: "/shared/card",
+    locals: {type: "profile#show",
+             profile: @profile,
+             experiment: experiment,
+             renderable: @renderable,
+             audience: @audience,
+             vendor: @vendor}
+    %>
+<% end %>

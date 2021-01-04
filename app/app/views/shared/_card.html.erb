@@ -41,9 +41,17 @@
             </p>
         </div>
 
-        <div class="column is-4 has-text-right">
+        <div class="column is-4 has-text-right has-text-left-mobile">
             <p><%= experiment.created_at %></p>
-            <p><%= pluralize(experiment.variations.count, 'variation') %> </p>
+            <div class="num_expvar">
+                <p>
+                    <span><%= experiment.variations.count %></span>
+                    <span class="num_expvar_label has-text-grey">
+                        <%= 'Variation'.pluralize(experiment.variations) %>
+                    </span>
+                </p>
+            </div>
+
             <p><%= @vendor['name'] %></p>
         </div>
 
@@ -72,15 +80,15 @@
                     <% end %>
 
 
-                    <div class="is-flex is-flex-direction-row">
-                        <button title="Watch" class="button is-small watch">
-                            <span class="icon-text">
-                                <span class="icon">
-                                    <i class="far fa-star"></i>
-                                </span><span class="text">Watch</span>
-                            </span>
-                        </button>
-                    </div>
+
+                    <button title="Watch" class="button is-small watch">
+                        <span class="icon-text">
+                            <span class="icon">
+                                <i class="far fa-star"></i>
+                            </span><span class="text">Watch</span>
+                        </span>
+                    </button>
+
 
                 </div>
 
