@@ -61,15 +61,6 @@
 
         <div class="columns is-vcentered">
 
-            <div class="column is-narrow is-hidden-touch">
-                <span class="icon">
-                    <% unless variation %>
-                        <!-- TODO: variation.verified attribute -->
-                        <i class="fas fa-check" title="Variation implemented"></i>
-                    <% end %>
-                </span>
-            </div>
-
             <div class="column is-size-5">
 
                 <div class="is-flex is-justify-content-space-between is-align-items-flex-start">
@@ -78,7 +69,6 @@
                         Variation Name:
                         <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
                     <% end %>
-
 
 
                     <button title="Watch" class="button is-small watch">
@@ -96,11 +86,14 @@
                 <p class="is-size-6-5"><%= renderable.renderedURL %></p>
 
                 <!-- TODO: variation.verified attribute -->
-                <div class="is-hidden-desktop">
-                    <% if variation %>
+                <div class="">
+                    <% if variation['verified'] %>
                         <span class="tag is-success is-light"
                               title="Variation implemented">
-                            Verified
+                            <span class="icon-text">
+                                <span>Implemented</span>
+                                <span class="icon"><i class="fas fa-check"></i></span>
+                            </span>
                         </span>
                     <% end %>
                 </div>
