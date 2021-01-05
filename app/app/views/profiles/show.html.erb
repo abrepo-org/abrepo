@@ -9,8 +9,7 @@
                 <%= link_to @profile.domain do %>
 
                     <span class="profile_favicon">
-                        <%= image_tag('https://www.' + @profile.domain + '/favicon.ico',
-                                      width: '16px') %>
+                        <%= image_tag('https://www.' + @profile.domain + '/favicon.ico') %>
                     </span>
                     <span><%= @profile.domain %></span>
 
