@@ -89,9 +89,7 @@ main.container{
 /*
 * profile#show
 */
-.profile-label {
-  //color: grey;
-}
+
 .profile_favicon {
   display:inline-block;
   width: 1.25rem; //match is-size-5 font
@@ -102,34 +100,23 @@ main.container{
 }
 
 
-.num_expvar {
+.expvar-wrapper {
+  min-width: 225px;
+}
 
-  //@include from($tablet) {
-    display: inline-block;
-    margin-right: 1rem;
-  //}
+.expvar {
+  display: inline-flex;
+  padding-right: .75rem;
 
-  @include from($tablet) {
-    //padding: .75rem;
+  @include from($desktop) {
     display: flex;
-    justify-content: flex-end;
-    margin-right: 0;
-
-    p {
-      display:flex;
-      flex-direction:column;
-      text-align:center;
-/*
-      border: 1px solid #f0f0f0;
-      border-radius: 4px;
-      padding: 4px;
-      margin: 12px 0;
-*/
-    }
-
+    flex-direction: column;
+    text-align: right;
+    padding-right: 0rem;
   }
 }
-.num_expvar_label {
+
+.expvar_label {
   font-size: .75rem;
   min-width: 70px
 }

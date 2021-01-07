@@ -1,9 +1,8 @@
 <!-- refactor this into header and mini view parital: shared/_profile_header -->
 <div class="company-profile">
-    <div class="columns">
+    <div class="header is-flex is-justify-content-space-between">
 
-        <div class="column is-8">
-
+        <div class="company-info">
             <div class="is-size-3"><%= @profile.company_name %></div>
             <div  class="is-size-5">
                 <%= link_to @profile.domain do %>
@@ -14,56 +13,53 @@
                     <span><%= @profile.domain %></span>
 
                 <% end %>
-
             </div>
-
-            <!-- - About -->
-            <div class="profile-label has-text-grey mt-3">About</div>
-            <p>This is a blurb. Optimizely helps businesses test out different ways to make their websites or apps more effective.</p>
-
-            <div class="profile-label has-text-grey mt-3">Related Companies</div>
-            <div>VWO, Uber</div>
-
-            <!-- Industry Tags -->
-            <div class="profile-label has-text-grey mt-3">Industries</div>
-            <div class="tags are-medium">
-                <span class="tag">One</span>
-                <span class="tag">Two</span>
-                <span class="tag">Three</span>
-            </div>
-
-            <!-- - Calc Top Tags: ignore for now?
-                 <div class="profile-label has-text-grey mt-3">Top Tags</div>
-                 <div class="tags are-medium">
-                 <span class="tag">finance</span>
-                 <span class="tag">ui/ux</span>
-                 </div>
-               -->
-
         </div>
 
-        <div class="column is-4 has-text-right has-text-left-mobile">
-
-            <div class="num_expvar">
-                <p>
-                    <span><%= @experiments.length %></span>
-                    <span class="num_expvar_label has-text-grey">
-                        <%= 'Experiment'.pluralize(@experiments.length) %>
-                    </span>
-                </p>
-            </div>
-
-            <div class="num_expvar mt-3-tablet">
-                <p>
-                    <span><%= @num_variations %></span>
-                    <span class="num_expvar_label has-text-grey">
-                        <%= 'Variation'.pluralize(@num_variations) %>
-                    </span>
-                </p>
-            </div>
-
+        <!-- expvar -->
+        <div class="expvar-wrapper is-hidden-touch">
+            <%= render partial: "/shared/num_expvar",
+            locals: {
+                expvar_date: @profile.created_at,
+                num_experiments: @experiments.length,
+                num_variations: @num_variations
+            }%>
         </div>
+
     </div>
+    <!-- - About -->
+    <div class="profile-label has-text-grey mt-3">About</div>
+    <p>This is a blurb. Optimizely helps businesses test out different ways to make their websites or apps more effective.</p>
+
+    <div class="profile-label has-text-grey mt-3">Related Companies</div>
+    <div>VWO, Uber</div>
+
+    <!-- Industry Tags -->
+    <div class="profile-label has-text-grey mt-3">Industries</div>
+    <div class="tags are-medium">
+        <span class="tag">One</span>
+        <span class="tag">Two</span>
+        <span class="tag">Three</span>
+    </div>
+
+    <!-- - Calc Top Tags: ignore for now?
+         <div class="profile-label has-text-grey mt-3">Top Tags</div>
+         <div class="tags are-medium">
+         <span class="tag">finance</span>
+         <span class="tag">ui/ux</span>
+         </div>
+       -->
+
+    <!-- expvar -->
+    <div class="expvar-wrapper is-hidden-desktop">
+    <%= render partial: "/shared/num_expvar",
+    locals: {
+        expvar_date: @profile.created_at,
+        num_experiments: @experiments.length,
+        num_variations: @num_variations
+    }%>
+    </div>
+
 
 
 </div>

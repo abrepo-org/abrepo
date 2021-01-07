@@ -9,15 +9,15 @@
 <!--
      each experiment profile could be different depending on query search
      but for profile#show it would be repetitive
-  -->
+   -->
 
 <%# unless type == "profile#show" %>
 <%# end %>
 
-<div class="experiment">
+<div class="experiment-variations-group">
+    <div class="experiment is-flex is-justify-content-space-between">
 
-    <div class="columns">
-        <div class="column is-8">
+        <div class="experiment-header">
 
             <p class="is-size-5">
                 Experiment Name: <%= experiment.summary_name %>
@@ -41,27 +41,26 @@
             </p>
         </div>
 
-        <div class="column is-4 has-text-right has-text-left-mobile">
-            <p><%= experiment.created_at %></p>
-            <div class="num_expvar">
-                <p>
-                    <span><%= experiment.variations.count %></span>
-                    <span class="num_expvar_label has-text-grey">
-                        <%= 'Variation'.pluralize(experiment.variations) %>
-                    </span>
-                </p>
-            </div>
+
+        <!-- expvar -->
+        <div class="expvar-wrapper is-hidden-touch">
+            <%= render partial: "/shared/num_expvar",
+            locals: {
+                expvar_date: experiment.created_at,
+                num_experiments: nil,
+                num_variations: experiment.variations.count
+            }%>
 
             <p><%= @vendor['name'] %></p>
         </div>
 
+
     </div>
 
-    <% experiment.variations.each do |variation| %>
+    <div class="variations">
+        <% experiment.variations.each do |variation| %>
 
-        <div class="columns is-vcentered">
-
-            <div class="column is-size-5">
+            <div class="variation is-size-5 pt-4">
 
                 <div class="is-flex is-justify-content-space-between is-align-items-flex-start">
 
@@ -79,15 +78,14 @@
                         </span>
                     </button>
 
-
                 </div>
 
                 <!-- <p class="is-size-6-5">Page Title: <%= renderable.renderedTitle %></p> -->
                 <p class="is-size-6-5"><%= renderable.renderedURL %></p>
 
                 <!-- TODO: variation.verified attribute -->
-                <div class="">
-                    <% if variation['verified'] %>
+                <% if variation['verified'] %>
+                    <div>
                         <span class="tag is-success is-light"
                               title="Variation implemented">
                             <span class="icon-text">
@@ -95,21 +93,33 @@
                                 <span class="icon"><i class="fas fa-check"></i></span>
                             </span>
                         </span>
-                    <% end %>
-                </div>
 
+                    </div>
+                <% end %>
                 <!--
-                    Tags seem redundant
-                <span class="tag is-info is-light">finance</span>
-                <span class="tag is-info is-light">ui/ux</span>
-                <span class="tag is-info is-light">navbar</span>
-                -->
+                     Tags seem redundant
+                     <span class="tag is-info is-light">finance</span>
+                     <span class="tag is-info is-light">ui/ux</span>
+                     <span class="tag is-info is-light">navbar</span>
+                   -->
                 <!-- screenshot? -->
             </div>
 
-        </div>
+        <% end %>
+    </div>
 
-    <% end %>
+
+    <!-- expvar -->
+    <div class="expvar-wrapper is-hidden-desktop mt-4">
+        <%= render partial: "/shared/num_expvar",
+        locals: {
+            expvar_date: experiment.created_at,
+            num_experiments: nil,
+            num_variations: experiment.variations.count
+        }%>
+
+        <p><%= @vendor['name'] %></p>
+    </div>
 
 </div>
 
