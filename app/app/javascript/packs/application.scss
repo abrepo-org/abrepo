@@ -89,6 +89,15 @@ main.container{
 /*
 * profile#show
 */
+//ellipsis text
+.company-info > div, .experiment-header > p, .variation a {
+  overflow:hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100vw - 150px);
+  @include from ($desktop) {
+    max-width: calc(50vw - 170px);
+  }
+}
 
 .profile_favicon {
   display:inline-block;
