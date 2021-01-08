@@ -45,6 +45,8 @@ $border-grey: rgb(227, 232, 238); //#e2e7ee
 
 #maxContainer {
   background: #fff;
+  min-height: 100vh;
+
   @include from ($desktop) {
     box-shadow: $border-grey -1px 0px 0px 0px;
   }
@@ -61,6 +63,10 @@ main.container{
     background: linear-gradient(90deg, $off-grey-color 0%, #fff 100%);
   }
 
+}
+
+footer {
+  border-top: 1px solid #000;
 }
 
 .is-size-6-5 {
