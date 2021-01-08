@@ -1,26 +1,26 @@
-<div class="expvar detected">
+<div class="expvar detected has-text-grey">
     <p>
-        <span class="expvar_label has-text-grey">detected:</span>
-        <%= expvar_date %>
+        <span class="expvar_label"></span>
+        <%= format_expvar_date(expvar_date) %>
     </p>
 </div>
 
 <% if num_experiments %>
-    <div class="expvar">
+    <div class="expvar  has-text-grey">
         <p>
             <span><%= num_experiments %></span>
-            <span class="expvar_label has-text-grey">
-                <%= 'Experiment'.pluralize(num_experiments) %>
+            <span class="expvar_label">
+                <%= 'experiment'.pluralize(num_experiments) %>
             </span>
         </p>
     </div>
 <% end %>
 
-<div class="expvar">
+<div class="expvar has-text-grey">
     <p>
         <span><%= num_variations %></span>
-        <span class="expvar_label has-text-grey">
-            <%= 'Variation'.pluralize(num_variations) %>
+        <span class="expvar_label ">
+            <%= 'variation'.pluralize(num_variations) %>
         </span>
     </p>
 </div>
