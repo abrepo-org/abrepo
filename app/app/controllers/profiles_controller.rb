@@ -1,6 +1,7 @@
 class ProfilesController < ApplicationController
 
   def index
+    p = profile_filter_params #{query: 'xyz', tag: '123'}
     @profiles = Profile.all().limit(20)
   end
 
@@ -28,5 +29,10 @@ class ProfilesController < ApplicationController
 
   def profile_params
     params.permit(:id)
-    end
+  end
+
+  def profile_filter_params
+    #NB array params must go at end
+    params.permit(:query, :utf8, tags: [], industries: [])
+  end
 end
