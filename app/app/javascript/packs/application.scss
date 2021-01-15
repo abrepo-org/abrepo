@@ -97,10 +97,14 @@ footer {
 #profile-filter-search-control {
   width: 20rem;
 }
+td.white-space-nowrap {
+  white-space: nowrap;
+}
 
 /*
-* profile#show
-*/
+ * profile#show
+ */
+
 //ellipsis text
 .company-info > div, .experiment-header > p, .variation a {
   overflow:hidden;

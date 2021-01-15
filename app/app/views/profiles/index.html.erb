@@ -73,10 +73,25 @@
 </div>
 <hr />
 
+<div class="profiles-data">
 
-<div class="profiles_header">
-    profiles header: name, domain, etc..
+    <table class="table is-fullwidth is-striped">
+        <thead>
+            <tr>
+                <th></th> <!-- Favicon -->
+                <th>Profile</th>
+                <th>Description</th>
+                <th>Industries</th>
+                <th>Tags</th>
+                <th>Updated</th><!-- New -->
+            </tr>
+        </thead>
+        <tbody>
+
+            <% @profiles.each do |profile| %>
+                <%= render partial: "profile_table_row", locals: {profile: profile} %>
+            <% end %>
+        </tbody>
+    </table>
+
 </div>
-<% @profiles.each do |profile| %>
-    <%= render partial: "profile_card", locals: {profile: profile} %>
-<% end %>

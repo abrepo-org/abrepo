@@ -1,0 +1,32 @@
+<!--
+     attributes to render:
+     favicon
+     company_name | domain (fallback)
+     brief description
+     industry
+     tags
+     date
+   -->
+<tr>
+    <td>
+        <span class="profile_favicon">
+            <%= image_tag('https://www.' + profile.domain + '/favicon.ico') %>
+        </span>
+
+    </td>
+    <td>
+        <%= link_to profile_path(profile) do %>
+            <span><%= profile.company_name || profile.domain %></span>
+        <% end  %>
+    </td>
+
+    <td>A/B Testing helps businesses test out different ways to make their websites or apps more effective.</td>
+
+    <td>industry 1, industry 2, industry 3</td>
+
+    <td>taggg 1, tag 2, tag 3, tag 4</td>
+
+    <td class="white-space-nowrap has-text-centered">
+        <%=format_profile_date(profile.updated_at)%>
+    </td>
+</tr>
