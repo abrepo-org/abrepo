@@ -59,8 +59,8 @@
         </div>
     <% end %>
 
-    <p>Tags: <%= params[:tags].reject(&:blank?) %></p>
-    <p>Industries: <%= params[:industries].reject(&:blank?) %></p>
+    <p>Tags: <%= (params[:tags] || []).reject(&:blank?) %></p>
+    <p>Industries: <%= (params[:industries] || []).reject(&:blank?) %></p>
 
     <!--
          want to avoid 'ajax' table filter; instead prsent as resulting query and display
