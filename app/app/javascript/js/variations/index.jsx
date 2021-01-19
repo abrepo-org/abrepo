@@ -190,8 +190,16 @@ export default class Variation extends React.Component {
                              <div className="column is-full">
                                  {/* not sure controls should be sticky */}
                                  {/* diff control placeholders */}
-                                 <button>text</button>
-                                 <button>css</button>
+                                 <button>
+                                     <span class="icon is-small">
+                                         <i class="fas fa-font"></i>
+                                     </span>
+                                 </button>
+                                 <button>
+                                     <span class="icon is-small">
+                                         <i class="fab fa-css3"></i>
+                                     </span>
+                                 </button>
                              </div>
                          </div>
 
@@ -215,10 +223,26 @@ export default class Variation extends React.Component {
                              <div className="column is-full">
                                  {/* renderable control placeholders */}
 
-                                 <button className="is-hidden-touch">double view split</button>
-                                 <button className="is-hidden-touch">single full view</button>
+                                 <button className="is-hidden-touch" title="comparison view">
+                                     <span class="icon is-small">
+                                         <i class="far fa-copy"></i>
+                                     </span>
+                                 </button>
+                                 <button className="is-hidden-touch" title="full view">
+                                     <span class="icon is-small">
+                                         <i class="far fa-file"></i>
+                                     </span>
+                                 </button>
                                  <button onClick={() => this.togglebboxClickHandler()}>
-                                     Toggle
+                                     <span class="icon is-small" title="toggle bounding boxes">
+                                         {this.state.bboxVisible ?
+                                          <i class="fas fa-toggle-on"></i> :
+                                          <i class="fas fa-toggle-off"></i>
+
+                                         }
+
+                                     </span>
+
                                  </button>
 
                              </div>
