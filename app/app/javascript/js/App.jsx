@@ -9,9 +9,6 @@ export default class App extends React.Component {
     }
 
     render() {
-        //console.log("crawlID", this.state.data.renderable.crawlId);
-
         return  <Variation {...this.props} />
-
     }
 }

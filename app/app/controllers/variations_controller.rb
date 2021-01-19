@@ -11,15 +11,23 @@ class VariationsController < ApplicationController
     @campaign = @experiment.campaign
     @profile = @experiment.profile
     @actions = @variation.actions
-    #action sort?
+
+    #TODO: action sort; assumption require null action to be first?
     renderables = Renderable
                     .where(variation_id: @variation, control:false)
                     .order(id: :desc)
-
     @renderable = renderables[0]
-    @controlRenderable = @renderable.controlRenderable
 
-    #puts @renderables.length
+    @actionRenderables = {}
+    renderables.each do |renderable|
+      @actionRenderables[renderable.action_id] = {
+        renderable: renderable.to_render,
+        controlRenderable: renderable.controlRenderable.to_render
+      }
+    end
+
+    @variation_index = @experiment.variations.find_index(@variation)
+
 
   end
 

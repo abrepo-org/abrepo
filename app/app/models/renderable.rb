@@ -55,7 +55,7 @@ class Renderable < ApplicationRecord
 
   def to_render(options = {})
 
-    to_json({methods: [:screenshot, :sortedDiffs],
+    as_json({methods: [:screenshot, :sortedDiffs],
              except: [:id, :a_id, :variation_id, :renderable_id, :action_id,
                       :updated_at, :created_at]}
               .merge(options))

@@ -38,9 +38,9 @@ class Action < ApplicationRecord
 
   validates :a_id, :url, presence: true
 
-
   def to_render(options = {})
-    self.slice(:id, :actionType, :crawlId, :selector, :url, :waitfor)
+    as_json({except: [:crawlId, :created_at,:updated_at, :a_id]}
+              .merge(options))
   end
 
 end

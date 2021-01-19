@@ -1,35 +1,65 @@
-<section class="header">
-    <div class="columns">
-        <div class="column is-full">
+<section class="variation">
+    <div class="header is-flex is-justify-content-space-between">
 
-            <!-- Profile -->
-            <div>
-                <span class="profile_favicon">
-                    <%= image_tag('https://www.' + @profile.domain + '/favicon.ico')%>
-                </span>
-                <span><%= @profile.domain %></span>
+        <div class="variation-info">
+
+            <!-- Variation -->
+            <div class="is-size-3"><%= @variation.summary_name || "Variation Name" %></div>
+            <div class="tags are-medium">
+                <span class="tag is-info is-light" >Redesign</span>
+                <span class="tag is-info is-light" >Rename</span>
+                <span class="tag is-info is-light" >UI/UX</span>
             </div>
 
-            <div> Title: <%= @renderable.renderedTitle %> </div>
-            <!-- view not going to be available across vendors..-->
-            <div> View: ? </div>
-            <div> URL: <%= @renderable.renderedURL %> </div>
-
             <!-- Experiment -->
+            <div class="has-text-grey">Experiment</div>
+            <div><%= @experiment.summary_name || "Experiment name" %></div>
 
-            <div> Experiment: <%= @experiment.summary_name %> </div>
-            <!--
-                 <div> campaign: <%= @campaign.name %> </div>
+            <% if @audience.name %>
+                <div class="has-text-grey mt-3">Targeting</div>
+                <div><%= @audience.name %></div>
+            <% end %>
+
+            <!-- campaign not available across vendors,
+                 TODO: deprecate and fold this into variation summary
                -->
-            <div> Targeting: <%= @audience.name %> </div>
+            <% if @campaign.name %>
+                <div class="has-text-grey mt-3">Group</div>
+                <div><%= @campaign.name %></div>
+            <% end %>
 
-            <div>Variation: <%= @variation.summary_name %></div>
 
-            <div>Tags: [redesign, rename..]</div>
+            <!-- Views -->
+            <!-- view not available across vendors -->
+            <% unless @variation['view'].nil? %>
+                <div class="has-text-grey mt-3">View</div>
+                <div> ? </div>
+            <% end %>
+
+            <div class="has-text-grey mt-3"> Page Title:</div>
+            <div><%= @renderable.renderedTitle %> </div>
+
+            <div class="has-text-grey mt-3"> URL:</div>
+            <div><%= @renderable.renderedURL %> </div>
 
         </div>
+
+        <div class="variation-stats mt-2 is-hidden-touch">
+            <%= render partial: "stats", locals: { profile: @profile,
+                variation_index: @variation_index,
+                total: @experiment.variations.count }%>
+        </div>
+
     </div>
+
+    <div class="variation-stats mt-3 is-hidden-desktop is-flex is-justify-content-space-between">
+        <%= render partial: "stats", locals: { profile: @profile,
+            variation_index: @variation_index,
+            total: @experiment.variations.count  }%>
+    </div>
+
 </section>
+<hr />
 
 <!--
      separate variation here, make it navigable toggle?
@@ -39,6 +69,6 @@
 
 <script id="renderableData" type="text/javascript">
  window.abrepo = window.abrepo || {}
- window.abrepo.renderable = <%= @renderable.to_render.html_safe %>
- window.abrepo.controlRenderable = <%= @controlRenderable.to_render.html_safe %>
+ window.abrepo.actions = <%= @actions.map{ |a| a.to_render }.to_json.html_safe %>
+ window.abrepo.actionRenderables = <%= @actionRenderables.to_json.html_safe %>
 </script>

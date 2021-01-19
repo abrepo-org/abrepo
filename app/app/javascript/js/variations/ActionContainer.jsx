@@ -45,7 +45,7 @@ export default class ActionContainer extends React.Component {
 
         return(
 
-            <table class="table is-fullwidth variation-action">
+            <table className="table is-fullwidth variation-action">
                 <thead>
                     <tr>
                         <th>Show</th>
@@ -59,7 +59,7 @@ export default class ActionContainer extends React.Component {
                          return(
                              <tr key={action.id}>
                                  <td>
-                                     <div class="control">
+                                     <div className="control">
                                          <input type="radio" name="action"  />
                                      </div>
                                  </td>

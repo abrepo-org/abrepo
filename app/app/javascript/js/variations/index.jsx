@@ -13,8 +13,16 @@ export default class Variation extends React.Component {
 
         console.log('<Variation>', this.props.data);
 
+        //set initial Action and Renderables
+        const activeAction = this.props.data.actions[0];
+        const activeRenderable = this.props.data.actionRenderables[activeAction.id].renderable;
+        const activeControlRenderable = this.props.data.actionRenderables[activeAction.id].controlRenderable;
+
         this.state = {
-            diffs: this.props.data.renderable.sortedDiffs,
+            activeAction,
+            activeRenderable,
+            activeControlRenderable,
+            diffs: activeRenderable.sortedDiffs,
 
             //used for height of diff & renderable scrollbars
             renderableHeight: window.innerHeight,
@@ -142,7 +150,7 @@ export default class Variation extends React.Component {
         return (
         <>
         <section className="action">
-            <ActionContainer {...this.props} />
+            <ActionContainer activeAction={this.state.activeAction} {...this.props} />
         </section>
 
         <hr />
@@ -196,7 +204,7 @@ export default class Variation extends React.Component {
 
                         <RenderableContainer label="Variation"
                                              diffs={this.state.diffs}
-                                             renderable={this.props.data.renderable}
+                                             renderable={this.state.activeRenderable}
                                              bboxVisible={this.state.bboxVisible}
                                              diffBboxHoverId={this.state.diffBboxHoverId}
                                              diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
@@ -206,7 +214,7 @@ export default class Variation extends React.Component {
 
                         <RenderableContainer label="Original"
                                              diffs={this.state.diffs}
-                                             renderable={this.props.data.controlRenderable}
+                                             renderable={this.state.activeControlRenderable}
                                              bboxVisible={this.state.bboxVisible}
                                              diffBboxHoverId={this.state.diffBboxHoverId}
                                              diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
