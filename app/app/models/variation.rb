@@ -25,7 +25,7 @@ class Variation < ApplicationRecord
   has_one :vendor
 
   has_many :renderables
-  has_many :actions, through: :renderables
+  has_many :actions, -> { distinct }, through: :renderables
 
   validates :a_id, :experiment_id, :vendor_id, presence: true
 end

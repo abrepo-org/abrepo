@@ -11,11 +11,11 @@ export default class Variation extends React.Component {
 
         super(props);
 
-        console.log('hi from Variation');
-        console.log(this.props.data);
+        console.log('<Variation>', this.props.data);
 
         this.state = {
             diffs: this.props.data.renderable.sortedDiffs,
+
             //used for height of diff & renderable scrollbars
             renderableHeight: window.innerHeight,
             bboxVisible: true,
@@ -145,6 +145,7 @@ export default class Variation extends React.Component {
             <ActionContainer {...this.props} />
         </section>
 
+        <hr />
         <section className="renderableDiffs">
 
             <div className="columns">

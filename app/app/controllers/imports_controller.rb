@@ -72,7 +72,7 @@ class ImportsController < ApplicationController
                      .select { |action| action['_id'] == action_id }
                      .first
 
-    @action = Action.where(type: activeAction['type'],
+    @action = Action.where(actionType: activeAction['type'],
                            selector: activeAction['selector'],
                            url: activeAction['url'],
                            crawlId: crawlId,

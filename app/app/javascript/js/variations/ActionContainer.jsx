@@ -7,49 +7,71 @@ export default class ActionContainer extends React.Component {
         super(props);
         console.log("ActionContainer");
     }
+    /*
+
+       Behavior:
+
+       if only default action, "null action" row is hidden - no
+       discernable action.
+
+       if there is an action, set action toggle on/off on the max
+       bbox renderable
+       e.g null 1 diff vs A2 - 3 diffs, set toggle on A2
+
+       What if A4, A3, A2, etc.?
+       a. Filter out empty bbox
+       b. set default toggle on max (rest are off)
+
+       View:
+       Toggle [on|off| | Action | Selector | Description
+
+       TODO: Action selector highlights are like bbox blue; maybe fickker?
+       This would need abrender dims
+
+       ----
+
+       on mobile, stack
+       this.props.action &&
+       const action = {
+       id: 123,
+       type: "CLICK",
+       selector: ".xyz",
+       url: "https://www.optimizely.com"
+       }
+
+     */
 
     render() {
-/*
 
-        Behavior:
-
-        if only default action, "null action" row is hidden - no
-        discernable action.
-
-        if only action visible change (no bbox on null action
-        renderables), set the action set renderables as the default
-        "start" selected view
-
-        ----
-
-        Layout: fixed row above controls: table view?  action [click,
-        scroll]: selector: <body>, description
-
-        on click triggers view of new diff/renderables on hover,
-        highlights blue
-
-        default action 'bbox' - 'flickering'
-
-        on mobile, stack
-*/
         return(
 
-            <div className="columns">
-              <div className="column is-full">
-
-                <h3> Actions </h3>
-
-                { this.props.action &&
-                  <>
-                  <p> id: { this.props.action.id }</p>
-                  <p> Action Type: { this.props.action.type } </p>
-                  <p> Selector Type: { this.props.action.selector } </p>
-                  <p> URL: { this.props.action.url } </p>
-                  </>
-                }
-                  <hr/>
-              </div>
-            </div>
+            <table class="table is-fullwidth variation-action">
+                <thead>
+                    <tr>
+                        <th>Show</th>
+                        <th>Action</th>
+                        <th>Selector</th>
+                        <th>URL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {this.props.data.actions.map( action =>  {
+                         return(
+                             <tr key={action.id}>
+                                 <td>
+                                     <div class="control">
+                                         <input type="radio" name="action"  />
+                                     </div>
+                                 </td>
+                                 <td> { action.actionType } </td>
+                                 <td> { action.selector } </td>
+                                 <td> { action.url } </td>
+                             </tr>
+                         )
+                     })
+                    }
+                </tbody>
+            </table>
 
         );
 

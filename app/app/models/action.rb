@@ -37,4 +37,10 @@ class Action < ApplicationRecord
   has_many :variations, through: :renderables
 
   validates :a_id, :url, presence: true
+
+
+  def to_render(options = {})
+    self.slice(:id, :actionType, :crawlId, :selector, :url, :waitfor)
+  end
+
 end
