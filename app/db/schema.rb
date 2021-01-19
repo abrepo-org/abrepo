@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_24_050751) do
+ActiveRecord::Schema.define(version: 2021_01_19_010359) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "actions", force: :cascade do |t|
-    t.string "type"
+    t.string "actionType"
     t.string "url"
     t.string "selector"
     t.integer "waitfor"

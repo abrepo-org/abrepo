@@ -3,9 +3,9 @@
 # Table name: actions
 #
 #  id         :bigint           not null, primary key
+#  actionType :string
 #  crawlId    :string
 #  selector   :string
-#  type       :string
 #  url        :string
 #  waitfor    :integer
 #  created_at :datetime         not null
