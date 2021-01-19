@@ -12,22 +12,26 @@ class VariationsController < ApplicationController
     @profile = @experiment.profile
     @actions = @variation.actions
 
-    #TODO: action sort; assumption require null action to be first?
-    renderables = Renderable
-                    .where(variation_id: @variation, control:false)
-                    .order(id: :desc)
-    @renderable = renderables[0]
+    #Sorted actions
+    #sort by highest number of diffs, tie break to null Action
+    #then return those actions
+    if (@actions.count > 1)
+      @actions = @variation.renderables.where(control: false)
+                   .sort_by{ |r| [r.diffs.count, r.action.actionType == nil ? 1 : 0] }
+                   .reverse.map(&:action)
+    end
 
+    #main window.abrepo obj
     @actionRenderables = {}
-    renderables.each do |renderable|
+    @variation.renderables.where(control: false).each do |renderable|
       @actionRenderables[renderable.action_id] = {
         renderable: renderable.to_render,
         controlRenderable: renderable.controlRenderable.to_render
       }
     end
 
+    @renderable = @actionRenderables[ @actions[0].id ][:renderable]
     @variation_index = @experiment.variations.find_index(@variation)
-
 
   end
 
