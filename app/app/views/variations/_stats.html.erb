@@ -1,0 +1,16 @@
+<div>
+    <!-- TODO: add anchor link to experiment -->
+    <%= link_to profile_path(profile) do %>
+
+        <span class="profile_favicon">
+            <%= image_tag('https://www.' + profile.domain + '/favicon.ico') %>
+        </span>
+        <span><%= profile.company_name || profile.domain %></span>
+
+    <% end %>
+</div>
+<div>
+
+    <span><%= variation_index + 1%></span> / <span><%= total %></span>
+    <span>Variations</span>
+</div>
