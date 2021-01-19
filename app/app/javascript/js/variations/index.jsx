@@ -24,6 +24,9 @@ export default class Variation extends React.Component {
             activeControlRenderable,
             diffs: activeRenderable.sortedDiffs,
 
+            //Render action panel condition
+            hasActions: this.props.data.actions.length > 1,
+
             //used for height of diff & renderable scrollbars
             renderableHeight: window.innerHeight,
             bboxVisible: true,
@@ -164,89 +167,95 @@ export default class Variation extends React.Component {
 
         return (
         <>
-        <section className="action">
-            <ActionContainer activeAction={this.state.activeAction}
-                             actionSelectHandler={this.actionSelectHandler.bind(this)}
-                             {...this.props} />
-        </section>
 
-        <hr />
-        <section className="renderableDiffs">
+            {this.state.hasActions &&
+             <>
+             {/* Action Container */}
+             <section className="action">
+                 <ActionContainer activeAction={this.state.activeAction}
+                                  actionSelectHandler={this.actionSelectHandler.bind(this)}
+                                  {...this.props} />
+             </section>
+             <hr />
+             </>
+            }
 
-            <div className="columns">
+             <section className="renderableDiffs">
 
-                <div className="column is-3 is-hidden-touch">
+                 <div className="columns">
 
-                    <div className="columns">
-                        <div className="column is-full">
-                            {/* not sure controls should be sticky */}
-                            {/* diff control placeholders */}
-                            <button>text</button>
-                            <button>css</button>
-                        </div>
-                    </div>
+                     <div className="column is-3 is-hidden-touch">
 
-                    <div className="columns" >
-                        <div className="column"
-                             style={diffWrapStyle} ref={this.diffPanelRef}>
-                            <DiffContainer diffs={this.state.diffs}
-                                           diffBboxHoverId={this.state.diffBboxHoverId}
-                                           diffClickHandler={this.diffClickHandler.bind(this)}
-                                           diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
-                                           {...this.props}
-                            />
+                         <div className="columns">
+                             <div className="column is-full">
+                                 {/* not sure controls should be sticky */}
+                                 {/* diff control placeholders */}
+                                 <button>text</button>
+                                 <button>css</button>
+                             </div>
+                         </div>
 
-                        </div>
-                    </div>
-                </div>
+                         <div className="columns" >
+                             <div className="column"
+                                  style={diffWrapStyle} ref={this.diffPanelRef}>
+                                 <DiffContainer diffs={this.state.diffs}
+                                                diffBboxHoverId={this.state.diffBboxHoverId}
+                                                diffClickHandler={this.diffClickHandler.bind(this)}
+                                                diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
+                                                {...this.props}
+                                 />
 
-                <div className="column">
+                             </div>
+                         </div>
+                     </div>
 
-                    <div className="columns">
-                        <div className="column is-full">
-                            {/* renderable control placeholders */}
+                     <div className="column">
 
-                            <button className="is-hidden-touch">double view split</button>
-                            <button className="is-hidden-touch">single full view</button>
-                            <button onClick={() => this.togglebboxClickHandler()}>
-                                Toggle
-                            </button>
+                         <div className="columns">
+                             <div className="column is-full">
+                                 {/* renderable control placeholders */}
 
-                        </div>
-                    </div>
+                                 <button className="is-hidden-touch">double view split</button>
+                                 <button className="is-hidden-touch">single full view</button>
+                                 <button onClick={() => this.togglebboxClickHandler()}>
+                                     Toggle
+                                 </button>
 
-
-                    <div className="columns" style={renderableContainerWrapStyle}
-                         ref={this.renderablePanelRef}>
-
-                        <RenderableContainer label="Variation"
-                                             diffs={this.state.diffs}
-                                             renderable={this.state.activeRenderable}
-                                             bboxVisible={this.state.bboxVisible}
-                                             diffBboxHoverId={this.state.diffBboxHoverId}
-                                             diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
-                                             bboxClickHandler={this.bboxClickHandler.bind(this)}
-                                             {...this.props} />
+                             </div>
+                         </div>
 
 
-                        <RenderableContainer label="Original"
-                                             diffs={this.state.diffs}
-                                             renderable={this.state.activeControlRenderable}
-                                             bboxVisible={this.state.bboxVisible}
-                                             diffBboxHoverId={this.state.diffBboxHoverId}
-                                             diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
-                                             bboxClickHandler={this.bboxClickHandler.bind(this)}
-                                             {...this.props} />
+                         <div className="columns" style={renderableContainerWrapStyle}
+                              ref={this.renderablePanelRef}>
 
-                        <MobileModal isOpen={this.state.mobileModalIsOpen}
-                                     content={this.state.mobileModalContent}
-                                     mobileModalCloseHandler={this.mobileModalCloseHandler.bind(this)}
-                        />
-                    </div>
-                </div>
-            </div>
-        </section>
-        </>
+                             <RenderableContainer label="Variation"
+                                                  diffs={this.state.diffs}
+                                                  renderable={this.state.activeRenderable}
+                                                  bboxVisible={this.state.bboxVisible}
+                                                  diffBboxHoverId={this.state.diffBboxHoverId}
+                                                  diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
+                                                  bboxClickHandler={this.bboxClickHandler.bind(this)}
+                                                  {...this.props} />
+
+
+                             <RenderableContainer label="Original"
+                                                  diffs={this.state.diffs}
+                                                  renderable={this.state.activeControlRenderable}
+                                                  bboxVisible={this.state.bboxVisible}
+                                                  diffBboxHoverId={this.state.diffBboxHoverId}
+                                                  diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
+                                                  bboxClickHandler={this.bboxClickHandler.bind(this)}
+                                                  {...this.props} />
+
+                             <MobileModal isOpen={this.state.mobileModalIsOpen}
+                                          content={this.state.mobileModalContent}
+                                          mobileModalCloseHandler={this.mobileModalCloseHandler.bind(this)}
+                             />
+                         </div>
+                     </div>
+                 </div>
+             </section>
+             </>
 
         )
 
