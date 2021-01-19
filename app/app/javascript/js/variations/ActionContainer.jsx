@@ -56,11 +56,19 @@ export default class ActionContainer extends React.Component {
                 </thead>
                 <tbody>
                     {this.props.data.actions.map( action =>  {
+
+                         const isChecked = (action.id == this.props.activeAction.id)
+
                          return(
                              <tr key={action.id}>
                                  <td>
                                      <div className="control">
-                                         <input type="radio" name="action"  />
+                                         <input type="radio"
+                                                name="action"
+                                                value={action.id}
+                                                defaultChecked={isChecked}
+                                                onChange={(e) => this.props.actionSelectHandler(e)}
+                                         />
                                      </div>
                                  </td>
                                  <td> { action.actionType } </td>

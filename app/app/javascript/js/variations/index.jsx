@@ -46,6 +46,21 @@ export default class Variation extends React.Component {
     //diff click -> bbox scrollTo
     //diff_id 0 to "turn off?"
 
+    actionSelectHandler(e) {
+        console.log("CLICK actionSelectHandler", e.target);
+        const actionID = e.target.value
+
+        const activeAction = this.props.data.actions.find( action => action.id == actionID);
+        const activeRenderable = this.props.data.actionRenderables[activeAction.id].renderable;
+        const activeControlRenderable = this.props.data.actionRenderables[activeAction.id]
+                                            .controlRenderable;
+        const diffs = activeRenderable.sortedDiffs;
+
+        this.setState({
+            activeAction, activeRenderable, activeControlRenderable, diffs
+        })
+    }
+
     diffBboxHoverHandler(diff_id) {
         //console.log("diffBboxHoverHandler", diff_id);
         this.setState({
@@ -150,7 +165,9 @@ export default class Variation extends React.Component {
         return (
         <>
         <section className="action">
-            <ActionContainer activeAction={this.state.activeAction} {...this.props} />
+            <ActionContainer activeAction={this.state.activeAction}
+                             actionSelectHandler={this.actionSelectHandler.bind(this)}
+                             {...this.props} />
         </section>
 
         <hr />
