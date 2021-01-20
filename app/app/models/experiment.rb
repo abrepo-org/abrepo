@@ -23,10 +23,10 @@
 
 class Experiment < ApplicationRecord
   belongs_to :profile
-  has_many :variations
-  has_one :vendor
-  has_one :campaign
-  has_one :audience
+  has_many :variations, dependent: :destroy
+  has_one :vendor, dependent: :destroy
+  has_one :campaign, dependent: :destroy
+  has_one :audience, dependent: :destroy
 
   validates :crawlId, :domain, :a_id, :profile_id, :vendor_id, presence: true
 end

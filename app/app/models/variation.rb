@@ -24,7 +24,7 @@ class Variation < ApplicationRecord
   belongs_to :experiment
   has_one :vendor
 
-  has_many :renderables
+  has_many :renderables, dependent: :destroy
   has_many :actions, -> { distinct }, through: :renderables
 
   validates :a_id, :experiment_id, :vendor_id, presence: true

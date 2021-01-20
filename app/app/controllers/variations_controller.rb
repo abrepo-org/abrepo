@@ -6,6 +6,9 @@ class VariationsController < ApplicationController
                                     experiment: [:profile, :audience, :campaign])
                    .find_by_id( variation_params[:id] )
 
+    raise ActionController::RoutingError.new('Not Found') if (@variation.nil?)
+
+
     @experiment = @variation.experiment
     @audience = @experiment.audience
     @campaign = @experiment.campaign
