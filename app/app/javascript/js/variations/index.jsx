@@ -225,12 +225,12 @@ export default class Variation extends React.Component {
 
                                  <button className="is-hidden-touch" title="comparison view">
                                      <span className="icon is-small">
-                                         <i className="far fa-copy"></i>
+                                         <i className="fas fa-columns"></i>
                                      </span>
                                  </button>
                                  <button className="is-hidden-touch" title="full view">
                                      <span className="icon is-small">
-                                         <i className="far fa-file"></i>
+                                         <i className="far fa-square"></i>
                                      </span>
                                  </button>
                                  <button onClick={() => this.togglebboxClickHandler()}>
