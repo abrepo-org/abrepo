@@ -1,9 +1,7 @@
 /* variation detail */
 
-//TODO: make consistent color with bboxq
-$addColor: green;
-$removeColor: red;
-
+$addColorIcon: #228b22; //green;
+$removeColorIcon: #e03c31; //red
 
 .variation-stats {
   min-width: 200px;
@@ -31,9 +29,9 @@ button {
   padding-top:2px;
 }
 .diffPanel .icon-add {
-  color: $addColor;
+  color: $addColorIcon;
 }
 .diffPanel .icon-remove {
-  color: $removeColor;
+  color: $removeColorIcon;
 }
 /* action */

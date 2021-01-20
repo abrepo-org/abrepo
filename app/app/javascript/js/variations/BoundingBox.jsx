@@ -6,10 +6,10 @@ export default class BoundingBox extends React.Component {
     constructor(props) {
         super(props);
 
-        //DiffType colors
+        //DiffType colors: require contrast, so darker tends to be better visually
         const colors = {
             'ADDED': 'green',
-            'CHANGED': 'pink',
+            'CHANGED': 'blueviolet',
             'REMOVED': 'red'
         };
 
