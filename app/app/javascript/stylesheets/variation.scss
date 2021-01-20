@@ -1,5 +1,10 @@
 /* variation detail */
 
+//TODO: make consistent color with bboxq
+$addColor: green;
+$removeColor: red;
+
+
 .variation-stats {
   min-width: 200px;
   text-align: right;
@@ -10,7 +15,25 @@ button {
   cursor: pointer;
 }
 
+/* Diff Panel */
 .diffPanel .diff {
   overflow-wrap: break-word;
+}
+
+.diffPanel .icon {
+  display:inline-block;
+  font-size: .75rem;
+}
+
+/* adjust vertical position of icon since we shrink font-size above */
+.diffPanel i {
+  vertical-align: top;
+  padding-top:2px;
+}
+.diffPanel .icon-add {
+  color: $addColor;
+}
+.diffPanel .icon-remove {
+  color: $removeColor;
 }
 /* action */

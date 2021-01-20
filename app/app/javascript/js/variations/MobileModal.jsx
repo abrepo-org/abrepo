@@ -21,7 +21,7 @@ export default class MobileModal extends React.Component {
                         <button onClick={() => this.props.mobileModalCloseHandler()}
                                 className="delete" aria-label="close"></button>
                     </header>
-                    <section className="modal-card-body">
+                    <section className="modal-card-body diffPanel">
 
                         <DiffView diff={this.props.content.diff} />
 

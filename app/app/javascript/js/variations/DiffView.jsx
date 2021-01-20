@@ -17,15 +17,35 @@ export default class DiffView extends React.Component  {
                 <div className="has-text-grey">Selector</div>
                 <div>{this.props.diff.selector}</div>
 
+            { (this.props.diff.summary_added || this.props.diff.summary_removed) &&
+              <>
                 <div className="has-text-grey mt-3">Summary</div>
                 <div>{this.props.diff.summary_delta}</div>
-                
-                {/*
-                <p> type: { this.props.diff.diffType } </p>
-                <p> summary_delta: { this.props.diff.summary_delta } </p>
-                <p> summary_added: { this.props.diff.summary_added } </p>
-                <p> summary_removed: { this.props.diff.summary_removed } </p>
-                */}
+              </>
+            }
+
+            {this.props.diff.summary_added &&
+                <div>
+                    <span className="icon is-small icon-add">
+                        <i className="fas fa-plus"></i>
+                    </span>
+                    <span className="summary-added">
+                        {this.props.diff.summary_added}
+                    </span>
+                </div>
+                }
+
+                {this.props.diff.summary_removed &&
+                <div>
+                    <span className="icon is-small icon-remove">
+                        <i className="fas fa-minus"></i>
+                    </span>
+                    <span className="summary-removed">
+                        {this.props.diff.summary_removed}
+                    </span>
+                </div>
+                }
+
             </div>
         )
     }
