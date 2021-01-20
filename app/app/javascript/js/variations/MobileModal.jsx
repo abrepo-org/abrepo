@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import DiffView from './DiffView.jsx';
 
 export default class MobileModal extends React.Component {
 
@@ -16,13 +17,14 @@ export default class MobileModal extends React.Component {
                 <div className="modal-background"></div>
                 <div className="modal-card">
                     <header className="modal-card-head">
-                        <p className="modal-card-title">Modal title</p>
+                        <p className="modal-card-title">Diff</p>
                         <button onClick={() => this.props.mobileModalCloseHandler()}
                                 className="delete" aria-label="close"></button>
                     </header>
                     <section className="modal-card-body">
-                        {/* Diff partial use here */}
-                        {this.props.content}
+
+                        <DiffView diff={this.props.content.diff} />
+
                     </section>
                     <footer className="modal-card-foot">
                         <button className="button is-success">Save changes</button>

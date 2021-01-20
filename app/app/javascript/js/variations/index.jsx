@@ -33,7 +33,7 @@ export default class Variation extends React.Component {
             diffBboxHoverId: null,
 
             mobileModalIsOpen: false,
-            mobileModalContent: null
+            mobileModalContent: {diff: null}
         }
 
         this.diffPanelRef = React.createRef();
@@ -98,7 +98,7 @@ export default class Variation extends React.Component {
 
         this.setState({
             mobileModalIsOpen: false,
-            mobileModalContent: ''
+            mobileModalContent: {diff: null}
         });
     }
 
@@ -111,7 +111,7 @@ export default class Variation extends React.Component {
             //launch modal or tooltip or something
             this.setState({
                 mobileModalIsOpen: true,
-                mobileModalContent: diff.id
+                mobileModalContent: { diff }
             });
             return;
         }
@@ -191,20 +191,20 @@ export default class Variation extends React.Component {
                                  {/* not sure controls should be sticky */}
                                  {/* diff control placeholders */}
                                  <button>
-                                     <span class="icon is-small">
-                                         <i class="fas fa-font"></i>
+                                     <span className="icon is-small">
+                                         <i className="fas fa-font"></i>
                                      </span>
                                  </button>
                                  <button>
-                                     <span class="icon is-small">
-                                         <i class="fab fa-css3"></i>
+                                     <span className="icon is-small">
+                                         <i className="fab fa-css3"></i>
                                      </span>
                                  </button>
                              </div>
                          </div>
 
                          <div className="columns" >
-                             <div className="column"
+                             <div className="column diffPanel"
                                   style={diffWrapStyle} ref={this.diffPanelRef}>
                                  <DiffContainer diffs={this.state.diffs}
                                                 diffBboxHoverId={this.state.diffBboxHoverId}
@@ -224,20 +224,20 @@ export default class Variation extends React.Component {
                                  {/* renderable control placeholders */}
 
                                  <button className="is-hidden-touch" title="comparison view">
-                                     <span class="icon is-small">
-                                         <i class="far fa-copy"></i>
+                                     <span className="icon is-small">
+                                         <i className="far fa-copy"></i>
                                      </span>
                                  </button>
                                  <button className="is-hidden-touch" title="full view">
-                                     <span class="icon is-small">
-                                         <i class="far fa-file"></i>
+                                     <span className="icon is-small">
+                                         <i className="far fa-file"></i>
                                      </span>
                                  </button>
                                  <button onClick={() => this.togglebboxClickHandler()}>
-                                     <span class="icon is-small" title="toggle bounding boxes">
+                                     <span className="icon is-small" title="toggle bounding boxes">
                                          {this.state.bboxVisible ?
-                                          <i class="fas fa-toggle-on"></i> :
-                                          <i class="fas fa-toggle-off"></i>
+                                          <i className="fas fa-toggle-on"></i> :
+                                          <i className="fas fa-toggle-off"></i>
 
                                          }
 

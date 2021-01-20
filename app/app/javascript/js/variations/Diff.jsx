@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import DiffView from './DiffView.jsx';
 
 export default class Diff extends React.Component {
 
@@ -57,21 +58,11 @@ export default class Diff extends React.Component {
               ref={this.diffRef} style={rectStyle}
               onClick={() => this.props.diffClickHandler(this.diffRef, this.props.diff)}
               onMouseEnter={ () => this.props.diffBboxHoverHandler(this.props.diff.id)}
-              onMouseLeave={ () => this.props.diffBboxHoverHandler(0)} >
+              onMouseLeave={ () => this.props.diffBboxHoverHandler(0)}>
 
-              {/*TODO:
-                  1. font awesome icons for summary_x
-                  2. extract this out to a partial for reuse in MobileModal
-                  */
-              }
+                <DiffView diff={this.props.diff} />
 
-                <p> Diff: {this.props.diff.id} </p>
-                <p> Selector: { this.props.diff.selector } </p>
-                <p> type: { this.props.diff.diffType } </p>
-                <p> summary_delta: { this.props.diff.summary_delta } </p>
-                <p> summary_added: { this.props.diff.summary_added } </p>
-                <p> summary_removed: { this.props.diff.summary_removed } </p>
-                <hr/>
+                <hr />
             </div>
         );
     }
