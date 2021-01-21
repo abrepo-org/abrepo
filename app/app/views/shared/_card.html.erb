@@ -57,10 +57,11 @@
 
     </div>
 
+    <% num_show = 5 #num_show before 'show more' is activated %>
     <div class="variations">
-        <% experiment.variations.each do |variation| %>
+        <% experiment.variations.each_with_index do |variation, index| %>
 
-            <div class="variation is-size-5 pt-4">
+            <div class="variation is-size-5 pt-4 <%= 'is-invisible' if index > num_show - 1 %> ">
 
                 <div class="is-flex is-justify-content-space-between is-align-items-flex-start">
 
@@ -107,6 +108,15 @@
 
         <% end %>
     </div>
+
+    <% if (experiment.variations.length) > num_show %>
+        <div class="toggle pt-4" onClick="window.abrepo.variation_showmore()">
+            <span class="icon-text is-flex is-justify-content-center is-flex-direction-column is-align-items-center">
+                Show <%= experiment.variations.length - num_show %> More
+                <i class="fas fa-chevron-down has-text-info"></i>
+            </span>
+        </div>
+    <% end %>
 
 
     <!-- expvar -->

@@ -1,0 +1,13 @@
+/* profile#show */
+
+.variation.is-invisible {
+  height: 0;
+  opacity: 0;
+}
+
+//base transition
+.variation.is-visible {
+  height: auto;
+  opacity: 1;
+  transition: visibility 0s, opacity 0.5s linear;
+}
