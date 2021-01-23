@@ -13,8 +13,11 @@ export default class RenderableContainer extends React.Component {
             isControl: this.props.renderable.control,
 
             imgWidth: this.props.renderable.screenshotWidth,
-            imgHeight: this.props.renderable.screenshotHeight
+            imgHeight: this.props.renderable.screenshotHeight,
+
+            shift: 0
         };
+
     }
 
 
@@ -52,7 +55,10 @@ export default class RenderableContainer extends React.Component {
             position: 'relative',
             //fixes svg size
             padding: 0,
-            margin: '.75rem'
+            margin: '.75rem',
+            marginTop: this.props.shift ? `${-this.props.shift}px` : '0px',
+            transition: 'margin 400ms ease-out 0s'
+            //overflowY: 'scroll'
         };
 
         const isHidden = this.state.isControl ?

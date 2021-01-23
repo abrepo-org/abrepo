@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import ActionContainer from './ActionContainer.jsx';
 import DiffContainer from './DiffContainer.jsx';
 import RenderableContainer from './RenderableContainer.jsx';
+import RenderableScroll from './RenderableScroll.jsx'
 import MobileModal from './MobileModal.jsx';
 
 export default class Variation extends React.Component {
@@ -28,12 +29,16 @@ export default class Variation extends React.Component {
             hasActions: this.props.data.actions.length > 1,
 
             //used for height of diff & renderable scrollbars
+            renderableWidth: window.innerWidth,
             renderableHeight: window.innerHeight,
             bboxVisible: true,
             diffBboxHoverId: null,
 
             mobileModalIsOpen: false,
-            mobileModalContent: {diff: null}
+            mobileModalContent: {diff: null},
+
+            shift: 0,
+            busy: false
         }
 
         this.diffPanelRef = React.createRef();
@@ -139,6 +144,24 @@ export default class Variation extends React.Component {
         })
     }
 
+    renderableScrollHandler(deltaY) {
+        console.log("rcScroll", deltaY);
+
+        const deltaYScrollFactor = 9;
+
+        if (!this.state.busy) {
+            setTimeout(() => {
+
+                this.setState({
+                    shift: this.state.shift + (deltaY * deltaYScrollFactor),
+                    busy: false
+                });
+
+            }, 100);
+        }
+
+        this.setState({ busy: true});
+    }
 
     componentDidMount() {
         window.addEventListener('resize', this.windowResizeHandler.bind(this));
@@ -154,8 +177,10 @@ export default class Variation extends React.Component {
             height: this.state.renderableHeight
         }
 
+        console.log("WH", this.state.renderableWidth, this.state.renderableHeight);
         //toggles off scroll on mobile is-hidden-touch
-        const renderableContainerWrapStyle = this.state.renderableWidth > 1023 ? {
+        //1022 is mobile window width toggle
+        const renderableContainerWrapStyle = this.state.renderableWidth > 1022 ? {
             overflowY: 'scroll',
             height: this.state.renderableHeight
             //listerner: on change resize / smaller devices what is this
@@ -219,7 +244,7 @@ export default class Variation extends React.Component {
 
                      <div className="column">
 
-                         <div className="columns">
+                         <div className="columns renderableControls">
                              <div className="column is-full">
                                  {/* renderable control placeholders */}
 
@@ -249,7 +274,8 @@ export default class Variation extends React.Component {
                          </div>
 
 
-                         <div className="columns" style={renderableContainerWrapStyle}
+                         <div className="columns renderableContainers"
+                              style={renderableContainerWrapStyle}
                               ref={this.renderablePanelRef}>
 
                              <RenderableContainer label="Variation"
@@ -259,8 +285,12 @@ export default class Variation extends React.Component {
                                                   diffBboxHoverId={this.state.diffBboxHoverId}
                                                   diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
                                                   bboxClickHandler={this.bboxClickHandler.bind(this)}
+                                                  shift = {this.state.shift}
                                                   {...this.props} />
 
+                             <RenderableScroll
+                                 scrollListener = {this.renderableScrollHandler.bind(this)}
+                                 {...this.props} />
 
                              <RenderableContainer label="Original"
                                                   diffs={this.state.diffs}
