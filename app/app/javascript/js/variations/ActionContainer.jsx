@@ -41,23 +41,6 @@ export default class ActionContainer extends React.Component {
 
      */
 
-    scrollStickyHandler(e) {
-        console.log("scrollSticky", e)
-        //get navbar dim
-        //get scrolled boundingbox y value
-        //check if scroll y is below boundingbox y
-        //set it to pos fixed
-
-    }
-
-    componentDidMount() {
-        window.addEventListener('scroll', this.scrollStickyHandler.bind(this));
-    }
-
-    componentWillUnmount() {
-        window.addEventListener('scroll', this.scrollStickyHandler);
-    }
-
     render() {
 
         return(
