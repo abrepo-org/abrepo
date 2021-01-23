@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ActionContainer from './ActionContainer.jsx';
+import ControlsContainer from './ControlsContainer.jsx';
 import DiffContainer from './DiffContainer.jsx';
 import RenderableContainer from './RenderableContainer.jsx';
 import RenderableScroll from './RenderableScroll.jsx'
@@ -196,10 +197,14 @@ export default class Variation extends React.Component {
             {this.state.hasActions &&
              <>
              {/* Action Container */}
-             <section className="action">
+             <section id="ActionControlPanel">
                  <ActionContainer activeAction={this.state.activeAction}
                                   actionSelectHandler={this.actionSelectHandler.bind(this)}
                                   {...this.props} />
+
+                 <ControlsContainer togglebboxClickHandler={this.togglebboxClickHandler.bind(this)}
+                                    bboxVisible={this.state.bboxVisible}
+                                    {...this.props} />
              </section>
              <hr />
              </>
@@ -210,23 +215,6 @@ export default class Variation extends React.Component {
                  <div className="columns">
 
                      <div className="column is-3 is-hidden-touch">
-
-                         <div className="columns">
-                             <div className="column is-full">
-                                 {/* not sure controls should be sticky */}
-                                 {/* diff control placeholders */}
-                                 <button>
-                                     <span className="icon is-small">
-                                         <i className="fas fa-font"></i>
-                                     </span>
-                                 </button>
-                                 <button>
-                                     <span className="icon is-small">
-                                         <i className="fab fa-css3"></i>
-                                     </span>
-                                 </button>
-                             </div>
-                         </div>
 
                          <div className="columns" >
                              <div className="column diffPanel"
@@ -243,36 +231,6 @@ export default class Variation extends React.Component {
                      </div>
 
                      <div className="column">
-
-                         <div className="columns renderableControls">
-                             <div className="column is-full">
-                                 {/* renderable control placeholders */}
-
-                                 <button className="is-hidden-touch" title="comparison view">
-                                     <span className="icon is-small">
-                                         <i className="fas fa-columns"></i>
-                                     </span>
-                                 </button>
-                                 <button className="is-hidden-touch" title="full view">
-                                     <span className="icon is-small">
-                                         <i className="far fa-square"></i>
-                                     </span>
-                                 </button>
-                                 <button onClick={() => this.togglebboxClickHandler()}>
-                                     <span className="icon is-small" title="toggle bounding boxes">
-                                         {this.state.bboxVisible ?
-                                          <i className="fas fa-toggle-on"></i> :
-                                          <i className="fas fa-toggle-off"></i>
-
-                                         }
-
-                                     </span>
-
-                                 </button>
-
-                             </div>
-                         </div>
-
 
                          <div className="columns renderableContainers"
                               style={renderableContainerWrapStyle}
