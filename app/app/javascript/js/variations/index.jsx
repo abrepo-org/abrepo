@@ -200,6 +200,7 @@ export default class Variation extends React.Component {
              <section id="ActionControlPanel">
                  <ActionContainer activeAction={this.state.activeAction}
                                   actionSelectHandler={this.actionSelectHandler.bind(this)}
+                                  diffs={this.state.diffs}
                                   {...this.props} />
 
                  <ControlsContainer togglebboxClickHandler={this.togglebboxClickHandler.bind(this)}

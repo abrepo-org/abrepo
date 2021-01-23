@@ -51,7 +51,8 @@ export default class ActionContainer extends React.Component {
                         <th>Show</th>
                         <th>Action</th>
                         <th>Selector</th>
-                        <th>URL</th>
+                        <th>Diffs</th>
+                        <th className="is-hidden-mobile">URL</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,9 +72,10 @@ export default class ActionContainer extends React.Component {
                                          />
                                      </div>
                                  </td>
-                                 <td> { action.actionType } </td>
-                                 <td> { action.selector } </td>
-                                 <td> { action.url } </td>
+                                 <td> { action.actionType || '-'} </td>
+                                 <td> { action.selector || '-' } </td>
+                                 <td> { this.props.diffs.length } </td>
+                                 <td className="is-hidden-mobile"> { action.url } </td>
                              </tr>
                          )
                      })
