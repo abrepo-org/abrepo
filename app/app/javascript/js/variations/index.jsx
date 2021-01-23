@@ -205,8 +205,9 @@ export default class Variation extends React.Component {
                  <ControlsContainer togglebboxClickHandler={this.togglebboxClickHandler.bind(this)}
                                     bboxVisible={this.state.bboxVisible}
                                     {...this.props} />
+                 <hr />
              </section>
-             <hr />
+
              </>
             }
 

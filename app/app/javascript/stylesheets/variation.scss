@@ -34,4 +34,19 @@ button {
 .diffPanel .icon-remove {
   color: $removeColorIcon;
 }
-/* action */
+
+/* action control */
+#ActionControlPanel {
+  position:sticky;
+  top: 4rem;
+  background: white;
+  z-index: 11; //NB: drawSVGRects() sets zIndex to 10
+  .controls {
+    margin-top: -1.5rem;
+  }
+
+  @include until ($desktop) {
+    margin-left: -2px;
+    margin-right: -2px;
+  }
+}
