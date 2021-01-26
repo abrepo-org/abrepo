@@ -16,7 +16,8 @@ export default class RenderableContainer extends React.Component {
             imgWidth: this.props.renderable.screenshotWidth,
             imgHeight: this.props.renderable.screenshotHeight,
 
-            shift: 0
+            shift: 0,
+            busy: false
         };
 
     }
@@ -43,17 +44,33 @@ export default class RenderableContainer extends React.Component {
         });
 
         return(
-
-            <RenderableScroll {...this.props} >
-
-                <svg style={svgStyle} className="svg"
-                     viewBox={`0 0 ${this.state.imgWidth} ${this.state.imgHeight}`}
-                     xmlns="http://www.w3.org/2000/svg">
-                    {rects}
-                </svg>
-
-            </RenderableScroll>
+            <svg style={svgStyle} className="svg"
+                 viewBox={`0 0 ${this.state.imgWidth} ${this.state.imgHeight}`}
+                 xmlns="http://www.w3.org/2000/svg">
+                {rects}
+            </svg>
         )
+    }
+
+
+
+    renderableScrollHandler(deltaY) {
+        console.log("rcScroll", deltaY);
+
+        const deltaYScrollFactor = 9;
+
+        if (!this.state.busy) {
+            setTimeout(() => {
+
+                this.setState({
+                    shift: this.state.shift + (deltaY * deltaYScrollFactor),
+                    busy: false
+                });
+
+            }, 100);
+        }
+
+        this.setState({ busy: true});
     }
 
     render() {
@@ -63,7 +80,7 @@ export default class RenderableContainer extends React.Component {
             //fixes svg size
             padding: 0,
             margin: '.75rem',
-            marginTop: this.props.shift ? `${-this.props.shift}px` : '0px',
+            marginTop: this.state.shift ? `${-this.state.shift}px` : '0px',
             transition: 'margin 400ms ease-out 0s'
             //overflowY: 'scroll'
         };
@@ -75,7 +92,13 @@ export default class RenderableContainer extends React.Component {
             <div className={`column ${isHidden}`} style={wrapStyle}>
                 <h4>{this.props.label}</h4>
 
-                { this.drawSVGRects() }
+                <RenderableScroll
+                    scrollListener = {this.renderableScrollHandler.bind(this)}
+                    {...this.props}>
+
+                    { this.drawSVGRects() }
+
+                </RenderableScroll>
 
                 <Img {...this.props} />
             </div>
