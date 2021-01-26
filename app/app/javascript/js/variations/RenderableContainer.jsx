@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import BoundingBox from './BoundingBox.jsx';
 import Img from './Img.jsx';
+import RenderableScroll from './RenderableScroll.jsx'
 
 export default class RenderableContainer extends React.Component {
 
@@ -22,6 +23,7 @@ export default class RenderableContainer extends React.Component {
 
 
     drawSVGRects() {
+
         const svgStyle = {
             position: 'absolute',
             zIndex:10, //need to be on top
@@ -41,11 +43,16 @@ export default class RenderableContainer extends React.Component {
         });
 
         return(
-            <svg style={svgStyle} className="svg"
-                 viewBox={`0 0 ${this.state.imgWidth} ${this.state.imgHeight}`}
-                 xmlns="http://www.w3.org/2000/svg">
-                {rects}
-            </svg>
+
+            <RenderableScroll {...this.props} >
+
+                <svg style={svgStyle} className="svg"
+                     viewBox={`0 0 ${this.state.imgWidth} ${this.state.imgHeight}`}
+                     xmlns="http://www.w3.org/2000/svg">
+                    {rects}
+                </svg>
+
+            </RenderableScroll>
         )
     }
 

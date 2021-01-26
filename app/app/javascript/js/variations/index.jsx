@@ -4,7 +4,6 @@ import ActionContainer from './ActionContainer.jsx';
 import ControlsContainer from './ControlsContainer.jsx';
 import DiffContainer from './DiffContainer.jsx';
 import RenderableContainer from './RenderableContainer.jsx';
-import RenderableScroll from './RenderableScroll.jsx'
 import MobileModal from './MobileModal.jsx';
 
 export default class Variation extends React.Component {
@@ -42,6 +41,8 @@ export default class Variation extends React.Component {
             busy: false
         }
 
+
+        //click diff or bbox to scroll
         this.diffPanelRef = React.createRef();
         this.renderablePanelRef = React.createRef();
     }
@@ -245,12 +246,9 @@ export default class Variation extends React.Component {
                                                   diffBboxHoverId={this.state.diffBboxHoverId}
                                                   diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
                                                   bboxClickHandler={this.bboxClickHandler.bind(this)}
+                                                  scrollListener = {this.renderableScrollHandler.bind(this)}
                                                   shift = {this.state.shift}
                                                   {...this.props} />
-
-                             <RenderableScroll
-                                 scrollListener = {this.renderableScrollHandler.bind(this)}
-                                 {...this.props} />
 
                              <RenderableContainer label="Original"
                                                   diffs={this.state.diffs}
@@ -259,6 +257,7 @@ export default class Variation extends React.Component {
                                                   diffBboxHoverId={this.state.diffBboxHoverId}
                                                   diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
                                                   bboxClickHandler={this.bboxClickHandler.bind(this)}
+                                                  scrollListener = {this.renderableScrollHandler.bind(this)}
                                                   {...this.props} />
 
                              <MobileModal isOpen={this.state.mobileModalIsOpen}

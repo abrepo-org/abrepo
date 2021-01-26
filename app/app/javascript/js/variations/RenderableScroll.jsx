@@ -28,18 +28,19 @@ export default class RenderableScroll extends React.Component {
 
     render() {
         const scrollBarStyle = {
-            height: '100%',
-            width: '24px',
-            border: '1px solid #000',
-            marginTop: '2.25rem',
-            //dynamic
-            height: 'calc(2420px - 2.25rem - 4px)'
+            position: 'absolute',
+            width: '100%',
+            height: 'max-content',
+
+            //border: '1px solid #000',
         };
 
         return (
             <div className="scrollbar is-hidden-touch is-hidden-desktop-only"
                  style={scrollBarStyle}
-                 ref={this.scrollBarRef}></div>
+                 ref={this.scrollBarRef}>
+                {this.props.children}
+            </div>
         );
     }
 }
