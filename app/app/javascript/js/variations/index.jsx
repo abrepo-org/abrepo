@@ -185,17 +185,15 @@ export default class Variation extends React.Component {
         //active/base_renderable.screenshot
 
         return (
-        <>
-
-            {this.state.hasActions &&
-             <>
-             {/* Action Container */}
-             <section id="ActionControlPanel">
+            <>
+            {/* Action Container */}
+            <section id="ActionControlPanel">
+                {this.state.hasActions &&
                  <ActionContainer activeAction={this.state.activeAction}
                                   actionSelectHandler={this.actionSelectHandler.bind(this)}
                                   diffs={this.state.diffs}
                                   {...this.props} />
-
+                }
                  <ControlsContainer togglebboxClickHandler={this.togglebboxClickHandler.bind(this)}
                                     bboxVisible={this.state.bboxVisible}
                                     toggleScrollBoxHandler={this.toggleScrollBoxHandler.bind(this)}
@@ -203,10 +201,7 @@ export default class Variation extends React.Component {
                                     resetScrollBoxHandler={this.resetScrollBoxHandler.bind(this)}
                                     {...this.props} />
                  <hr />
-             </section>
-
-             </>
-            }
+            </section>
 
              <section className="renderableDiffs">
 
