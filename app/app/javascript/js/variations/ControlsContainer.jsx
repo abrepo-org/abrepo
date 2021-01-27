@@ -51,12 +51,29 @@ export default class ControlsContainer extends React.Component {
                                 {this.props.bboxVisible ?
                                  <i className="fas fa-toggle-on"></i> :
                                  <i className="fas fa-toggle-off"></i>
-
                                 }
 
                             </span>
-
                         </button>
+                        <button className="is-hidden-touch"
+                                onClick={() => this.props.toggleScrollBoxHandler()}>
+                            <span className="icon is-small" title="toggle scroll adjust">
+                                {this.props.scrollBoxEnabled ?
+                                 <i className="fas fa-lock-open"></i> :
+                                 <i className="fas fa-lock"></i>
+                                }
+                            </span>
+                        </button>
+
+                        {/* reset */}
+                        {this.props.scrollBoxEnabled &&
+                        <button className="is-hidden-touch"
+                                onClick={() => this.props.resetScrollBoxHandler()}>
+                            <span className="icon is-small" title="toggle scroll adjust">
+                                <i class="fas fa-level-up-alt"></i>
+                            </span>
+                        </button>
+                        }
 
                     </div>
                 </div>

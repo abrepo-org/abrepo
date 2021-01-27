@@ -32,6 +32,8 @@ export default class Variation extends React.Component {
             renderableWidth: window.innerWidth,
             renderableHeight: window.innerHeight,
             bboxVisible: true,
+            scrollBoxEnabled: false,
+            resetShift: 0,
             diffBboxHoverId: null,
 
             mobileModalIsOpen: false,
@@ -136,6 +138,18 @@ export default class Variation extends React.Component {
         });
     }
 
+    toggleScrollBoxHandler() {
+        console.log("toggleScrollBoxHandler");
+        this.setState({
+            scrollBoxEnabled: !this.state.scrollBoxEnabled,
+        });
+    }
+
+    resetScrollBoxHandler() {
+        console.log("resetScrollBoxHandler", this.state.resetShift);
+        this.setState({resetShift: this.state.resetShift + 1})
+    }
+
     windowResizeHandler() {
         this.setState({
             renderableHeight: window.innerHeight,
@@ -184,6 +198,9 @@ export default class Variation extends React.Component {
 
                  <ControlsContainer togglebboxClickHandler={this.togglebboxClickHandler.bind(this)}
                                     bboxVisible={this.state.bboxVisible}
+                                    toggleScrollBoxHandler={this.toggleScrollBoxHandler.bind(this)}
+                                    scrollBoxEnabled={this.state.scrollBoxEnabled}
+                                    resetScrollBoxHandler={this.resetScrollBoxHandler.bind(this)}
                                     {...this.props} />
                  <hr />
              </section>
@@ -221,18 +238,23 @@ export default class Variation extends React.Component {
                                                   diffs={this.state.diffs}
                                                   renderable={this.state.activeRenderable}
                                                   bboxVisible={this.state.bboxVisible}
+                                                  scrollBoxEnabled={this.state.scrollBoxEnabled}
                                                   diffBboxHoverId={this.state.diffBboxHoverId}
                                                   diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
                                                   bboxClickHandler={this.bboxClickHandler.bind(this)}
+
+                                                  resetShift={this.state.resetShift}
                                                   {...this.props} />
 
                              <RenderableContainer label="Original"
                                                   diffs={this.state.diffs}
                                                   renderable={this.state.activeControlRenderable}
                                                   bboxVisible={this.state.bboxVisible}
+                                                  scrollBoxEnabled={this.state.scrollBoxEnabled}
                                                   diffBboxHoverId={this.state.diffBboxHoverId}
                                                   diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
                                                   bboxClickHandler={this.bboxClickHandler.bind(this)}
+                                                  resetShift={this.state.resetShift}
                                                   {...this.props} />
 
                              <MobileModal isOpen={this.state.mobileModalIsOpen}

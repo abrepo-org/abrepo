@@ -17,6 +17,7 @@ export default class RenderableContainer extends React.Component {
             imgHeight: this.props.renderable.screenshotHeight,
 
             shift: 0,
+            resetShift: this.props.resetShift,
             busy: false
         };
 
@@ -73,16 +74,31 @@ export default class RenderableContainer extends React.Component {
         this.setState({ busy: true});
     }
 
+    componentDidUpdate(prevProps) {
+        //if resetShift is triggered externally, the prop will increment
+        //indicating a reset compared to previous prop.
+        //Otherwise additional re-renders are tied to setState, so props don't change.
+        //example of when you need props to update an internal component state
+        if(this.props.resetShift != prevProps.resetShift) {
+            console.log('reset shift')
+            this.setState({shift:0})
+        }
+    }
+
     render() {
+
+        let marginTop = '0px'
+        if (this.state.shift) {
+            marginTop = `${-this.state.shift}px`
+        }
 
         const wrapStyle = {
             position: 'relative',
             //fixes svg size
             padding: 0,
             margin: '.75rem',
-            marginTop: this.state.shift ? `${-this.state.shift}px` : '0px',
-            transition: 'margin 400ms ease-out 0s'
-            //overflowY: 'scroll'
+            transition: 'margin 400ms ease-out 0s',
+            marginTop
         };
 
         const isHidden = this.state.isControl ?

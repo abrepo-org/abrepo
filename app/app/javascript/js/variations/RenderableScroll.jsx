@@ -7,38 +7,41 @@ export default class RenderableScroll extends React.Component {
         console.log("RenderableScroll");
         super(props);
 
-        this.scrollBarRef = React.createRef();
+        this.scrollBlockRef = React.createRef();
     }
 
 
     wheelHandler(e) {
-        e.preventDefault();
-        //TODO: add debounce
-        console.log(e);
-        this.props.scrollListener(e.deltaY);
+
+        if (this.props.scrollBoxEnabled) {
+            e.preventDefault();
+            //TODO: add debounce
+            console.log(e);
+
+            this.props.scrollListener(e.deltaY);
+        }
     }
 
     componentDidMount() {
-        this.scrollBarRef.current.addEventListener('wheel', this.wheelHandler.bind(this));
+        this.scrollBlockRef.current.addEventListener('wheel', this.wheelHandler.bind(this));
     }
 
     componentWillUnmount() {
-        this.scrollBarRef.current.removeEventListener('wheel', this.wheelHandler.bind(this));
+        this.scrollBlockRef.current.removeEventListener('wheel', this.wheelHandler.bind(this));
     }
 
     render() {
-        const scrollBarStyle = {
+
+        const scrollBlockStyle = {
             position: 'absolute',
             width: '100%',
-            height: 'max-content',
-
-            //border: '1px solid #000',
+            height: 'max-content'
         };
 
         return (
-            <div className="scrollbar is-hidden-touch is-hidden-desktop-only"
-                 style={scrollBarStyle}
-                 ref={this.scrollBarRef}>
+            <div className="scrollBlock is-hidden-touch is-hidden-desktop-only"
+                 style={scrollBlockStyle}
+                 ref={this.scrollBlockRef}>
                 {this.props.children}
             </div>
         );
