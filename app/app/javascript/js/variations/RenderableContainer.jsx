@@ -58,13 +58,16 @@ export default class RenderableContainer extends React.Component {
     renderableScrollHandler(deltaY) {
         console.log("rcScroll", deltaY);
 
-        const deltaYScrollFactor = 9;
+        //deltaY value is inconsistent across browsers, can only rely
+        //on direction
+        const normDeltaY = deltaY > 0 ? 1 : -1;
+        const deltaYScrollFactor = 120;
 
         if (!this.state.busy) {
             setTimeout(() => {
 
                 this.setState({
-                    shift: this.state.shift + (deltaY * deltaYScrollFactor),
+                    shift: this.state.shift + (normDeltaY * deltaYScrollFactor),
                     busy: false
                 });
 
