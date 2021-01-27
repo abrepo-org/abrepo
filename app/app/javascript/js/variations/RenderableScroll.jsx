@@ -39,7 +39,7 @@ export default class RenderableScroll extends React.Component {
         };
 
         return (
-            <div className="scrollBlock is-hidden-touch is-hidden-desktop-only"
+            <div className="scrollBlock is-invisible-touch is-invisible-desktop-only"
                  style={scrollBlockStyle}
                  ref={this.scrollBlockRef}>
                 {this.props.children}
