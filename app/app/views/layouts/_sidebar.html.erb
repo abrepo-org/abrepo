@@ -27,7 +27,7 @@
     </li>
 
     <!-- not sure maybe add pages (page types) -->
-    <% if current_user %>
+    <% if user_signed_in? %>
         <li>
 
             <%= render partial: '/layouts/navlink', locals: {

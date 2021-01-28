@@ -41,7 +41,7 @@
                   <%else%>
                       <!-- this container 'fixes' and contains the section width -->
                       <section class="columns container">
-                          <% if current_user %>
+                          <% if user_signed_in? %>
                               <div class="column is-9-desktop is-full">
                                   <%= yield %>
                               </div>
