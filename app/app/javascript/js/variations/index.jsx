@@ -18,6 +18,7 @@ export default class Variation extends React.Component {
         const activeAction = this.props.data.actions[0];
         const activeRenderable = this.props.data.actionRenderables[activeAction.id].renderable;
         const activeControlRenderable = this.props.data.actionRenderables[activeAction.id].controlRenderable;
+        const isSingleView = window.innerWidth < 1215;
 
         this.state = {
             activeAction,
@@ -28,16 +29,24 @@ export default class Variation extends React.Component {
             //Render action panel condition
             hasActions: this.props.data.actions.length > 1,
 
-            //used for height of diff & renderable scrollbars
+            //used for height of diff & renderable scrollbars, resizing
             renderableWidth: window.innerWidth,
             renderableHeight: window.innerHeight,
+            isSingleView: false,
+
             bboxVisible: true,
             scrollBoxEnabled: false,
             resetShift: 0,
             diffBboxHoverId: null,
 
+            isSingleView,
+            activeView: isSingleView ? 1 : 0,
+
+
             mobileModalIsOpen: false,
-            mobileModalContent: {diff: null}
+            mobileModalContent: {diff: null},
+
+            busy:false
         }
 
 
@@ -128,14 +137,18 @@ export default class Variation extends React.Component {
         this.diffPanelRef.current.scrollBy({left:0,
                                             top: y - window.innerHeight/2,
                                             behavior: "smooth"});
-
     }
 
+    //toggles for compare-single-double: {0,1,2}
+    toggleActiveViewHandler(activeView) {
+        console.log('toggleActiveViewHandler', activeView);
+        this.setState({ activeView });
+    }
+
+    //toggle bbox visibility
     togglebboxClickHandler() {
         console.log("togglebboxClickHandler");
-        this.setState({
-            bboxVisible: !this.state.bboxVisible
-        });
+        this.setState({bboxVisible: !this.state.bboxVisible});
     }
 
     toggleScrollBoxHandler() {
@@ -151,10 +164,30 @@ export default class Variation extends React.Component {
     }
 
     windowResizeHandler() {
-        this.setState({
-            renderableHeight: window.innerHeight,
-            renderableWidth: window.innerWidth
-        })
+
+        //best compromise:
+        //activeView: if it's now a singleView viewport but set to compare ->
+        //set to default variation view (1). Otherwise use whatever activeView.
+        //if its not singleView, leave it alone as it might be a user toggled state
+        //(e.g. expanding)
+
+        if (!this.state.busy) {
+            setTimeout( () => {
+                const isSingleView = window.innerWidth < 1215;
+                const activeView =  isSingleView && this.state.activeView == 0 ?
+                                    1 : this.state.activeView;
+
+                this.setState({
+                    renderableHeight: window.innerHeight,
+                    renderableWidth: window.innerWidth,
+                    isSingleView,
+                    activeView,
+                    busy: false
+                })
+            }, 350);
+        }
+
+        this.setState({busy:true});
     }
 
     componentDidMount() {
@@ -163,6 +196,27 @@ export default class Variation extends React.Component {
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.windowResizeHandler.bind(this));
+    }
+
+    //TODO: compare with abannotate
+    filterDiffs(diffs) {
+
+        if (this.state.activeView == 0) return diffs;
+
+        return diffs.filter( diff => {
+
+            //variation
+            if(this.state.activeView == 1) {
+                return (diff.newDim && diff.newDim.boundingBox)
+            }
+
+            //baseline
+            if(this.state.activeView == 2) {
+                return (diff.origDim && diff.origDim.boundingBox)
+            }
+
+            return false;
+        });
     }
 
     render() {
@@ -182,6 +236,8 @@ export default class Variation extends React.Component {
 
         if(!this.state.diffs) return <div></div>
 
+        const diffs = this.filterDiffs(this.state.diffs);
+
         //active/base_renderable.screenshot
 
         return (
@@ -191,7 +247,7 @@ export default class Variation extends React.Component {
                 {this.state.hasActions &&
                  <ActionContainer activeAction={this.state.activeAction}
                                   actionSelectHandler={this.actionSelectHandler.bind(this)}
-                                  diffs={this.state.diffs}
+                                  diffs={diffs}
                                   {...this.props} />
                 }
                  <ControlsContainer togglebboxClickHandler={this.togglebboxClickHandler.bind(this)}
@@ -199,6 +255,10 @@ export default class Variation extends React.Component {
                                     toggleScrollBoxHandler={this.toggleScrollBoxHandler.bind(this)}
                                     scrollBoxEnabled={this.state.scrollBoxEnabled}
                                     resetScrollBoxHandler={this.resetScrollBoxHandler.bind(this)}
+
+                                    isSingleView={this.state.isSingleView}
+                                    activeView={this.state.activeView}
+                                    toggleActiveViewHandler={this.toggleActiveViewHandler.bind(this)}
                                     {...this.props} />
                  <hr />
             </section>
@@ -212,7 +272,7 @@ export default class Variation extends React.Component {
                          <div className="columns" >
                              <div className="column diffPanel"
                                   style={diffWrapStyle} ref={this.diffPanelRef}>
-                                 <DiffContainer diffs={this.state.diffs}
+                                 <DiffContainer diffs={diffs}
                                                 diffBboxHoverId={this.state.diffBboxHoverId}
                                                 diffClickHandler={this.diffClickHandler.bind(this)}
                                                 diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
@@ -230,19 +290,20 @@ export default class Variation extends React.Component {
                               ref={this.renderablePanelRef}>
 
                              <RenderableContainer label="Variation"
-                                                  diffs={this.state.diffs}
+                                                  diffs={diffs}
                                                   renderable={this.state.activeRenderable}
                                                   bboxVisible={this.state.bboxVisible}
                                                   scrollBoxEnabled={this.state.scrollBoxEnabled}
                                                   diffBboxHoverId={this.state.diffBboxHoverId}
                                                   diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
                                                   bboxClickHandler={this.bboxClickHandler.bind(this)}
-
                                                   resetShift={this.state.resetShift}
+
+                                                  isVisible={[0, 1].includes(this.state.activeView)}
                                                   {...this.props} />
 
                              <RenderableContainer label="Original"
-                                                  diffs={this.state.diffs}
+                                                  diffs={diffs}
                                                   renderable={this.state.activeControlRenderable}
                                                   bboxVisible={this.state.bboxVisible}
                                                   scrollBoxEnabled={this.state.scrollBoxEnabled}
@@ -250,6 +311,8 @@ export default class Variation extends React.Component {
                                                   diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
                                                   bboxClickHandler={this.bboxClickHandler.bind(this)}
                                                   resetShift={this.state.resetShift}
+
+                                                  isVisible={[0, 2].includes(this.state.activeView)}
                                                   {...this.props} />
 
                              <MobileModal isOpen={this.state.mobileModalIsOpen}

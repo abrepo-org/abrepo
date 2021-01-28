@@ -157,14 +157,12 @@ export default class RenderableContainer extends React.Component {
             padding: 0,
             margin: '.75rem',
             transition: 'margin 400ms ease-out 0s',
-            marginTop
+            marginTop,
+            display: this.props.isVisible ? 'block' : 'none'
         };
 
-        const isHidden = this.state.isControl ?
-                         "is-hidden-touch is-hidden-desktop-only" : "";
-
         return(
-            <div className={`column ${isHidden}`} style={wrapStyle}>
+            <div className="column" style={wrapStyle}>
                 <h4>{this.props.label}</h4>
 
                 <RenderableScroll
