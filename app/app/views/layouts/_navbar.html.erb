@@ -54,23 +54,26 @@
                     icon: "tags"
                 } %>
 
+                <% if current_user %>
                 <!-- not sure maybe add pages (page types) -->
 
                 <%= render partial: '/layouts/navlink', locals: {
                     linkurl: "/saved/", linkclass:"navbar-item", text: "Saved",
                     icon: "star"
-                } %>
+                    } %>
 
                 <!-- might merge in user settings for now -->
 
                 <%= render partial: '/layouts/navlink', locals: {
                     linkurl: "/user/settings/", linkclass:"navbar-item", text: "Settings",
                     icon: "cog"
-                } %>
+                    } %>
+                <% end %>
 
             </div>
 
             <!-- Dropdown -->
+            <% if current_user %>
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link is-arrowless is-hidden-touch">
                     <span class="icon">
@@ -82,29 +85,35 @@
                     <a class="navbar-item">
                         User Settings
                     </a>
+
                     <a class="navbar-item">
                         Contact
                     </a>
+
                     <hr class="navbar-divider">
-                    <a class="navbar-item">
-                        Report an issue
-                    </a>
+
+                    <%= link_to destroy_user_session_path, class: 'navbar-item' do %>
+                        Logout
+                    <% end %>
                 </div>
             </div>
+
+            <% else %>
 
             <div class="navbar-item signup">
                 <div class="buttons">
 
-                  <a id="signin" class="button is-light">
+                    <a id="signin" class="button is-light">
                         Log in
                     </a>
 
-                  <a id="signup" class="button is-light is-primary">
+                    <a id="signup" class="button is-light is-primary">
                         <strong>Sign up</strong>
                     </a>
 
                 </div>
             </div>
+            <% end %>
 
         </div>
 
