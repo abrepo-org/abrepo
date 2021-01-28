@@ -35,23 +35,10 @@ export default class ControlsContainer extends React.Component {
                     </div>
 
                     <div className="column is-full renderableControls">
-                        {/* renderable control placeholders */}
-                        <button className="is-hidden-touch" title="comparison view"
-                                disabled={!this.props.isSingleView}
-                                onClick={() => this.props.toggleViewHandler(false)}>
-                            <span className="icon is-small">
-                                <i className="fas fa-columns"></i>
-                            </span>
-                        </button>
-                        <button className="" title="full view"
-                                disabled={this.props.isSingleView}
-                                onClick={() => this.props.toggleViewHandler(true)}>
-                            <span className="icon is-small">
-                                <i className="far fa-square"></i>
-                            </span>
-                        </button>
 
-                        <SelectDropDown isSingleView={this.props.isSingleView} {...this.props} />
+                        {/* renderable control placeholders */}
+
+                        <SelectDropDown {...this.props} />
 
                         <button onClick={() => this.props.togglebboxClickHandler()}>
                             <span className="icon is-small" title="toggle bounding boxes">

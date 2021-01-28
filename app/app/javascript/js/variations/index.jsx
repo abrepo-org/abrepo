@@ -18,6 +18,7 @@ export default class Variation extends React.Component {
         const activeAction = this.props.data.actions[0];
         const activeRenderable = this.props.data.actionRenderables[activeAction.id].renderable;
         const activeControlRenderable = this.props.data.actionRenderables[activeAction.id].controlRenderable;
+        const isSingleView = window.innerWidth < 1215;
 
         this.state = {
             activeAction,
@@ -28,16 +29,19 @@ export default class Variation extends React.Component {
             //Render action panel condition
             hasActions: this.props.data.actions.length > 1,
 
-            //used for height of diff & renderable scrollbars
+            //used for height of diff & renderable scrollbars, resizing
             renderableWidth: window.innerWidth,
             renderableHeight: window.innerHeight,
+            isSingleView: false,
+
             bboxVisible: true,
             scrollBoxEnabled: false,
             resetShift: 0,
             diffBboxHoverId: null,
 
-            isSingleView: false,
-            isVariantView: true,
+            isSingleView,
+            activeView: isSingleView ? 1 : 0,
+
 
             mobileModalIsOpen: false,
             mobileModalContent: {diff: null}
@@ -133,14 +137,10 @@ export default class Variation extends React.Component {
                                             behavior: "smooth"});
     }
 
-    //toggles for single-double
-    toggleActiveViewHandler(isVariantView) {
-        console.log('toggleActiveViewHandler', isVariantView);
-        this.setState({ isVariantView });
-    }
-    toggleViewHandler(isSingleView) {
-        console.log('toggleViewHandler', isSingleView);
-        this.setState({ isSingleView });
+    //toggles for compare-single-double: {0,1,2}
+    toggleActiveViewHandler(activeView) {
+        console.log('toggleActiveViewHandler', activeView);
+        this.setState({ activeView });
     }
 
     //toggle bbox visibility
@@ -162,10 +162,22 @@ export default class Variation extends React.Component {
     }
 
     windowResizeHandler() {
+
+        const isSingleView = window.innerWidth < 1215;
+
+        //best compromise:
+        //activeView: if it's now a singleView viewport but set to compare ->
+        //set to default variation view (1). Otherwise use whatever activeView.
+        //if its not singleView, leave it alone as it might be a user toggled state
+        //(e.g. expanding)
+
         this.setState({
             renderableHeight: window.innerHeight,
-            renderableWidth: window.innerWidth
+            renderableWidth: window.innerWidth,
+            isSingleView,
+            activeView: isSingleView && this.state.activeView == 0 ? 1 : this.state.activeView
         })
+
     }
 
     componentDidMount() {
@@ -210,8 +222,9 @@ export default class Variation extends React.Component {
                                     toggleScrollBoxHandler={this.toggleScrollBoxHandler.bind(this)}
                                     scrollBoxEnabled={this.state.scrollBoxEnabled}
                                     resetScrollBoxHandler={this.resetScrollBoxHandler.bind(this)}
-                                    toggleViewHandler={this.toggleViewHandler.bind(this)}
+
                                     isSingleView={this.state.isSingleView}
+                                    activeView={this.state.activeView}
                                     toggleActiveViewHandler={this.toggleActiveViewHandler.bind(this)}
                                     {...this.props} />
                  <hr />
@@ -253,8 +266,7 @@ export default class Variation extends React.Component {
                                                   bboxClickHandler={this.bboxClickHandler.bind(this)}
                                                   resetShift={this.state.resetShift}
 
-                                                  isVisible={!this.state.isSingleView ||
-                                                             (this.state.isSingleView && this.state.isVariantView)}
+                                                  isVisible={[0, 1].includes(this.state.activeView)}
                                                   {...this.props} />
 
                              <RenderableContainer label="Original"
@@ -267,8 +279,7 @@ export default class Variation extends React.Component {
                                                   bboxClickHandler={this.bboxClickHandler.bind(this)}
                                                   resetShift={this.state.resetShift}
 
-                                                  isVisible={!this.state.isSingleView ||
-                                                             (this.state.isSingleView && !this.state.isVariantView)}
+                                                  isVisible={[0, 2].includes(this.state.activeView)}
                                                   {...this.props} />
 
                              <MobileModal isOpen={this.state.mobileModalIsOpen}
