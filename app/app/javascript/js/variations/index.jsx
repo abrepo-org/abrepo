@@ -188,6 +188,27 @@ export default class Variation extends React.Component {
         window.removeEventListener('resize', this.windowResizeHandler.bind(this));
     }
 
+    //TODO: compare with abannotate
+    filterDiffs(diffs) {
+
+        if (this.state.activeView == 0) return diffs;
+
+        return diffs.filter( diff => {
+
+            //variation
+            if(this.state.activeView == 1) {
+                return (diff.newDim && diff.newDim.boundingBox)
+            }
+
+            //baseline
+            if(this.state.activeView == 2) {
+                return (diff.origDim && diff.origDim.boundingBox)
+            }
+
+            return false;
+        });
+    }
+
     render() {
         const diffWrapStyle = {
             overflowY: 'scroll',
@@ -205,6 +226,8 @@ export default class Variation extends React.Component {
 
         if(!this.state.diffs) return <div></div>
 
+        const diffs = this.filterDiffs(this.state.diffs);
+
         //active/base_renderable.screenshot
 
         return (
@@ -214,7 +237,7 @@ export default class Variation extends React.Component {
                 {this.state.hasActions &&
                  <ActionContainer activeAction={this.state.activeAction}
                                   actionSelectHandler={this.actionSelectHandler.bind(this)}
-                                  diffs={this.state.diffs}
+                                  diffs={diffs}
                                   {...this.props} />
                 }
                  <ControlsContainer togglebboxClickHandler={this.togglebboxClickHandler.bind(this)}
@@ -239,7 +262,7 @@ export default class Variation extends React.Component {
                          <div className="columns" >
                              <div className="column diffPanel"
                                   style={diffWrapStyle} ref={this.diffPanelRef}>
-                                 <DiffContainer diffs={this.state.diffs}
+                                 <DiffContainer diffs={diffs}
                                                 diffBboxHoverId={this.state.diffBboxHoverId}
                                                 diffClickHandler={this.diffClickHandler.bind(this)}
                                                 diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
@@ -257,7 +280,7 @@ export default class Variation extends React.Component {
                               ref={this.renderablePanelRef}>
 
                              <RenderableContainer label="Variation"
-                                                  diffs={this.state.diffs}
+                                                  diffs={diffs}
                                                   renderable={this.state.activeRenderable}
                                                   bboxVisible={this.state.bboxVisible}
                                                   scrollBoxEnabled={this.state.scrollBoxEnabled}
@@ -270,7 +293,7 @@ export default class Variation extends React.Component {
                                                   {...this.props} />
 
                              <RenderableContainer label="Original"
-                                                  diffs={this.state.diffs}
+                                                  diffs={diffs}
                                                   renderable={this.state.activeControlRenderable}
                                                   bboxVisible={this.state.bboxVisible}
                                                   scrollBoxEnabled={this.state.scrollBoxEnabled}
