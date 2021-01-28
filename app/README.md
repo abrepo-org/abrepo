@@ -44,6 +44,42 @@ end
 
 
 
+### Users
+
+#### Devise Generated Views: Styling Updates
+
+##### Supporting Views:
+
+* `devise/shared/error_messages`:
+    * `<div id="error_expanation">`, `<h2>` error title, `<ul>` of `<li>` message
+* `devise/shared/links`: underneath page forms - mostly `href` and `<br />`, no style
+* `/devise/mailer/*.rb`: plain text - `<p>` tags, no style
+
+##### Main Style Changes with Devise
+
+* `.field`: `<label>`, `<email_field`>..
+* `.actions`: `<submit>`
+* change min password length
+* change links text
+* error message list needs some styling e.g.: `/users/confirmation`:
+"error confirmation": 1 error prohibited this user from being saved
+
+##### Pages:
+
+```
+
+        new_user_session GET    /users/sign_in(.:format)          devise/sessions#new
+       new_user_password GET    /users/password/new(.:format)     devise/passwords#new
+      edit_user_password GET    /users/password/edit(.:format)    devise/passwords#edit
+   new_user_registration GET    /users/sign_up(.:format)          devise/registrations#new
+  edit_user_registration GET    /users/edit(.:format)             devise/registrations#edit
+   new_user_confirmation GET    /users/confirmation/new(.:format) devise/confirmations#new
+         new_user_unlock GET    /users/unlock/new(.:format)       devise/unlocks#new
+             user_unlock GET    /users/unlock(.:format)           devise/unlocks#show
+
+
+```
+
 ---
 
 This README would normally document whatever steps are necessary to get the
