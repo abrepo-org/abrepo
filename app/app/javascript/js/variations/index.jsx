@@ -44,7 +44,9 @@ export default class Variation extends React.Component {
 
 
             mobileModalIsOpen: false,
-            mobileModalContent: {diff: null}
+            mobileModalContent: {diff: null},
+
+            busy:false
         }
 
 
@@ -163,21 +165,29 @@ export default class Variation extends React.Component {
 
     windowResizeHandler() {
 
-        const isSingleView = window.innerWidth < 1215;
-
         //best compromise:
         //activeView: if it's now a singleView viewport but set to compare ->
         //set to default variation view (1). Otherwise use whatever activeView.
         //if its not singleView, leave it alone as it might be a user toggled state
         //(e.g. expanding)
 
-        this.setState({
-            renderableHeight: window.innerHeight,
-            renderableWidth: window.innerWidth,
-            isSingleView,
-            activeView: isSingleView && this.state.activeView == 0 ? 1 : this.state.activeView
-        })
+        if (!this.state.busy) {
+            setTimeout( () => {
+                const isSingleView = window.innerWidth < 1215;
+                const activeView =  isSingleView && this.state.activeView == 0 ?
+                                    1 : this.state.activeView;
 
+                this.setState({
+                    renderableHeight: window.innerHeight,
+                    renderableWidth: window.innerWidth,
+                    isSingleView,
+                    activeView,
+                    busy: false
+                })
+            }, 350);
+        }
+
+        this.setState({busy:true});
     }
 
     componentDidMount() {
