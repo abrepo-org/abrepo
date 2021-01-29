@@ -26,6 +26,9 @@
       <div class="control" >
           <%= f.password_field :password, autocomplete: "new-password" %>
       </div>
+      <div>
+          <%= resource.errors[:email].join(',') if resource.errors[:email] %>
+      </div>
   </div>
 
   <div class="field">

@@ -4,7 +4,17 @@
 
 <h2>Log in</h2>
 
+<% if flash[:error] || flash[:notice] || flash[:alert] %>
+    <div class="notification is-danger is-light">
+        <button class="delete"></button>
+        <%= content_tag(:div, flash[:error], :id => "flash_error") if flash[:error] %>
+        <%= content_tag(:div, flash[:notice], :id => "flash_notice") if flash[:notice] %>
+        <%= content_tag(:div, flash[:alert], :id => "flash_alert") if flash[:alert] %>
+    </div>
+<% end %>
+
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+
     <div class="field">
         <%= f.label :email, class: "field" %>
         <div class="control">

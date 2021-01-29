@@ -76,8 +76,34 @@ end
     * wrap with `<div class='control'>`, add `class: 'button is-small is-link'`
 * change min password length
 * change links text
-* error message list needs some styling e.g.: `/users/confirmation`:
-"error confirmation": 1 error prohibited this user from being saved
+* error message list needs some styling e.g.: `http://localhost/users/unlock`:
+    * "error confirmation": 1 error prohibited this user from being saved
+    * Bulma styles for "Notification"
+    * add "notification class" wrapper; add `<button> delete`
+    * remove `<h2>`
+    * adjust `<ul>` margin-top; mt-0
+
+* error message displayed:
+    * `<%= resource.errors.inspect %>`
+    * access each attribute error message: e.g. `<%= resource.errors[:email].join(',') if resource.errors[:email] %>`
+
+Login page error messages use flash
+
+    * There is a error_message devise_helper 'converter': https://stackoverflow.com/questions/4635986/rails-devise-error-messages-when-signing-in
+    * Flash approach:
+
+``` erb
+<% if flash[:error] || flash[:notice] || flash[:alert] %>
+    <div class="notification is-danger is-light">
+        <button class="delete"></button>
+        <%= content_tag(:div, flash[:error], :id => "flash_error") if flash[:error] %>
+        <%= content_tag(:div, flash[:notice], :id => "flash_notice") if flash[:notice] %>
+        <%= content_tag(:div, flash[:alert], :id => "flash_alert") if flash[:alert] %>
+    </div>
+<% end %>
+
+```
+
 
 ##### Pages:
 
