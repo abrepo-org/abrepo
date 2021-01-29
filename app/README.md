@@ -57,8 +57,23 @@ end
 
 ##### Main Style Changes with Devise
 
-* `.field`: `<label>`, `<email_field`>..
+* `.field`: `<label>`, `<email_field`>
+    * `<label>` add class "label"
+    * `<label>` remove `<br/>`
+    * wrap input with `<div class="control">`
+    * `<label>` example with converted helper text:
+<pre>
+          <%= f.label :password, class: "label" do%>
+          Password
+          <span class="help has-text-weight-normal is-inline-block">
+              (leave blank if you don't want to change it)
+          </span>
+          <% end  %>
+
+</pre>
+
 * `.actions`: `<submit>`
+    * wrap with `<div class='control'>`, add `class: 'button is-small is-link'`
 * change min password length
 * change links text
 * error message list needs some styling e.g.: `/users/confirmation`:
