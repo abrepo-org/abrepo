@@ -1,7 +1,9 @@
 <!doctype html>
 <html>
   <head>
-    <title>App</title>
+      <title>
+          <%= content_for?(:title) ? yield(:title) : "ABRepo" %>
+      </title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
