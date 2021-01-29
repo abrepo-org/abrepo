@@ -8,25 +8,37 @@
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      <%= f.label :email, class: "label" %>
+    <div class="control">
+      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    </div>
   </div>
 
   <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
+      <%= f.label :password, class: "label" do %>
+          Password
+          <% if @minimum_password_length %>
+              <span class="help has-text-weight-normal is-inline-block">
+                  (<%= @minimum_password_length %> characters minimum)
+              </span>
+          <% end %>
+      <% end %>
+      <div class="control" >
+          <%= f.password_field :password, autocomplete: "new-password" %>
+      </div>
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+      <%= f.label :password_confirmation, class: "label" %>
+      <div class="control">
+          <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+      </div>
   </div>
 
   <div class="actions">
-    <%= f.submit "Sign up" %>
+      <div class="control">
+          <%= f.submit "Sign up", class: "button is-small is-primary" %>
+      </div>
   </div>
 <% end %>
 
