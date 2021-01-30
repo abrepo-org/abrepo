@@ -61,7 +61,8 @@ main.container{
     //background: $off-grey-color;
     //container extends behind the sidebar and content, so
     //different left and right end colors are handled via gradient :|
-    background: linear-gradient(90deg, $off-grey-color 0%, #fff 100%);
+    //TODO: remove this, make separate for sidebar as it conflicts w/ devise
+    //background: linear-gradient(90deg, $off-grey-color 0%, #fff 100%);
   }
 
 }
@@ -147,4 +148,19 @@ td.white-space-nowrap {
 
 .expvar_label {
   min-width: 70px
+}
+
+
+body.devise, .devise main.container, .devise nav {
+  background: $off-grey-color;
+}
+
+.devise main.container {
+  height: 100vh;
+}
+.devise .content-wrap {
+  background: $white;
+  padding: 6rem;
+  margin-top: 3rem;
+  box-shadow: -1px 3px 5px -2px #ccc;
 }

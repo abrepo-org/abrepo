@@ -83,6 +83,11 @@ end
     * remove `<h2>`
     * adjust `<ul>` margin-top; mt-0
 
+* use `content_for(:devise)` block to isolate devise views in its own separate layout
+    * exceptions: user settings so not standalone `content_for`
+        * `registrations/edit.html.erb`
+        * `passwords/edit.html.erb`
+
 * error message displayed:
     * `<%= resource.errors.inspect %>`
     * access each attribute error message: e.g. `<%= resource.errors[:email].join(',') if resource.errors[:email] %>`

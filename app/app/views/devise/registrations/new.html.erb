@@ -2,47 +2,49 @@
     ABRepo | Sign Up
 <% end %>
 
-<h2>Sign up</h2>
+<% content_for :devise do %>
+    <h2>Sign up</h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-      <%= f.label :email, class: "label" %>
-    <div class="control">
-      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-    </div>
-  </div>
+        <div class="field">
+            <%= f.label :email, class: "label" %>
+            <div class="control">
+                <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+            </div>
+        </div>
 
-  <div class="field">
-      <%= f.label :password, class: "label" do %>
-          Password
-          <% if @minimum_password_length %>
-              <span class="help has-text-weight-normal is-inline-block">
-                  (<%= @minimum_password_length %> characters minimum)
-              </span>
-          <% end %>
-      <% end %>
-      <div class="control" >
-          <%= f.password_field :password, autocomplete: "new-password" %>
-      </div>
-      <div>
-          <%= resource.errors[:email].join(',') if resource.errors[:email] %>
-      </div>
-  </div>
+        <div class="field">
+            <%= f.label :password, class: "label" do %>
+                Password
+                <% if @minimum_password_length %>
+                    <span class="help has-text-weight-normal is-inline-block">
+                        (<%= @minimum_password_length %> characters minimum)
+                    </span>
+                <% end %>
+            <% end %>
+            <div class="control" >
+                <%= f.password_field :password, autocomplete: "new-password" %>
+            </div>
+            <div>
+                <%= resource.errors[:email].join(',') if resource.errors[:email] %>
+            </div>
+        </div>
 
-  <div class="field">
-      <%= f.label :password_confirmation, class: "label" %>
-      <div class="control">
-          <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-      </div>
-  </div>
+        <div class="field">
+            <%= f.label :password_confirmation, class: "label" %>
+            <div class="control">
+                <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+            </div>
+        </div>
 
-  <div class="actions">
-      <div class="control">
-          <%= f.submit "Sign up", class: "button is-small is-primary" %>
-      </div>
-  </div>
+        <div class="actions">
+            <div class="control">
+                <%= f.submit "Sign up", class: "button is-small is-primary" %>
+            </div>
+        </div>
+    <% end %>
+
+    <%= render "devise/shared/links" %>
 <% end %>
-
-<%= render "devise/shared/links" %>
