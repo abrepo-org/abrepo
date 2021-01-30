@@ -29,6 +29,11 @@ $border-grey: rgb(227, 232, 238); //#e2e7ee
 @import "../stylesheets/variation.scss";
 @import "../stylesheets/profile.scss";
 
+.is-fullwidth-tablet {
+  @include from($tablet) {
+    width: 100%;
+  }
+}
 #maxContainer, #navbarBasicExample {
   //fix width layout - not sure
   /*max-width: 1920px;*/

@@ -73,7 +73,8 @@ end
 </pre>
 
 * `.actions`: `<submit>`
-    * wrap with `<div class='control'>`, add `class: 'button is-small is-link'`
+    * wrap with `<div class='control'>`, add `class: 'button is-fullwidth-desktop is-link'`
+    * is-fullwidth-desktop custom class
 * change min password length
 * change links text
 * error message list needs some styling e.g.: `http://localhost/users/unlock`:
@@ -87,6 +88,7 @@ end
     * exceptions: user settings so not standalone `content_for`
         * `registrations/edit.html.erb`
         * `passwords/edit.html.erb`
+
 
 * error message displayed:
     * `<%= resource.errors.inspect %>`
