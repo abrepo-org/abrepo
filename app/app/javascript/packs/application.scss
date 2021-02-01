@@ -156,7 +156,10 @@ td.white-space-nowrap {
 }
 
 
-body.devise, .devise main.container, .devise nav {
+body.devise, .devise main.container {
+  background: white;
+}
+.devise nav {
   background: $off-grey-color;
 }
 
@@ -167,5 +170,8 @@ body.devise, .devise main.container, .devise nav {
   background: $white;
   padding: 6rem;
   margin-top: 3rem;
-  box-shadow: -1px 3px 5px -2px #ccc;
+  //box-shadow: -1px 3px 5px -2px #ccc;
+}
+.devise nav.navbar {
+  background: #f7fafc;
 }
