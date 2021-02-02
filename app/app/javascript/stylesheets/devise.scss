@@ -1,0 +1,28 @@
+body.devise, .devise main.container {
+  background: white;
+}
+.devise nav {
+  background: $off-grey-color;
+}
+
+.is-marginless-mobile {
+  @include until($tablet) {
+    margin: 0;
+  }
+}
+
+.devise .content-wrap {
+  background: $white;
+  padding: 6rem;
+  margin-top: 3rem;
+  //box-shadow: -1px 3px 5px -2px #ccc;
+}
+.devise nav.navbar {
+  background: #f7fafc;
+}
+
+//NB: input field widths basically expand to <h2> headline width
+.devise input {
+  width: 100%;
+}
+.devise input[type='checkbox'] { width: auto; }

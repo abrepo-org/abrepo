@@ -28,6 +28,7 @@ $border-grey: rgb(227, 232, 238); //#e2e7ee
 @import "../stylesheets/sidebar.scss";
 @import "../stylesheets/variation.scss";
 @import "../stylesheets/profile.scss";
+@import "../stylesheets/devise.scss";
 
 .is-fullwidth-tablet {
   @include from($tablet) {
@@ -153,25 +154,4 @@ td.white-space-nowrap {
 
 .expvar_label {
   min-width: 70px
-}
-
-
-body.devise, .devise main.container {
-  background: white;
-}
-.devise nav {
-  background: $off-grey-color;
-}
-
-.devise main.container {
-  height: 100vh;
-}
-.devise .content-wrap {
-  background: $white;
-  padding: 6rem;
-  margin-top: 3rem;
-  //box-shadow: -1px 3px 5px -2px #ccc;
-}
-.devise nav.navbar {
-  background: #f7fafc;
 }
