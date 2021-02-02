@@ -31,46 +31,13 @@
 
         </div>
 
-        <!-- TODO: Mobile view change to text -->
-        <!-- TODO: user_is_logged, no buttons end will differ -->
         <div class="navbar-end">
 
             <!-- Menu Mobile -->
-
-            <div class="navbar-item is-hidden-desktop">
-
-                <%= render partial: '/layouts/navlink', locals: {
-                    linkurl: "/", linkclass:"navbar-item", text: "Home",
-                    icon: "home"
-                } %>
-
-                <%= render partial: '/layouts/navlink', locals: {
-                    linkurl: "/profiles/", linkclass:"navbar-item", text: "Companies",
-                    icon: "building"
-                } %>
-
-                <%= render partial: '/layouts/navlink', locals: {
-                    linkurl: "/tags/", linkclass:"navbar-item", text: "Tags",
-                    icon: "tags"
-                } %>
-
-                <!-- not sure maybe add pages (page types) -->
-
-                <%= render partial: '/layouts/navlink', locals: {
-                    linkurl: "/saved/", linkclass:"navbar-item", text: "Saved",
-                    icon: "star"
-                } %>
-
-                <!-- might merge in user settings for now -->
-
-                <%= render partial: '/layouts/navlink', locals: {
-                    linkurl: "/user/settings/", linkclass:"navbar-item", text: "Settings",
-                    icon: "cog"
-                } %>
-
-            </div>
+            <%= render partial: "/layouts/sidebar", locals: { classes: 'ml-2 is-hidden-desktop'} %>
 
             <!-- Dropdown -->
+            <% if user_signed_in? %>
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link is-arrowless is-hidden-touch">
                     <span class="icon">
@@ -82,29 +49,36 @@
                     <a class="navbar-item">
                         User Settings
                     </a>
+
                     <a class="navbar-item">
                         Contact
                     </a>
+
                     <hr class="navbar-divider">
-                    <a class="navbar-item">
-                        Report an issue
-                    </a>
+
+                    <%= link_to destroy_user_session_path, class: 'navbar-item' do %>
+                        Logout
+                    <% end %>
                 </div>
             </div>
+
+            <% else %>
 
             <div class="navbar-item signup">
                 <div class="buttons">
 
-                  <a id="signin" class="button is-light">
+                    <%= link_to new_user_session_path, id: 'signin', class: 'button is-light' do %>
                         Log in
-                    </a>
+                    <% end %>
 
-                  <a id="signup" class="button is-light is-primary">
+                    <%= link_to new_user_registration_path, id: 'signup',
+                    class: 'button is-light is-primary' do %>
                         <strong>Sign up</strong>
-                    </a>
+                    <% end %>
 
                 </div>
             </div>
+            <% end %>
 
         </div>
 

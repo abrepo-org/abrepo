@@ -1,35 +1,33 @@
-<aside class="menu">
+<ul class="menu-list <%= classes %>">
+    <li>
 
-    <ul class="menu-list">
-        <li>
+        <%= render partial: '/layouts/navlink', locals: {
+            linkurl: "/", linkclass:"navbar-item", text: "Home",
+            icon: "home"
+        } %>
 
-            <%= render partial: '/layouts/navlink', locals: {
-                linkurl: "/", linkclass:"navbar-item", text: "Home",
-                icon: "home"
-            } %>
+    </li>
 
-        </li>
+    <li>
 
-        <li>
+        <%= render partial: '/layouts/navlink', locals: {
+            linkurl: "/profiles/", linkclass:"navbar-item", text: "Companies",
+            icon: "building"
+        } %>
 
-            <%= render partial: '/layouts/navlink', locals: {
-                linkurl: "/profiles/", linkclass:"navbar-item", text: "Companies",
-                icon: "building"
-            } %>
+    </li>
 
-        </li>
+    <li>
 
-        <li>
+        <%= render partial: '/layouts/navlink', locals: {
+            linkurl: "/tags/", linkclass:"navbar-item", text: "Tags",
+            icon: "tags"
+        } %>
 
-            <%= render partial: '/layouts/navlink', locals: {
-                linkurl: "/tags/", linkclass:"navbar-item", text: "Tags",
-                icon: "tags"
-            } %>
+    </li>
 
-        </li>
-
-        <!-- not sure maybe add pages (page types) -->
-
+    <!-- not sure maybe add pages (page types) -->
+    <% if user_signed_in? %>
         <li>
 
             <%= render partial: '/layouts/navlink', locals: {
@@ -48,6 +46,5 @@
             } %>
 
         </li>
-  </ul>
-
-</aside>
+    <% end %>
+</ul>

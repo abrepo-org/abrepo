@@ -17,5 +17,6 @@ const imagePath = (name) => images(name, true);
 
 import "../js/init.jsx";
 import "../js/layouts/navbar_hamburger.js";
+import "../js/layouts/notification.js";
 import "../js/profiles/variation_show.js";
 

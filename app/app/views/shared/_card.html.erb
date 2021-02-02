@@ -19,22 +19,23 @@
 
         <div class="experiment-header">
 
-            <p class="is-size-5">
-                Experiment Name: <%= experiment.summary_name %>
-            </p>
+            <h4 class="mb-2">
+                <%= experiment.summary_name || "Experiment Name: Unnamed" %>
+            </h4>
 
-            <p>
-                <span class="profile_favicon">
-                    <%= image_tag('https://www.' + profile.domain + '/favicon.ico',
-                                  width: '16px') %>
-                </span>
-                <span><%= profile.domain %></span>
-            </p>
+            <div>
+            <span class="profile_favicon">
+                <%= image_tag('https://www.' + profile.domain + '/favicon.ico',
+                              width: '16px') %>
+            </span>
+            <span><%= profile.domain %></span>
+            </div>
 
+            <% if audience['name'] %>
+                <div class="mt-1"><%= audience['name'] %></div>
+            <% end %>
 
-            <p><%= audience['name'] %></p>
-
-            <div class="tags mt-1">
+            <div class="tags mt-2">
                 <span class="tag is-info is-light">finance</span>
                 <span class="tag is-info is-light">audience</span>
                 <span class="tag is-info is-light">optimizely.com</span>

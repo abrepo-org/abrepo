@@ -1,77 +1,115 @@
 <!doctype html>
 <html>
   <head>
-    <title>App</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+            <%= content_for?(:title) ? yield(:title) : "ABRepo" %>
+        </title>
+        <%= csrf_meta_tags %>
+        <%= csp_meta_tag %>
 
-    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+        <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+        <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-    <link href='https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
-  </head>
+        <link href='https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    </head>
 
-  <body class="has-navbar-fixed-top">
-      <header>
-          <%= render "/layouts/navbar" %>
-      </header>
+    <% if content_for?(:devise) %>
 
-      <main class="container is-fluid is-block-desktop">
-          <div class="columns ">
-              <div class="column is-narrow is-hidden-touch">
+        <body class="content devise has-navbar-top">
 
-                <div class="sidebar">
-                      <%= render "/layouts/sidebar" %>
-                  </div>
-              </div>
+            <header>
+                <%= render "/layouts/navbar_devise" %>
+            </header>
 
-              <div id="maxContainer" class="column">
+            <main class="container">
+                <div class="columns is-mobile is-centered ">
+                    <div class="column is-narrow-tablet content-wrap">
+                        <%= yield(:devise) %>
+                    </div>
+                </div>
+            </main>
 
+        </body>
 
-                  <% if controller.controller_name == "variations" &&
-                      controller.action_name == "show" %>
-                      <section class="columns">
-                          <div class="column">
-                              <%= yield %>
-                          </div>
-                      </section>
-                  <%else%>
-                      <!-- this container 'fixes' and contains the section width -->
-                      <section class="columns container">
-                          <div class="column is-9-desktop is-full">
-                              <%= yield %>
-                          </div>
-                          <div class="column is-3-desktop is-hidden-touch">
+    <% else %>
 
-                              <div class="sidebar-panel">
-                                  <div class="sidebar-panel-header">
-                                      <h3>Most Popular</h3>
-                                  </div>
-                                  <div class="sidebar-panel-body">
-                                      <p>Test1</p>
-                                      <p>Test2</p>
-                                  </div>
-                              </div>
+        <body class="has-navbar-fixed-top">
 
-                              <div">
-                                  <h3> Recommendations </h3>
-                                  <ul>
-                                      <li>testopresto</li>
-                                      <li>vava voom</li>
-                                      <li>meow meow </li>
-                                  </ul>
-                              </div>
+            <header>
+                <%= render "/layouts/navbar" %>
+            </header>
 
-                          </div>
-                      </section>
-                  <%end %>
+            <main class="container is-fluid is-block-desktop">
+                <div class="columns">
+                    <div class="column is-narrow is-hidden-touch">
 
-              </div>
-          </div>
-      </main>
+                        <div class="sidebar">
+                            <aside class="menu">
+                                <%= render partial: "/layouts/sidebar", locals: { classes: ''} %>
+                            </aside>
+                        </div>
+                    </div>
 
-      <%= render "/layouts/footer" %>
+                    <div id="maxContainer" class="column content">
 
-  </body>
+                        <% if controller.controller_name == "variations" &&
+                            controller.action_name == "show" %>
+                            <!-- variation#show 'Diff' App: full width -->
+                            <section class="columns">
+                                <div class="column">
+                                    <%= yield %>
+                                </div>
+                            </section>
+                        <%else%>
+                            <!-- container section width -->
+                            <section class="columns container">
+                                <% if user_signed_in? %>
+                                    <div class="column is-9-desktop is-full">
+                                        <%= yield %>
+                                    </div>
+
+                                    <div class="column is-3-desktop is-hidden-touch">
+
+                                        <div class="sidebar-panel">
+                                            <div class="sidebar-panel-header">
+                                                <h3>Most Popular</h3>
+                                            </div>
+                                            <div class="sidebar-panel-body">
+                                                <p>Test1</p>
+                                                <p>Test2</p>
+                                            </div>
+                                        </div>
+
+                                        <div">
+                                            <h3> Recommendations </h3>
+                                            <ul>
+                                                <li>testopresto</li>
+                                                <li>vava voom</li>
+                                                <li>meow meow </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                <% else %>
+
+                                    <div class="column is-full">
+                                        <%= yield %>
+                                    </div>
+
+                                <% end %>
+                            </section>
+                        <%end %>
+
+                    </div>
+                </div>
+            </main>
+
+            <%= render "/layouts/footer" %>
+
+        </body>
+
+    <% end %>
 </html>

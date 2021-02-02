@@ -1,10 +1,11 @@
+<% content_for :title, "ABRepo | Experiments by " + (@profile.company_name || @profile.domain) %>
 <section class="company-profile">
     <div class="header is-flex is-justify-content-space-between">
 
         <div class="company-info">
-            <div class="is-size-3"><%= @profile.company_name %></div>
-            <div class="is-size-5">
-                <%= link_to @profile.domain do %>
+            <h1><%= @profile.company_name %></h1>
+            <h4>
+                <%= link_to @profile do %>
 
                     <span class="profile_favicon">
                         <%= image_tag('https://www.' + @profile.domain + '/favicon.ico') %>
@@ -12,7 +13,7 @@
                     <span><%= @profile.domain %></span>
 
                 <% end %>
-            </div>
+            </h4>
         </div>
 
         <!-- expvar -->
