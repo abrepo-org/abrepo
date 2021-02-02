@@ -6,6 +6,7 @@
     <h2>Log in</h2>
 
     <% if flash[:error] || flash[:notice] || flash[:alert] %>
+    <% puts flash[:alert].inspect %>
         <div class="notification is-danger is-light">
             <%= content_tag(:div, flash[:error], :id => "flash_error") if flash[:error] %>
             <%= content_tag(:div, flash[:notice], :id => "flash_notice") if flash[:notice] %>

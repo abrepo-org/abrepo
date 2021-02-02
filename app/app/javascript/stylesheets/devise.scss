@@ -12,7 +12,7 @@ body.devise, .devise main.container {
 }
 
 .devise .notification {
-  max-width: 250px;
+  max-width: 300px;
   padding: 1.25rem;
 }
 
@@ -28,10 +28,10 @@ body.devise, .devise main.container {
 
 //NB: input field widths basically expand to <h2> headline width
 .devise input {
-  width: 250px;
+  width: 300px;
 }
 .devise input.button {
-  max-width: 250px;
+  max-width: 300px;
 }
 .devise input[type='checkbox'] { width: auto; }
 
