@@ -11,6 +11,11 @@ body.devise, .devise main.container {
   }
 }
 
+.devise .notification {
+  max-width: 250px;
+  padding: 1.25rem;
+}
+
 .devise .content-wrap {
   background: $white;
   padding: 6rem;
@@ -25,5 +30,11 @@ body.devise, .devise main.container {
 .devise input {
   width: 250px;
 }
+.devise input.button {
+  max-width: 250px;
+}
 .devise input[type='checkbox'] { width: auto; }
-#error_explanation ul { list-style-type: none; }
+
+#error_explanation ul {
+  //list-style-type: none;
+}
