@@ -1,63 +1,96 @@
 <% content_for :title, "ABRepo | Variation - " + (@variation.summary_name || "Unnamed") %>
 
+<%
+#placeholder for 2 col content in "hero" area
+commentary = false
+%>
+
 <section class="variation">
-    <div class="header is-flex is-justify-content-space-between">
+    <div class="header">
 
         <div class="variation-info">
 
             <!-- Variation -->
             <h1><%= @variation.summary_name || "Variation Name" %></h1>
+
+            <div class="mb-4">
+                <%= render partial: "stats", locals: { profile: @profile,
+                    variation_index: @variation_index,
+                    total: @experiment.variations.count }%>
+            </div>
+
             <div class="tags are-medium">
                 <span class="tag is-info is-light" >Redesign</span>
                 <span class="tag is-info is-light" >Rename</span>
                 <span class="tag is-info is-light" >UI/UX</span>
             </div>
+        </div>
 
-            <!-- Experiment -->
-            <div class="has-text-grey">Experiment</div>
-            <div><%= @experiment.summary_name || "Experiment name" %></div>
+        <div class="columns is-multiline is-mobile">
+            <div class="column is-full-mobile <%= commentary ? "is-4-desktop" : "is-7-desktop"%>">
+                <!-- Experiment -->
+                <div class="has-text-grey mt-3">Experiment</div>
+                <div><%= @experiment.summary_name || "Experiment name" %></div>
 
-            <% if @audience.name %>
-                <div class="has-text-grey mt-3">Targeting</div>
-                <div><%= @audience.name %></div>
+                <% if @audience.name %>
+                    <div class="has-text-grey mt-3">Targeting</div>
+                    <div><%= @audience.name %></div>
+                <% end %>
+
+                <!-- campaign not available across vendors,
+                     TODO: deprecate and fold this into variation summary
+                   -->
+                <% if @campaign.name %>
+                    <div class="has-text-grey mt-3">Group</div>
+                    <div><%= @campaign.name %></div>
+                <% end %>
+
+
+                <!-- Views -->
+                <!-- view not available across vendors -->
+                <% unless @variation['view'].nil? %>
+                    <div class="has-text-grey mt-3">View</div>
+                    <div> ? </div>
+                <% end %>
+
+                <div class="has-text-grey mt-3"> Page Title:</div>
+                <div><%= @renderable['renderedTitle'] %> </div>
+
+                <div class="has-text-grey mt-3"> URL:</div>
+                <div><%= @renderable['renderedURL'] %> </div>
+            </div>
+
+            <% if commentary %>
+                <div class="column is-full-mobile is-full-tablet is-offset-1-desktop is-6-desktop text">
+                    <!--
+                         placeholder:
+                         possible location for commentary, efficacy:
+                         some kind of "score card" rubric
+                         or list of similar, related, popular variations
+                       -->
+                    <h4> Commentary </h4>
+                    <p>here are many variations of passages of Lorem
+                    Ipsum available, but the majority have suffered
+                    alteration in some form, by injected humour, or
+                    randomised words which don't look even slightly
+                    believable. If you are going to use a passage of
+                    Lorem Ipsum, you need to be sure there isn't
+                    anything embarrassing hidden in the middle of
+                    text. All the Lorem Ipsum generators on the
+                    Internet tend to repeat predefined chunks as
+                    necessary, making this the first true generator on
+                    the Internet. It uses a dictionary of over 200
+                    Latin words, combined with a handful of model
+                    sentence structures, to generate Lorem Ipsum which
+                    looks reasonable. The generated Lorem Ipsum is
+                    therefore always free from repetition, injected
+                    humour, or non-characteristic words etc </p>
+
+                </div>
             <% end %>
-
-            <!-- campaign not available across vendors,
-                 TODO: deprecate and fold this into variation summary
-               -->
-            <% if @campaign.name %>
-                <div class="has-text-grey mt-3">Group</div>
-                <div><%= @campaign.name %></div>
-            <% end %>
-
-
-            <!-- Views -->
-            <!-- view not available across vendors -->
-            <% unless @variation['view'].nil? %>
-                <div class="has-text-grey mt-3">View</div>
-                <div> ? </div>
-            <% end %>
-
-            <div class="has-text-grey mt-3"> Page Title:</div>
-            <div><%= @renderable['renderedTitle'] %> </div>
-
-            <div class="has-text-grey mt-3"> URL:</div>
-            <div><%= @renderable['renderedURL'] %> </div>
 
         </div>
 
-        <div class="variation-stats mt-2 is-hidden-touch">
-            <%= render partial: "stats", locals: { profile: @profile,
-                variation_index: @variation_index,
-                total: @experiment.variations.count }%>
-        </div>
-
-    </div>
-
-    <div class="variation-stats mt-3 is-hidden-desktop is-flex is-justify-content-space-between">
-        <%= render partial: "stats", locals: { profile: @profile,
-            variation_index: @variation_index,
-            total: @experiment.variations.count  }%>
     </div>
 
 </section>
