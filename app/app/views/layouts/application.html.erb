@@ -1,6 +1,6 @@
 <!doctype html>
 <html>
-  <head>
+    <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>
@@ -16,56 +16,47 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
     </head>
 
-    <% if content_for?(:devise) %>
+    <body class="content has-navbar-fixed-top <%= "devise" if content_for?(:devise) %>" >
 
-        <body class="content devise has-navbar-top">
+        <header>
+            <%= render  content_for?(:devise) ? "/layouts/navbar_devise" : "layouts/navbar" %>
+        </header>
 
-            <header>
-                <%= render "/layouts/navbar_devise" %>
-            </header>
+        <main>
+            <section class="section" >
 
-            <main class="container">
-                <div class="columns is-mobile is-centered ">
-                    <div class="column is-narrow-tablet content-wrap">
-                        <%= yield(:devise) %>
-                    </div>
-                </div>
-            </main>
+                <% if content_for?(:devise) %>
 
-        </body>
-
-    <% else %>
-
-        <body class="has-navbar-fixed-top">
-
-            <header>
-                <%= render "/layouts/navbar" %>
-            </header>
-
-            <main class="container is-fluid is-block-desktop">
-                <div class="columns">
-                    <div class="column is-narrow is-hidden-touch">
-
-                        <div class="sidebar">
-                            <aside class="menu">
-                                <%= render partial: "/layouts/sidebar", locals: { classes: ''} %>
-                            </aside>
+                    <div class="container">
+                        <div class="columns is-mobile is-centered ">
+                            <div class="column is-narrow-tablet content-wrap">
+                                <%= yield(:devise) %>
+                            </div>
                         </div>
                     </div>
 
-                    <div id="maxContainer" class="column content">
 
-                        <% if controller.controller_name == "variations" &&
-                            controller.action_name == "show" %>
-                            <!-- variation#show 'Diff' App: full width -->
-                            <section class="columns">
-                                <div class="column">
+                <% else %>
+
+                    <% if controller.controller_name == "variations" &&
+                        controller.action_name == "show" %>
+                        <!-- variation#show 'Diff' App: full width -->
+                        <div class="container is-fluid">
+
+                            <div class="columns is-mobile">
+
+                                <div class="column is-full">
                                     <%= yield %>
                                 </div>
-                            </section>
-                        <%else%>
-                            <!-- container section width -->
-                            <section class="columns container">
+                            </div>
+                        </div>
+
+                    <%else%>
+                        <!-- container section width -->
+                        <div class="container">
+
+                            <div class="columns is-mobile">
+
                                 <% if user_signed_in? %>
                                     <div class="column is-9-desktop is-full">
                                         <%= yield %>
@@ -100,16 +91,19 @@
                                     </div>
 
                                 <% end %>
-                            </section>
-                        <%end %>
+                            </div>
+                        </div>
+                    <%end %>
+
 
                     </div>
-                </div>
-            </main>
 
-            <%= render "/layouts/footer" %>
+                <% end %>
+                    </div>
+            </section>
+        </main>
 
-        </body>
+        <%= render "/layouts/footer" %>
 
-    <% end %>
+    </body>
 </html>
