@@ -21,7 +21,7 @@ sans-serif;
 
 $tablet: 768px;
 
-$navbar-height: 4rem;
+$navbar-height: 2rem;
 $off-grey-color: rgb(247, 250, 252);
 $border-grey: rgb(227, 232, 238); //#e2e7ee
 
@@ -37,42 +37,22 @@ $border-grey: rgb(227, 232, 238); //#e2e7ee
     width: 100%;
   }
 }
-#maxContainer, #navbarBasicExample {
-  //fix width layout - not sure
-  /*max-width: 1920px;*/
+
+.container:not(.is-max-desktop):not(.is-max-widescreen) {
+  //max-width: 1392px !important;
+  //max-width: 1440px !important;
 }
 
-#navbarBasicExample {
-  box-shadow: $border-grey -1px 1px 0px 0px;
+/* TOP NAVBAR */
+nav {
+  //box-shadow: $border-grey -1px 1px 0px 0px;
+  border-bottom: 1px solid rgb(227, 232, 238);
 }
 
 #search-control {
   @include from($desktop) {
-    width: 40rem;
+    width: 20rem;
   }
-}
-
-#maxContainer {
-  background: #fff;
-  min-height: 100vh;
-
-  @include from ($desktop) {
-    box-shadow: $border-grey -1px 0px 0px 0px;
-  }
-}
-
-main.container{
-  margin-top: 12px;
-  background: #fff;
-
-  @include from($desktop) {
-    //background: $off-grey-color;
-    //container extends behind the sidebar and content, so
-    //different left and right end colors are handled via gradient :|
-    //TODO: remove this, make separate for sidebar as it conflicts w/ devise
-    //background: linear-gradient(90deg, $off-grey-color 0%, #fff 100%);
-  }
-
 }
 
 footer {
