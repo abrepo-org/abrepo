@@ -157,3 +157,25 @@ td.white-space-nowrap {
 .expvar_label {
   min-width: 70px
 }
+
+
+//table data
+.variation-row-header td {
+  font-size: .75rem;
+  //font-weight: 600;
+  color: #7a7a7a !important;
+  //padding-top: 2rem !important;
+  background: #fafafa;
+}
+
+.variation-row-header > td:first-child, .variation-row-data > td:first-child {
+  padding-left: 2rem !important;
+}
+
+.experiment-row-data:not(:first-child) > td {
+  padding-top: 3rem !important;
+}
+
+.td.nowrap {
+  white-space:nowrap;
+}

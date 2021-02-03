@@ -68,14 +68,28 @@
 
 <!--
      experiments loop
-   -->
-<% @experiments.each do |experiment| %>
-    <%= render partial: "/shared/card",
-    locals: {type: "profile#show",
-             profile: @profile,
-             experiment: experiment,
-             renderable: @renderable,
-             audience: @audience,
-             vendor: @vendor}
-    %>
-<% end %>
+  -->
+<table class="table is-fullwidth">
+    <thead>
+        <tr>
+            <th>Summary</th>
+            <th>Domain</th>
+            <th colspan="2">Tags</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <% @experiments.each do |experiment| %>
+            <%= render partial: "/shared/card",
+            locals: {type: "profile#show",
+                     profile: @profile,
+                     experiment: experiment,
+                     renderable: @renderable,
+                     audience: @audience,
+                     vendor: @vendor}
+            %>
+        <% end %>
+
+  </tbody>
+</table>
