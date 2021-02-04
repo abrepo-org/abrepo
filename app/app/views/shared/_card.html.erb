@@ -13,174 +13,39 @@
 
 <%# unless type == "profile#show" %>
 <%# end %>
+<%#experiment-row-data%>
+<div class="experiment is-flex is-justify-content-space-between">
 
+    <div class="experiment-header">
 
-<tr class="experiment-row-data">
-    <td><%= experiment.summary_name || "Experiment Name: Unnamed" %></td>
+        <h4>
+            <%= experiment.summary_name || "Experiment Name: Unnamed" %>
+        </h4>
 
-    <td>
-        <span>
-        <%= image_tag('https://www.' + profile.domain + '/favicon.ico',
-                      width: '16px') %>
-        </span>
-    <span><%= profile.domain %></span>
-    </td>
-
-    <td colspan="2" className="nowrap">
-        <span class="tag is-info is-light">finance</span>
-        <span class="tag is-info is-light">audience</span>
-        <span class="tag is-info is-light">optimizely.com</span>
-        <span class="tag is-info is-light">ababa yaga</span>
-    </td>
-
-
-    <!-- <td><%= experiment.variations.count %></td>  -->
-
-    <td>
-        <%= format_expvar_date(experiment.created_at) %>
-    </td>
-</tr>
-
-<div class="variation">
-<!-- test header -->
-<tr class="variation-row-header">
-    <td> Variation </td>
-    <td colspan="2"> Page</td>
-    <td align="right"> Verified</td>
-    <td align="right"> Watch </td>
-</tr>
-<% experiment.variations.each_with_index do |variation, index| %>
-    <tr class="variation-row-data">
-
-        <!-- Summary Name -->
-        <td>
-            <%= link_to variation_path(variation) do %>
-                Variation Name:
-                <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
-            <% end %>
-        </td>
-
-        <!--  URL -->
-        <td colspan="2"><%= renderable.renderedURL %></td>
-
-        <!-- Verified -->
-        <td align="right">
-            <% if true || variation['verified'] %>
-                <div>
-                    <span class="tag is-success is-light"
-                          title="Variation implemented">
-                        <span class="icon-text">
-
-                            <span class="icon"><i class="fas fa-check"></i></span>
-                        </span>
-                    </span>
-
-                </div>
-            <% end %>
-        </td>
-
-        <!--  Watch * -->
-        <td align="right">
-            <button title="Watch" class="button is-small watch">
-                <span class="icon-text">
-                    <span class="icon">
-                        <i class="far fa-star"></i>
-                    </span>
-                </span>
-            </button>
-        </td>
-
-
-    </tr>
-<% end %>
-</div>
-
-
-
-
-
-
-<% if false %>
-<div class="experiment-variations-group">
-    <div class="experiment is-flex is-justify-content-space-between">
-
-        <div class="experiment-header">
-        </div>
-
-
-        <!-- expvar -->
-        <div class="expvar-wrapper is-hidden-touch">
-            <%= render partial: "/shared/num_expvar",
-            locals: {
-                expvar_date: experiment.created_at,
-                num_experiments: nil,
-                num_variations: experiment.variations.count
-            }%>
-
-            <p><%= @vendor['name'] %></p>
-        </div>
-
-
-    </div>
-
-    <% num_show = 5 #num_show before 'show more' is activated %>
-    <div class="variations">
-        <% experiment.variations.each_with_index do |variation, index| %>
-
-            <div class="variation is-size-5 pt-4 <%= 'is-invisible' if index > num_show - 1 %> ">
-
-                <div class="is-flex is-justify-content-space-between is-align-items-flex-start">
-
-                    <%= link_to variation_path(variation) do %>
-                        Variation Name:
-                        <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
-                    <% end %>
-
-
-                    <button title="Watch" class="button is-small watch">
-                        <span class="icon-text">
-                            <span class="icon">
-                                <i class="far fa-star"></i>
-                            </span><span class="text">Watch</span>
-                        </span>
-                    </button>
-
-                </div>
-
-                <!-- <p class="is-size-6-5">Page Title: <%= renderable.renderedTitle %></p> -->
-                <p class="is-size-6-5"><%= renderable.renderedURL %></p>
-
-                <!-- TODO: variation.verified attribute -->
-                <% if variation['verified'] %>
-                    <div>
-                        <span class="tag is-success is-light"
-                              title="Variation implemented">
-                            <span class="icon-text">
-                                <span>Implemented</span>
-                                <span class="icon"><i class="fas fa-check"></i></span>
-                            </span>
-                        </span>
-
-                    </div>
-                <% end %>
-
-            </div>
-
-        <% end %>
-    </div>
-
-    <% if (experiment.variations.length) > num_show %>
-        <div class="toggle pt-4" onClick="window.abrepo.variation_showmore()">
-            <span class="icon-text is-flex is-justify-content-center is-flex-direction-column is-align-items-center">
-                Show <%= experiment.variations.length - num_show %> More
-                <i class="fas fa-chevron-down has-text-info"></i>
+        <!--
+        <div>
+            <span class="profile_favicon">
+                <%= image_tag('https://www.' + profile.domain + '/favicon.ico',
+                              width: '16px') %>
             </span>
+            <span><%= profile.domain %></span>
         </div>
-    <% end %>
+        -->
+
+        <% if audience['name'] %>
+            <div class="mt-1"><%= audience['name'] %></div>
+        <% end %>
+
+        <div class="tags mt-2">
+            <span class="tag is-info is-light">finance</span>
+            <span class="tag is-info is-light">audience</span>
+            <span class="tag is-info is-light">optimizely.com</span>
+        </div>
+    </div>
 
 
     <!-- expvar -->
-    <div class="expvar-wrapper is-hidden-desktop mt-4">
+    <div class="expvar-wrapper is-hidden-touch">
         <%= render partial: "/shared/num_expvar",
         locals: {
             expvar_date: experiment.created_at,
@@ -192,8 +57,72 @@
     </div>
 
 </div>
-<hr />
-<% end %>
+
+
+<div class="variation pt-4 pb-5">
+
+    <table class="is-table is-fullwidth fixed">
+        <thead class="variation-row-header">
+            <tr>
+                <th> Variation Name </th>
+                <th > Page</th>
+                <th align="right"> Verified</th>
+                <th align="right"> Watch </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% experiment.variations.each_with_index do |variation, index| %>
+                <tr class="variation-row-data">
+
+                    <!-- Summary Name -->
+                    <td>
+                        <%= link_to variation_path(variation) do %>
+                            Variation Name:
+                            <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
+                        <% end %>
+                    </td>
+
+                    <!--  URL -->
+                    <td ><%= renderable.renderedURL %></td>
+
+                    <!-- Verified -->
+                    <td align="right">
+                        <% if false || variation['verified'] %>
+                            <div>
+                                <span class="tag is-success is-light"
+                                      title="Variation implemented">
+                                    <span class="icon-text">
+
+                                        <span class="icon"><i class="fas fa-check"></i></span>
+                                    </span>
+                                </span>
+
+                            </div>
+                        <% else %>
+                            <div>&mdash;</div>
+                        <% end %>
+                    </td>
+
+                    <!--  Watch * -->
+                    <td align="right">
+                        <button title="Watch" class="button is-small watch">
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="far fa-star"></i>
+                                </span>
+                            </span>
+                        </button>
+                    </td>
+
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
+
+
+
 
 <!--
      EXPERIMENT CARD CONTENT OUTLINE
