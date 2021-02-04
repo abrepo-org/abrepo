@@ -19,25 +19,28 @@
     <body class="content has-navbar-fixed-top <%= "devise" if content_for?(:devise) %>" >
 
         <header>
-            <%= render  content_for?(:devise) ? "/layouts/navbar_devise" : "layouts/navbar" %>
+            <%= render "layouts/navbar" %>
         </header>
 
         <main>
-            <section class="section" >
 
-                <% if content_for?(:devise) %>
+            <% if content_for?(:devise) %>
 
-                    <div class="container">
-                        <div class="columns is-mobile is-centered ">
-                            <div class="column is-narrow-tablet content-wrap">
-                                <%= yield(:devise) %>
-                            </div>
+                <section class="section hero is-fullheight" >
+                    <div class="hero-body">
+                        <div class="container ">
+
+                                <div class="column is-4 is-offset-4">
+                                    <%= yield(:devise) %>
+                                </div>
+
                         </div>
                     </div>
+                </section>
 
+            <% else %>
 
-                <% else %>
-
+                <section class="section" >
                     <% if controller.controller_name == "variations" &&
                         controller.action_name == "show" %>
                         <!-- variation#show 'Diff' App: full width -->
@@ -67,10 +70,9 @@
 
 
                     </div>
+                </section>
 
-                <% end %>
-
-            </section>
+            <% end %>
         </main>
 
         <%= render "/layouts/footer" %>

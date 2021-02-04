@@ -3,10 +3,13 @@
 <% end %>
 
 <% content_for :devise do %>
+
     <h2>Log in</h2>
 
+    <hr />
+
     <% if flash[:error] || flash[:notice] || flash[:alert] %>
-    <% puts flash[:alert].inspect %>
+        <% puts flash[:alert].inspect %>
         <div class="notification is-danger is-light">
             <%= content_tag(:div, flash[:error], :id => "flash_error") if flash[:error] %>
             <%= content_tag(:div, flash[:notice], :id => "flash_notice") if flash[:notice] %>
@@ -14,39 +17,42 @@
         </div>
     <% end %>
 
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <div class="box">
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 
-        <div class="field">
-            <%= f.label :email, class: "field" %>
-            <div class="control">
-                <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-            </div>
-        </div>
-
-        <div class="field">
-            <%= f.label :password, class: "label" %>
-            <div class="control">
-                <%= f.password_field :password, autocomplete: "current-password" %>
-            </div>
-        </div>
-
-        <% if devise_mapping.rememberable? %>
             <div class="field">
+                <%= f.label :email, class: "field" %>
                 <div class="control">
-                    <%= f.label :remember_me, class: "checkbox" do %>
-                        <%= f.check_box :remember_me %>
-                        Remember Me
-                    <% end %>
+                    <%= f.email_field :email, class: "input",
+                        autofocus: true, autocomplete: "email" %>
+                </div>
+            </div>
+
+            <div class="field">
+                <%= f.label :password, class: "label" %>
+                <div class="control">
+                    <%= f.password_field :password, class: "input",
+                        autocomplete: "current-password" %>
+                </div>
+            </div>
+
+            <% if devise_mapping.rememberable? %>
+                <div class="field">
+                    <div class="control">
+                        <%= f.label :remember_me, class: "checkbox" do %>
+                            <%= f.check_box :remember_me %>
+                            Remember Me
+                        <% end %>
+                    </div>
+                </div>
+            <% end %>
+
+            <div class="actions">
+                <div class="control">
+                    <%= f.submit "Log in", class: "button is-fullwidth is-link" %>
                 </div>
             </div>
         <% end %>
-
-        <div class="actions">
-            <div class="control">
-                <%= f.submit "Log in", class: "button is-fullwidth is-link" %>
-            </div>
-        </div>
-    <% end %>
-
+    </div>
     <%= render "devise/shared/links" %>
 <% end  %>

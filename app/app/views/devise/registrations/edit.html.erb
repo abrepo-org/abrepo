@@ -2,83 +2,92 @@
     ABRepo | Edit <%= resource_name.to_s.humanize %>
 <% end %>
 
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<div class="columns">
+    <div class="column is-5">
+        <h2>Update Account</h2>
+        <hr />
+        <%= render "devise/shared/error_messages", resource: resource %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-      <%= f.label :email, class: "label" %>
-      <div class="control">
-          <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-      </div>
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
 
-      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-      <span class="help has-text-weight-normal is-inline-block is-danger">
-        Currently waiting confirmation for: <%= resource.unconfirmed_email %>
-      </span>
-      <% end %>
+            <div class="field">
+                <%= f.label :email, class: "label" %>
+                <div class="control">
+                    <%= f.email_field :email, class: "input",
+                        autofocus: true, autocomplete: "email" %>
+                </div>
 
-  </div>
+                <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+                    <span class="help has-text-weight-normal is-inline-block is-danger">
+                        Currently waiting confirmation for: <%= resource.unconfirmed_email %>
+                    </span>
+                <% end %>
 
-  <div class="field">
-      <%= f.label :password, class: "label" do%>
-          New password
-          <% if @minimum_password_length %>
-              <span class="help has-text-weight-normal is-inline-block">
-                  (<%= @minimum_password_length %> characters minimum)
-              </span>
-          <% end %>
-          <!-- <span class="help ">
-               (leave blank if you don't want to change it)
-               </span>
-             -->
-      <% end  %>
+            </div>
 
-      <div class="control">
-          <%= f.password_field :password, autocomplete: "new-password" %>
-      </div>
+            <div class="field">
+                <%= f.label :password, class: "label" do%>
+                    New password
+                    <% if @minimum_password_length %>
+                        <span class="help has-text-weight-normal is-inline-block">
+                            (<%= @minimum_password_length %> characters minimum)
+                        </span>
+                    <% end %>
+                    <!-- <span class="help ">
+                         (leave blank if you don't want to change it)
+                         </span>
+                       -->
+                <% end  %>
 
-  </div>
+                <div class="control">
+                    <%= f.password_field :password, class: "input", autocomplete: "new-password" %>
+                </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation, class: "label"%>
-      <div class="control">
-          <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-      </div>
-  </div>
+            </div>
 
-  <hr />
-  <div class="field">
-      <%= f.label :current_password, class:"label" do %>
-          Current Password
-          <span class="help has-text-weight-normal is-inline-block">
-              (we need your current password to confirm your changes)
-          </span>
-      <% end %>
-      <div class="control">
-          <%= f.password_field :current_password, autocomplete: "current-password" %>
-      </div>
-  </div>
+            <div class="field">
+                <%= f.label :password_confirmation, class: "label"%>
+                <div class="control">
+                    <%= f.password_field :password_confirmation, class: "input",
+                        autocomplete: "new-password" %>
+                </div>
+            </div>
 
-  <div class="actions">
-      <div class="control">
-          <%= f.submit "Update", class: "button is-link"%>
-      </div>
-  </div>
-<% end %>
+            <hr />
+            <div class="field">
+                <%= f.label :current_password, class:"label" do %>
+                    Current Password
+                    <span class="help has-text-weight-normal is-inline-block">
+                        (we need your current password to confirm your changes)
+                    </span>
+                <% end %>
+                <div class="control">
+                    <%= f.password_field :current_password, class: "input",
+                        autocomplete: "current-password" %>
+                </div>
+            </div>
 
-<% if false %>
-<% # avoid direct cancel for now  %>
+            <div class="actions">
+                <div class="control">
+                    <%= f.submit "Update", class: "button is-link is-fullwidth"%>
+                </div>
+            </div>
+        <% end %>
 
-    <hr />
+        <% if false %>
+            <% # avoid direct cancel for now  %>
 
-    <p>Cancel account</p>
-    <p>Unhappy? Please email admin@abrepo.com to cancel your account.</p>
+            <hr />
 
-    <3>Cancel account</3>
+            <p>Cancel account</p>
+            <p>Unhappy? Please email admin@abrepo.com to cancel your account.</p>
 
-    <p>Unhappy?</p>
-    <%= button_to "Cancel my account", registration_path(resource_name),
-    class: 'button', data: { confirm: "Are you sure?" }, method: :delete %>
+            <3>Cancel account</3>
+
+            <p>Unhappy?</p>
+            <%= button_to "Cancel my account", registration_path(resource_name),
+            class: 'button is-fullwidth', data: { confirm: "Are you sure?" }, method: :delete %>
+    </div>
+</div>
 <% end %>

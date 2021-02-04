@@ -1,41 +1,14 @@
-$inputWidth: 300px;
-
 body.devise, .devise main.container {
   background: white;
 }
-.devise nav {
+.devise nav, .devise .box {
   background: $off-grey-color;
 }
 
-.is-marginless-mobile {
-  @include until($tablet) {
-    margin: 0;
-  }
-}
-
-.devise .notification {
-  max-width: $inputWidth;
-  padding: 1.25rem;
-}
-
-.devise .content-wrap {
-  background: $white;
-  padding: 6rem;
-  margin-top: 3rem;  //navbar top adjust
-  //box-shadow: -1px 3px 5px -2px #ccc;
-}
-.devise nav.navbar {
-  background: #f7fafc;
-}
-
-//NB: input field widths basically expand to <h2> headline width
-.devise input {
-  width: $inputWidth;
-  max-width: $inputWidth;
-}
+.devise h2 { text-align: center; }
 
 .devise input[type='checkbox'] { width: auto; }
 
 #error_explanation ul {
-  //list-style-type: none;
+  list-style-type:none;
 }
