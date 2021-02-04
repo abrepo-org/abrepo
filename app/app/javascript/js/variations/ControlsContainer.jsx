@@ -19,6 +19,9 @@ export default class ControlsContainer extends React.Component {
                             <div className="column is-full">
                                 {/* not sure controls should be sticky */}
                                 {/* diff control placeholders */}
+
+                                {this.props.diffVisible &&
+                                <>
                                 <button>
                                     <span className="icon is-small">
                                         <i className="fas fa-font"></i>
@@ -29,6 +32,21 @@ export default class ControlsContainer extends React.Component {
                                         <i className="fab fa-css3"></i>
                                     </span>
                                 </button>
+                                </>
+                                }
+                                <button onClick={() => this.props.toggleDiffVisibleHandler()}>
+
+                                    <span className="icon-text">
+                                        <span className="icon is-small">
+                                        {this.props.diffVisible ?
+                                         <i className="far fa-eye-slash"></i> :
+                                         <i className="far fa-eye"></i>
+                                        }
+                                        </span>
+                                        {/* <span className="text">Hide</span> */}
+                                    </span>
+                                </button>
+
                             </div>
                         </div>
 

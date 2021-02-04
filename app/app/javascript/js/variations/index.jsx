@@ -42,6 +42,7 @@ export default class Variation extends React.Component {
             isSingleView,
             activeView: isSingleView ? 1 : 0,
 
+            diffVisible: true,
 
             mobileModalIsOpen: false,
             mobileModalContent: {diff: null},
@@ -163,6 +164,11 @@ export default class Variation extends React.Component {
         this.setState({resetShift: this.state.resetShift + 1})
     }
 
+    toggleDiffVisibleHandler() {
+        console.log("toggleDiffVisibleHandler", this.state.diffVisible);
+        this.setState({diffVisible: !this.state.diffVisible})
+    }
+
     windowResizeHandler() {
 
         //best compromise:
@@ -259,6 +265,9 @@ export default class Variation extends React.Component {
                                     isSingleView={this.state.isSingleView}
                                     activeView={this.state.activeView}
                                     toggleActiveViewHandler={this.toggleActiveViewHandler.bind(this)}
+
+                                    toggleDiffVisibleHandler={this.toggleDiffVisibleHandler.bind(this)}
+                                    diffVisible={this.state.diffVisible}
                                     {...this.props} />
                  <hr />
             </section>
@@ -267,7 +276,7 @@ export default class Variation extends React.Component {
 
                  <div className="columns">
 
-                     <div className="column is-3 is-hidden-touch">
+                     <div className={`column is-3 is-hidden-touch ${this.state.diffVisible ? '' : 'is-hidden'}`}>
 
                          <div className="columns" >
                              <div className="column diffPanel"
