@@ -121,7 +121,11 @@ td.white-space-nowrap {
 .expvar-wrapper {
   min-width: 225px;
 }
+.experiment .expvar-wrapper {
+  padding-top:1.4rem;
+  font-size:.85rem;
 
+}
 .expvar {
   display: inline-flex;
   padding-right: 1.5rem;
@@ -137,3 +141,36 @@ td.white-space-nowrap {
 .expvar_label {
   min-width: 70px
 }
+
+
+//table data
+.variation-row-header th {
+  font-size: .75rem;
+  font-weight: 400;
+  color: #7a7a7a !important;
+  //padding-top: 2rem !important;
+  background: #fafafa;
+  border-width: 1px 0 !important;
+}
+
+.td.nowrap {
+  white-space:nowrap;
+}
+
+table.fixed { width:100%;}
+table.fixed th {
+  //alignment nudge font size differential
+  padding-left: calc(.75em + 3px) !important;
+}
+table.fixed td {overflow:hidden;}
+table.fixed td:nth-of-type(1) {
+  width: 100%;
+  @include from ($tablet) {
+    width: 45%;
+  }
+}
+table.fixed td:nth-of-type(2) {width: 45%;}
+
+//control icons
+//2-> align right defer to browser auto sizing
+table.fixed td:nth-of-type(4) {width: 1%;}
