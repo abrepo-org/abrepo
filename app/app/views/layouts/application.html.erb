@@ -19,7 +19,7 @@
     <body class="content has-navbar-fixed-top <%= "devise" if content_for?(:devise) %>" >
 
         <header>
-            <%= render  content_for?(:devise) ? "/layouts/navbar_devise" : "layouts/navbar" %>
+            <%= render "layouts/navbar" %>
         </header>
 
         <main>
