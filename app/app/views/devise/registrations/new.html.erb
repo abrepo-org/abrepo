@@ -3,50 +3,56 @@
 <% end %>
 
 <% content_for :devise do %>
+
     <h2>Sign up</h2>
+    <hr />
+    <%= render "devise/shared/error_messages", resource: resource %>
 
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-        <%= render "devise/shared/error_messages", resource: resource %>
+    <div class="box">
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
 
-        <div class="field">
-            <%= f.label :email, class: "label" %>
-            <div class="control">
-                <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+            <div class="field">
+                <%= f.label :email, class: "label" %>
+                <div class="control">
+                    <%= f.email_field :email, class: "input",
+                        autofocus: true, autocomplete: "email" %>
+                </div>
             </div>
-        </div>
 
-        <div class="field">
-            <%= f.label :password, class: "label" do %>
-                Password
-                <% if @minimum_password_length %>
-                    <span class="help has-text-weight-normal is-inline-block">
-                        (<%= @minimum_password_length %> characters minimum)
-                    </span>
+            <div class="field">
+                <%= f.label :password, class: "label" do %>
+                    Password
+                    <% if @minimum_password_length %>
+                        <span class="help has-text-weight-normal is-inline-block">
+                            (<%= @minimum_password_length %> characters minimum)
+                        </span>
+                    <% end %>
                 <% end %>
-            <% end %>
-            <div class="control" >
-                <%= f.password_field :password, autocomplete: "new-password" %>
+                <div class="control" >
+                    <%= f.password_field :password, class: "input",
+                        autocomplete: "new-password" %>
+                </div>
+                <!--
+                     <div>
+                     <%= resource.errors[:email].join(',') if resource.errors[:email] %>
+                     </div>
+                   -->
             </div>
-            <!--
-            <div>
-                <%= resource.errors[:email].join(',') if resource.errors[:email] %>
-            </div>
-            -->
-        </div>
 
-        <div class="field">
-            <%= f.label :password_confirmation, class: "label" %>
-            <div class="control">
-                <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+            <div class="field">
+                <%= f.label :password_confirmation, class: "label" %>
+                <div class="control">
+                    <%= f.password_field :password_confirmation, class: "input",
+                        autocomplete: "new-password" %>
+                </div>
             </div>
-        </div>
 
-        <div class="actions">
-            <div class="control">
-                <%= f.submit "Sign up", class: "button is-fullwidth is-link" %>
+            <div class="actions">
+                <div class="control">
+                    <%= f.submit "Sign up", class: "button is-fullwidth is-link" %>
+                </div>
             </div>
-        </div>
-    <% end %>
-
+        <% end %>
+    </div>
     <%= render "devise/shared/links" %>
 <% end %>
