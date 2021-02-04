@@ -122,7 +122,7 @@ td.white-space-nowrap {
   min-width: 225px;
 }
 .experiment .expvar-wrapper {
-  padding-top:1.25rem;
+  padding-top:1.4rem;
   font-size:.85rem;
 
 }
@@ -153,23 +153,24 @@ td.white-space-nowrap {
   border-width: 1px 0 !important;
 }
 
-.variation-row-header > td:first-child, .variation-row-data > td:first-child {
-  //padding-left: 2rem !important;
-}
-
-/* .experiment-row-data:not(:first-child) > td { */
-/*   padding-top: 3rem !important; */
-/* } */
-
 .td.nowrap {
   white-space:nowrap;
 }
 
-table.fixed { width:100%;}/*Setting the table width is important!*/
-table.fixed td {overflow:hidden;}/*Hide text outside the cell.*/
-table.fixed td:nth-of-type(1) {width:45%;}/*Setting the width of column 1.*/
-table.fixed td:nth-of-type(2) {width:45%;}/*Setting the width of column 2.*/
+table.fixed { width:100%;}
+table.fixed th {
+  //alignment nudge font size differential
+  padding-left: calc(.75em + 3px) !important;
+}
+table.fixed td {overflow:hidden;}
+table.fixed td:nth-of-type(1) {
+  width: 100%;
+  @include from ($tablet) {
+    width: 45%;
+  }
+}
+table.fixed td:nth-of-type(2) {width: 45%;}
 
 //control icons
-//table.fixed td:nth-of-type(3) {width:16.5%;}/*Setting the width of column 3.*/
-table.fixed td:nth-of-type(4) {width:1%;}/*Setting the width of column 3.*/
+//2-> align right defer to browser auto sizing
+table.fixed td:nth-of-type(4) {width: 1%;}
