@@ -41,7 +41,7 @@
                     <% if controller.controller_name == "variations" &&
                         controller.action_name == "show" %>
                         <!-- variation#show 'Diff' App: full width -->
-                        <div class="container is-fluid">
+                        <div class="container">
 
                             <div class="columns is-mobile">
 
@@ -57,40 +57,10 @@
 
                             <div class="columns is-mobile">
 
-                                <% if user_signed_in? %>
-                                    <div class="column is-9-desktop is-full">
-                                        <%= yield %>
-                                    </div>
+                                <div class="column is-full">
+                                    <%= yield %>
+                                </div>
 
-                                    <div class="column is-3-desktop is-hidden-touch">
-
-                                        <div class="sidebar-panel">
-                                            <div class="sidebar-panel-header">
-                                                <h3>Most Popular</h3>
-                                            </div>
-                                            <div class="sidebar-panel-body">
-                                                <p>Test1</p>
-                                                <p>Test2</p>
-                                            </div>
-                                        </div>
-
-                                        <div">
-                                            <h3> Recommendations </h3>
-                                            <ul>
-                                                <li>testopresto</li>
-                                                <li>vava voom</li>
-                                                <li>meow meow </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                <% else %>
-
-                                    <div class="column is-full">
-                                        <%= yield %>
-                                    </div>
-
-                                <% end %>
                             </div>
                         </div>
                     <%end %>
@@ -99,7 +69,7 @@
                     </div>
 
                 <% end %>
-                    </div>
+
             </section>
         </main>
 

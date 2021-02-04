@@ -27,7 +27,7 @@ $border-grey: rgb(227, 232, 238); //#e2e7ee
 
 @import "bulma";
 @import "../stylesheets/icons.scss";
-@import "../stylesheets/sidebar.scss";
+@import "../stylesheets/menu.scss";
 @import "../stylesheets/variation.scss";
 @import "../stylesheets/profile.scss";
 @import "../stylesheets/devise.scss";
@@ -38,14 +38,8 @@ $border-grey: rgb(227, 232, 238); //#e2e7ee
   }
 }
 
-.container:not(.is-max-desktop):not(.is-max-widescreen) {
-  //max-width: 1392px !important;
-  //max-width: 1440px !important;
-}
-
 /* TOP NAVBAR */
 nav {
-  //box-shadow: $border-grey -1px 1px 0px 0px;
   border-bottom: 1px solid rgb(227, 232, 238);
 }
 
@@ -55,6 +49,12 @@ nav {
   }
 }
 
+/* SECTION */
+section.section {
+  //TODO: adjust once <footer> is built
+  //on login want min-height to reach footer
+  min-height: 80vh;
+}
 footer {
   border-top: 1px solid #000;
 }

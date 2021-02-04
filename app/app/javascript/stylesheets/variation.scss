@@ -13,7 +13,12 @@ button {
   cursor: pointer;
 }
 
-/* Diff Panel */
+/*
+ * Diff Panel
+ */
+.diffPanel {
+  z-index: 10;
+}
 .diffPanel .diff {
   overflow-wrap: break-word;
 }
