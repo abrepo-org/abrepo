@@ -1,9 +1,15 @@
 FROM ruby:2.7.2
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client sqlite3 libsqlite3-dev
+
+#stripe
+RUN apt-key adv --keyserver hkp://pool.sks-keyservers.net:80 --recv-keys 379CE192D401AB61
+RUN echo "deb https://dl.bintray.com/stripe/stripe-cli-deb stable main" | tee -a /etc/apt/sources.list
+
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client sqlite3 libsqlite3-dev stripe
 RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash -
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 RUN apt-get update && apt-get install yarn
+
 
 #do this first to take advantage of caching?
 WORKDIR /app

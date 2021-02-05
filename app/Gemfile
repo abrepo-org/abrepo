@@ -12,6 +12,9 @@ gem 'puma', '~> 3.11'
 # Use Webpacker
 gem 'webpacker', '~> 5.2'
 
+# stripe
+gem 'stripe'
+
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
 
