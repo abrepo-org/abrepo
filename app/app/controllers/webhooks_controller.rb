@@ -46,10 +46,12 @@ class WebhooksController < ApplicationController
 
     rescue JSON::ParserError => e
       # Invalid payload
+      puts "Invalid Payload", e
       status 400
       return
     rescue Stripe::SignatureVerificationError => e
       # Invalid signature
+      puts "Invalid Signature", e
       status 400
       return
 
