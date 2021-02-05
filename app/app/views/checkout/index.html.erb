@@ -1,0 +1,38 @@
+<h1>Checkout#index</h1>
+<p>Find me in app/views/checkout/index.html.erb</p>
+
+<pre><%= @price %> </pre>
+<button id="checkout">Subscribe</button>
+
+<%= content_for(:footer) do %>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+
+     (() => {
+
+         const stripe = Stripe('<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>');
+         const priceId = "<%= @price.id %>";
+
+         const createCheckoutSession = (priceId) => {
+             return fetch("/create-checkout-session", {
+                 method: "POST",
+                 headers: { "Content-Type": "application/json" },
+                 body: JSON.stringify({data: { priceId } })
+             }).then( (result) => result.json() )
+         };
+
+
+         const checkoutHandler = (priceId) => {
+             createCheckoutSession(priceId).then( data => {
+                 stripe.redirectToCheckout({ sessionId: data.sessionId })
+             })
+         };
+
+         document
+             .getElementById("checkout")
+             .addEventListener('click', (e) => checkoutHandler(priceId) );
+
+     })();
+    </script>
+<% end %>
