@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   resources :profiles, only: ['show', 'index']
   resources :variations, only: ['show']
 
+  #stripe
+  post '/webhooks/stripe_payments', to: 'webhooks#index'
+
   #default page
   root to: "rails/welcome#index"
 end
