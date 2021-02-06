@@ -14,7 +14,7 @@ class CheckoutController < ApplicationController
   end
 
   def success
-    session_id = params[:session_id]
+    @session_id = params[:session_id]
 
     #TODO:
     #1. update customer_id in app
@@ -38,15 +38,26 @@ class CheckoutController < ApplicationController
     # is redirected to the success page.
     begin
       session = Stripe::Checkout::Session.create(
+
+        customer_email: current_user ? current_user.email : nil,
+        client_reference_id: current_user.id,
+
+        #metadata: {key:value}, #attach to checkout.session object (returned on webhook)
+        #subscription_data: { trial_period_days: 7}
+
+        #NB: urls need to be full url not relative
         success_url: 'http://localhost/checkout/success?session_id={CHECKOUT_SESSION_ID}',
         cancel_url: 'http://localhost/checkout/canceled',
+
         payment_method_types: ['card'],
         mode: 'subscription',
         allow_promotion_codes: true,
-        line_items: [{
-                       quantity: 1,
-                       price: priceId,
-                     }],
+        line_items: [
+          {
+            quantity: 1, #change when volume price_id specified
+            price: priceId,
+          }
+        ],
       )
 
       render status: 200, json: { sessionId: session.id }
