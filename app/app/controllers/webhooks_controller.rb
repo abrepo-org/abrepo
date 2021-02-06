@@ -3,6 +3,7 @@ class WebhooksController < ApplicationController
 
   def index
     webhook_secret = ENV['STRIPE_WEBHOOK_SECRET_KEY']
+
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
     event = nil
@@ -27,22 +28,58 @@ class WebhooksController < ApplicationController
       case event.type
       when 'checkout.session.completed'
 
-        puts "checkout.session.completed"
+        user_id = data_object['client_reference_id']
 
-        #save customer id to db
-        puts "CUSTOMER", data_object['customer']
-        #puts event
+        #potential place for building user?
+        #user = User.find_by_id(user_id)
+        # if (user.nil?):
+        #     email = data_object['customer_details']['email']
+        #   user = User.create(email: email)
 
-      when 'invoice.paid'
-        puts "invoice paid"
-        puts event
-      when 'invoice.payment.failed'
-        puts "invoice payment failed"
-        puts event
+        subscription = Subscription.create(
+            user_id: user_id,
+            stripe_customer_id: data_object['customer'],
+            stripe_subscription_id: data_object['subscription'],
+            active: data_object['payment_status'] == "paid",
+            billing_issue: data_object['payment_status'] != "paid"
+        );
+
+
+      #
+      # No Sub
+      #
+      when 'customer.subscription.deleted'
+        stripe_subscription_id = data_object['id']
+        subscription = Subscription.find_by_stripe_subscription_id(stripe_subscription_id)
+        subscription.update(active: false, billing_issue: false) if subscription
+
+      #
+      # No Sub - arrears
+      #
+      # 'charge.failed', 'invoice.payment_failed' -> ultimately subscription is updated
+      # past_due, unpaid, incomplete, incomplete_expired,
+      when 'charge.failed', 'invoice.payment_failed'
+
+        if data_object['subscription']
+          stripe_subscription_id = data_object['subscription']
+          stripe_subscription = Stripe::Subscription.retrieve(stripe_subscription_id)
+          status = stripe_subscription['status']
+
+          if not ['active', 'trialing', 'canceled'].include?(status)
+            subscription = Subscription.find_by_stripe_subscription_id(stripe_subscription_id)
+            subscription.update(active: false, billing_issue: true) if subscription
+          end
+        end
+
+      # when 'charge.dispute.created'
+      # when 'radar.early_fraud_warning.created'
+      # active:true, billing_issue: false? a flag - we'll allow access until resolved?
+
       else
         puts "Unhandled event type: #{event_type}"
-        puts event
+
       end
+
 
     rescue JSON::ParserError => e
       # Invalid payload

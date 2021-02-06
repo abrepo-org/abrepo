@@ -174,7 +174,27 @@ stripe prices update <price_id> \
 
 ```
 
+##### Stripe Fixtures
 
+Currently saved in: `test/fixtures/files/<file.json>`
+
+Stripe fixtures execute custom fixtures, best modified on the `stripe
+trigger` webhook request examples. To customize requests, download the
+corresponding
+[base template](https://github.com/stripe/stripe-cli/blob/master/triggers/) associated
+with the eventm and populate accordingly.
+
+
+```
+# executing checkout.session.completed trigger, but added 'client_reference_id'
+stripe fixtures test/fixtures/files/checkout.session.completed.json
+
+# test charge.failed
+stripe fixtures test/fixtures/files/charge.failed.json
+
+```
+
+The rails webhook will receive your modified fixture event.
 
 
 #### Manage Subscriptions - Portal:
