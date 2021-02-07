@@ -196,6 +196,20 @@ stripe fixtures test/fixtures/files/charge.failed.json
 
 The rails webhook will receive your modified fixture event.
 
+##### Stripe Test Cards
+
+https://stripe.com/docs/testing
+https://stripe.com/docs/testing#cards-responses
+
+There are card patterns that will trigger certain responses
+There are also corresponding card names "tok_<xyz>" that are for use in fixtures.
+
+e.g.
+4000000000000341 | tok_chargeCustomerFail
+
+Errors are displayed on stripe checkout form, but also triggers
+the sequence of webhooks (e.g. webhooks are always active)
+
 
 #### Manage Subscriptions - Portal:
 

@@ -1,4 +1,5 @@
 class CheckoutController < ApplicationController
+  include CheckoutHelper
   protect_from_forgery with: :exception, :except => [:createSession]
 
   #pricing page, inital step
@@ -16,10 +17,7 @@ class CheckoutController < ApplicationController
   def success
     @session_id = params[:session_id]
 
-    #TODO:
-    #1. update customer_id in app
-    #2. Add customer meta to stripe
-    # best done in a webhook?
+    #TODO: possible redirect to create user / edit password
     #@session = Stripe::Checkout::Session.retrieve(session_id)
     #current_user.stripe_customer_id = @session["customer"]
 
@@ -37,17 +35,30 @@ class CheckoutController < ApplicationController
     # the actual Session ID is returned in the query parameter when your customer
     # is redirected to the success page.
     begin
+
+      puts "customer", get_stripe_customer_id()
+      puts "email: ", get_customer_email()
+
       session = Stripe::Checkout::Session.create(
 
-        customer_email: current_user ? current_user.email : nil,
-        client_reference_id: current_user.id,
+        #existing stripe customer
+        #NB: given customer_id, user can change email address (primary_key is customer_id)
+        #and it will update stripe user info
+        customer: get_stripe_customer_id,
+
+        # not yet striped, but registered or nil if not registered
+        # NB: customer vs customer_email are exclusive
+        # customer_email is locked on checkout (no customer_id yet)
+        customer_email: get_customer_email,
+
+        client_reference_id: user_signed_in? ? current_user.id : nil,
 
         #metadata: {key:value}, #attach to checkout.session object (returned on webhook)
         #data attached to subscription.metadata
         subscription_data: {
           metadata: {
-            abrepo_email: current_user ? current_user.email : nil,
-            user_id: current_user ? current_user.id : nil
+            abrepo_email: user_signed_in? ? current_user.email : nil,
+            user_id: user_signed_in? ? current_user.id : nil
           }
 
           #trial_period_days: 7
