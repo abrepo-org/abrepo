@@ -28,6 +28,7 @@ class WebhooksController < ApplicationController
       case event.type
       when 'checkout.session.completed'
 
+        #data obj is "checkout.session"
         user_id = data_object['client_reference_id']
 
         #potential place for building user?

@@ -43,7 +43,15 @@ class CheckoutController < ApplicationController
         client_reference_id: current_user.id,
 
         #metadata: {key:value}, #attach to checkout.session object (returned on webhook)
-        #subscription_data: { trial_period_days: 7}
+        #data attached to subscription.metadata
+        subscription_data: {
+          metadata: {
+            abrepo_email: current_user ? current_user.email : nil,
+            user_id: current_user ? current_user.id : nil
+          }
+
+          #trial_period_days: 7
+        },
 
         #NB: urls need to be full url not relative
         success_url: 'http://localhost/checkout/success?session_id={CHECKOUT_SESSION_ID}',
