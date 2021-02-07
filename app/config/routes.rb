@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   post '/create-checkout-session/', to: 'checkout#createSession'
   get '/checkout/success/', to: 'checkout#success'
   get '/checkout/canceled/', to: 'checkout#cancel'
+  post '/customer-portal/', to: 'checkout#portal'
 
   # webhook
   post '/webhooks/stripe_payments', to: 'webhooks#index'

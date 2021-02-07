@@ -1,5 +1,5 @@
 class ImportsController < ApplicationController
-  protect_from_forgery except: :create
+  protect_from_forgery with: :exception, except: :create
 
   def test
     render json: params

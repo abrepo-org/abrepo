@@ -1,5 +1,5 @@
 class CheckoutController < ApplicationController
-  protect_from_forgery :except => [:createSession, :portal]
+  protect_from_forgery with: :exception, :except => [:createSession]
 
   #pricing page, inital step
   def index
@@ -75,4 +75,21 @@ class CheckoutController < ApplicationController
     end
   end
 
+
+  #
+  # Customer Portal URL
+  #
+  def portal
+
+    return_url = 'http://localhost/users/edit/'
+
+    customer_id = current_user.subscriptions.last.stripe_customer_id
+    session = Stripe::BillingPortal::Session.create(
+      {
+        customer: customer_id,
+        return_url: return_url
+      })
+
+    render status: 200, json: { url: session.url }
+  end
 end

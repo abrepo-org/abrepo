@@ -199,6 +199,31 @@ The rails webhook will receive your modified fixture event.
 
 #### Manage Subscriptions - Portal:
 
+For paid users, on users/edit, display button sending user to management portal.
+
+On button click, POST request that looks up stripe_customer_id,
+requests from stripe the valid management url to redirect user. User
+only sees a fetch and a url response (auth, customer_id all handled in
+server.)
+
+Need to setup _Customer Portal_ within Stripe dashboard before portal
+is available:
+
+* Settings -> Billing -> Customer Portal
+
+Requires URLs for:
+
+* Terms of Service
+* Privacy Policy
+
+Portal can be setup to allow:
+
+* Payment Changes
+* Cancel Subscription - immediately vs end-of-period (maybe disable for now)
+* Switch Plans
+
+
+
 
 ## Frontend JS - Checkout Client
 

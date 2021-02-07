@@ -1,5 +1,5 @@
 class WebhooksController < ApplicationController
-  protect_from_forgery :except => :index
+  protect_from_forgery with: :exception, :except => :index
 
   def index
     webhook_secret = ENV['STRIPE_WEBHOOK_SECRET_KEY']
