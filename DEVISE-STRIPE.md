@@ -15,7 +15,7 @@ is a decorated vanilla sign up with "purchase step" indicators
 
 ### /checkout/review/:price_key
 
-If no price_id; defaults to monthly
+If no price_id; defaults to 'basic' (monthly)
 
 This is a checkout, purchase review page; only accessible by logged in
 users.
@@ -24,3 +24,34 @@ Displays plan and features, price, etc.
 
 Just a single button that says "purchase", runs stripe checkout
 process: (fetch session_id, then stripe_redirect)
+
+
+
+## Devise
+
+Checkout controller consists of devise registrations controller overrides, and
+stripe paths.
+
+`checkout#initial`-> `registrations#new` (both action and view)
+`checkout#create` -> `registrations#create`
+
+Mostly copied controller code into `/checkout` with slight url
+modifications, sign_in checks.
+
+Use separate named actions to allow custom before hook behavior.
+
+#### Views
+
+`/checkout`:
+
+* `initial.html.erb` is `#new` page for user creation
+* `review.html.erb`: reviews created users selection and sends to stripe
+
+
+#### Routes
+
+* get `checkout/initial/:price_key` -> new
+* post `checkout/initial/:price_key` -> create
+* get `checkout/review/:price_key` -> stripe launch
+
+`price_key` is a param for which subscription plan.

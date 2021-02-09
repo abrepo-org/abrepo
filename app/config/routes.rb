@@ -5,14 +5,20 @@ Rails.application.routes.draw do
   get 'checkout/success'
 
   devise_scope :user do
-    get "/checkout/initial(/:price_key)", action: :new, controller: 'devise/registrations',
+
+    get "/checkout/initial(/:price_key)", action: :initial, controller: 'checkout',
         as: "checkout_initial"
+
+    post "/checkout/initial(/:price_key)", action: :create, controller: 'checkout'
+
+    get '/checkout/review(/:price_key)', action: :review, controller: 'checkout',
+        as: "checkout_review"
+
   end
 
-  get '/checkout/review(/:price_key)', action: :index, controller: 'checkout',
-      as: "checkout_review"
+  #enable custom 'after_sign_up_path_for'
+  devise_for :users, :controllers => {:registrations => "checkout"}
 
-  devise_for :users
   get 'test_models/test'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   get 'healthcheck', action: :index, controller: 'healthcheck'
