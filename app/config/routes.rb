@@ -3,6 +3,15 @@ Rails.application.routes.draw do
   get 'checkout/index'
   get 'checkout/cancel'
   get 'checkout/success'
+
+  devise_scope :user do
+    get "/checkout/initial(/:price_key)", action: :new, controller: 'devise/registrations',
+        as: "checkout_initial"
+  end
+
+  get '/checkout/review(/:price_key)', action: :index, controller: 'checkout',
+      as: "checkout_review"
+
   devise_for :users
   get 'test_models/test'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
