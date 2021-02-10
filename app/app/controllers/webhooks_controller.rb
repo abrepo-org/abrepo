@@ -37,6 +37,9 @@ class WebhooksController < ApplicationController
         #     email = data_object['customer_details']['email']
         #   user = User.create(email: email)
 
+        #paid user, assumed confirmed
+        current_user.confirm
+
         subscription = Subscription.create(
             user_id: user_id,
             stripe_customer_id: data_object['customer'],
