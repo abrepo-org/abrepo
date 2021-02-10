@@ -1,5 +1,16 @@
 module ApplicationHelper
 
+  def format_subscription_date(subscription_id)
+    begin
+      stripe_subscription = Stripe::Subscription.retrieve(subscription_id)
+      time = Time.at(stripe_subscription.current_period_end)
+      puts time
+      return time.to_datetime.strftime('%B %-d')
+    rescue
+      return nil
+    end
+  end
+
   def format_expvar_date(utcDate)
 
     #strftime eg: Jan 8, '21

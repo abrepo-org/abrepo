@@ -1,13 +1,32 @@
 <% content_for :title do %>
-    ABRepo | Edit <%= resource_name.to_s.humanize %>
+    ABRepo | <%= resource_name.to_s.humanize %> Settings
 <% end %>
 
 <div class="columns">
-    <div class="column is-5">
+    <div class="column is-8-tablet is-offset-2-tablet is-5-desktop is-offset-0-desktop">
         <h2>Update Account</h2>
         <hr />
-        <%= render "devise/shared/error_messages", resource: resource %>
 
+        <!-- Subscription Status -->
+        <div class="subscription-status">
+            <p class="is-flex is-justify-content-space-between">
+                <span class="label">Subscription</span>
+                <span><%= current_user.subscribed? ? "Monthly" : "Inactive" %></span>
+            </p>
+
+            <% if current_user.subscribed? %>
+                <p class="is-flex is-justify-content-space-between">
+                    <span class="label">Renewal</span>
+                    <span>
+                        <% subscription_id = current_user.subscriptions.last.stripe_subscription_id %>
+                        <%= subscription_id ? format_subscription_date(subscription_id) : "-" %>
+                    </span>
+                </p>
+            <% end %>
+        </div>
+        <hr />
+
+        <%= render "devise/shared/error_messages", resource: resource %>
 
         <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
 
