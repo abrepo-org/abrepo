@@ -1,8 +1,21 @@
+.devise .section {
+  @include until($tablet) {
+    padding: 3rem 0;
+  }
+}
 body.devise, .devise main.container {
   background: white;
 }
+
 .devise nav, .devise .box {
   background: $off-grey-color;
+}
+
+.devise .container > .column {
+  //box content
+  @include from($tablet) {
+    min-width: 450px;
+  }
 }
 
 .devise h2 { text-align: center; }

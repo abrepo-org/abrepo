@@ -12,11 +12,19 @@
 .pricing {
   color: rgba(0,0,0,.54);
 }
-.stripe {
+
+#powered-by-stripe {
   margin: 0 auto;
   width: 25%;
 }
 ul.features {
   list-style:none;
+  display: table;
+  margin: 0 auto;
 }
 .disclaimers { font-size:12px;}
+
+button#checkout {
+  max-width: 450px;
+  margin: 0 auto;
+}
