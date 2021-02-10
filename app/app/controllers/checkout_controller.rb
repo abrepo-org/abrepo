@@ -35,7 +35,6 @@ class CheckoutController < Devise::RegistrationsController
   def create
 
     build_resource(sign_up_params)
-    resource.skip_confirmation_notification! #if purchased, set confirmed
     resource.save
 
     if resource.persisted?
