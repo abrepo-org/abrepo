@@ -1,14 +1,22 @@
 <% content_for :title do %>
-    ABRepo | Checkout
+    ABRepo | Checkout - Create Account
 <% end %>
 
 <% content_for :devise do %>
 
-    <h2>Sign up</h2>
-    <pre>
-        <%= current_page?(checkout_initial_path(params[:price_key])) %>
-        <%= "params: " + params_price_key() %>
-    </pre>
+    <h4 class="has-text-centered">Create Account</h4>
+
+    <div class="steps has-text-centered is-hidden-mobile">
+        <span class="active">Create Account</span>
+
+        <span class="bullet"> &bull; </span>
+
+        <span>Subscription</span>
+
+        <span class="bullet"> &bull; </span>
+
+        <span>Purchase</span>
+    </div>
 
     <hr />
     <%= render "devise/shared/error_messages", resource: resource %>
@@ -61,5 +69,16 @@
             </div>
         <% end %>
     </div>
-    <%= render "devise/shared/links" %>
+
+    <!-- Links -->
+    <div class="links mt-3 has-text-centered">
+
+        <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+            <%= link_to "Forgot your password?", new_password_path(resource_name) %>
+            <%= raw '&middot;' if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+        <% end %>
+
+        <%= link_to "Log in", new_session_path(resource_name) %>
+
+    </div>
 <% end %>

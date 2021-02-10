@@ -31,6 +31,7 @@ $border-grey: rgb(227, 232, 238); //#e2e7ee
 @import "../stylesheets/variation.scss";
 @import "../stylesheets/profile.scss";
 @import "../stylesheets/devise.scss";
+@import "../stylesheets/checkout.scss";
 
 .is-fullwidth-tablet {
   @include from($tablet) {
