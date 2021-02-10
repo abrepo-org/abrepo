@@ -12,11 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const $app = document.getElementById('diffApp');
 
-    ReactDOM.render(
-        <App data={window.abrepo} />,
-        $app
-        //$app.appendChild(document.createElement('div'))
-    );
+    if($app) {
+        ReactDOM.render(
+            <App data={window.abrepo} />,
+            $app
+            //$app.appendChild(document.createElement('div'))
+        );
+    }
 
 
 });

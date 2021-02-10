@@ -59,14 +59,23 @@ class CheckoutController < Devise::RegistrationsController
   #
   # STRIPE RELATED
   #
-  #pricing page, inital step
+  # pricing page, inital step
+  #
   def review
-    puts "Checkout#review params", params
 
     unless user_signed_in?
       redirect_to checkout_initial_path(params_price_key)
       return
     end
+
+    #
+    # if already have subscription, send to manage accounts
+    #
+    if current_user.subscribed?
+      redirect_to edit_user_registration_path
+      return
+    end
+
 
     price_key = params_price_key
 

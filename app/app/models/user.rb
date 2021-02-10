@@ -38,4 +38,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable, :trackable, :timeoutable, :lockable
+
+
+  def subscribed?
+    self.subscriptions.pluck(:active).any?
+  end
 end
