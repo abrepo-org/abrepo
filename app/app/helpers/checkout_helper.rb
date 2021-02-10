@@ -4,6 +4,7 @@ module CheckoutHelper
   # available
   #
   def params_price_key
+    #NB: this is for devise routes not stripe
     params[:price_key] || "basic"
   end
 

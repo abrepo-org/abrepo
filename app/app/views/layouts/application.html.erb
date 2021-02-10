@@ -19,7 +19,8 @@
     <body class="content has-navbar-fixed-top <%= "devise" if content_for?(:devise) %>" >
 
         <header>
-          <%= render controller_name == "checkout" ?
+          <%= render (current_page?(checkout_initial_path(params[:price_key])) ||
+              current_page?(checkout_review_path(params[:price_key])) ) ?
               "layouts/navbar_checkout" : "layouts/navbar" %>
         </header>
 

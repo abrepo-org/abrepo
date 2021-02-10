@@ -1,18 +1,11 @@
 Rails.application.routes.draw do
 
-  get 'checkout/index'
-  get 'checkout/cancel'
-  get 'checkout/success'
-
   devise_scope :user do
 
     get "/checkout/initial(/:price_key)", action: :initial, controller: 'checkout',
         as: "checkout_initial"
 
     post "/checkout/initial(/:price_key)", action: :create, controller: 'checkout'
-
-    get '/checkout/review(/:price_key)', action: :review, controller: 'checkout',
-        as: "checkout_review"
 
   end
 
@@ -34,11 +27,12 @@ Rails.application.routes.draw do
   # Stripe
   #
   # checkout purchase subscription
-  get '/checkout/', to: 'checkout#index'
-  post '/create-checkout-session/', to: 'checkout#createSession'
-  get '/checkout/success/', to: 'checkout#success'
-  get '/checkout/canceled/', to: 'checkout#cancel'
-  post '/customer-portal/', to: 'checkout#portal'
+
+  get '/checkout/review(/:price_key)', to: 'stripe#review', as: "checkout_review"
+  post '/create-checkout-session/', to: 'stripe#createSession'
+  get '/checkout/success/', to: 'stripe#success'
+  get '/checkout/canceled/', to: 'stripe#cancel'
+  post '/customer-portal/', to: 'stripe#portal'
 
   # webhook
   post '/webhooks/stripe_payments', to: 'webhooks#index'
