@@ -17,18 +17,17 @@ class StripeController < ApplicationController
       return
     end
 
-
-    price_key = params_price_key
-
+    #
+    # TODO: set lookup_keys and name
+    #
     prices = Stripe::Price.list({ lookup_keys:["basic_monthly"] })
+
+    @price_key = params_price_key #sets default if no params
     @price = prices[:data][0]
 
     render :review
   end
 
-  def cancel
-    render :cancel
-  end
 
   def success
     @session_id = params[:session_id]
@@ -44,6 +43,7 @@ class StripeController < ApplicationController
   def createSession
 
     priceId = params[:data][:priceId]
+    priceKey = params[:data][:priceKey]
 
     # See https://stripe.com/docs/api/checkout/sessions/create
     # for additional parameters to pass.
@@ -82,7 +82,7 @@ class StripeController < ApplicationController
 
         #NB: urls need to be full url not relative
         success_url: 'http://localhost/checkout/success?session_id={CHECKOUT_SESSION_ID}',
-        cancel_url: 'http://localhost/checkout/canceled',
+        cancel_url: "http://localhost/checkout/review/#{priceKey}",
 
         payment_method_types: ['card'],
         mode: 'subscription',

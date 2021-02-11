@@ -31,7 +31,6 @@ Rails.application.routes.draw do
   get '/checkout/review(/:price_key)', to: 'stripe#review', as: "checkout_review"
   post '/create-checkout-session/', to: 'stripe#createSession'
   get '/checkout/success/', to: 'stripe#success'
-  get '/checkout/canceled/', to: 'stripe#cancel'
   post '/customer-portal/', to: 'stripe#portal'
 
   # webhook

@@ -96,13 +96,15 @@
 
 
          const stripe = Stripe('<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>');
+
+         const priceKey = "<%= @price_key %>";
          const priceId = "<%= @price.id %>";
 
          const createCheckoutSession = (priceId) => {
              return fetch("/create-checkout-session", {
                  method: "POST",
                  headers: { "Content-Type": "application/json" },
-                 body: JSON.stringify({data: { priceId } })
+                 body: JSON.stringify({ data: { priceId, priceKey }})
              }).then( (result) => result.json() )
          };
 
