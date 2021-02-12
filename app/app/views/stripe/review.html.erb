@@ -1,0 +1,126 @@
+<% content_for :title do %>
+    ABRepo | Checkout - Review Subscription
+<% end %>
+
+
+<% content_for :devise do %>
+
+    <h4 class="has-text-centered">Review Subscription</h4>
+
+    <div class="steps has-text-centered is-hidden-mobile">
+
+        <span class="active">Create Account</span>
+
+        <span class="bullet"> &#10004; </span>
+
+        <span class="active">Subscription</span>
+
+        <span class="bullet"> &bull; </span>
+
+        <span>Purchase</span>
+
+
+    </div>
+
+    <hr />
+
+    <div class="box">
+        <div class="info has-text-centered">
+
+            <h3 class="">
+                <%= @price.nickname %>
+            </h3>
+
+            <div class="pricing mt-3 mb-3">
+                <p>
+                    $<%= @price.unit_amount / 100 %> per
+                    <%= @price.recurring.interval %>
+                </p>
+            </div>
+
+            <p>Thank you for your subscription to abrepo.</p>
+
+            <hr />
+        </div>
+
+        <div>
+            <ul class="features">
+                <li>
+                    <span class="has-text-success mr-2">&check;</span>
+                    Detailed experimentation programs
+                </li>
+                <li>
+                    <span class="has-text-success mr-2">&check;</span>
+                    Search by keywords, page type, and industry
+                </li>
+                <li>
+                    <span class="has-text-success mr-2">&check;</span>
+                    Monitor your feed of the latest variations
+                </li>
+
+            </ul>
+
+            <p class="has-text-centered"> . . . and more </p>
+
+        </div>
+
+
+        <hr />
+
+
+        <button id="checkout" class="button is-fullwidth is-link mt-3 mb-4">
+            Purchase
+        </button>
+
+        <div id="powered-by-stripe" class="mb-2">
+            <%= image_pack_tag "stripe_blurple.svg" %>
+        </div>
+
+        <div class="disclaimers">
+            By clicking "Purchase", you acknowledge that you have read
+            and agreed to our Terms of Service, Cancellation Policy,
+            and Privacy Policy
+        </div>
+    </div>
+
+
+<% end %>
+
+
+<%= content_for(:footer) do %>
+
+    <pre><%= @price %> </pre>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+
+     (() => {
+
+
+         const stripe = Stripe('<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>');
+
+         const priceKey = "<%= @price_key %>";
+         const priceId = "<%= @price.id %>";
+
+         const createCheckoutSession = (priceId) => {
+             return fetch("/create-checkout-session", {
+                 method: "POST",
+                 headers: { "Content-Type": "application/json" },
+                 body: JSON.stringify({ data: { priceId, priceKey }})
+             }).then( (result) => result.json() )
+         };
+
+
+         const checkoutHandler = (priceId) => {
+             createCheckoutSession(priceId).then( data => {
+                 stripe.redirectToCheckout({ sessionId: data.sessionId })
+             })
+         };
+
+         document
+             .getElementById("checkout")
+             .addEventListener('click', (e) => checkoutHandler(priceId) );
+
+     })();
+    </script>
+<% end %>

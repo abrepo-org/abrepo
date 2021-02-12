@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_19_010359) do
+ActiveRecord::Schema.define(version: 2021_02_06_194257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,6 +102,17 @@ ActiveRecord::Schema.define(version: 2021_01_19_010359) do
     t.index ["variation_id"], name: "index_renderables_on_variation_id"
   end
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "stripe_customer_id"
+    t.boolean "active", default: false, null: false
+    t.boolean "billing_issue", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "stripe_subscription_id"
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -160,6 +171,7 @@ ActiveRecord::Schema.define(version: 2021_01_19_010359) do
   add_foreign_key "experiments", "profiles"
   add_foreign_key "renderables", "actions"
   add_foreign_key "renderables", "variations"
+  add_foreign_key "subscriptions", "users"
   add_foreign_key "variations", "experiments"
   add_foreign_key "vendors", "experiments"
   add_foreign_key "vendors", "variations"

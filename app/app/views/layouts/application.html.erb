@@ -19,18 +19,20 @@
     <body class="content has-navbar-fixed-top <%= "devise" if content_for?(:devise) %>" >
 
         <header>
-            <%= render "layouts/navbar" %>
+          <%= render (current_page?(checkout_initial_path(params[:lookup_key])) ||
+              current_page?(checkout_review_path(params[:lookup_key])) ) ?
+              "layouts/navbar_checkout" : "layouts/navbar" %>
         </header>
 
         <main>
 
             <% if content_for?(:devise) %>
 
-                <section class="section hero is-fullheight" >
-                    <div class="hero-body">
+                <section class="section hero is-fullheight-with-navbar" >
+                    <div class="hero-body px-0 py-0">
                         <div class="container ">
 
-                                <div class="column is-4 is-offset-4">
+                                <div class="column is-fullwidth is-8-tablet is-offset-2-tablet is-6-desktop is-offset-3-desktop is-4-widescreen is-offset-4-widescreen">
                                     <%= yield(:devise) %>
                                 </div>
 
@@ -68,8 +70,6 @@
                         </div>
                     <%end %>
 
-
-                    </div>
                 </section>
 
             <% end %>

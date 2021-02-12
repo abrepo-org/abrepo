@@ -1,0 +1,30 @@
+.steps {
+  color: rgba(54, 54, 54, 0.3);
+}
+.steps .bullet {
+  color: #4a4a4a;
+  margin: 0 1.5rem;
+}
+.steps .active {
+  color: #4a4a4a;
+}
+
+.pricing {
+  color: rgba(0,0,0,.54);
+}
+
+#powered-by-stripe {
+  margin: 0 auto;
+  width: 25%;
+}
+ul.features {
+  list-style:none;
+  display: table;
+  margin: 0 auto;
+}
+.disclaimers { font-size:12px;}
+
+button#checkout {
+  max-width: 450px;
+  margin: 0 auto;
+}
