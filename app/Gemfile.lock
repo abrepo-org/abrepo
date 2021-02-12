@@ -229,7 +229,7 @@ DEPENDENCIES
   selenium-webdriver
   spring
   spring-watcher-listen (~> 2.0.0)
-  stripe
+  stripe (= 5.29.0)
   turbolinks (~> 5)
   web-console (>= 3.3.0)
   webpacker (~> 5.2)
