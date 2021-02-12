@@ -21,7 +21,9 @@ class StripeController < ApplicationController
     prices = Stripe::Price.list({ lookup_keys:[@price_key, ENV['STRIPE_DEFAULT_LOOKUP_KEY']] })
     # NB: assmue prices respects lookup_keys order, but not entirely sure.
     @price = prices[:data].first
-    puts "Loading: #{@price['lookup_key']}: #{@price.id}"
+
+    out = "Loading: #{@price['lookup_key']}: #{@price.id}, #{@price.nickname}"
+    puts "\e[#{31}m#{out}\e[0m"
     render :review
   end
 

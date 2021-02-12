@@ -14,6 +14,11 @@ Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 
 ```
 
+5. Add ENV['STRIPE_DEFAULT_LOOKUP_KEY'] - references a lookup_key for
+   a default Stripe Price object created via dashboard or CLI
+6. Make sure price 'nickname' is added - this is text displayed.
+
+
 
 Stripe accounts have their own test/prod environments and
 keys. Accounts are toggled to "test" by default, and need to manually

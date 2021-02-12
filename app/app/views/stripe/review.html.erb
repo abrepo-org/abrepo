@@ -1,5 +1,5 @@
 <% content_for :title do %>
-    ABRepo | Checkout - Create Account
+    ABRepo | Checkout - Review Subscription
 <% end %>
 
 
@@ -28,12 +28,14 @@
         <div class="info has-text-centered">
 
             <h3 class="">
-                Basic Subscription
+                <%= @price.nickname %>
             </h3>
 
             <div class="pricing mt-3 mb-3">
-                <p> $99 per month </p>
-                <%= hidden_field_tag('price_key', params_lookup_key) %>
+                <p>
+                    $<%= @price.unit_amount / 100 %> per
+                    <%= @price.recurring.interval %>
+                </p>
             </div>
 
             <p>Thank you for your subscription to abrepo.</p>
