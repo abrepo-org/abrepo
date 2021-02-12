@@ -25,6 +25,11 @@ Displays plan and features, price, etc.
 Just a single button that says "purchase", runs stripe checkout
 process: (fetch session_id, then stripe_redirect)
 
+## Stripe
+
+Requires default `lookup_key` in `.env` as
+`STRIPE_DEFAULT_LOOKUP_KEY`. This is a default / fallback stripe
+lookup_key.
 
 
 ## Devise

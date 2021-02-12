@@ -3,9 +3,9 @@ module CheckoutHelper
   # these are mutually exclusive, prefer customer, otherwise email if
   # available
   #
-  def params_price_key
+  def params_lookup_key
     #NB: this is for devise routes not stripe
-    params[:price_key] || "basic"
+    return params[:lookup_key] || ENV['STRIPE_DEFAULT_LOOKUP_KEY']
   end
 
   def get_stripe_customer_id()

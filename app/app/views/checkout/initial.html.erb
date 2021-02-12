@@ -24,9 +24,9 @@
     <%= render "devise/shared/error_messages", resource: resource %>
 
     <div class="box">
-        <%= form_for(resource, as: resource_name, url: checkout_initial_path(params_price_key)) do |f| %>
+        <%= form_for(resource, as: resource_name, url: checkout_initial_path(params_lookup_key)) do |f| %>
 
-            <%= hidden_field_tag('price_key', params_price_key) %>
+            <%= hidden_field_tag('price_key', params_lookup_key) %>
 
             <div class="field">
                 <%= f.label :email, class: "label" %>

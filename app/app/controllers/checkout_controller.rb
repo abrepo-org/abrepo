@@ -18,7 +18,7 @@ class CheckoutController < Devise::RegistrationsController
   def initial
 
     if user_signed_in?
-      redirect_to checkout_review_path( params_price_key )
+      redirect_to checkout_review_path( params_lookup_key )
       return
     end
 
@@ -61,7 +61,7 @@ class CheckoutController < Devise::RegistrationsController
   # /users/sign_up - redirect when not signed up
   #
   def new
-    redirect_to checkout_initial_path( params_price_key )
+    redirect_to checkout_initial_path( params_lookup_key )
   end
 
   #
@@ -69,7 +69,7 @@ class CheckoutController < Devise::RegistrationsController
   #
   #
   def after_sign_up_path_for(resource)
-    return checkout_review_path(params[:price_key]) unless params[:price_key].blank?
+    return checkout_review_path(params[:lookup_key]) unless params[:lookup_key].blank?
     root_path
   end
 

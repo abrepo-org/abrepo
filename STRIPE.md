@@ -150,7 +150,7 @@ stripe prices create \
   -d unit_amount=1000 \
   -d currency=usd \
   -d recurring[interval]=month
-  -d lookup key="basic_monthly"
+  -d lookup key="basic-monthly"
 
 # new price, taking over lookup_key
 stripe prices create \
@@ -158,18 +158,18 @@ stripe prices create \
   -d unit_amount=1000 \
   -d currency=usd \
   -d recurring[interval]=month
-  -d lookup key="basic_monthly"
+  -d lookup key="basic-monthly"
   -d transfer_lookup_key=true
 
 # list prices
 stripe prices list
 
 # list by lookup (data return is array)
-stripe prices list -d lookup_keys[]="basic_monthly"
+stripe prices list -d lookup_keys[]="basic-monthly"
 
 # update and transfer lookup key back
 stripe prices update <price_id> \
-    -d lookup_key="basic_monthly" \
+    -d lookup_key="basic-monthly" \
     -d transfer_lookup_key=true
 
 ```
