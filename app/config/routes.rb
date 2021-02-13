@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   # Stripe
   #
   # checkout purchase subscription
-
+  # "step 2": created user but unsubscribed state
   get '/checkout/subscribe(/:lookup_key)', to: 'stripe#subscribe', as: "checkout_subscribe"
   post '/create-checkout-session/', to: 'stripe#createSession'
   get '/checkout/success/', to: 'stripe#success'

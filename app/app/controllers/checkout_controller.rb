@@ -21,7 +21,8 @@ class CheckoutController < Devise::RegistrationsController
       return
     end
 
-    @price_key, @price = get_stripe_data
+    @price_key = params_lookup_key
+    @price = get_stripe_data(@price_key)
 
     #registration#new
     build_resource
@@ -46,7 +47,8 @@ class CheckoutController < Devise::RegistrationsController
       return
     end
 
-    @price_key, @price = get_stripe_data
+    @price_key = params_price_key
+    @price = get_stripe_data(@price_key)
     session = nil
 
     begin
@@ -112,11 +114,4 @@ class CheckoutController < Devise::RegistrationsController
     root_path
   end
 
-  def get_stripe_data
-    price_key = params_lookup_key #sets default if no params
-    prices = Stripe::Price.list({ lookup_keys:[price_key, ENV['STRIPE_DEFAULT_LOOKUP_KEY']] })
-    # NB: assmue prices respects lookup_keys order, but not entirely sure.
-    price = prices[:data].first
-    return price_key, price
-  end
 end

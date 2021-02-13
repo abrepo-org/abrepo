@@ -17,18 +17,20 @@ class StripeController < ApplicationController
       return
     end
 
-    @price_key = params_lookup_key #sets default if no params
-    prices = Stripe::Price.list({ lookup_keys:[@price_key, ENV['STRIPE_DEFAULT_LOOKUP_KEY']] })
-    # NB: assume prices respects lookup_keys order, but not entirely sure.
-    @price = prices[:data].first
+    @price_key = params_lookup_key
+    @price = get_stripe_data(@price_key)
 
     out = "Loading: #{@price['lookup_key']}: #{@price.id}, #{@price.nickname}"
     puts "\e[#{31}m#{out}\e[0m"
-    render :subscribe
   end
 
 
   def success
+    # webhook creates actual subscription object; async, client-side
+    # unreliable (could close browser before hitting this route, etc.)
+    # TODO: but we do need some kind of temp toggle
+    # could query sessionId just for this page?
+
     @session_id = params[:session_id]
 
     #TODO: possible redirect to create user / edit password
@@ -39,66 +41,27 @@ class StripeController < ApplicationController
   end
 
 
+  #
+  # "step 2": created user but unsubscribed state
+  #
   def createSession
 
-    priceId = params[:data][:priceId]
-    priceKey = params[:data][:priceKey]
+    @price_key = params_price_key
+    @price = get_stripe_data(@price_key)
+    session = nil
 
-    # See https://stripe.com/docs/api/checkout/sessions/create
-    # for additional parameters to pass.
-    # {CHECKOUT_SESSION_ID} is a string literal; do not change it!
-    # the actual Session ID is returned in the query parameter when your customer
-    # is redirected to the success page.
     begin
-
-      puts "customer", get_stripe_customer_id()
-      puts "email: ", get_customer_email()
-
-      session = Stripe::Checkout::Session.create(
-
-        #existing stripe customer
-        #NB: given customer_id, user can change email address (primary_key is customer_id)
-        #and it will update stripe user info
-        customer: get_stripe_customer_id,
-
-        # not yet striped, but registered or nil if not registered
-        # NB: customer vs customer_email are exclusive
-        # customer_email is locked on checkout (no customer_id yet)
-        customer_email: get_customer_email,
-
-        client_reference_id: user_signed_in? ? current_user.id : nil,
-
-        #metadata: {key:value}, #attach to checkout.session object (returned on webhook)
-        #data attached to subscription.metadata
-        subscription_data: {
-          metadata: {
-            abrepo_email: user_signed_in? ? current_user.email : nil,
-            user_id: user_signed_in? ? current_user.id : nil
-          }
-
-          #trial_period_days: 7
-        },
-
-        #NB: urls need to be full url not relative
-        success_url: 'http://localhost/checkout/success?session_id={CHECKOUT_SESSION_ID}',
-        cancel_url: "http://localhost/checkout/subscribe/#{priceKey}",
-
-        payment_method_types: ['card'],
-        mode: 'subscription',
-        allow_promotion_codes: true,
-        line_items: [
-          {
-            quantity: 1, #change when volume price_id specified
-            price: priceId,
-          }
-        ],
-      )
-
-      render status: 200, json: { sessionId: session.id }
-
+      session = purchase_stripe(@price.id, @price_key)
     rescue => e
-      render status: 400, json: { 'error': { message: e.error.message } }
+      message = "Payment provider error. Please try again."
+      render status: 400, json: { user: {ok: true, errors: false},
+                                  stripe: { ok: false, errors: { messages: [ message ] } }}
+      return
     end
+
+
+    render status: 200, json: { user: { ok: true, errors: false },
+                                stripe: { ok: true, errors: false, sessionId: session.id }}
   end
 
 

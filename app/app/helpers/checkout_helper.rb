@@ -1,6 +1,6 @@
 module CheckoutHelper
 
-  def purchase_stripe(priceId, priceKey)
+  def purchase_stripe(price_id, price_key)
 
     puts "customer", get_stripe_customer_id()
     puts "email: ", get_customer_email()
@@ -32,7 +32,7 @@ module CheckoutHelper
 
       #NB: urls need to be full url not relative
       success_url: 'http://localhost/checkout/success?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: "http://localhost/checkout/subscribe/#{priceKey}",
+      cancel_url: "http://localhost/checkout/subscribe/#{price_key}",
 
       payment_method_types: ['card'],
       mode: 'subscription',
@@ -40,7 +40,7 @@ module CheckoutHelper
       line_items: [
         {
           quantity: 1, #change when volume price_id specified
-          price: priceId,
+          price: price_id,
         }
       ],
     )
@@ -50,13 +50,24 @@ module CheckoutHelper
   end
 
 
-  #
-  # these are mutually exclusive, prefer customer, otherwise email if
-  # available
-  #
+  def get_stripe_data(price_key)
+    # TODO: cache
+    # NB: assume prices respects lookup_keys order, but not entirely sure.
+    prices = Stripe::Price.list({ lookup_keys:[price_key, ENV['STRIPE_DEFAULT_LOOKUP_KEY']] })
+
+    price = prices[:data].first
+
+    return price
+  end
+
+  #GET initial request (#new) -> lookup_key
   def params_lookup_key
-    #NB: this is for devise routes not stripe
-    return params[:lookup_key] || ENV['STRIPE_DEFAULT_LOOKUP_KEY']
+    params[:lookup_key] || ENV['STRIPE_DEFAULT_LOOKUP_KEY']
+  end
+
+  #POST requests (#create) -> price_key
+  def params_price_key
+    params[:data][:price_key] || ENV['STRIPE_DEFAULT_LOOKUP_KEY']
   end
 
   def get_stripe_customer_id()

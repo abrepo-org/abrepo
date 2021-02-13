@@ -125,10 +125,10 @@
 
          const stripe = Stripe('<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>');
 
-         const priceKey = "<%= @price_key %>";
-         const priceId = "<%= @price.id %>";
+         const price_key = "<%= @price_key %>";
+         const price_id = "<%= @price.id %>";
 
-         const createCheckoutSession = (user, priceId) => {
+         const createCheckoutSession = (user, price_id) => {
              return fetch("<%= checkout_account_path(params_lookup_key) %>", {
                  method: "POST",
                  headers: {
@@ -137,7 +137,7 @@
                  },
                  body: JSON.stringify({
                      user,
-                     data:{ priceId, priceKey }})
+                     data:{ price_id, price_key }})
              }).then( (result) => {
                  return result.json()
              })
@@ -155,7 +155,7 @@
              $errorDiv.innerHTML = list
          }
 
-         const checkoutHandler = (e, priceId) => {
+         const checkoutHandler = (e, price_id) => {
              e.preventDefault();
 
              //get form data
@@ -168,8 +168,8 @@
                  password_confirmation: formData.get('user[password_confirmation]')
              }
 
-             createCheckoutSession(user, priceId).then( data => {
-                 console.log("DATA", data)
+             createCheckoutSession(user, price_id).then( data => {
+
                  if (data.user.ok && data.stripe.ok) {
                      return stripe.redirectToCheckout({ sessionId: data.stripe.sessionId })
                  }
@@ -188,7 +188,7 @@
 
          document
              .getElementById("checkout")
-             .addEventListener('click', (e) => checkoutHandler(e, priceId) );
+             .addEventListener('click', (e) => checkoutHandler(e, price_id) );
 
      })();
     </script>
