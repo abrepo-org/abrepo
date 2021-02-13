@@ -31,18 +31,13 @@ class WebhooksController < ApplicationController
         #data obj is "checkout.session"
         user_id = data_object['client_reference_id']
 
-        #potential place for building user?
-        #user = User.find_by_id(user_id)
-        # if (user.nil?):
-        #     email = data_object['customer_details']['email']
-        #   user = User.create(email: email)
-
-        subscription = Subscription.create(
-            user_id: user_id,
-            stripe_customer_id: data_object['customer'],
-            stripe_subscription_id: data_object['subscription'],
-            active: data_object['payment_status'] == "paid",
-            billing_issue: data_object['payment_status'] != "paid"
+        subscription = Subscription.where(
+          user_id: user_id,
+          stripe_customer_id: data_object['customer'],
+          stripe_subscription_id: data_object['subscription']
+        ).first_or_create.update(
+          active: data_object['payment_status'] == "paid",
+          billing_issue: data_object['payment_status'] != "paid"
         );
 
 

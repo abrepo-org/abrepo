@@ -9,10 +9,10 @@ class StripeController < ApplicationController
     end
 
     #
-    # if already have subscription, send to manage accounts
+    # if already have subscription, send to home
     #
     if current_user.subscribed?
-      redirect_to edit_user_registration_path
+      redirect_to root_path
       return
     end
 
@@ -27,15 +27,32 @@ class StripeController < ApplicationController
   def success
     # webhook creates actual subscription object; async, client-side
     # unreliable (could close browser before hitting this route, etc.)
-    # TODO: but we do need some kind of temp toggle
-    # could query sessionId just for this page?
-
+    # we create subscription on success if webhook is delayed
+    # typically webhook will have already done this
     @session_id = params[:session_id]
+    if @session_id.nil?
+      render :success
+      return
+    end
 
-    #TODO: possible redirect to create user / edit password
-    #@session = Stripe::Checkout::Session.retrieve(session_id)
-    #current_user.stripe_customer_id = @session["customer"]
+    begin
+      session = Stripe::Checkout::Session.retrieve(@session_id)
 
+      subscription = Subscription.where(
+        user_id: session.client_reference_id,
+        stripe_customer_id: session['customer'],
+        stripe_subscription_id: session['subscription']
+      ).first_or_create.update(
+        active: session['payment_status'] == "paid",
+        billing_issue: session['payment_status'] != "paid"
+      );
+
+    rescue => e
+
+      out = "Stripe Session Error: #{e}"
+      puts "\e[#{31}m#{out}\e[0m"
+
+    end
     render :success
   end
 
