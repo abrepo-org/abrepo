@@ -1,6 +1,5 @@
 class StripeController < ApplicationController
   include CheckoutHelper
-  protect_from_forgery with: :exception, :except => [:createSession]
 
   def subscribe
 

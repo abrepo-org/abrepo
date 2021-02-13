@@ -97,9 +97,12 @@
          const price_id = "<%= @price.id %>";
 
          const createCheckoutSession = (price_id) => {
-             return fetch("/create-checkout-session", {
+             return fetch("<%= create_checkout_session_path %>", {
                  method: "POST",
-                 headers: { "Content-Type": "application/json" },
+                 headers: {
+                     "Content-Type": "application/json",
+                     "X-CSRF-Token": "<%= form_authenticity_token %>"
+                 },
                  body: JSON.stringify({ data: { price_id, price_key }})
              }).then( (result) => result.json() )
          };
