@@ -1,14 +1,8 @@
 class CheckoutController < Devise::RegistrationsController
   include CheckoutHelper
 
-  # require_no_authentication: if signed in, redirects to root/etc, don't visit new/create
-  # allows us to avoid re-creating users if user exist
-  # for /initial we have our own redirect to checkout_subscribe_path (vs root)
-  # prepend_before_action :require_no_authentication, only: [:create]
-
   #sets a controller variable @minimum_password_length
   prepend_before_action :set_minimum_password_length, only: [:initial]
-
 
   #
   # need a separate action to avoid prepend_before_action hooks so we
@@ -65,25 +59,20 @@ class CheckoutController < Devise::RegistrationsController
 
     if resource.persisted?
       if resource.active_for_authentication?
-        #set_flash_message! :notice, :signed_up
         sign_up(resource_name, resource)
 
         render status: 200, json: { user: { ok: true, errors: false },
                                     stripe: { ok: true, errors: false, sessionId: session.id }}
         return
 
-
-        #render status 200: json: {user: 'success', sessionId: 'sessionId'}
-        #respond_with resource, location: after_sign_up_path_for(resource)
-
       else
-        #set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
+
         expire_data_after_sign_in!
         render status: 400, json: { user: { ok: false,
                                             errors: { messages: [resource.inactive_message] }},
                                     stripe: nil }
         return
-        #respond_with resource, location: after_inactive_sign_up_path_for(resource)
+
       end
     else
       clean_up_passwords resource
@@ -91,8 +80,6 @@ class CheckoutController < Devise::RegistrationsController
       render status: 400, json: { user: { ok: false,
                                           errors: { messages: resource.errors.full_messages } },
                                   stripe: nil }
-      #respond_with resource
-      #render :initial
     end
   end
 
