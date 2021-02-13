@@ -19,8 +19,8 @@
     <body class="content has-navbar-fixed-top <%= "devise" if content_for?(:devise) %>" >
 
         <header>
-          <%= render (current_page?(checkout_initial_path(params[:lookup_key])) ||
-              current_page?(checkout_review_path(params[:lookup_key])) ) ?
+          <%= render (current_page?(checkout_account_path(params[:lookup_key])) ||
+              current_page?(checkout_subscribe_path(params[:lookup_key])) ) ?
               "layouts/navbar_checkout" : "layouts/navbar" %>
         </header>
 

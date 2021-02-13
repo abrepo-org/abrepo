@@ -1,0 +1,195 @@
+<% content_for :title do %>
+    ABRepo | Checkout - Create Account
+<% end %>
+
+<% content_for :devise do %>
+
+    <h4 class="has-text-centered">Create Account</h4>
+
+    <div class="steps has-text-centered is-hidden-mobile">
+
+        <span class="active">Create Account</span>
+
+        <span class="bullet"> &bull; </span>
+
+        <span>Subscribe</span>
+
+    </div>
+
+    <hr />
+
+    <div id="error_explanation" ></div>
+
+
+    <div class="box">
+        <div class="info has-text-centered">
+
+            <h3 class="">
+                <%= @price.nickname %>
+            </h3>
+
+            <div class="pricing mt-3 mb-3">
+                <p>
+                    $<%= @price.unit_amount / 100 %> per
+                    <%= @price.recurring.interval %>
+                </p>
+            </div>
+
+        </div>
+
+
+        <hr />
+
+        <%= form_for(resource, as: resource_name, url: checkout_account_path(params_lookup_key)) do |f| %>
+
+            <%= hidden_field_tag('price_key', params_lookup_key) %>
+
+            <div class="field">
+                <%= f.label :email, class: "label" %>
+                <div class="control">
+                    <%= f.email_field :email, class: "input",
+                        autofocus: true, autocomplete: "email" %>
+                </div>
+            </div>
+
+            <div class="field">
+                <%= f.label :password, class: "label" do %>
+                    Password
+                    <% if @minimum_password_length %>
+                        <span class="help has-text-weight-normal is-inline-block">
+                            (<%= @minimum_password_length %> characters minimum)
+                        </span>
+                    <% end %>
+                <% end %>
+                <div class="control" >
+                    <%= f.password_field :password, class: "input",
+                        autocomplete: "new-password" %>
+                </div>
+                <!--
+                     <div>
+                     <%= resource.errors[:email].join(',') if resource.errors[:email] %>
+                     </div>
+                   -->
+            </div>
+
+            <div class="field">
+                <%= f.label :password_confirmation, class: "label" %>
+                <div class="control">
+                    <%= f.password_field :password_confirmation, class: "input",
+                        autocomplete: "new-password" %>
+                </div>
+            </div>
+
+            <div class="actions">
+                <div class="control">
+                    <%= f.submit "Subscribe", id: "checkout", class: "button is-fullwidth is-link" %>
+                </div>
+            </div>
+
+
+            <div id="powered-by-stripe" class="mb-2">
+                <%= image_pack_tag "stripe_blurple.svg" %>
+            </div>
+
+            <div class="disclaimers">
+                By clicking "Subscribe", you acknowledge that you have read
+                and agreed to our Terms of Service, Cancellation Policy,
+                and Privacy Policy
+            </div>
+
+        <% end %>
+    </div>
+
+    <!-- Links -->
+    <div class="links mt-3 has-text-centered">
+
+        <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+            <%= link_to "Forgot your password?", new_password_path(resource_name) %>
+            <%= raw '&middot;' if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+        <% end %>
+
+        <%= link_to "Log in", new_session_path(resource_name) %>
+
+    </div>
+<% end %>
+
+
+<%= content_for(:footer) do %>
+
+    <pre><%= @price %> </pre>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+
+     (() => {
+
+         const stripe = Stripe('<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>');
+
+         const priceKey = "<%= @price_key %>";
+         const priceId = "<%= @price.id %>";
+
+         const createCheckoutSession = (user, priceId) => {
+             return fetch("<%= checkout_account_path(params_lookup_key) %>", {
+                 method: "POST",
+                 headers: {
+                     "Content-Type": "application/json",
+                     "X-CSRF-Token": "<%= form_authenticity_token %>"
+                 },
+                 body: JSON.stringify({
+                     user,
+                     data:{ priceId, priceKey }})
+             }).then( (result) => {
+                 return result.json()
+             })
+         };
+
+         const renderErrors = (messages) => {
+
+             $li = messages.map( message => {
+                 return ['<li>', message, '</li>'].join('')
+             }).join('');
+
+             const list = ['<ul class="mt-0 l-0">', $li, '</ul>'].join('');
+             $errorDiv = document.querySelector('#error_explanation');
+             $errorDiv.className = "notification is-danger is-light";
+             $errorDiv.innerHTML = list
+         }
+
+         const checkoutHandler = (e, priceId) => {
+             e.preventDefault();
+
+             //get form data
+             const $form = document.querySelector('#new_user');
+             const formData = new FormData($form);
+
+             const user = {
+                 email: formData.get('user[email]'),
+                 password: formData.get('user[password]'),
+                 password_confirmation: formData.get('user[password_confirmation]')
+             }
+
+             createCheckoutSession(user, priceId).then( data => {
+                 console.log("DATA", data)
+                 if (data.user.ok && data.stripe.ok) {
+                     return stripe.redirectToCheckout({ sessionId: data.stripe.sessionId })
+                 }
+
+                 if (data.user.ok && !data.stripe.ok) {
+                     return renderErrors(data.stripe.errors.messages);
+                 }
+
+                 if( !data.user.ok) {
+                     return renderErrors(data.user.errors.messages);
+                 }
+
+
+             })
+         };
+
+         document
+             .getElementById("checkout")
+             .addEventListener('click', (e) => checkoutHandler(e, priceId) );
+
+     })();
+    </script>
+<% end %>

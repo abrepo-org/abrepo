@@ -2,10 +2,10 @@ class StripeController < ApplicationController
   include CheckoutHelper
   protect_from_forgery with: :exception, :except => [:createSession]
 
-  def review
+  def subscribe
 
     unless user_signed_in?
-      redirect_to checkout_initial_path(params_lookup_key)
+      redirect_to checkout_account_path(params_lookup_key)
       return
     end
 
@@ -19,12 +19,12 @@ class StripeController < ApplicationController
 
     @price_key = params_lookup_key #sets default if no params
     prices = Stripe::Price.list({ lookup_keys:[@price_key, ENV['STRIPE_DEFAULT_LOOKUP_KEY']] })
-    # NB: assmue prices respects lookup_keys order, but not entirely sure.
+    # NB: assume prices respects lookup_keys order, but not entirely sure.
     @price = prices[:data].first
 
     out = "Loading: #{@price['lookup_key']}: #{@price.id}, #{@price.nickname}"
     puts "\e[#{31}m#{out}\e[0m"
-    render :review
+    render :subscribe
   end
 
 
@@ -81,7 +81,7 @@ class StripeController < ApplicationController
 
         #NB: urls need to be full url not relative
         success_url: 'http://localhost/checkout/success?session_id={CHECKOUT_SESSION_ID}',
-        cancel_url: "http://localhost/checkout/review/#{priceKey}",
+        cancel_url: "http://localhost/checkout/subscribe/#{priceKey}",
 
         payment_method_types: ['card'],
         mode: 'subscription',
