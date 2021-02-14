@@ -21,7 +21,8 @@ class ImportsController < ApplicationController
     profile = group['profile']
     @profile = Profile.where(a_id: profile['_id'], domain: profile['domain'])
                  .order(id: :desc)
-                 .first_or_create(company_name: profile['company_name'])
+                 .first_or_create
+                 .update(company_name: profile['company_name'])
 
 
     #
@@ -32,10 +33,11 @@ class ImportsController < ApplicationController
     @experiment = Experiment.where(vendor_id: experiment['experiment_id'],
                                    a_id: experiment['_id'])
                     .order(id: :desc)
-                    .first_or_create(crawlId: experiment['crawlId'],
-                                     domain: experiment['domain'],
-                                     summary_name: experiment['summary_name'],
-                                     profile: @profile)
+                    .first_or_create
+                    .update(crawlId: experiment['crawlId'],
+                            domain: experiment['domain'],
+                            summary_name: experiment['summary_name'],
+                            profile: @profile)
 
     @audience = Audience.where(name: experiment['audienceName'],
                                experiment: @experiment)
@@ -46,8 +48,9 @@ class ImportsController < ApplicationController
     @campaign = Campaign.where(vendor_id: campaign['campaign_id'],
                                a_id: campaign['_id'])
                   .order(id: :desc)
-                  .first_or_create(name: campaign['name'],
-                                   experiment: @experiment)
+                  .first_or_create
+                  .update(name: campaign['name'],
+                          experiment: @experiment)
 
 
     #
@@ -57,9 +60,10 @@ class ImportsController < ApplicationController
     @variation = Variation.where(a_id: variation['_id'],
                                  vendor_id: variation['variation_id'])
                    .order(id: :desc)
-                   .first_or_create(summary_name: variation['summary_name'],
-                                    url: variation['crawlURL'],
-                                    experiment: @experiment)
+                   .first_or_create
+                   .update(summary_name: variation['summary_name'],
+                           url: variation['crawlURL'],
+                           experiment: @experiment)
 
     #Aciton, Renderable, Diffs - pegged to Variation and crawlId
     crawlId = variation['crawlId']
@@ -92,12 +96,13 @@ class ImportsController < ApplicationController
                                         action: @action,
                                         variation: @variation)
                          .order(id: :desc)
-                         .first_or_create(renderedTitle: base_renderable['renderedTitle'],
-                                          renderedURL: base_renderable['renderedURL'],
-                                          control: true,
-                                          screenshotWidth: base_renderable['screenshotDimensions']['width'],
-                                          screenshotHeight: base_renderable['screenshotDimensions']['height'],
-                                          screenshotFilename: base_renderable['screenshotFilename'])
+                         .first_or_create
+                         .update(renderedTitle: base_renderable['renderedTitle'],
+                                 renderedURL: base_renderable['renderedURL'],
+                                 control: true,
+                                 screenshotWidth: base_renderable['screenshotDimensions']['width'],
+                                 screenshotHeight: base_renderable['screenshotDimensions']['height'],
+                                 screenshotFilename: base_renderable['screenshotFilename'])
 
 
     @active_renderable = Renderable.where(a_id: active_renderable['_id'],
@@ -106,13 +111,14 @@ class ImportsController < ApplicationController
                                           action: @action,
                                           variation: @variation)
                            .order(id: :desc)
-                           .first_or_create(renderedTitle: active_renderable['renderedTitle'],
-                                            renderedURL: active_renderable['renderedURL'],
-                                            control: false,
-                                            screenshotWidth: active_renderable['screenshotDimensions']['width'],
-                                            screenshotHeight: active_renderable['screenshotDimensions']['height'],
-                                            screenshotFilename: active_renderable['screenshotFilename'],
-                                            controlRenderable: @base_renderable)
+                           .first_or_create
+                           .update(renderedTitle: active_renderable['renderedTitle'],
+                                   renderedURL: active_renderable['renderedURL'],
+                                   control: false,
+                                   screenshotWidth: active_renderable['screenshotDimensions']['width'],
+                                   screenshotHeight: active_renderable['screenshotDimensions']['height'],
+                                   screenshotFilename: active_renderable['screenshotFilename'],
+                                   controlRenderable: @base_renderable)
 
     diffs = input['diffs']
     diffs = diffs.select{ |diff| !diff['is_ignore'] }
