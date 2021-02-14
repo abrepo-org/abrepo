@@ -1,104 +1,83 @@
 class StripeController < ApplicationController
   include CheckoutHelper
-  protect_from_forgery with: :exception, :except => [:createSession]
 
-  def review
+  def subscribe
 
     unless user_signed_in?
-      redirect_to checkout_initial_path(params_lookup_key)
+      redirect_to checkout_account_path(params_lookup_key)
       return
     end
 
     #
-    # if already have subscription, send to manage accounts
+    # if already have subscription, send to home
     #
     if current_user.subscribed?
-      redirect_to edit_user_registration_path
+      redirect_to root_path
       return
     end
 
-    @price_key = params_lookup_key #sets default if no params
-    prices = Stripe::Price.list({ lookup_keys:[@price_key, ENV['STRIPE_DEFAULT_LOOKUP_KEY']] })
-    # NB: assmue prices respects lookup_keys order, but not entirely sure.
-    @price = prices[:data].first
+    @price_key = params_lookup_key
+    @price = get_stripe_data(@price_key)
 
     out = "Loading: #{@price['lookup_key']}: #{@price.id}, #{@price.nickname}"
     puts "\e[#{31}m#{out}\e[0m"
-    render :review
   end
 
 
   def success
+    # webhook creates actual subscription object; async, client-side
+    # unreliable (could close browser before hitting this route, etc.)
+    # we create subscription on success if webhook is delayed
+    # typically webhook will have already done this
     @session_id = params[:session_id]
+    if @session_id.nil?
+      render :success
+      return
+    end
 
-    #TODO: possible redirect to create user / edit password
-    #@session = Stripe::Checkout::Session.retrieve(session_id)
-    #current_user.stripe_customer_id = @session["customer"]
+    begin
+      session = Stripe::Checkout::Session.retrieve(@session_id)
 
+      subscription = Subscription.where(
+        user_id: session.client_reference_id,
+        stripe_customer_id: session['customer'],
+        stripe_subscription_id: session['subscription']
+      ).first_or_create.update(
+        active: session['payment_status'] == "paid",
+        billing_issue: session['payment_status'] != "paid"
+      );
+
+    rescue => e
+
+      out = "Stripe Session Error: #{e}"
+      puts "\e[#{31}m#{out}\e[0m"
+
+    end
     render :success
   end
 
 
+  #
+  # "step 2": created user but unsubscribed state
+  #
   def createSession
 
-    priceId = params[:data][:priceId]
-    priceKey = params[:data][:priceKey]
+    @price_key = params_price_key
+    @price = get_stripe_data(@price_key)
+    session = nil
 
-    # See https://stripe.com/docs/api/checkout/sessions/create
-    # for additional parameters to pass.
-    # {CHECKOUT_SESSION_ID} is a string literal; do not change it!
-    # the actual Session ID is returned in the query parameter when your customer
-    # is redirected to the success page.
     begin
-
-      puts "customer", get_stripe_customer_id()
-      puts "email: ", get_customer_email()
-
-      session = Stripe::Checkout::Session.create(
-
-        #existing stripe customer
-        #NB: given customer_id, user can change email address (primary_key is customer_id)
-        #and it will update stripe user info
-        customer: get_stripe_customer_id,
-
-        # not yet striped, but registered or nil if not registered
-        # NB: customer vs customer_email are exclusive
-        # customer_email is locked on checkout (no customer_id yet)
-        customer_email: get_customer_email,
-
-        client_reference_id: user_signed_in? ? current_user.id : nil,
-
-        #metadata: {key:value}, #attach to checkout.session object (returned on webhook)
-        #data attached to subscription.metadata
-        subscription_data: {
-          metadata: {
-            abrepo_email: user_signed_in? ? current_user.email : nil,
-            user_id: user_signed_in? ? current_user.id : nil
-          }
-
-          #trial_period_days: 7
-        },
-
-        #NB: urls need to be full url not relative
-        success_url: 'http://localhost/checkout/success?session_id={CHECKOUT_SESSION_ID}',
-        cancel_url: "http://localhost/checkout/review/#{priceKey}",
-
-        payment_method_types: ['card'],
-        mode: 'subscription',
-        allow_promotion_codes: true,
-        line_items: [
-          {
-            quantity: 1, #change when volume price_id specified
-            price: priceId,
-          }
-        ],
-      )
-
-      render status: 200, json: { sessionId: session.id }
-
+      session = purchase_stripe(@price.id, @price_key)
     rescue => e
-      render status: 400, json: { 'error': { message: e.error.message } }
+      message = "Payment provider error. Please try again."
+      render status: 400, json: { user: {ok: true, errors: false},
+                                  stripe: { ok: false, errors: { messages: [ message ] } }}
+      return
     end
+
+
+    render status: 200, json: { user: { ok: true, errors: false },
+                                stripe: { ok: true, errors: false, sessionId: session.id }}
   end
 
 

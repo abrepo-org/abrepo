@@ -2,10 +2,11 @@ Rails.application.routes.draw do
 
   devise_scope :user do
 
-    get "/checkout/initial(/:lookup_key)", action: :initial, controller: 'checkout',
-        as: "checkout_initial"
+    get "/checkout/account(/:lookup_key)", action: :account, controller: 'checkout',
+        as: "checkout_account"
 
-    post "/checkout/initial(/:lookup_key)", action: :create, controller: 'checkout'
+    post "/checkout/account(/:lookup_key)", action: :create, controller: 'checkout',
+         as: "checkout_user_create"
 
   end
 
@@ -27,8 +28,8 @@ Rails.application.routes.draw do
   # Stripe
   #
   # checkout purchase subscription
-
-  get '/checkout/review(/:lookup_key)', to: 'stripe#review', as: "checkout_review"
+  # "step 2": created user but unsubscribed state
+  get '/checkout/subscribe(/:lookup_key)', to: 'stripe#subscribe', as: "checkout_subscribe"
   post '/create-checkout-session/', to: 'stripe#createSession'
   get '/checkout/success/', to: 'stripe#success'
   post '/customer-portal/', to: 'stripe#portal'
