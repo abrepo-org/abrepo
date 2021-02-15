@@ -5,6 +5,7 @@
 #  id           :bigint           not null, primary key
 #  company_name :string
 #  domain       :string
+#  url          :string
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  a_id         :string
@@ -15,6 +16,10 @@ class Profile < ApplicationRecord
 
   validates :domain, :a_id, presence: true
 
+
+  def hostname
+    self.url ? URI(self.url).hostname : self.domain
+  end
 
   def as_json(options)
     super(only: [:company_name, :domain])
