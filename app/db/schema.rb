@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_15_193238) do
+ActiveRecord::Schema.define(version: 2021_02_15_210919) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -148,6 +148,7 @@ ActiveRecord::Schema.define(version: 2021_02_15_193238) do
     t.string "a_id"
     t.string "vendor_id"
     t.string "summary_name"
+    t.boolean "verified", default: false, null: false
     t.index ["experiment_id"], name: "index_variations_on_experiment_id"
   end
 

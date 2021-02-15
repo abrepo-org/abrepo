@@ -5,6 +5,7 @@
 #  id            :bigint           not null, primary key
 #  summary_name  :string
 #  url           :string
+#  verified      :boolean          default(FALSE), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  a_id          :string
