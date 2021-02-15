@@ -5,6 +5,7 @@
 #  id           :bigint           not null, primary key
 #  company_name :string
 #  domain       :string
+#  url          :string
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  a_id         :string
