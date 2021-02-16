@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import DiffSummary from './DiffSummary.jsx';
 
 export default class DiffView extends React.Component  {
 
@@ -12,41 +13,34 @@ export default class DiffView extends React.Component  {
         if (!this.props.diff) return null;
 
         return(
-            <div className="diff">
+            <>
 
-                <div className="has-text-grey">Selector</div>
-                <div>{this.props.diff.selector}</div>
-
-            { (this.props.diff.summary_added || this.props.diff.summary_removed) &&
-              <>
-                <div className="has-text-grey mt-3">Summary</div>
-                <div>{this.props.diff.summary_delta}</div>
-              </>
-            }
-
-            {this.props.diff.summary_added &&
-                <div>
-                    <span className="icon is-small icon-add">
-                        <i className="fas fa-plus"></i>
-                    </span>
-                    <span className="summary-added">
-                        {this.props.diff.summary_added}
-                    </span>
-                </div>
+                { this.props.diff.summary_delta &&
+                  <div className="diff-summary-delta is-size-5">
+                      {this.props.diff.summary_delta}
+                  </div>
                 }
 
-                {this.props.diff.summary_removed &&
-                <div>
-                    <span className="icon is-small icon-remove">
-                        <i className="fas fa-minus"></i>
-                    </span>
-                    <span className="summary-removed">
-                        {this.props.diff.summary_removed}
-                    </span>
-                </div>
+
+                {  !this.props.diff.newDim.isVisible &&
+                   !this.props.diff.origDim.isVisible &&
+                   <div className="has-text-grey is-size-7">
+                       Not Visible
+                   </div>
                 }
 
-            </div>
+                <div className="diff-summary-wrap">
+                    <DiffSummary summary={this.props.diff.summary_added}
+                                 icon="&#65291;"
+                                 colorClass='icon-add'
+                    />
+                    <DiffSummary summary={this.props.diff.summary_removed}
+                                 icon="&#65293;"
+                                 colorClass='icon-remove'
+                    />
+
+                </div>
+            </>
         )
     }
 }

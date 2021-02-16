@@ -228,7 +228,8 @@ export default class Variation extends React.Component {
     render() {
         const diffWrapStyle = {
             overflowY: 'scroll',
-            height: this.state.renderableHeight
+            height: this.state.renderableHeight,
+            padding: "0 .75rem"
         }
 
         console.log("WH", this.state.renderableWidth, this.state.renderableHeight);
