@@ -85,9 +85,7 @@ class ImportsController < ApplicationController
     #'active' ACTION
     #
     action_id = input['action_id']
-    activeAction = input['renderables']['actions']
-                     .select { |action| action['_id'] == action_id }
-                     .first
+    activeAction = input['activeAction']
 
     @action = Action.where(actionType: activeAction['type'],
                            selector: activeAction['selector'],
