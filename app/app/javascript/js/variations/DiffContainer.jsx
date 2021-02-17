@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Diff from './Diff.jsx';
+import Diff from './diff/Diff.jsx';
 
 export default class DiffContainer extends React.Component {
 

@@ -4,7 +4,7 @@ import ActionContainer from './ActionContainer.jsx';
 import ControlsContainer from './ControlsContainer.jsx';
 import DiffContainer from './DiffContainer.jsx';
 import RenderableContainer from './RenderableContainer.jsx';
-import MobileModal from './MobileModal.jsx';
+import MobileModal from './diff/MobileModal.jsx';
 
 export default class Variation extends React.Component {
 
