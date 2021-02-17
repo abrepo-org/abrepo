@@ -66,13 +66,16 @@ export default class RenderableContainer extends React.Component {
             maxHeight: this.state.imgHeight
         };
 
-        const rects = this.props.diffs.sort( (diffA, diffB) => {
+        const rects = [...this.props.diffs].sort( (diffA, diffB) => {
             const dimA = this.state.isControl ? diffA.origDim : diffA.newDim;
             const dimB = this.state.isControl ? diffB.origDim : diffB.newDim;
 
             //calc sort order, want larger, containg rects to be rendered first
             //so subsequent smaller, contained rects have a higher paint order
             //and are clickable. Effectively sorting for z-index.
+            //
+            //NB: we sort a copy since Array.sort does so *in-place*, and reorders
+            //the props.diffs order which affects renders
 
             if (!dimA.boundingBox && !dimB.boundingBox) return 0;
             if (dimA.boundingBox && !dimB.boundingBox) return -1;

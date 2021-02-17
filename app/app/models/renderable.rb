@@ -46,8 +46,13 @@ class Renderable < ApplicationRecord
   end
 
   def sortedDiffs()
-    self.diffs.sort{ |d| d.avgY }
-      .map{ |d| d.attributes.except("a_id", "renderable_id", "created_at", "updated_at") }
+
+    # NB default sort descending - highest avgY, but we want ordered asc (low to high)
+    diffs = self.diffs.sort{ |d| d.avgY }
+              .reverse
+              .map{ |d| d.attributes.except("a_id", "renderable_id", "created_at", "updated_at") }
+
+    return diffs
   end
   #TODO:
   #https://thoughtbot.com/blog/better-serialization-less-as-json
