@@ -44,7 +44,6 @@ export default class Variation extends React.Component {
 
             diffVisible: true,
 
-            mobileModalIsOpen: false,
             mobileModalContent: {diff: null},
 
             busy:false
@@ -113,7 +112,6 @@ export default class Variation extends React.Component {
         console.log("mobileModalCloseHandler")
 
         this.setState({
-            mobileModalIsOpen: false,
             mobileModalContent: {diff: null}
         });
     }
@@ -126,7 +124,6 @@ export default class Variation extends React.Component {
             //if diffs are hidden rects are null
             //launch modal or tooltip or something
             this.setState({
-                mobileModalIsOpen: true,
                 mobileModalContent: { diff }
             });
             return;
@@ -325,8 +322,7 @@ export default class Variation extends React.Component {
                                                   isVisible={[0, 2].includes(this.state.activeView)}
                                                   {...this.props} />
 
-                             <MobileModal isOpen={this.state.mobileModalIsOpen}
-                                          content={this.state.mobileModalContent}
+                             <MobileModal diff={this.state.mobileModalContent.diff}
                                           mobileModalCloseHandler={this.mobileModalCloseHandler.bind(this)}
                              />
                          </div>

@@ -10,7 +10,7 @@ export default class MobileModal extends React.Component {
     }
 
     render() {
-        const isOpen = this.props.isOpen ? 'is-active' : '';
+        const isOpen = this.props.diff ? 'is-active' : '';
 
         return(
             <div className={`modal is-hidden-desktop ${isOpen}`}>
@@ -23,7 +23,7 @@ export default class MobileModal extends React.Component {
                     </header>
                     <section className="modal-card-body diffPanel">
 
-                        <DiffView diff={this.props.content.diff} />
+                        <DiffView diff={this.props.diff} />
 
                     </section>
                     <footer className="modal-card-foot">
