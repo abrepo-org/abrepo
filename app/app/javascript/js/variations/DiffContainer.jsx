@@ -11,7 +11,9 @@ export default class DiffContainer extends React.Component {
 
     render() {
         const diffs = this.props.diffs.map( (diff, i) => {
-            return <Diff key={diff.id} diff={diff} {...this.props} />;
+            return <Diff key={diff.id} diff={diff}
+                         {...this.props} />;
+
         });
 
         return(

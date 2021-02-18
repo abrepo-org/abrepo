@@ -62,7 +62,7 @@ export default class Diff extends React.Component {
               onMouseEnter={ () => this.props.diffBboxHoverHandler(this.props.diff.id)}
               onMouseLeave={ () => this.props.diffBboxHoverHandler(0)}>
 
-                <DiffView diff={this.props.diff} />
+                <DiffView diff={this.props.diff} detail={true} {...this.props} />
 
             </div>
         );

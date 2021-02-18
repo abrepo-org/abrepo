@@ -4,7 +4,9 @@ import ActionContainer from './ActionContainer.jsx';
 import ControlsContainer from './ControlsContainer.jsx';
 import DiffContainer from './DiffContainer.jsx';
 import RenderableContainer from './RenderableContainer.jsx';
-import MobileModal from './diff/MobileModal.jsx';
+import ModalContainer from './diff/ModalContainer.jsx';
+import ModalContent from './diff/ModalContent.jsx';
+import DiffView from './diff/DiffView.jsx';
 
 export default class Variation extends React.Component {
 
@@ -44,7 +46,7 @@ export default class Variation extends React.Component {
 
             diffVisible: true,
 
-            mobileModalContent: {diff: null},
+            modalDiff: null,
 
             busy:false
         }
@@ -108,23 +110,24 @@ export default class Variation extends React.Component {
         }
     }
 
-    mobileModalCloseHandler() {
-        console.log("mobileModalCloseHandler")
-
+    modalLaunchHandler(diff) {
+        console.log("modalLaunchHandler", diff);
         this.setState({
-            mobileModalContent: {diff: null}
-        });
+            modalDiff: diff
+        })
     }
 
     bboxClickHandler(currentRef, diff) {
         console.log("bboxClickhandler", this, diff.diffRef.current, currentRef);
 
         const rect = diff.diffRef.current.getClientRects()[0]
+
         if(!rect) {
-            //if diffs are hidden rects are null
-            //launch modal or tooltip or something
+            //DiffPanel mobile view: iffs are hidden so bbox rect is null
+            //if its mobile, we launch modal based on bbox click
+            //otherwise we skip modal trigger and just scroll
             this.setState({
-                mobileModalContent: { diff }
+                modalDiff: diff
             });
             return;
         }
@@ -192,6 +195,7 @@ export default class Variation extends React.Component {
 
         this.setState({busy:true});
     }
+
 
     componentDidMount() {
         window.addEventListener('resize', this.windowResizeHandler.bind(this));
@@ -279,10 +283,12 @@ export default class Variation extends React.Component {
                          <div className="columns" >
                              <div className="column diffPanel"
                                   style={diffWrapStyle} ref={this.diffPanelRef}>
+
                                  <DiffContainer diffs={diffs}
                                                 diffBboxHoverId={this.state.diffBboxHoverId}
                                                 diffClickHandler={this.diffClickHandler.bind(this)}
                                                 diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
+                                                modalLaunchHandler={this.modalLaunchHandler.bind(this)}
                                                 {...this.props}
                                  />
 
@@ -322,9 +328,14 @@ export default class Variation extends React.Component {
                                                   isVisible={[0, 2].includes(this.state.activeView)}
                                                   {...this.props} />
 
-                             <MobileModal diff={this.state.mobileModalContent.diff}
-                                          mobileModalCloseHandler={this.mobileModalCloseHandler.bind(this)}
-                             />
+
+                             <ModalContainer diff={this.state.modalDiff}
+                                             modalLaunchHandler={ this.modalLaunchHandler.bind(this) }>
+                                 <DiffView diff={this.state.modalDiff} detail={false}/>
+                                 <br />
+                                 <ModalContent diff={this.state.modalDiff} />
+                             </ModalContainer>
+
                          </div>
                      </div>
                  </div>
