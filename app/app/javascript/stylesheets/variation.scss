@@ -37,6 +37,17 @@ button {
   text-transform: capitalize;
 }
 
+button.diffDetail {
+    height: 20px;
+    border: 0px;
+    background: transparent;
+    border: 1px solid transparent;
+    &:hover {
+        border: 1px solid transparent;
+        color: blue;
+    }
+}
+
 .diffPanel .icon-add {
   color: $addColorIcon;
   font-weight:900;

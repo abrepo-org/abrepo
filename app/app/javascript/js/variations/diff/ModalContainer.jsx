@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
-
+import ModalContent from './ModalContent.jsx';
+import DiffView from './DiffView.jsx';
 
 const ModalContainer = (props) => {
 
     const [diff, setDiff] = useState(props.diff);
     const [classNames, setClassNames] = useState(props.classNames || "");
+    const [title, setTitle] = useState(props.title);
 
     const isOpen = props.diff ? 'is-active' : '';
 
@@ -19,21 +21,32 @@ const ModalContainer = (props) => {
           <div className="modal-card">
 
             <header className="modal-card-head">
-              <p className="modal-card-title">Diff</p>
+
+                <div className="modal-card-title">{title}</div>
+
               <button onClick={() => props.modalLaunchHandler(null)}
-                className="delete" aria-label="close"></button>
+                      className="delete is-large"
+                      aria-label="close">
+              </button>
             </header>
+
 
             <section className="modal-card-body diffPanel">
 
-              {props.children}
+                {props.diff &&
+                 <>
+                 <DiffView diff={props.diff} detail={false}/>
+                 <hr />
+                 <ModalContent diff={props.diff} />
+                 </>
+                }
+
 
             </section>
 
             <footer className="modal-card-foot">
-              <button className="button is-success">Save changes</button>
-              <button className="button">Cancel</button>
             </footer>
+
           </div>
         </div>
     );

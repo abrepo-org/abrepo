@@ -5,8 +5,6 @@ import ControlsContainer from './ControlsContainer.jsx';
 import DiffContainer from './DiffContainer.jsx';
 import RenderableContainer from './RenderableContainer.jsx';
 import ModalContainer from './diff/ModalContainer.jsx';
-import ModalContent from './diff/ModalContent.jsx';
-import DiffView from './diff/DiffView.jsx';
 
 export default class Variation extends React.Component {
 
@@ -329,12 +327,10 @@ export default class Variation extends React.Component {
                                                   {...this.props} />
 
 
-                             <ModalContainer diff={this.state.modalDiff}
-                                             modalLaunchHandler={ this.modalLaunchHandler.bind(this) }>
-                                 <DiffView diff={this.state.modalDiff} detail={false}/>
-                                 <br />
-                                 <ModalContent diff={this.state.modalDiff} />
-                             </ModalContainer>
+                             <ModalContainer title="Details"
+                                             diff={this.state.modalDiff}
+                                             modalLaunchHandler={ this.modalLaunchHandler.bind(this) }
+                             />
 
                          </div>
                      </div>
