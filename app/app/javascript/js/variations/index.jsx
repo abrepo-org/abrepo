@@ -4,7 +4,7 @@ import ActionContainer from './ActionContainer.jsx';
 import ControlsContainer from './ControlsContainer.jsx';
 import DiffContainer from './DiffContainer.jsx';
 import RenderableContainer from './RenderableContainer.jsx';
-import MobileModal from './MobileModal.jsx';
+import ModalContainer from './diff/ModalContainer.jsx';
 
 export default class Variation extends React.Component {
 
@@ -44,8 +44,7 @@ export default class Variation extends React.Component {
 
             diffVisible: true,
 
-            mobileModalIsOpen: false,
-            mobileModalContent: {diff: null},
+            modalDiff: null,
 
             busy:false
         }
@@ -109,25 +108,24 @@ export default class Variation extends React.Component {
         }
     }
 
-    mobileModalCloseHandler() {
-        console.log("mobileModalCloseHandler")
-
+    modalLaunchHandler(diff) {
+        console.log("modalLaunchHandler", diff);
         this.setState({
-            mobileModalIsOpen: false,
-            mobileModalContent: {diff: null}
-        });
+            modalDiff: diff
+        })
     }
 
     bboxClickHandler(currentRef, diff) {
         console.log("bboxClickhandler", this, diff.diffRef.current, currentRef);
 
         const rect = diff.diffRef.current.getClientRects()[0]
+
         if(!rect) {
-            //if diffs are hidden rects are null
-            //launch modal or tooltip or something
+            //DiffPanel mobile view: iffs are hidden so bbox rect is null
+            //if its mobile, we launch modal based on bbox click
+            //otherwise we skip modal trigger and just scroll
             this.setState({
-                mobileModalIsOpen: true,
-                mobileModalContent: { diff }
+                modalDiff: diff
             });
             return;
         }
@@ -196,6 +194,7 @@ export default class Variation extends React.Component {
         this.setState({busy:true});
     }
 
+
     componentDidMount() {
         window.addEventListener('resize', this.windowResizeHandler.bind(this));
     }
@@ -228,7 +227,8 @@ export default class Variation extends React.Component {
     render() {
         const diffWrapStyle = {
             overflowY: 'scroll',
-            height: this.state.renderableHeight
+            height: this.state.renderableHeight,
+            padding: "0 .75rem"
         }
 
         console.log("WH", this.state.renderableWidth, this.state.renderableHeight);
@@ -281,10 +281,12 @@ export default class Variation extends React.Component {
                          <div className="columns" >
                              <div className="column diffPanel"
                                   style={diffWrapStyle} ref={this.diffPanelRef}>
+
                                  <DiffContainer diffs={diffs}
                                                 diffBboxHoverId={this.state.diffBboxHoverId}
                                                 diffClickHandler={this.diffClickHandler.bind(this)}
                                                 diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
+                                                modalLaunchHandler={this.modalLaunchHandler.bind(this)}
                                                 {...this.props}
                                  />
 
@@ -324,10 +326,12 @@ export default class Variation extends React.Component {
                                                   isVisible={[0, 2].includes(this.state.activeView)}
                                                   {...this.props} />
 
-                             <MobileModal isOpen={this.state.mobileModalIsOpen}
-                                          content={this.state.mobileModalContent}
-                                          mobileModalCloseHandler={this.mobileModalCloseHandler.bind(this)}
+
+                             <ModalContainer title="Details"
+                                             diff={this.state.modalDiff}
+                                             modalLaunchHandler={ this.modalLaunchHandler.bind(this) }
                              />
+
                          </div>
                      </div>
                  </div>

@@ -37,8 +37,8 @@ export default class Diff extends React.Component {
     render() {
 
         //style settings
-        const lineWidth = 3;
-        const hoverLineWidth = 3;
+        const lineWidth = 1;
+        const hoverLineWidth = 1;
 
         const defaultStyle = {
             //outline: `${lineWidth}px solid ${this.state.color}`,
@@ -47,6 +47,7 @@ export default class Diff extends React.Component {
         };
 
         const hoverStyle = {
+            background: 'whitesmoke',
             outline: `${lineWidth + hoverLineWidth}px solid ${this.state.hoverColor}`
         };
 
@@ -55,14 +56,14 @@ export default class Diff extends React.Component {
 
         return(
             <div
+              className='diff p-3'
               ref={this.diffRef} style={rectStyle}
               onClick={() => this.props.diffClickHandler(this.diffRef, this.props.diff)}
               onMouseEnter={ () => this.props.diffBboxHoverHandler(this.props.diff.id)}
               onMouseLeave={ () => this.props.diffBboxHoverHandler(0)}>
 
-                <DiffView diff={this.props.diff} />
+                <DiffView diff={this.props.diff} detail={true} {...this.props} />
 
-                <hr />
             </div>
         );
     }

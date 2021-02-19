@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Diff from './Diff.jsx';
+import Diff from './diff/Diff.jsx';
 
 export default class DiffContainer extends React.Component {
 
@@ -11,7 +11,9 @@ export default class DiffContainer extends React.Component {
 
     render() {
         const diffs = this.props.diffs.map( (diff, i) => {
-            return <Diff key={diff.id} diff={diff} {...this.props} />;
+            return <Diff key={diff.id} diff={diff}
+                         {...this.props} />;
+
         });
 
         return(

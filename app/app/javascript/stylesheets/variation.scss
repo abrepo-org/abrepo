@@ -19,28 +19,51 @@ button {
 .diffPanel {
   z-index: 10;
 }
+.diffPanel h4 {
+  padding-left: .75rem;
+}
 .diffPanel .diff {
   overflow-wrap: break-word;
+  border-top: 1px solid whitesmoke;
+  &:last-child {
+    border-bottom: 1px solid whitesmoke;
+  }
 }
 
-.diffPanel .icon {
-  display:inline-block;
-  font-size: .75rem;
+.diffPanel .diff-summary-delta {
+  text-transform: capitalize;
+}
+.diff-summary span:first-letter {
+  text-transform: capitalize;
 }
 
-/* adjust vertical position of icon since we shrink font-size above */
-.diffPanel i {
-  vertical-align: top;
-  padding-top:2px;
+button.diffDetail {
+    height: 20px;
+    border: 0px;
+    background: transparent;
+    border: 1px solid transparent;
+    &:hover {
+        border: 1px solid transparent;
+        color: blue;
+    }
 }
+
 .diffPanel .icon-add {
   color: $addColorIcon;
+  font-weight:900;
+  font-size:.85rem;
 }
 .diffPanel .icon-remove {
   color: $removeColorIcon;
+  font-weight:900;
+  font-size:.85rem;
 }
 
-/* action control */
+
+
+/*
+ * action control
+ */
 #ActionControlPanel {
   position:sticky;
   top: 4rem;
