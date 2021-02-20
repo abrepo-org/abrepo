@@ -73,7 +73,7 @@ export default class BoundingBox extends React.Component {
 
         if (!boundingBox || !dim.isVisible) return null;
 
-        const selector = boundingBox.selector;
+        const selector = boundingBox.selectorDisplayName || boundingBox.selector;
         const coord = boundingBox.rect;
 
         return(

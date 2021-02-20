@@ -73,7 +73,7 @@ export default class ActionContainer extends React.Component {
                                      </div>
                                  </td>
                                  <td> { action.actionType || '-'} </td>
-                                 <td> { action.selector || '-' } </td>
+                                 <td> { action.selectorDisplayName || action.selector || '-' } </td>
                                  <td> { this.props.diffs.length } </td>
                                  <td className="is-hidden-mobile"> { action.url } </td>
                              </tr>
