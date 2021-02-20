@@ -2,15 +2,16 @@
 #
 # Table name: actions
 #
-#  id         :bigint           not null, primary key
-#  actionType :string
-#  crawlId    :string
-#  selector   :string
-#  url        :string
-#  waitfor    :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  a_id       :string
+#  id                  :bigint           not null, primary key
+#  actionType          :string
+#  crawlId             :string
+#  selector            :string
+#  selectorDisplayName :string
+#  url                 :string
+#  waitfor             :integer
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  a_id                :string
 #
 
 require 'test_helper'
