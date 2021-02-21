@@ -13,7 +13,7 @@ const ModalContent = (props) => {
           */}
         <p>
             <div className="has-text-grey">Selector</div>
-            <div>{diff.selector}</div>
+            <div>{diff.selectorDisplayName || diff.selector}</div>
         </p>
 
         {diff.calculated.text &&

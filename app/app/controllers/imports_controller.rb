@@ -95,6 +95,8 @@ class ImportsController < ApplicationController
                 .order(id: :desc)
                 .first_or_create
 
+    @action.update(selectorDisplayName: activeAction['selectorDisplayName'])
+
     #
     # RENDERABLE
     #
@@ -156,6 +158,7 @@ class ImportsController < ApplicationController
         diff.summary_added = d['summary_added']
         diff.summary_removed = d['summary_removed']
         diff.selector = d['selector']
+        diff.selectorDisplayName = d['selectorDisplayName']
         diff.diffType = d['type']
 
 
