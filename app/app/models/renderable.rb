@@ -6,7 +6,7 @@
 #  control            :boolean
 #  crawlId            :string
 #  domain             :string
-#  renderedAction     :json
+#  preExecuteAction   :json
 #  renderedTitle      :string
 #  renderedURL        :string
 #  screenshotFilename :string
@@ -31,6 +31,12 @@
 #  fk_rails_...  (variation_id => variations.id)
 #
 
+#
+# preExecuteAction: this is the action state captured immediately
+# prior to executing the action. Action selector bbox (should) equal
+# to nullAction which we collect in visibleActions to display what
+# actions are available
+#
 class Renderable < ApplicationRecord
   belongs_to :action
   belongs_to :variation
