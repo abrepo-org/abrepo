@@ -129,6 +129,7 @@ class ImportsController < ApplicationController
 
     @active_renderable.update(renderedTitle: active_renderable['renderedTitle'],
                               renderedURL: active_renderable['renderedURL'],
+                              renderedAction: active_renderable['renderedAction'],
                               control: false,
                               screenshotWidth: active_renderable['screenshotDimensions']['width'],
                               screenshotHeight: active_renderable['screenshotDimensions']['height'],
