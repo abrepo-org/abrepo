@@ -23,11 +23,11 @@ export default class BoundingBox extends React.Component {
             color: colors[this.props.elem.type]
         };
 
-        this.bboxRef = React.createRef();
+        this.ref = React.createRef();
     }
 
     // rectClickHandler() {
-    //     console.log("RECT CLICK", this.bboxRef.current, this.props.elem.id)
+    //     console.log("RECT CLICK", this.ref.current, this.props.elem.id)
     // }
 
     componentDidMount() {
@@ -35,13 +35,10 @@ export default class BoundingBox extends React.Component {
         const elem = this.state.elem;
 
         if(this.props.isControl) {
-            elem.origDim['bboxRef'] = this.bboxRef;
+            elem.origDim['ref'] = this.ref;
         } else {
-            elem.newDim['bboxRef'] = this.bboxRef;
+            elem.newDim['ref'] = this.ref;
         }
-
-        //elem.dim['bboxRef'] = this.bboxRef;
-        //elem.dim['ref'] = this.ref;
 
         this.setState({
             elem
@@ -49,7 +46,7 @@ export default class BoundingBox extends React.Component {
     }
 
     componentWillUnmount() {
-        this.bboxRef = null;
+        this.ref = null;
     }
 
     render() {
@@ -88,10 +85,10 @@ export default class BoundingBox extends React.Component {
                   width={coord.width + lineWidth} height={coord.height + lineWidth}
                   stroke={this.state.color} fill={this.state.color} fillOpacity="0.2"
 
-                  onClick={() => this.props.bboxClickHandler(this.bboxRef, this.props.elem) }
+                  onClick={() => this.props.bboxClickHandler(this.ref, this.props.elem) }
                   onMouseEnter={ () => this.props.bboxHoverHandler(this.props.elem.id)}
                   onMouseLeave={ () => this.props.bboxHoverHandler(0)}
-                  ref={this.bboxRef}
+                  ref={this.ref}
               >
 
               <title>{selector}</title>

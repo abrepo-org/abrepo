@@ -85,7 +85,7 @@ export default class Variation extends React.Component {
 
     //hover Bbox and DiffPanel diff
     bboxHoverHandler(elem_id) {
-        //console.log("bboxHoverHandler", diff_id);
+
         this.setState({
             bboxHoverId: elem_id
         });
@@ -99,16 +99,16 @@ export default class Variation extends React.Component {
         console.log("diffClickHandler", diff, currentRef);
 
 
-        if (diff.newDim && diff.newDim.bboxRef.current) {
-            const y = diff.newDim.bboxRef.current.getClientRects()[0].y
-            const height = diff.newDim.bboxRef.current.getClientRects()[0].height
+        if (diff.newDim && diff.newDim.ref.current) {
+            const y = diff.newDim.ref.current.getClientRects()[0].y
+            const height = diff.newDim.ref.current.getClientRects()[0].height
             this.renderablePanelRef.current.scrollBy({left:0,
                                                       top: y - window.innerHeight/2,
                                                       behavior: "smooth"});
 
-        } else if (diff.origDim && diff.origDim.bboxRef.current) {
-            const y = diff.origDim.bboxRef.current.getClientRects()[0].y
-            const height = diff.origDim.bboxRef.current.getClientRects()[0].height
+        } else if (diff.origDim && diff.origDim.ref.current) {
+            const y = diff.origDim.ref.current.getClientRects()[0].y
+            const height = diff.origDim.ref.current.getClientRects()[0].height
             this.renderablePanelRef.current.scrollBy({left:0,
                                                       top: y - window.innerHeight/2,
                                                       behavior: "smooth"});
@@ -123,22 +123,22 @@ export default class Variation extends React.Component {
         })
     }
 
-    bboxClickHandler(currentRef, diff) {
-        console.log("bboxClickhandler", this, diff.ref.current, currentRef);
+    bboxClickHandler(bboxRef, elem) {
+        console.log("bboxClickhandler", this, elem.ref.current, bboxRef);
 
-        const rect = diff.ref.current.getClientRects()[0]
+        const rect = elem.ref.current.getClientRects()[0]
 
-        //DiffPanel mobile view: diffs are hidden so bbox rect is null
-        //if its mobile, we launch modal based on bbox click
-        //otherwise we skip modal trigger and just scroll
+        //ElemPanel mobile view: elems are hidden so bbox rect is null
+        //for mobile, on bbox click we launch modal
+        //otherwise skip modal and just scroll
         if(!rect) {
             this.setState({
-                modalDiff: diff
+                modalElem: elem
             });
             return;
         }
 
-        //DiffPanel desktop view
+        //ElemPanel desktop view
         const y = rect.y
         const height = rect.height
 
