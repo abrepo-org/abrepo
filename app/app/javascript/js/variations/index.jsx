@@ -124,9 +124,9 @@ export default class Variation extends React.Component {
     }
 
     bboxClickHandler(currentRef, diff) {
-        console.log("bboxClickhandler", this, diff.diffRef.current, currentRef);
+        console.log("bboxClickhandler", this, diff.ref.current, currentRef);
 
-        const rect = diff.diffRef.current.getClientRects()[0]
+        const rect = diff.ref.current.getClientRects()[0]
 
         //DiffPanel mobile view: diffs are hidden so bbox rect is null
         //if its mobile, we launch modal based on bbox click

@@ -16,14 +16,14 @@ export default class Diff extends React.Component {
             color
         };
 
-        this.diffRef = React.createRef();
+        this.ref = React.createRef();
     }
 
     //guess the idea is passing up a ref through callback
     //and then setting it on the diff?
     componentDidMount() {
         const diff = this.state.diff;
-        diff['diffRef']=this.diffRef;
+        diff['ref']=this.ref;
 
         this.setState({
             diff
@@ -31,7 +31,7 @@ export default class Diff extends React.Component {
     }
 
     componentWillUnmount() {
-        this.diffRef = null;
+        this.ref = null;
     }
 
     render() {
@@ -57,8 +57,8 @@ export default class Diff extends React.Component {
         return(
             <div
               className='diff p-3'
-              ref={this.diffRef} style={rectStyle}
-              onClick={() => this.props.diffClickHandler(this.diffRef, this.props.diff)}
+              ref={this.ref} style={rectStyle}
+              onClick={() => this.props.diffClickHandler(this.ref, this.props.diff)}
               onMouseEnter={ () => this.props.bboxHoverHandler(this.props.diff.id)}
               onMouseLeave={ () => this.props.bboxHoverHandler(0)}>
 
