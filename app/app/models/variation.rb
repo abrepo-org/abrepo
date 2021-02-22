@@ -29,4 +29,17 @@ class Variation < ApplicationRecord
   has_many :actions, -> { distinct }, through: :renderables
 
   validates :a_id, :experiment_id, :vendor_id, presence: true
+
+  def visibleActions
+    visibleActions = { active: [], control: [] }
+
+    self.renderables.where(control: false).each do |renderable |
+      unless renderable.action.actionType.nil?
+        visibleActions[:active].push(renderable.preExecuteAction)
+        visibleActions[:control].push(renderable.controlRenderable.preExecuteAction)
+      end
+    end
+
+    return visibleActions
+  end
 end

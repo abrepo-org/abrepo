@@ -18,12 +18,14 @@ export default class Variation extends React.Component {
         const activeAction = this.props.data.actions[0];
         const activeRenderable = this.props.data.actionRenderables[activeAction.id].renderable;
         const activeControlRenderable = this.props.data.actionRenderables[activeAction.id].controlRenderable;
+        const visibleActions = this.props.data.actionRenderables[activeAction.id].visibleActions
         const isSingleView = window.innerWidth < 1215;
 
         this.state = {
             activeAction,
             activeRenderable,
             activeControlRenderable,
+            visibleActions,
             diffs: activeRenderable.sortedDiffs,
 
             //Render action panel condition
@@ -72,10 +74,12 @@ export default class Variation extends React.Component {
         const activeRenderable = this.props.data.actionRenderables[activeAction.id].renderable;
         const activeControlRenderable = this.props.data.actionRenderables[activeAction.id]
                                             .controlRenderable;
+        const visibleActions = this.props.data.actionRenderables[activeAction.id]
+                                   .visibleActions
         const diffs = activeRenderable.sortedDiffs;
 
         this.setState({
-            activeAction, activeRenderable, activeControlRenderable, diffs
+            activeAction, activeRenderable, activeControlRenderable, visibleActions, diffs
         })
     }
 
@@ -240,11 +244,9 @@ export default class Variation extends React.Component {
             //listerner: on change resize / smaller devices what is this
         } : {}
 
-        if(!this.state.diffs) return <div></div>
+        if(!this.state.diffs) return (<div></div>);
 
         const diffs = this.filterDiffs(this.state.diffs);
-
-        //active/base_renderable.screenshot
 
         return (
             <>
@@ -303,6 +305,7 @@ export default class Variation extends React.Component {
                              <RenderableContainer label="Variation"
                                                   diffs={diffs}
                                                   renderable={this.state.activeRenderable}
+                                                  visibleActions={this.state.visibleActions.active}
                                                   bboxVisible={this.state.bboxVisible}
                                                   scrollBoxEnabled={this.state.scrollBoxEnabled}
                                                   diffBboxHoverId={this.state.diffBboxHoverId}
@@ -316,6 +319,7 @@ export default class Variation extends React.Component {
                              <RenderableContainer label="Original"
                                                   diffs={diffs}
                                                   renderable={this.state.activeControlRenderable}
+                                                  visibleActions={this.state.visibleActions.control}
                                                   bboxVisible={this.state.bboxVisible}
                                                   scrollBoxEnabled={this.state.scrollBoxEnabled}
                                                   diffBboxHoverId={this.state.diffBboxHoverId}

@@ -61,13 +61,19 @@ class Renderable < ApplicationRecord
 
     return diffs
   end
+
+  def preExecuteAction
+    action = self[:preExecuteAction].as_json({except: ["_id", "createdAt", "updatedAt", "__v"]})
+    action["id"] = self[:preExecuteAction]['_id'] if(action)
+    return action
+  end
   #TODO:
   #https://thoughtbot.com/blog/better-serialization-less-as-json
   #
 
   def to_render(options = {})
 
-    as_json({methods: [:screenshot, :sortedDiffs],
+    as_json({methods: [:screenshot, :sortedDiffs, :preExecuteAction],
              except: [:id, :a_id, :variation_id, :renderable_id, :action_id,
                       :updated_at, :created_at]}
               .merge(options))
