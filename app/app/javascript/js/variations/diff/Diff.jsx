@@ -21,10 +21,10 @@ export default class Diff extends React.Component {
 
     //guess the idea is passing up a ref through callback
     //and then setting it on the diff?
-    //so diff.bboxRef and diff.diffRef?
     componentDidMount() {
         const diff = this.state.diff;
         diff['diffRef']=this.diffRef;
+
         this.setState({
             diff
         });
@@ -51,7 +51,7 @@ export default class Diff extends React.Component {
             outline: `${lineWidth + hoverLineWidth}px solid ${this.state.hoverColor}`
         };
 
-        const rectStyle = !(this.props.diffBboxHoverId == this.props.diff.id) ?
+        const rectStyle = !(this.props.bboxHoverId == this.props.diff.id) ?
               defaultStyle : hoverStyle;
 
         return(
@@ -59,8 +59,8 @@ export default class Diff extends React.Component {
               className='diff p-3'
               ref={this.diffRef} style={rectStyle}
               onClick={() => this.props.diffClickHandler(this.diffRef, this.props.diff)}
-              onMouseEnter={ () => this.props.diffBboxHoverHandler(this.props.diff.id)}
-              onMouseLeave={ () => this.props.diffBboxHoverHandler(0)}>
+              onMouseEnter={ () => this.props.bboxHoverHandler(this.props.diff.id)}
+              onMouseLeave={ () => this.props.bboxHoverHandler(0)}>
 
                 <DiffView diff={this.props.diff} detail={true} {...this.props} />
 

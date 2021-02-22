@@ -6,8 +6,10 @@ export default class BoundingBox extends React.Component {
     constructor(props) {
         super(props);
 
-        //DiffType colors: require contrast, so darker tends to be better visually
+        //elemType colors: require contrast, so darker tends to be better visually
         const colors = {
+            //diffType: {}
+            //actionType: {}
             'ADDED': 'green',
             'CHANGED': 'blueviolet',
             'REMOVED': 'red'
@@ -16,30 +18,33 @@ export default class BoundingBox extends React.Component {
         const hoverColor = 'blue';
 
         this.state = {
-            diff: this.props.diff,
+            elem: this.props.elem,
             hoverColor,
-            color: colors[this.props.diff.diffType]
+            color: colors[this.props.elem.type]
         };
 
         this.bboxRef = React.createRef();
     }
 
     // rectClickHandler() {
-    //     console.log("RECT CLICK", this.bboxRef.current, this.props.diff.id)
+    //     console.log("RECT CLICK", this.bboxRef.current, this.props.elem.id)
     // }
 
     componentDidMount() {
 
-        const diff = this.state.diff;
+        const elem = this.state.elem;
 
         if(this.props.isControl) {
-            diff.origDim['bboxRef'] = this.bboxRef;
+            elem.origDim['bboxRef'] = this.bboxRef;
         } else {
-            diff.newDim['bboxRef'] = this.bboxRef;
+            elem.newDim['bboxRef'] = this.bboxRef;
         }
 
+        //elem.dim['bboxRef'] = this.bboxRef;
+        //elem.dim['ref'] = this.ref;
+
         this.setState({
-            diff
+            elem
         });
     }
 
@@ -62,13 +67,13 @@ export default class BoundingBox extends React.Component {
             outline: `${lineWidth + hoverLineWidth}px solid ${this.state.hoverColor}`
         };
 
-        const rectStyle = !(this.props.diffBboxHoverId== this.props.diff.id) ?
+        const rectStyle = !(this.props.bboxHoverId == this.props.elem.id) ?
               defaultStyle : hoverStyle;
 
-        //console.log("RECT", this.props.diffBboxHoverId, rectStyle)
+        //console.log("RECT", this.props.bboxHoverId, rectStyle)
         //data
-        const id = (this.props.isControl ? "c" : "") + this.props.diff.id;
-        const dim = this.props.isControl? this.props.diff.origDim : this.props.diff.newDim;
+        const id = (this.props.isControl ? "c" : "") + this.props.elem.id;
+        const dim = this.props.elem.dim;
         const boundingBox = dim.boundingBox;
 
         if (!boundingBox || !dim.isVisible) return null;
@@ -82,12 +87,11 @@ export default class BoundingBox extends React.Component {
                   x={coord.x - lineWidth} y={coord.y - lineWidth}
                   width={coord.width + lineWidth} height={coord.height + lineWidth}
                   stroke={this.state.color} fill={this.state.color} fillOpacity="0.2"
-                  onClick={() => this.props.bboxClickHandler(this.bboxRef, this.props.diff) }
-                  onMouseEnter={ () => this.props.diffBboxHoverHandler(this.props.diff.id)}
-                  onMouseLeave={ () => this.props.diffBboxHoverHandler(0)}
+
+                  onClick={() => this.props.bboxClickHandler(this.bboxRef, this.props.elem) }
+                  onMouseEnter={ () => this.props.bboxHoverHandler(this.props.elem.id)}
+                  onMouseLeave={ () => this.props.bboxHoverHandler(0)}
                   ref={this.bboxRef}
-                  //cursor="pointer"
-                  // onMouseEnter={this.mouseEnterHandler.bind(that, i) }
               >
 
               <title>{selector}</title>

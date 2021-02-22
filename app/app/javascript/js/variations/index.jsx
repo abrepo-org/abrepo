@@ -39,7 +39,7 @@ export default class Variation extends React.Component {
             bboxVisible: true,
             scrollBoxEnabled: false,
             resetShift: 0,
-            diffBboxHoverId: null,
+            bboxHoverId: null,
 
             isSingleView,
             activeView: isSingleView ? 1 : 0,
@@ -83,18 +83,21 @@ export default class Variation extends React.Component {
         })
     }
 
-    diffBboxHoverHandler(diff_id) {
-        //console.log("diffBboxHoverHandler", diff_id);
+    //hover Bbox and DiffPanel diff
+    bboxHoverHandler(elem_id) {
+        //console.log("bboxHoverHandler", diff_id);
         this.setState({
-            diffBboxHoverId: diff_id
+            bboxHoverId: elem_id
         });
     }
 
+    //DiffPanel diff click
     diffClickHandler(currentRef, diff) {
         //setState clicked, toggle diff visible
-        //bboxRef are set in BoundingBox.jsx, Diff.jsx on componentDidMount
+        //ref are set in BoundingBox.jsx, Diff.jsx on componentDidMount
         //key for scrollBy is to aim at viewport midpoint - innerHeight/2
         console.log("diffClickHandler", diff, currentRef);
+
 
         if (diff.newDim && diff.newDim.bboxRef.current) {
             const y = diff.newDim.bboxRef.current.getClientRects()[0].y
@@ -110,6 +113,7 @@ export default class Variation extends React.Component {
                                                       top: y - window.innerHeight/2,
                                                       behavior: "smooth"});
         }
+
     }
 
     modalLaunchHandler(diff) {
@@ -124,16 +128,17 @@ export default class Variation extends React.Component {
 
         const rect = diff.diffRef.current.getClientRects()[0]
 
+        //DiffPanel mobile view: diffs are hidden so bbox rect is null
+        //if its mobile, we launch modal based on bbox click
+        //otherwise we skip modal trigger and just scroll
         if(!rect) {
-            //DiffPanel mobile view: iffs are hidden so bbox rect is null
-            //if its mobile, we launch modal based on bbox click
-            //otherwise we skip modal trigger and just scroll
             this.setState({
                 modalDiff: diff
             });
             return;
         }
 
+        //DiffPanel desktop view
         const y = rect.y
         const height = rect.height
 
@@ -208,7 +213,9 @@ export default class Variation extends React.Component {
     }
 
     //TODO: compare with abannotate
-    filterDiffs(diffs) {
+    //fitlers diffs according to the single or double image view
+    //compare both (0), variation-only or baseline-only
+    filterDiffsActiveView(diffs) {
 
         if (this.state.activeView == 0) return diffs;
 
@@ -228,6 +235,21 @@ export default class Variation extends React.Component {
         });
     }
 
+    //filters diffs for BoundingBox-component compatibile object
+    //and selecting for control - newDim/origDim accordingly.
+    filterRenderableDiffs(diffs, isControl) {
+        const filtered = diffs.map(diff => {
+            return isControl ?
+                   {...diff, type: diff.diffType, dim: diff.origDim} :
+                   {...diff, type: diff.diffType, dim: diff.newDim}
+        })
+        //console.log(isControl, filtered);
+        return filtered;
+    }
+
+    /*
+     * RENDER
+     */
     render() {
         const diffWrapStyle = {
             overflowY: 'scroll',
@@ -246,7 +268,7 @@ export default class Variation extends React.Component {
 
         if(!this.state.diffs) return (<div></div>);
 
-        const diffs = this.filterDiffs(this.state.diffs);
+        const diffs = this.filterDiffsActiveView(this.state.diffs);
 
         return (
             <>
@@ -285,9 +307,9 @@ export default class Variation extends React.Component {
                                   style={diffWrapStyle} ref={this.diffPanelRef}>
 
                                  <DiffContainer diffs={diffs}
-                                                diffBboxHoverId={this.state.diffBboxHoverId}
+                                                bboxHoverId={this.state.bboxHoverId}
+                                                bboxHoverHandler={this.bboxHoverHandler.bind(this)}
                                                 diffClickHandler={this.diffClickHandler.bind(this)}
-                                                diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
                                                 modalLaunchHandler={this.modalLaunchHandler.bind(this)}
                                                 {...this.props}
                                  />
@@ -303,13 +325,14 @@ export default class Variation extends React.Component {
                               ref={this.renderablePanelRef}>
 
                              <RenderableContainer label="Variation"
-                                                  diffs={diffs}
-                                                  renderable={this.state.activeRenderable}
+                                                  diffs={this.filterRenderableDiffs(diffs, false)}
                                                   visibleActions={this.state.visibleActions.active}
+                                                  renderable={this.state.activeRenderable}
                                                   bboxVisible={this.state.bboxVisible}
                                                   scrollBoxEnabled={this.state.scrollBoxEnabled}
-                                                  diffBboxHoverId={this.state.diffBboxHoverId}
-                                                  diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
+
+                                                  bboxHoverId={this.state.bboxHoverId}
+                                                  bboxHoverHandler={this.bboxHoverHandler.bind(this)}
                                                   bboxClickHandler={this.bboxClickHandler.bind(this)}
                                                   resetShift={this.state.resetShift}
 
@@ -317,13 +340,14 @@ export default class Variation extends React.Component {
                                                   {...this.props} />
 
                              <RenderableContainer label="Original"
-                                                  diffs={diffs}
-                                                  renderable={this.state.activeControlRenderable}
+                                                  diffs={this.filterRenderableDiffs(diffs, true)}
                                                   visibleActions={this.state.visibleActions.control}
+                                                  renderable={this.state.activeControlRenderable}
                                                   bboxVisible={this.state.bboxVisible}
                                                   scrollBoxEnabled={this.state.scrollBoxEnabled}
-                                                  diffBboxHoverId={this.state.diffBboxHoverId}
-                                                  diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
+
+                                                  bboxHoverId={this.state.bboxHoverId}
+                                                  bboxHoverHandler={this.bboxHoverHandler.bind(this)}
                                                   bboxClickHandler={this.bboxClickHandler.bind(this)}
                                                   resetShift={this.state.resetShift}
 
