@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_20_032959) do
+ActiveRecord::Schema.define(version: 2021_02_21_224620) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 2021_02_20_032959) do
     t.string "crawlId"
     t.integer "screenshotWidth"
     t.integer "screenshotHeight"
+    t.json "preExecuteAction"
     t.index ["action_id"], name: "index_renderables_on_action_id"
     t.index ["renderable_id"], name: "index_renderables_on_renderable_id"
     t.index ["variation_id"], name: "index_renderables_on_variation_id"

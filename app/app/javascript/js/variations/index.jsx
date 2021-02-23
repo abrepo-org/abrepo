@@ -18,12 +18,14 @@ export default class Variation extends React.Component {
         const activeAction = this.props.data.actions[0];
         const activeRenderable = this.props.data.actionRenderables[activeAction.id].renderable;
         const activeControlRenderable = this.props.data.actionRenderables[activeAction.id].controlRenderable;
+        const visibleActions = this.props.data.actionRenderables[activeAction.id].visibleActions
         const isSingleView = window.innerWidth < 1215;
 
         this.state = {
             activeAction,
             activeRenderable,
             activeControlRenderable,
+            visibleActions,
             diffs: activeRenderable.sortedDiffs,
 
             //Render action panel condition
@@ -37,7 +39,7 @@ export default class Variation extends React.Component {
             bboxVisible: true,
             scrollBoxEnabled: false,
             resetShift: 0,
-            diffBboxHoverId: null,
+            bboxHoverId: null,
 
             isSingleView,
             activeView: isSingleView ? 1 : 0,
@@ -72,40 +74,37 @@ export default class Variation extends React.Component {
         const activeRenderable = this.props.data.actionRenderables[activeAction.id].renderable;
         const activeControlRenderable = this.props.data.actionRenderables[activeAction.id]
                                             .controlRenderable;
+        const visibleActions = this.props.data.actionRenderables[activeAction.id]
+                                   .visibleActions
         const diffs = activeRenderable.sortedDiffs;
 
         this.setState({
-            activeAction, activeRenderable, activeControlRenderable, diffs
+            activeAction, activeRenderable, activeControlRenderable, visibleActions, diffs
         })
     }
 
-    diffBboxHoverHandler(diff_id) {
-        //console.log("diffBboxHoverHandler", diff_id);
+    //hover Bbox and DiffPanel diff
+    bboxHoverHandler(elem_id) {
+
         this.setState({
-            diffBboxHoverId: diff_id
+            bboxHoverId: elem_id
         });
     }
 
-    diffClickHandler(currentRef, diff) {
+    //DiffPanel diff click
+    diffClickHandler(diffRef, location) {
         //setState clicked, toggle diff visible
-        //bboxRef are set in BoundingBox.jsx, Diff.jsx on componentDidMount
+        //ref are set in BoundingBox.jsx, Diff.jsx on componentDidMount
         //key for scrollBy is to aim at viewport midpoint - innerHeight/2
-        console.log("diffClickHandler", diff, currentRef);
+        console.log("diffClickHandler", diffRef, location);
 
-        if (diff.newDim && diff.newDim.bboxRef.current) {
-            const y = diff.newDim.bboxRef.current.getClientRects()[0].y
-            const height = diff.newDim.bboxRef.current.getClientRects()[0].height
-            this.renderablePanelRef.current.scrollBy({left:0,
-                                                      top: y - window.innerHeight/2,
-                                                      behavior: "smooth"});
+        if (!location) return;
 
-        } else if (diff.origDim && diff.origDim.bboxRef.current) {
-            const y = diff.origDim.bboxRef.current.getClientRects()[0].y
-            const height = diff.origDim.bboxRef.current.getClientRects()[0].height
-            this.renderablePanelRef.current.scrollBy({left:0,
-                                                      top: y - window.innerHeight/2,
-                                                      behavior: "smooth"});
-        }
+        const y = location.y
+
+        this.renderablePanelRef.current.scrollBy({left:0,
+                                                  top: y - window.innerHeight/2,
+                                                  behavior: "smooth"});
     }
 
     modalLaunchHandler(diff) {
@@ -115,23 +114,21 @@ export default class Variation extends React.Component {
         })
     }
 
-    bboxClickHandler(currentRef, diff) {
-        console.log("bboxClickhandler", this, diff.diffRef.current, currentRef);
+    //elem: diff or action element (not bbox);
+    bboxClickHandler(elem, rect) {
+        console.log("bboxClickhandler", elem, rect);
 
-        const rect = diff.diffRef.current.getClientRects()[0]
-
+        if(!rect && !elem) return;
+        //modalDisplayElem: on mobile view; elems are hidden so bbox rect is null
+        //for mobile, on bbox click we launch modal
+        //otherwise skip modal and just scroll
         if(!rect) {
-            //DiffPanel mobile view: iffs are hidden so bbox rect is null
-            //if its mobile, we launch modal based on bbox click
-            //otherwise we skip modal trigger and just scroll
-            this.setState({
-                modalDiff: diff
-            });
+            this.setState({ modalElem: elem });
             return;
         }
 
+        //ElemPanel desktop view
         const y = rect.y
-        const height = rect.height
 
         this.diffPanelRef.current.scrollBy({left:0,
                                             top: y - window.innerHeight/2,
@@ -204,7 +201,9 @@ export default class Variation extends React.Component {
     }
 
     //TODO: compare with abannotate
-    filterDiffs(diffs) {
+    //fitlers diffs according to the single or double image view
+    //compare both (0), variation-only or baseline-only
+    filterDiffsActiveView(diffs) {
 
         if (this.state.activeView == 0) return diffs;
 
@@ -224,6 +223,21 @@ export default class Variation extends React.Component {
         });
     }
 
+    //filters diffs for BoundingBox-component compatibile object
+    //and selecting for control - newDim/origDim accordingly.
+    filterRenderableDiffs(diffs, isControl) {
+        const filtered = diffs.map(diff => {
+            return isControl ?
+                   {...diff, type: diff.diffType, dim: diff.origDim} :
+                   {...diff, type: diff.diffType, dim: diff.newDim}
+        })
+        //console.log(isControl, filtered);
+        return filtered;
+    }
+
+    /*
+     * RENDER
+     */
     render() {
         const diffWrapStyle = {
             overflowY: 'scroll',
@@ -240,11 +254,9 @@ export default class Variation extends React.Component {
             //listerner: on change resize / smaller devices what is this
         } : {}
 
-        if(!this.state.diffs) return <div></div>
+        if(!this.state.diffs) return (<div></div>);
 
-        const diffs = this.filterDiffs(this.state.diffs);
-
-        //active/base_renderable.screenshot
+        const diffs = this.filterDiffsActiveView(this.state.diffs);
 
         return (
             <>
@@ -283,9 +295,9 @@ export default class Variation extends React.Component {
                                   style={diffWrapStyle} ref={this.diffPanelRef}>
 
                                  <DiffContainer diffs={diffs}
-                                                diffBboxHoverId={this.state.diffBboxHoverId}
+                                                bboxHoverId={this.state.bboxHoverId}
+                                                bboxHoverHandler={this.bboxHoverHandler.bind(this)}
                                                 diffClickHandler={this.diffClickHandler.bind(this)}
-                                                diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
                                                 modalLaunchHandler={this.modalLaunchHandler.bind(this)}
                                                 {...this.props}
                                  />
@@ -301,12 +313,14 @@ export default class Variation extends React.Component {
                               ref={this.renderablePanelRef}>
 
                              <RenderableContainer label="Variation"
-                                                  diffs={diffs}
+                                                  diffs={this.filterRenderableDiffs(diffs, false)}
+                                                  visibleActions={this.state.visibleActions.active}
                                                   renderable={this.state.activeRenderable}
                                                   bboxVisible={this.state.bboxVisible}
                                                   scrollBoxEnabled={this.state.scrollBoxEnabled}
-                                                  diffBboxHoverId={this.state.diffBboxHoverId}
-                                                  diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
+
+                                                  bboxHoverId={this.state.bboxHoverId}
+                                                  bboxHoverHandler={this.bboxHoverHandler.bind(this)}
                                                   bboxClickHandler={this.bboxClickHandler.bind(this)}
                                                   resetShift={this.state.resetShift}
 
@@ -314,12 +328,14 @@ export default class Variation extends React.Component {
                                                   {...this.props} />
 
                              <RenderableContainer label="Original"
-                                                  diffs={diffs}
+                                                  diffs={this.filterRenderableDiffs(diffs, true)}
+                                                  visibleActions={this.state.visibleActions.control}
                                                   renderable={this.state.activeControlRenderable}
                                                   bboxVisible={this.state.bboxVisible}
                                                   scrollBoxEnabled={this.state.scrollBoxEnabled}
-                                                  diffBboxHoverId={this.state.diffBboxHoverId}
-                                                  diffBboxHoverHandler={this.diffBboxHoverHandler.bind(this)}
+
+                                                  bboxHoverId={this.state.bboxHoverId}
+                                                  bboxHoverHandler={this.bboxHoverHandler.bind(this)}
                                                   bboxClickHandler={this.bboxClickHandler.bind(this)}
                                                   resetShift={this.state.resetShift}
 

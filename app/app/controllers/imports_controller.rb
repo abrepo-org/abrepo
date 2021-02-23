@@ -113,6 +113,7 @@ class ImportsController < ApplicationController
 
     @base_renderable.update(renderedTitle: base_renderable['renderedTitle'],
                             renderedURL: base_renderable['renderedURL'],
+                            preExecuteAction: base_renderable['preExecuteAction'],
                             control: true,
                             screenshotWidth: base_renderable['screenshotDimensions']['width'],
                             screenshotHeight: base_renderable['screenshotDimensions']['height'],
@@ -129,6 +130,7 @@ class ImportsController < ApplicationController
 
     @active_renderable.update(renderedTitle: active_renderable['renderedTitle'],
                               renderedURL: active_renderable['renderedURL'],
+                              preExecuteAction: active_renderable['preExecuteAction'],
                               control: false,
                               screenshotWidth: active_renderable['screenshotDimensions']['width'],
                               screenshotHeight: active_renderable['screenshotDimensions']['height'],

@@ -24,13 +24,22 @@ class VariationsController < ApplicationController
                    .reverse.map(&:action)
     end
 
-    #main window.abrepo obj
+
+    #
+    # main window.abrepo obj
+    #
+    defaultVisibleActions = { active: [], control: [] }
     @actionRenderables = {}
+
     @variation.renderables.where(control: false).each do |renderable|
+
       @actionRenderables[renderable.action_id] = {
         renderable: renderable.to_render,
-        controlRenderable: renderable.controlRenderable.to_render
+        controlRenderable: renderable.controlRenderable.to_render,
+        visibleActions: renderable.action.actionType.nil? ?
+          @variation.visibleActions : defaultVisibleActions
       }
+
     end
 
     @renderable = @actionRenderables[ @actions[0].id ][:renderable]

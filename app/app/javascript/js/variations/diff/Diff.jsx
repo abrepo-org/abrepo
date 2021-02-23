@@ -16,22 +16,34 @@ export default class Diff extends React.Component {
             color
         };
 
-        this.diffRef = React.createRef();
+        this.ref = React.createRef();
     }
 
     //guess the idea is passing up a ref through callback
     //and then setting it on the diff?
-    //so diff.bboxRef and diff.diffRef?
     componentDidMount() {
         const diff = this.state.diff;
-        diff['diffRef']=this.diffRef;
+        diff['ref']=this.ref;
+
         this.setState({
             diff
         });
     }
 
     componentWillUnmount() {
-        this.diffRef = null;
+        this.ref = null;
+    }
+
+    getBboxLocation() {
+
+        //DiffPanel - no notion of new/orig like Bbox; so we defer to newDim bbox
+        const dim = this.props.diff.newDim || this.props.diff.origDim;
+
+        if (!(dim.ref && dim.ref.current)) return null;
+
+        const rect = dim.ref.current.getClientRects()[0]
+
+        return {y: rect.y, height: rect.height}
     }
 
     render() {
@@ -51,16 +63,16 @@ export default class Diff extends React.Component {
             outline: `${lineWidth + hoverLineWidth}px solid ${this.state.hoverColor}`
         };
 
-        const rectStyle = !(this.props.diffBboxHoverId == this.props.diff.id) ?
+        const rectStyle = !(this.props.bboxHoverId == this.props.diff.id) ?
               defaultStyle : hoverStyle;
 
         return(
             <div
               className='diff p-3'
-              ref={this.diffRef} style={rectStyle}
-              onClick={() => this.props.diffClickHandler(this.diffRef, this.props.diff)}
-              onMouseEnter={ () => this.props.diffBboxHoverHandler(this.props.diff.id)}
-              onMouseLeave={ () => this.props.diffBboxHoverHandler(0)}>
+              ref={this.ref} style={rectStyle}
+              onClick={() => this.props.diffClickHandler(this.ref, this.getBboxLocation())}
+              onMouseEnter={ () => this.props.bboxHoverHandler(this.props.diff.id)}
+              onMouseLeave={ () => this.props.bboxHoverHandler(0)}>
 
                 <DiffView diff={this.props.diff} detail={true} {...this.props} />
 

@@ -55,4 +55,9 @@ class Diff < ApplicationRecord
 
   end
 
+  def as_json
+    json = super
+    json[:type] = self.diffType
+    json
+  end
 end

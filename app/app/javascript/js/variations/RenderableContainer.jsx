@@ -66,9 +66,11 @@ export default class RenderableContainer extends React.Component {
             maxHeight: this.state.imgHeight
         };
 
-        const rects = [...this.props.diffs].sort( (diffA, diffB) => {
-            const dimA = this.state.isControl ? diffA.origDim : diffA.newDim;
-            const dimB = this.state.isControl ? diffB.origDim : diffB.newDim;
+        console.log("visibleActions", this.props.visibleActions);
+
+        const rects = [].concat(...this.props.diffs, ...this.props.visibleActions).sort( (diffA, diffB) => {
+            const dimA = diffA.dim
+            const dimB = diffB.dim
 
             //calc sort order, want larger, containg rects to be rendered first
             //so subsequent smaller, contained rects have a higher paint order
@@ -94,15 +96,25 @@ export default class RenderableContainer extends React.Component {
             return (dimA.boundingBox.rect.y == dimB.boundingBox.rect.y) ? 0 :
                    dimA.boundingBox.rect.y > dimB.boundingBox.rect.y ? 1 : -1;
 
-        }).map( diff => {
-            return <BoundingBox key={diff.id}
-                                diff={diff}
+
+        }).map( elem => {
+
+            //elem is diff or preExecuteAction
+            const dim = elem.dim ? elem.dim :
+                        (this.state.isControl ? elem.origDim : elem.newDim)
+
+            //console.log("ELEM", elem, "DIM", dim)
+            return <BoundingBox key={elem.id}
+                                elem={elem}
+                                dim={dim}
                                 isControl={this.state.isControl}
-                                diffBboxHoverId={this.props.diffBboxHoverId}
-                                {...this.props}
+                                bboxHoverId={this.props.bboxHoverId}
+                                bboxHoverHandler={this.props.bboxHoverHandler}
+                                bboxClickHandler={this.props.bboxClickHandler}
                    />;
         })
 
+        console.log("RECTS", rects)
         return(
             <svg style={svgStyle} className="svg"
                  viewBox={`0 0 ${this.state.imgWidth} ${this.state.imgHeight}`}

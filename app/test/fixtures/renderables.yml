@@ -6,6 +6,7 @@
 #  control            :boolean
 #  crawlId            :string
 #  domain             :string
+#  preExecuteAction   :json
 #  renderedTitle      :string
 #  renderedURL        :string
 #  screenshotFilename :string
