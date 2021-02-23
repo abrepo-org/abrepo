@@ -66,7 +66,9 @@ export default class RenderableContainer extends React.Component {
             maxHeight: this.state.imgHeight
         };
 
-        const rects = [...this.props.diffs].sort( (diffA, diffB) => {
+        console.log("visibleActions", this.props.visibleActions);
+
+        const rects = [].concat(...this.props.diffs, ...this.props.visibleActions).sort( (diffA, diffB) => {
             const dimA = diffA.dim
             const dimB = diffB.dim
 
@@ -94,10 +96,17 @@ export default class RenderableContainer extends React.Component {
             return (dimA.boundingBox.rect.y == dimB.boundingBox.rect.y) ? 0 :
                    dimA.boundingBox.rect.y > dimB.boundingBox.rect.y ? 1 : -1;
 
-            //elem is diff or preExecuteAction
+
         }).map( elem => {
+
+            //elem is diff or preExecuteAction
+            const dim = elem.dim ? elem.dim :
+                        (this.state.isControl ? elem.origDim : elem.newDim)
+
+            //console.log("ELEM", elem, "DIM", dim)
             return <BoundingBox key={elem.id}
                                 elem={elem}
+                                dim={dim}
                                 isControl={this.state.isControl}
                                 bboxHoverId={this.props.bboxHoverId}
                                 bboxHoverHandler={this.props.bboxHoverHandler}
@@ -105,6 +114,7 @@ export default class RenderableContainer extends React.Component {
                    />;
         })
 
+        console.log("RECTS", rects)
         return(
             <svg style={svgStyle} className="svg"
                  viewBox={`0 0 ${this.state.imgWidth} ${this.state.imgHeight}`}

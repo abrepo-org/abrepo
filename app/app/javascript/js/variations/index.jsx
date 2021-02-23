@@ -92,28 +92,19 @@ export default class Variation extends React.Component {
     }
 
     //DiffPanel diff click
-    diffClickHandler(currentRef, diff) {
+    diffClickHandler(diffRef, location) {
         //setState clicked, toggle diff visible
         //ref are set in BoundingBox.jsx, Diff.jsx on componentDidMount
         //key for scrollBy is to aim at viewport midpoint - innerHeight/2
-        console.log("diffClickHandler", diff, currentRef);
+        console.log("diffClickHandler", diffRef, location);
 
+        if (!location) return;
 
-        if (diff.newDim && diff.newDim.ref.current) {
-            const y = diff.newDim.ref.current.getClientRects()[0].y
-            const height = diff.newDim.ref.current.getClientRects()[0].height
-            this.renderablePanelRef.current.scrollBy({left:0,
-                                                      top: y - window.innerHeight/2,
-                                                      behavior: "smooth"});
+        const y = location.y
 
-        } else if (diff.origDim && diff.origDim.ref.current) {
-            const y = diff.origDim.ref.current.getClientRects()[0].y
-            const height = diff.origDim.ref.current.getClientRects()[0].height
-            this.renderablePanelRef.current.scrollBy({left:0,
-                                                      top: y - window.innerHeight/2,
-                                                      behavior: "smooth"});
-        }
-
+        this.renderablePanelRef.current.scrollBy({left:0,
+                                                  top: y - window.innerHeight/2,
+                                                  behavior: "smooth"});
     }
 
     modalLaunchHandler(diff) {
@@ -123,24 +114,21 @@ export default class Variation extends React.Component {
         })
     }
 
-    bboxClickHandler(bboxRef, elem) {
-        console.log("bboxClickhandler", this, elem.ref.current, bboxRef);
+    //elem: diff or action element (not bbox);
+    bboxClickHandler(elem, rect) {
+        console.log("bboxClickhandler", elem, rect);
 
-        const rect = elem.ref.current.getClientRects()[0]
-
-        //ElemPanel mobile view: elems are hidden so bbox rect is null
+        if(!rect && !elem) return;
+        //modalDisplayElem: on mobile view; elems are hidden so bbox rect is null
         //for mobile, on bbox click we launch modal
         //otherwise skip modal and just scroll
         if(!rect) {
-            this.setState({
-                modalElem: elem
-            });
+            this.setState({ modalElem: elem });
             return;
         }
 
         //ElemPanel desktop view
         const y = rect.y
-        const height = rect.height
 
         this.diffPanelRef.current.scrollBy({left:0,
                                             top: y - window.innerHeight/2,

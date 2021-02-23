@@ -12,7 +12,9 @@ export default class BoundingBox extends React.Component {
             //actionType: {}
             'ADDED': 'green',
             'CHANGED': 'blueviolet',
-            'REMOVED': 'red'
+            'REMOVED': 'red',
+
+            'CLICK' : 'orange'
         };
 
         const hoverColor = 'blue';
@@ -31,18 +33,10 @@ export default class BoundingBox extends React.Component {
     // }
 
     componentDidMount() {
-
-        const elem = this.state.elem;
-
-        if(this.props.isControl) {
-            elem.origDim['ref'] = this.ref;
-        } else {
-            elem.newDim['ref'] = this.ref;
-        }
-
-        this.setState({
-            elem
-        });
+        //should call higher level handler setBboxRefs: {elem_id: bbox}
+        let dim = this.props.dim;
+        dim['ref'] = this.ref;
+        this.setState({ dim });
     }
 
     componentWillUnmount() {
@@ -77,6 +71,8 @@ export default class BoundingBox extends React.Component {
 
         const selector = boundingBox.selectorDisplayName || boundingBox.selector;
         const coord = boundingBox.rect;
+        const rect = this.props.elem.ref &&
+                     this.props.elem.ref.current.getClientRects()[0];
 
         return(
 
@@ -85,7 +81,7 @@ export default class BoundingBox extends React.Component {
                   width={coord.width + lineWidth} height={coord.height + lineWidth}
                   stroke={this.state.color} fill={this.state.color} fillOpacity="0.2"
 
-                  onClick={() => this.props.bboxClickHandler(this.ref, this.props.elem) }
+                  onClick={() => this.props.bboxClickHandler(this.props.elem, rect) }
                   onMouseEnter={ () => this.props.bboxHoverHandler(this.props.elem.id)}
                   onMouseLeave={ () => this.props.bboxHoverHandler(0)}
                   ref={this.ref}
