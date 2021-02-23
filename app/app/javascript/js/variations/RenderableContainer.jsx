@@ -56,20 +56,8 @@ export default class RenderableContainer extends React.Component {
         return false;
     }
 
-    drawSVGRects() {
-
-        const svgStyle = {
-            position: 'absolute',
-            zIndex:10, //need to be on top
-            display: this.props.bboxVisible ? 'block' : 'none',
-            visibility: this.props.bboxVisible ? 'visible' : 'hidden',
-            maxWidth: this.state.imgWidth,
-            maxHeight: this.state.imgHeight
-        };
-
-        console.log("visibleActions", this.props.visibleActions);
-
-        const rects = [].concat(...this.props.diffs, ...this.props.visibleActions).sort( (diffA, diffB) => {
+    sortedBbox(elements) {
+        return elements.sort( (diffA, diffB) => {
             const dimA = diffA.dim
             const dimB = diffB.dim
 
@@ -96,11 +84,24 @@ export default class RenderableContainer extends React.Component {
             //base return y ascending (small -> big)
             return (dimA.boundingBox.rect.y == dimB.boundingBox.rect.y) ? 0 :
                    dimA.boundingBox.rect.y > dimB.boundingBox.rect.y ? 1 : -1;
+        })
+    }
 
+    drawSVGRects() {
 
-        }).map( elem => {
+        const svgStyle = {
+            position: 'absolute',
+            zIndex:10, //need to be on top
+            display: this.props.bboxVisible ? 'block' : 'none',
+            visibility: this.props.bboxVisible ? 'visible' : 'hidden',
+            maxWidth: this.state.imgWidth,
+            maxHeight: this.state.imgHeight
+        };
 
-            //elem is diff or preExecuteAction
+        const elements = [].concat(...this.props.diffs, ...this.props.visibleActions)
+
+        const Bboxes = this.sortedBbox(elements).map( elem => {
+
             const dim = elem.dim ? elem.dim :
                         (this.state.isControl ? elem.origDim : elem.newDim)
 
@@ -132,7 +133,7 @@ export default class RenderableContainer extends React.Component {
             <svg style={svgStyle} className="svg"
                  viewBox={`0 0 ${this.state.imgWidth} ${this.state.imgHeight}`}
                  xmlns="http://www.w3.org/2000/svg">
-                {rects}
+                {Bboxes}
             </svg>
         )
     }
