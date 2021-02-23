@@ -66,8 +66,8 @@ class Renderable < ApplicationRecord
     action = self[:preExecuteAction].as_json({except: ["_id", "createdAt", "updatedAt",
                                                        "__v", "boundingBox", "visible"]})
 
-    puts "ACTIN", action, self[:preExecuteAction]
-    action["id"] = self[:preExecuteAction]['_id'] if(action)
+    action["id"] = self[:preExecuteAction]['_id'] if action
+    action["actionType"] = self[:preExecuteAction]['type'] if action
 
     action["dim"] = {
       boundingBox: {
@@ -80,7 +80,6 @@ class Renderable < ApplicationRecord
       isVisible: self[:preExecuteAction]["boundingBox"]["visible"]['isVisible']
     } if(action && self[:preExecuteAction]["boundingBox"])
 
-    puts "FINAL", action
     return action
   end
   #TODO:

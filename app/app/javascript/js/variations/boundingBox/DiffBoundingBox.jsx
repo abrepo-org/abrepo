@@ -7,8 +7,6 @@ const DiffBoundingBox = (props) => {
         'ADDED': 'green',
         'CHANGED': 'blueviolet',
         'REMOVED': 'red',
-
-        'CLICK' : 'orange'
     };
 
     const hoverColor = 'blue';

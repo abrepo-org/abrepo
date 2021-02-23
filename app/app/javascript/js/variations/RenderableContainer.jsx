@@ -104,15 +104,27 @@ export default class RenderableContainer extends React.Component {
             const dim = elem.dim ? elem.dim :
                         (this.state.isControl ? elem.origDim : elem.newDim)
 
-            //console.log("ELEM", elem, "DIM", dim)
-            return <DiffBoundingBox key={elem.id}
-                                    elem={elem}
-                                    dim={dim}
-                                    isControl={this.state.isControl}
-                                    bboxHoverId={this.props.bboxHoverId}
-                                    bboxHoverHandler={this.props.bboxHoverHandler}
-                                    bboxClickHandler={this.props.bboxClickHandler}
-                   />;
+            if (elem.diffType) {
+                return <DiffBoundingBox key={elem.id}
+                                        elem={elem}
+                                        dim={dim}
+                                        isControl={this.state.isControl}
+                                        bboxHoverId={this.props.bboxHoverId}
+                                        bboxHoverHandler={this.props.bboxHoverHandler}
+                                        bboxClickHandler={this.props.bboxClickHandler}
+                       />;
+            }
+
+            if (elem.actionType) {
+                return <ActionBoundingBox key={elem.id}
+                                          elem={elem}
+                                          dim={dim}
+                                          isControl={this.state.isControl}
+                                          bboxHoverId={this.props.bboxHoverId}
+                                          bboxHoverHandler={this.props.bboxHoverHandler}
+                                          bboxClickHandler={this.props.bboxClickHandler}
+                       />;
+            }
         })
 
 
