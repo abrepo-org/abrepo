@@ -59,14 +59,22 @@ export default class ActionContainer extends React.Component {
                     {this.props.data.actions.map( action =>  {
 
                          const isChecked = (action.id == this.props.activeAction.id);
+                         const isHover = (action.id == this.props.bboxHoverId);
 
-                         //sync color with ActionBoundingBox
+                         //TODO: sync color with ActionBoundingBox
                          const activeStyle = {
                              background: 'rgb(255, 239, 213)'
                          }
 
+                         //hover style settings
+                         const lineWidth = 3;
+                         const hoverStyle= {
+                             background: 'rgb(255, 239, 213)'
+                             //outline: `${lineWidth}px solid rgb(255, 239, 213)`,
+                         }
+
                          return(
-                             <tr key={action.id} style={isChecked ? activeStyle : {}}>
+                             <tr key={action.id} style={isHover ? hoverStyle : {}}>
                                  <td>
                                      <div className="control">
                                          <input type="radio"
