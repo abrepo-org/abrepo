@@ -58,10 +58,15 @@ export default class ActionContainer extends React.Component {
                 <tbody>
                     {this.props.data.actions.map( action =>  {
 
-                         const isChecked = (action.id == this.props.activeAction.id)
+                         const isChecked = (action.id == this.props.activeAction.id);
+
+                         //sync color with ActionBoundingBox
+                         const activeStyle = {
+                             background: 'rgb(255, 239, 213)'
+                         }
 
                          return(
-                             <tr key={action.id}>
+                             <tr key={action.id} style={isChecked ? activeStyle : {}}>
                                  <td>
                                      <div className="control">
                                          <input type="radio"

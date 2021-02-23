@@ -89,7 +89,6 @@ export default class Variation extends React.Component {
 
     //hover Bbox and DiffPanel diff
     bboxHoverHandler(elem_id) {
-
         this.setState({
             bboxHoverId: elem_id
         });
