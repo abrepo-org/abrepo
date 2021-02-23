@@ -63,26 +63,12 @@ class Renderable < ApplicationRecord
   end
 
   def preExecuteAction
-    action = self[:preExecuteAction].as_json({except: ["_id", "createdAt", "updatedAt",
-                                                       "__v", "boundingBox", "visible"]})
-
-    puts "ACTIN", action, self[:preExecuteAction]
-    action["id"] = self[:preExecuteAction]['_id'] if(action)
-
-    action["dim"] = {
-      boundingBox: {
-        selector: self[:preExecuteAction]['selector'],
-        selectorDisplayName: self[:preExecuteAction]['selectorDisplayName'],
-
-        rect: self[:preExecuteAction]["boundingBox"]["rect"],
-        visible: self[:preExecuteAction]["boundingBox"]["visible"],
-      },
-      isVisible: self[:preExecuteAction]["boundingBox"]["visible"]['isVisible']
-    } if(action && self[:preExecuteAction]["boundingBox"])
-
-    puts "FINAL", action
+    action = self[:preExecuteAction].as_json({except: ["_id", "createdAt", "updatedAt", "__v"]})
+    action["id"] = self.action.id if action
+    action["actionType"] = self[:preExecuteAction]['type'] if action
     return action
   end
+
   #TODO:
   #https://thoughtbot.com/blog/better-serialization-less-as-json
   #
