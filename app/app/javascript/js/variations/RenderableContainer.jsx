@@ -111,7 +111,7 @@ export default class RenderableContainer extends React.Component {
                                         isControl={this.state.isControl}
                                         bboxHoverId={this.props.bboxHoverId}
                                         bboxHoverHandler={this.props.bboxHoverHandler}
-                                        bboxClickHandler={this.props.bboxClickHandler}
+                                        bboxClickHandler={this.props.diffBboxClickHandler}
                        />;
             }
 
@@ -122,7 +122,7 @@ export default class RenderableContainer extends React.Component {
                                           isControl={this.state.isControl}
                                           bboxHoverId={this.props.bboxHoverId}
                                           bboxHoverHandler={this.props.bboxHoverHandler}
-                                          bboxClickHandler={this.props.bboxClickHandler}
+                                          bboxClickHandler={this.props.rerender}
                        />;
             }
         })

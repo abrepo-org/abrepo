@@ -66,7 +66,8 @@ class Renderable < ApplicationRecord
     action = self[:preExecuteAction].as_json({except: ["_id", "createdAt", "updatedAt",
                                                        "__v", "boundingBox", "visible"]})
 
-    action["id"] = self[:preExecuteAction]['_id'] if action
+    action["id"] = self.action.id if action
+    action["a_id"] = self[:preExecuteAction]['_id'] if action
     action["actionType"] = self[:preExecuteAction]['type'] if action
 
     action["dim"] = {

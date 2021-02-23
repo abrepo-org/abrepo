@@ -69,7 +69,11 @@ export default class Variation extends React.Component {
     actionSelectHandler(e) {
         console.log("CLICK actionSelectHandler", e.target);
         const actionID = e.target.value
+        this.rerender(actionID);
+    }
 
+    rerender(actionID) {
+        console.log("rerender actionID:", actionID)
         const activeAction = this.props.data.actions.find( action => action.id == actionID);
         const activeRenderable = this.props.data.actionRenderables[activeAction.id].renderable;
         const activeControlRenderable = this.props.data.actionRenderables[activeAction.id]
@@ -115,8 +119,8 @@ export default class Variation extends React.Component {
     }
 
     //elem: diff or action element (not bbox);
-    bboxClickHandler(elem, rect) {
-        console.log("bboxClickhandler", elem, rect);
+    diffBboxClickHandler(elem, rect) {
+        console.log("diffBboxClickHandler", elem, rect);
 
         if(!rect && !elem) return;
         //modalDisplayElem: on mobile view; elems are hidden so bbox rect is null
@@ -321,7 +325,8 @@ export default class Variation extends React.Component {
 
                                                   bboxHoverId={this.state.bboxHoverId}
                                                   bboxHoverHandler={this.bboxHoverHandler.bind(this)}
-                                                  bboxClickHandler={this.bboxClickHandler.bind(this)}
+                                                  rerender={this.rerender.bind(this)}
+                                                  diffBboxClickHandler={this.diffBboxClickHandler.bind(this)}
                                                   resetShift={this.state.resetShift}
 
                                                   isVisible={[0, 1].includes(this.state.activeView)}
@@ -336,7 +341,8 @@ export default class Variation extends React.Component {
 
                                                   bboxHoverId={this.state.bboxHoverId}
                                                   bboxHoverHandler={this.bboxHoverHandler.bind(this)}
-                                                  bboxClickHandler={this.bboxClickHandler.bind(this)}
+                                                  rerender={this.rerender.bind(this)}
+                                                  diffBboxClickHandler={this.diffBboxClickHandler.bind(this)}
                                                   resetShift={this.state.resetShift}
 
                                                   isVisible={[0, 2].includes(this.state.activeView)}

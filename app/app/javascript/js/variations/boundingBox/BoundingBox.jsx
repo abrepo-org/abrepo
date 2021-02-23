@@ -47,9 +47,6 @@ export default class BoundingBox extends React.Component {
 
         const selector = boundingBox.selectorDisplayName || boundingBox.selector;
         const coord = boundingBox.rect;
-        const rect = this.props.elem.ref &&
-                     this.props.elem.ref.current &&
-                     this.props.elem.ref.current.getClientRects()[0];
 
         return(
 
@@ -58,7 +55,7 @@ export default class BoundingBox extends React.Component {
                   width={coord.width + lineWidth} height={coord.height + lineWidth}
                   stroke={this.props.color} fill={this.props.color} fillOpacity="0.2"
 
-                  onClick={() => this.props.bboxClickHandler(this.props.elem, rect) }
+                  onClick={() => this.props.bboxClickHandler(this.props.elem) }
                   onMouseEnter={ () => this.props.bboxHoverHandler(this.props.elem.id)}
                   onMouseLeave={ () => this.props.bboxHoverHandler(0)}
                   ref={this.ref}

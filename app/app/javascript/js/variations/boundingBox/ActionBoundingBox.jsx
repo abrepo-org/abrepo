@@ -11,6 +11,9 @@ const ActionBoundingBox = (props) => {
     const hoverColor = 'blue';
     const color = colors[props.elem.type];
 
+    const actionBboxClickHandler = (elem, rect) => {
+        props.bboxClickHandler(props.elem.id);
+    };
 
     return(
         <BoundingBox key={props.elem.id}
@@ -23,7 +26,7 @@ const ActionBoundingBox = (props) => {
 
                      bboxHoverId={props.bboxHoverId}
                      bboxHoverHandler={props.bboxHoverHandler}
-                     bboxClickHandler={props.bboxClickHandler}
+                     bboxClickHandler={actionBboxClickHandler}
         />
     );
 

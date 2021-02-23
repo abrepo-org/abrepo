@@ -11,7 +11,17 @@ const DiffBoundingBox = (props) => {
 
     const hoverColor = 'blue';
 
-    const color = colors[props.elem.type]
+    const color = colors[props.elem.type];
+
+    //index.jsx: diffBboxClickHandler
+    const diffBboxClickHandler = (elem) => {
+
+        const rect = elem.ref &&
+              elem.ref.current &&
+              elem.ref.current.getClientRects()[0];
+
+        props.bboxClickHandler(elem, rect);
+    };
 
     return(
         <BoundingBox key={props.elem.id}
@@ -24,7 +34,7 @@ const DiffBoundingBox = (props) => {
 
                      bboxHoverId={props.bboxHoverId}
                      bboxHoverHandler={props.bboxHoverHandler}
-                     bboxClickHandler={props.bboxClickHandler}
+                     bboxClickHandler={diffBboxClickHandler}
         />
     );
 }
