@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import BoundingBox from './BoundingBox.jsx';
+import DiffBoundingBox from './boundingBox/DiffBoundingBox.jsx';
+import ActionBoundingBox from './boundingBox/ActionBoundingBox.jsx';
 import Img from './Img.jsx';
 import RenderableScroll from './RenderableScroll.jsx'
 
@@ -104,17 +105,17 @@ export default class RenderableContainer extends React.Component {
                         (this.state.isControl ? elem.origDim : elem.newDim)
 
             //console.log("ELEM", elem, "DIM", dim)
-            return <BoundingBox key={elem.id}
-                                elem={elem}
-                                dim={dim}
-                                isControl={this.state.isControl}
-                                bboxHoverId={this.props.bboxHoverId}
-                                bboxHoverHandler={this.props.bboxHoverHandler}
-                                bboxClickHandler={this.props.bboxClickHandler}
+            return <DiffBoundingBox key={elem.id}
+                                    elem={elem}
+                                    dim={dim}
+                                    isControl={this.state.isControl}
+                                    bboxHoverId={this.props.bboxHoverId}
+                                    bboxHoverHandler={this.props.bboxHoverHandler}
+                                    bboxClickHandler={this.props.bboxClickHandler}
                    />;
         })
 
-        console.log("RECTS", rects)
+
         return(
             <svg style={svgStyle} className="svg"
                  viewBox={`0 0 ${this.state.imgWidth} ${this.state.imgHeight}`}
