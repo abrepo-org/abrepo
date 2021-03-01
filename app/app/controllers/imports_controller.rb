@@ -145,26 +145,28 @@ class ImportsController < ApplicationController
     diffs = diffs.each do |d|
 
       #TODO: add crawlId?: d['crawlId'], #doesn't exist, need to add in model
-      _d = Diff.where(a_id: d['_id'],
-                      crawlId: crawlId,
-                      renderable: @active_renderable)
-             .order(id: :desc)
-             .first_or_create do |diff|
+      Diff.where(a_id: d['_id'],
+                 crawlId: crawlId,
+                 renderable: @active_renderable)
+        .order(id: :desc)
+        .first_or_create do |diff|
 
         #json isn't directly comparable in postgres (where clause)
         #TODO: trim this, throwing json is lazy
+
         diff.calculated = d['calculated']
         diff.newDim = d['newDim']
         diff.origDim = d['origDim']
-        diff.summary_delta = d['summary_delta']
-        diff.summary_added = d['summary_added']
-        diff.summary_removed = d['summary_removed']
+        diff.summary_delta = d['summary_delta'].blank? ? nil : d['summary_delta']
+        diff.summary_added = d['summary_added'].blank? ? nil : d['summary_added']
+        diff.summary_removed = d['summary_removed'].blank? ? nil : d['summary_removed']
         diff.selector = d['selector']
         diff.selectorDisplayName = d['selectorDisplayName']
         diff.diffType = d['type']
 
-
       end
+
+
 
     end
 
@@ -172,7 +174,7 @@ class ImportsController < ApplicationController
     #pause vendor model for now
     #@vendor = Vendor.new()
 
-    render json: diffs
+    render json: {"success": true, "diffs": diffs}
   end
 
 
