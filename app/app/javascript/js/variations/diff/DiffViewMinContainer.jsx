@@ -9,7 +9,7 @@ const DiffViewMinContainer = (props) => {
     const isVisible = active ? "is-visible" : "is-hidden";
 
     const headerStyle = {
-        cusor: 'pointer'
+        cursor: 'pointer'
     };
 
     return(
