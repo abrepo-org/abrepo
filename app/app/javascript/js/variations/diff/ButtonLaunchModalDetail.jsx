@@ -8,7 +8,7 @@ const ButtonLaunchModalDetail = (props) => {
     return(
         <button className="diffDetail button is-small"
                 onClick={() => { props.modalLaunchHandler(diff) } }>
-            Detail
+          Detail
         </button>);
 };
 
