@@ -27,8 +27,7 @@ export default class BoundingBox extends React.Component {
 
         const defaultStyle = {
             outline: `${lineWidth}px solid ${this.props.color}`,
-            visbility: "visible" //TODO: toggle individual box visibility
-            //visibility: this.props.bbox.isVisible ? "visible" : "hidden"
+            visibility: this.props.dim.isVisible ? "visible" : "hidden"
         };
 
         const hoverStyle = {
@@ -41,10 +40,10 @@ export default class BoundingBox extends React.Component {
 
         //data
         const id = (this.props.isControl ? "c" : "") + this.props.elem.id;
-        const dim = this.props.elem.dim;
+        const dim = this.props.dim;
         const boundingBox = dim.boundingBox;
 
-        if (!boundingBox || !dim.isVisible) return null;
+        if (!boundingBox) return null;
 
         const selector = boundingBox.selectorDisplayName || boundingBox.selector;
         const coord = boundingBox.rect;

@@ -9,13 +9,6 @@ const DiffViewMin = (props) => {
     return(
         <>
 
-        {  !diff.newDim.isVisible &&
-           !diff.origDim.isVisible &&
-           <div className="has-text-grey is-size-7">
-               Not Visible
-           </div>
-        }
-
         <div className="is-size-7">
             {diff.selectorDisplayName || diff.selector}
         </div>

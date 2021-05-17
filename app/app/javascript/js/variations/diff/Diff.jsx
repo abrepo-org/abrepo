@@ -65,8 +65,8 @@ export default class Diff extends React.Component {
         };
 
         const rectStyle = !(this.props.bboxHoverId ==
-                            (this.props.diff.group_id || this.props.diff.id)) ?
-              defaultStyle : hoverStyle;
+            (this.props.diff.group_id || this.props.diff.id)) ?
+                          defaultStyle : hoverStyle;
 
         return(
             <div
