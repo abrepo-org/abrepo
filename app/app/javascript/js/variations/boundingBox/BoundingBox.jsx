@@ -35,7 +35,8 @@ export default class BoundingBox extends React.Component {
             outline: `${lineWidth + hoverLineWidth}px solid ${this.props.hoverColor}`
         };
 
-        const rectStyle = !(this.props.bboxHoverId == this.props.elem.id) ?
+        const rectStyle = !(this.props.bboxHoverId ==
+                            (this.props.elem.group_id || this.props.elem.id)) ?
               defaultStyle : hoverStyle;
 
         //data
@@ -56,7 +57,7 @@ export default class BoundingBox extends React.Component {
                   stroke={this.props.color} fill={this.props.color} fillOpacity="0.2"
 
                   onClick={() => this.props.bboxClickHandler(this.props.elem) }
-                  onMouseEnter={ () => this.props.bboxHoverHandler(this.props.elem.id)}
+                  onMouseEnter={ () => this.props.bboxHoverHandler(this.props.elem.group_id || this.props.elem.id)}
                   onMouseLeave={ () => this.props.bboxHoverHandler(0)}
                   ref={this.ref}
             >
