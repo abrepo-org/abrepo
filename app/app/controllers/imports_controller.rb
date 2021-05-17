@@ -163,7 +163,8 @@ class ImportsController < ApplicationController
         diff.selector = d['selector']
         diff.selectorDisplayName = d['selectorDisplayName']
         diff.diffType = d['type']
-
+        diff.diffPanel = String( d['diffPanel'] )
+        diff.group_id = d['group_id']
       end
 
 

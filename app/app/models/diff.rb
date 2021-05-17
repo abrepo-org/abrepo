@@ -5,6 +5,7 @@
 #  id                  :bigint           not null, primary key
 #  calculated          :json
 #  crawlId             :string
+#  diffPanel           :string           default("true")
 #  diffType            :string
 #  newDim              :json
 #  origDim             :json
@@ -16,6 +17,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  a_id                :string
+#  group_id            :string
 #  renderable_id       :bigint
 #
 # Indexes
