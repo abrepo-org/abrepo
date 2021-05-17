@@ -63,7 +63,8 @@ export default class Diff extends React.Component {
             outline: `${lineWidth + hoverLineWidth}px solid ${this.state.hoverColor}`
         };
 
-        const rectStyle = !(this.props.bboxHoverId == this.props.diff.id) ?
+        const rectStyle = !(this.props.bboxHoverId ==
+                            (this.props.diff.group_id || this.props.diff.id)) ?
               defaultStyle : hoverStyle;
 
         return(
@@ -71,7 +72,7 @@ export default class Diff extends React.Component {
               className='diff p-3'
               ref={this.ref} style={rectStyle}
               onClick={() => this.props.diffClickHandler(this.ref, this.getBboxLocation())}
-              onMouseEnter={ () => this.props.bboxHoverHandler(this.props.diff.id)}
+              onMouseEnter={ () => this.props.bboxHoverHandler(this.props.diff.group_id || this.props.diff.id)}
               onMouseLeave={ () => this.props.bboxHoverHandler(0)}>
 
                 <DiffView diff={this.props.diff} detail={true} {...this.props} />
