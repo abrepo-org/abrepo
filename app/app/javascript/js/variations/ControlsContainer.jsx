@@ -82,7 +82,7 @@ export default class ControlsContainer extends React.Component {
                         <button className="is-hidden-touch"
                                 onClick={() => this.props.resetScrollBoxHandler()}>
                             <span className="icon is-small" title="toggle scroll adjust">
-                                <i class="fas fa-level-up-alt"></i>
+                                <i className="fas fa-level-up-alt"></i>
                             </span>
                         </button>
                         }

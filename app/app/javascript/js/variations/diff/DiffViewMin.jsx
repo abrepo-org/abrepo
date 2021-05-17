@@ -17,15 +17,13 @@ const DiffViewMin = (props) => {
         }
 
         <div className="is-size-7">
-            {diff.id}&nbsp;
-            {diff.selector}
+            {diff.selectorDisplayName || diff.selector}
         </div>
 
         {diff.calculated.css &&
-         <p>
-             <div className="has-text-grey">CSS Diff</div>
-             <div>{ RenderDiff(diff.id, diff.calculated.css) }</div>
-         </p>
+
+         <div>{ RenderDiff(diff.id, diff.calculated.css) }</div>
+
         }
 
         </>

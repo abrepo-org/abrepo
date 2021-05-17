@@ -17,7 +17,7 @@ export default class DiffView extends React.Component  {
             <>
 
             { this.props.diff.summary_delta &&
-              <div class="is-flex is-justify-content-space-between is-align-items-center">
+              <div className="is-flex is-justify-content-space-between is-align-items-center">
 
                   <div className="diff-summary-delta is-size-5">
                       {this.props.diff.summary_delta}
@@ -35,10 +35,6 @@ export default class DiffView extends React.Component  {
                    Not Visible
                </div>
             }
-            <div className="is-size-7">
-                {this.props.diff.id}&nbsp;
-                {this.props.diff.selector}
-            </div>
 
             <div className="diff-summary-wrap">
 
