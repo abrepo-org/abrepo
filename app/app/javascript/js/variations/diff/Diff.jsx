@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DiffView from './DiffView.jsx';
+import DiffViewMin from './DiffViewMin.jsx';
 
 export default class Diff extends React.Component {
 
@@ -41,9 +42,9 @@ export default class Diff extends React.Component {
 
         if (!(dim.ref && dim.ref.current)) return null;
 
-        const rect = dim.ref.current.getClientRects()[0]
+        const rect = dim.ref.current.getClientRects()[0];
 
-        return {y: rect.y, height: rect.height}
+        return {y: rect.y, height: rect.height};
     }
 
     render() {
@@ -75,7 +76,13 @@ export default class Diff extends React.Component {
               onMouseEnter={ () => this.props.bboxHoverHandler(this.props.diff.group_id || this.props.diff.id)}
               onMouseLeave={ () => this.props.bboxHoverHandler(0)}>
 
-                <DiffView diff={this.props.diff} detail={true} {...this.props} />
+                { this.props.diff.diffPanel === "true" &&
+                  <DiffView diff={this.props.diff} detail={true} {...this.props} />
+                }
+
+                { this.props.diff.diffPanel === "min" &&
+                  <DiffViewMin diff={this.props.diff} detail={true} {...this.props} />
+                }
 
             </div>
         );
