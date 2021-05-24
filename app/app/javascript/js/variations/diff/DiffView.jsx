@@ -17,15 +17,15 @@ export default class DiffView extends React.Component  {
             <>
 
             { this.props.diff.summary_delta &&
-              <div class="is-flex is-justify-content-space-between is-align-items-center">
+              <div className="is-flex is-justify-content-space-between is-align-items-center">
 
                   <div className="diff-summary-delta is-size-5">
-                  {this.props.diff.summary_delta}
-                </div>
+                      {this.props.diff.summary_delta}
+                  </div>
 
-                {this.props.detail &&
-                 <ButtonLaunchModalDetail {...this.props}/>
-                }
+                  {this.props.detail &&
+                   <ButtonLaunchModalDetail {...this.props}/>
+                  }
               </div>
             }
 
