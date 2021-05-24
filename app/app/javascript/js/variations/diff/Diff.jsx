@@ -76,11 +76,11 @@ export default class Diff extends React.Component {
               onMouseEnter={ () => this.props.bboxHoverHandler(this.props.diff.group_id || this.props.diff.id)}
               onMouseLeave={ () => this.props.bboxHoverHandler(0)}>
 
-                { this.props.diff.diffPanel === "true" &&
+                { this.props.diff.viewMode === "full" &&
                   <DiffView diff={this.props.diff} detail={true} {...this.props} />
                 }
 
-                { this.props.diff.diffPanel === "min" &&
+                { this.props.diff.viewMode === "diff" &&
                   <DiffViewMin diff={this.props.diff} detail={true} {...this.props} />
                 }
 
