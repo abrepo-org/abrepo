@@ -26,7 +26,7 @@ export default class DiffContainer extends React.Component {
 
             if(diff.diffPanel === "min") {
                 //text or style
-                if (diff.calculated.text) {
+                if (diff.calculated.text || ["SCRIPT"].includes(diff.selectorDisplayName) ) {
                     textDiffs.push( cDiff );
                 } else {
                     minDiffs.push( cDiff );
