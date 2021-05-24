@@ -20,8 +20,7 @@ const DiffViewMinContainer = (props) => {
               onClick={(e) => setActive(!active) }>
 
             <i className={`${icon}`}></i>&nbsp;
-
-            Minor Style Diffs
+            {props.title}
           </h5>
 
           <div className={ `${isVisible}` }>

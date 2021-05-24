@@ -14,30 +14,44 @@ export default class DiffContainer extends React.Component {
 
         let minDiffs = [];
         let diffs = [];
+        let textDiffs = [];
 
         //Filter diffPanel: min, true
         this.props.diffs.forEach( diff => {
-            if(diff.diffPanel === "min") minDiffs.push(diff);
-            if(diff.diffPanel === "true" ) diffs.push(diff);
+            const cDiff = <Diff key={diff.id} diff={diff} {...this.props} />
+
+            if(diff.diffPanel === "true" ) {
+                diffs.push( cDiff );
+            }
+
+            if(diff.diffPanel === "min") {
+                //text or style
+                if (diff.calculated.text) {
+                    textDiffs.push( cDiff );
+                } else {
+                    minDiffs.push( cDiff );
+                }
+            }
         });
 
-
-        diffs = diffs.map( (diff, i) => {
-            return <Diff key={diff.id} diff={diff} {...this.props} />;
-        });
-
-        minDiffs = minDiffs.map( (diff, i) => {
-            return <Diff key={diff.id} diff={diff} {...this.props} />;
-        });
 
         return(
             <>
-              <h4> Diffs </h4>
-              { diffs }
+            <h4> Diffs </h4>
+            { diffs }
 
-              <DiffViewMinContainer>
-                  {minDiffs}
-              </DiffViewMinContainer>
+
+            {!!textDiffs.length &&
+                <DiffViewMinContainer title="Minor Content Changes">
+                {textDiffs}
+                </DiffViewMinContainer>
+            }
+
+            {!!minDiffs.length &&
+                <DiffViewMinContainer title="Minor Style Changes">
+                {minDiffs}
+                </DiffViewMinContainer>
+            }
             </>
         )
     }
