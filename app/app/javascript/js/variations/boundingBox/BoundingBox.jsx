@@ -21,15 +21,16 @@ export default class BoundingBox extends React.Component {
     }
 
     render() {
+
+        // if there is no bbox (e.g. SCRIPT) we currently return null
+        if (this.props.dim && !this.props.dim.isVisible) return null;
+
         //style settings
         const lineWidth = 3;
         const hoverLineWidth = 3;
 
         const defaultStyle = {
             outline: `${lineWidth}px solid ${this.props.color}`,
-
-            //TODO:not sure if visibility for diffPanel is confusing
-            //visually we do see a diff...
             visibility: (this.props.dim.isVisible && this.props.elem.diffPanel != "min") ?
                 "visible" : "hidden"
         };
