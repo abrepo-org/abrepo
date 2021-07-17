@@ -61,7 +61,7 @@ export default class BoundingBox extends React.Component {
 
                   onClick={() => this.props.bboxClickHandler(this.props.elem) }
                   onMouseEnter={ () => this.props.bboxHoverHandler(this.props.elem.group_id || this.props.elem.id)}
-                  onMouseLeave={ () => this.props.bboxHoverHandler(0)}
+                  onMouseLeave={ () => this.props.bboxHoverHandler(null)}
                   ref={this.ref}
             >
 
