@@ -78,8 +78,7 @@
                     <!-- Summary Name -->
                     <td>
                         <%= link_to variation_path(variation) do %>
-                            Variation Name:
-                            <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
+                        <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
                         <% end %>
                     </td>
 
