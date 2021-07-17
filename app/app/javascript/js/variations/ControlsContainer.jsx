@@ -20,32 +20,34 @@ export default class ControlsContainer extends React.Component {
                                 {/* not sure controls should be sticky */}
                                 {/* diff control placeholders */}
 
-                                {this.props.diffVisible &&
-                                <>
-                                <button>
-                                    <span className="icon is-small">
-                                        <i className="fas fa-font"></i>
-                                    </span>
-                                </button>
-                                <button>
-                                    <span className="icon is-small">
-                                        <i className="fab fa-css3"></i>
-                                    </span>
-                                </button>
-                                </>
-                                }
-                                <button onClick={() => this.props.toggleDiffVisibleHandler()}>
-
-                                    <span className="icon-text">
+                                <p className="buttons">
+                                    {this.props.diffVisible &&
+                                    <>
+                                    <button className="button">
                                         <span className="icon is-small">
-                                        {this.props.diffVisible ?
-                                         <i className="far fa-eye-slash"></i> :
-                                         <i className="far fa-eye"></i>
-                                        }
+                                            <i className="fas fa-font"></i>
                                         </span>
-                                        {/* <span className="text">Hide</span> */}
-                                    </span>
-                                </button>
+                                    </button>
+                                    <button className="button">
+                                        <span className="icon is-small">
+                                            <i className="fab fa-css3"></i>
+                                        </span>
+                                    </button>
+                                    </>
+                                    }
+                                    <button className="button" onClick={() => this.props.toggleDiffVisibleHandler()}>
+
+                                        <span className="icon-text">
+                                            <span className="icon is-small">
+                                                {this.props.diffVisible ?
+                                                 <i className="far fa-eye-slash"></i> :
+                                                 <i className="far fa-eye"></i>
+                                                }
+                                            </span>
+                                            {/* <span className="text">Hide</span> */}
+                                        </span>
+                                    </button>
+                                </p>
 
                             </div>
                         </div>
@@ -56,30 +58,32 @@ export default class ControlsContainer extends React.Component {
 
                         {/* renderable control placeholders */}
 
-                        <SelectDropDown {...this.props} />
+                        <p className="buttons">
 
-                        <button onClick={() => this.props.togglebboxClickHandler()}>
-                            <span className="icon is-small" title="toggle bounding boxes">
-                                {this.props.bboxVisible ?
-                                 <i className="fas fa-toggle-on"></i> :
-                                 <i className="fas fa-toggle-off"></i>
-                                }
+                            <SelectDropDown {...this.props} />
 
-                            </span>
-                        </button>
-                        <button className="is-hidden-touch"
-                                onClick={() => this.props.toggleScrollBoxHandler()}>
-                            <span className="icon is-small" title="toggle scroll adjust">
-                                {this.props.scrollBoxEnabled ?
-                                 <i className="fas fa-lock-open"></i> :
-                                 <i className="fas fa-lock"></i>
-                                }
-                            </span>
-                        </button>
+                            <button className="button" onClick={() => this.props.togglebboxClickHandler()}>
+                                <span className="icon is-small" title="toggle bounding boxes">
+                                    {this.props.bboxVisible ?
+                                     <i className="fas fa-toggle-on"></i> :
+                                     <i className="fas fa-toggle-off"></i>
+                                    }
 
+                                </span>
+                            </button>
+                            <button className="button is-hidden-touch"
+                                    onClick={() => this.props.toggleScrollBoxHandler()}>
+                                <span className="icon is-small" title="toggle scroll adjust">
+                                    {this.props.scrollBoxEnabled ?
+                                     <i className="fas fa-lock-open"></i> :
+                                     <i className="fas fa-lock"></i>
+                                    }
+                                </span>
+                            </button>
+                        </p>
                         {/* reset */}
                         {this.props.scrollBoxEnabled &&
-                        <button className="is-hidden-touch"
+                        <button className="button is-hidden-touch"
                                 onClick={() => this.props.resetScrollBoxHandler()}>
                             <span className="icon is-small" title="toggle scroll adjust">
                                 <i className="fas fa-level-up-alt"></i>
