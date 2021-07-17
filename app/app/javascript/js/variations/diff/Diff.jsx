@@ -74,7 +74,7 @@ export default class Diff extends React.Component {
               ref={this.ref} style={rectStyle}
               onClick={() => this.props.diffClickHandler(this.ref, this.getBboxLocation())}
               onMouseEnter={ () => this.props.bboxHoverHandler(this.props.diff.group_id || this.props.diff.id)}
-              onMouseLeave={ () => this.props.bboxHoverHandler(0)}>
+              onMouseLeave={ () => this.props.bboxHoverHandler(null)}>
 
                 { this.props.diff.viewMode === "full" &&
                   <DiffView diff={this.props.diff} detail={true} {...this.props} />

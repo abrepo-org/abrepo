@@ -7,7 +7,7 @@ const SelectDropDown = (props) => {
     };
 
     return(
-        <div className={`select is-small`}>
+        <div className={`select mb-2 mr-2`}>
           <select onChange={handleChange} value={props.activeView}>
             <option value='0'
                     disabled={props.isSingleView}

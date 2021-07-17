@@ -18,7 +18,7 @@ export default class Variation extends React.Component {
         const activeAction = this.props.data.actions[0];
         const activeRenderable = this.props.data.actionRenderables[activeAction.id].renderable;
         const activeControlRenderable = this.props.data.actionRenderables[activeAction.id].controlRenderable;
-        const visibleActions = this.props.data.actionRenderables[activeAction.id].visibleActions
+        const visibleActions = this.props.data.actionRenderables[activeAction.id].visibleActions;
         const isSingleView = window.innerWidth < 1215;
 
         this.state = {
@@ -68,18 +68,18 @@ export default class Variation extends React.Component {
 
     actionSelectHandler(e) {
         console.log("CLICK actionSelectHandler", e.target);
-        const actionID = e.target.value
+        const actionID = e.target.value;
         this.rerender(actionID);
     }
 
     rerender(actionID) {
-        console.log("rerender actionID:", actionID)
+        console.log("rerender actionID:", actionID);
         const activeAction = this.props.data.actions.find( action => action.id == actionID);
         const activeRenderable = this.props.data.actionRenderables[activeAction.id].renderable;
         const activeControlRenderable = this.props.data.actionRenderables[activeAction.id]
                                             .controlRenderable;
         const visibleActions = this.props.data.actionRenderables[activeAction.id]
-                                   .visibleActions
+                                   .visibleActions;
         const diffs = activeRenderable.sortedDiffs;
 
         this.setState({
