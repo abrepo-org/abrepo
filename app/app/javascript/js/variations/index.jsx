@@ -259,7 +259,24 @@ export default class Variation extends React.Component {
 
         if(!this.state.diffs) return (<div></div>);
 
-        const diffs = this.filterDiffsActiveView(this.state.diffs);
+        const diffs = this.filterDiffsActiveView(this.state.diffs)
+                          .sort( (diffA, diffB) => {
+                              //
+                              // sort DiffPanel diffs:
+                              // basing on newDim for now (origDim also exists)
+                              //
+                              const dimA = diffA.newDim
+                              const dimB = diffB.newDim
+
+                              if (!dimA.boundingBox && !dimB.boundingBox) return 0;
+                              if (dimA.boundingBox && !dimB.boundingBox) return -1;
+                              if (!dimA.boundingBox && dimB.boundingBox) return 1;
+
+                              //base return y ascending (small -> big)
+                              return (dimA.boundingBox.rect.y == dimB.boundingBox.rect.y) ? 0 :
+                                     dimA.boundingBox.rect.y > dimB.boundingBox.rect.y ? 1 : -1;
+
+                          });
 
         return (
             <>
