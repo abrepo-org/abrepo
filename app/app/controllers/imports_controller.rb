@@ -43,6 +43,8 @@ class ImportsController < ApplicationController
     @experiment.update(crawlId: experiment['crawlId'],
                        domain: experiment['domain'],
                        summary_name: experiment['summary_name'],
+                       variation_tag_list: group['variation_tag_list'],
+                       page_tag_list: group['page_tag_list'],
                        profile: @profile)
 
 
