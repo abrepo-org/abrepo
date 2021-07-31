@@ -12,6 +12,7 @@
 #
 
 class Profile < ApplicationRecord
+  acts_as_taggable_on :industry_tag  # profile.industry_tag_list
   has_many :experiments
 
   validates :domain, :a_id, presence: true
