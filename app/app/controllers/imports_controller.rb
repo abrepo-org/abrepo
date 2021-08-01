@@ -26,6 +26,7 @@ class ImportsController < ApplicationController
                  .first_or_create
 
     @profile.update(company_name: profile['company_name'],
+                    industry_tag_list: group['tags']['industry_tag_list'],
                     url: profile['url'])
 
 
@@ -43,8 +44,8 @@ class ImportsController < ApplicationController
     @experiment.update(crawlId: experiment['crawlId'],
                        domain: experiment['domain'],
                        summary_name: experiment['summary_name'],
-                       variation_tag_list: group['variation_tag_list'],
-                       page_tag_list: group['page_tag_list'],
+                       variation_tag_list: group['tags']['variation_tag_list'],
+                       page_tag_list: group['tags']['page_tag_list'],
                        profile: @profile)
 
 
