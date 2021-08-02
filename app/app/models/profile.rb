@@ -15,8 +15,26 @@ class Profile < ApplicationRecord
   acts_as_taggable_on :industry_tag  # profile.industry_tag_list
   has_many :experiments
 
+  has_and_belongs_to_many :related_companies,
+                          class_name: "Profile",
+                          join_table: "related_profiles",
+                          foreign_key: "profile_id",
+                          association_foreign_key: "related_profile_id"
+
   validates :domain, :a_id, presence: true
 
+
+  def active_related_companies(num)
+    self.related_companies.includes(:experiments)
+      .where.not(experiments: {profile_id:nil})
+      .limit(num)
+  end
+
+  def inactive_related_companies(num)
+    self.related_companies.includes(:experiments)
+      .where(experiments: {profile_id:nil})
+      .limit(num)
+  end
 
   def hostname
     self.url ? URI(self.url).hostname : self.domain
