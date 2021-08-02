@@ -79,6 +79,8 @@ class ImportsController < ApplicationController
 
     @variation.update(summary_name: variation['summary_name'],
                       url: variation['crawlURL'],
+                      tag_list: variation['tags']['tag_list'],
+                      page_tag_list: variation['tags']['page_tag_list'],
                       experiment: @experiment)
 
     #Aciton, Renderable, Diffs - pegged to Variation and crawlId
