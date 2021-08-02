@@ -31,8 +31,31 @@
     <div class="profile-label has-text-grey mt-3">About</div>
     <p>This is a blurb. Optimizely helps businesses test out different ways to make their websites or apps more effective.</p>
 
-    <div class="profile-label has-text-grey mt-3">Related Companies</div>
-    <div>VWO, Uber</div>
+    <!-- Related Companies -->
+    <% if @profile.related_companies.length %>
+
+        <div class="profile-label has-text-grey mt-3">Related Companies</div>
+
+        <div class="tags are-medium">
+            <% get_related_companies(@profile, 7).each do |result| %>
+
+                <% if result[:type] == :active %>
+
+                    <%= link_to profile_path(result[:company].id) do %>
+                        <span class="tag has-text-link">
+                            <%= result[:company].company_name %>
+                        </span>
+                    <% end %>
+
+                <% else %>
+                    <span class="tag">
+                        <%= result[:company].company_name %>
+                    </span>
+                <%end%>
+            <% end %>
+        </div>
+
+    <% end %>
 
     <!-- Industry Tags -->
     <% unless @profile.industry_tag_list.empty? %>

@@ -24,6 +24,18 @@ class Profile < ApplicationRecord
   validates :domain, :a_id, presence: true
 
 
+  def active_related_companies(num)
+    self.related_companies.includes(:experiments)
+      .where.not(experiments: {profile_id:nil})
+      .limit(num)
+  end
+
+  def inactive_related_companies(num)
+    self.related_companies.includes(:experiments)
+      .where(experiments: {profile_id:nil})
+      .limit(num)
+  end
+
   def hostname
     self.url ? URI(self.url).hostname : self.domain
   end

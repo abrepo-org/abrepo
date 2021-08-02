@@ -29,6 +29,21 @@ class ImportsController < ApplicationController
                     industry_tag_list: group['tags']['industry_tag_list'],
                     url: profile['url'])
 
+    #related companies
+    related_companies = group['profile']['related_companies']
+    related_companies.each do | related_company |
+
+      related = Profile.find_or_initialize_by(domain: related_company['domain'],
+                                              a_id: related_company['_id'])
+      related.company_name = related_company['company_name']
+
+      unless related.id
+        @profile.related_companies.push(related)
+      end
+
+    end
+
+    puts @profile.related_companies.inspect
 
     #
     # EXPERIMENT
