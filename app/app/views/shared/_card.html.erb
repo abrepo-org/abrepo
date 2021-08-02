@@ -36,11 +36,14 @@
             <div class="mt-1"><%= audience['name'] %></div>
         <% end %>
 
-        <div class="tags mt-2">
-            <span class="tag is-info is-light">finance</span>
-            <span class="tag is-info is-light">audience</span>
-            <span class="tag is-info is-light">optimizely.com</span>
-        </div>
+        <!-- Tags  -->
+        <% unless experiment.variation_tag_list.empty? && experiment.page_tag_list.empty? %>
+            <div class="tags mt-2">
+                <%= render partial: "shared/tag_list", locals: {
+                    tag_list: experiment.variation_tag_list + experiment.page_tag_list
+                }%>
+            </div>
+        <% end %>
     </div>
 
 
