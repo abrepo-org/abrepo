@@ -1,7 +1,7 @@
 <% unless tag_list.empty? %>
 
     <% tag_list.each do |tag| %>
-        <span class="tag is-info is-light" >
+        <span class="<%= classes %>" >
             <%= tag %>
         </span>
     <% end %>
