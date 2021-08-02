@@ -30,6 +30,9 @@ class Variation < ApplicationRecord
 
   validates :a_id, :experiment_id, :vendor_id, presence: true
 
+  # variation.tag_list, page_tag_list
+  acts_as_taggable_on :tag, :page_tag
+
   def visibleActions
     visibleActions = { active: [], control: [] }
 

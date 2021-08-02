@@ -19,11 +19,17 @@ commentary = false
                     total: @experiment.variations.count }%>
             </div>
 
-            <div class="tags are-medium">
-                <span class="tag is-info is-light" >Redesign</span>
-                <span class="tag is-info is-light" >Rename</span>
-                <span class="tag is-info is-light" >UI/UX</span>
-            </div>
+            <!-- Tags -->
+            <% unless @variation.tag_list.empty? && @variation.page_tag_list.empty? %>
+
+                <div class="tags are-medium">
+                    <%= render partial: "shared/tag_list",
+                    locals: { tag_list: @variation.tag_list + @variation.page_tag_list }
+                    %>
+                </div>
+
+            <% end %>
+
         </div>
 
         <div class="columns is-multiline is-mobile">

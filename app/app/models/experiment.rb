@@ -22,6 +22,8 @@
 #
 
 class Experiment < ApplicationRecord
+  acts_as_taggable_on :variation_tag, :page_tag  # experiment.variation_tag_list
+
   belongs_to :profile
   has_many :variations, dependent: :destroy
   has_one :vendor, dependent: :destroy

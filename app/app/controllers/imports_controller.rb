@@ -26,6 +26,7 @@ class ImportsController < ApplicationController
                  .first_or_create
 
     @profile.update(company_name: profile['company_name'],
+                    industry_tag_list: group['tags']['industry_tag_list'],
                     url: profile['url'])
 
 
@@ -43,6 +44,8 @@ class ImportsController < ApplicationController
     @experiment.update(crawlId: experiment['crawlId'],
                        domain: experiment['domain'],
                        summary_name: experiment['summary_name'],
+                       variation_tag_list: group['tags']['variation_tag_list'],
+                       page_tag_list: group['tags']['page_tag_list'],
                        profile: @profile)
 
 
@@ -76,6 +79,8 @@ class ImportsController < ApplicationController
 
     @variation.update(summary_name: variation['summary_name'],
                       url: variation['crawlURL'],
+                      tag_list: variation['tags']['tag_list'],
+                      page_tag_list: variation['tags']['page_tag_list'],
                       experiment: @experiment)
 
     #Aciton, Renderable, Diffs - pegged to Variation and crawlId
