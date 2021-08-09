@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
-import RenderDiff from './RenderDiff.jsx';
+import { RenderDiff, RenderDiffAttrJSON } from './RenderDiff.jsx';
 
 const ModalContent = (props) => {
 
@@ -25,11 +25,18 @@ const ModalContent = (props) => {
         }
 
          {diff.calculated.css &&
-             <p>
-                   <div className="has-text-grey">CSS Diff</div>
-                       <div>{ RenderDiff(diff.id, diff.calculated.css) }</div>
-                 </p>
-             }
+          <p>
+              <div className="has-text-grey">CSS Diff</div>
+              <div>{ RenderDiff(diff.id, diff.calculated.css) }</div>
+          </p>
+         }
+
+         { diff.calculated.attrJSON &&
+           <p>
+               <div className="has-text-grey">Attr Diff</div>
+               <div>{ RenderDiffAttrJSON(diff.id, diff.calculated.attrJSON) }</div>
+           </p>
+          }
 
           </>
     );

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-const RenderDiff = (id, parts) => {
+export const RenderDiff = (id, parts) => {
 
     if (!parts) return null;
 
@@ -51,4 +51,41 @@ const RenderDiff = (id, parts) => {
     return rendered;
 };
 
-export default RenderDiff;
+export const RenderDiffAttrJSON = (id, attrJSON)  => {
+
+    if(!Object.keys(attrJSON).length) return null;
+
+    //render diff-parts as html
+    let results = [];
+    Object.entries(attrJSON).forEach( ([key, diff], i) =>  {
+
+        const label =
+        <span>{ i > 0 ? <><br/><br/></> : ''}
+        {key}: &nbsp;
+        </span>
+
+        results.push(label);
+
+        const result = diff.map( (part, i) => {
+            const color = part.added ? 'green' :
+                part.removed ? 'red' : 'grey';
+
+            const textStyle= {
+                color
+            };
+
+            return (
+                <>
+                  <span key={id+i} style={textStyle}>{part.value}</span>
+                </>
+            );
+        });
+
+        results.push(result);
+    });
+
+    if (results.length) return results;
+
+};
+
+export default { RenderDiff, RenderDiffAttrJSON };

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
-import RenderDiff from './RenderDiff.jsx';
+import { RenderDiff } from './RenderDiff.jsx';
 
 const DiffViewMin = (props) => {
 
@@ -13,11 +13,11 @@ const DiffViewMin = (props) => {
         }
 
         if (!diff.calculated.text && diff.calculated.css) {
-            return RenderDiff(diff.id, diff.calculated.css)
+            return RenderDiff(diff.id, diff.calculated.css);
         }
 
         if (diff.selectorDisplayName == "SCRIPT") {
-            return (diff.summary_added || diff.summary_removed)
+            return (diff.summary_added || diff.summary_removed);
         }
 
         return null;
