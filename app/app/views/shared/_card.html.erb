@@ -87,7 +87,9 @@
                     </td>
 
                     <!--  URL -->
-                    <td class="is-hidden-mobile"><%= renderable.renderedURL %></td>
+                    <td class="is-hidden-mobile">
+                      <%= variation.renderables.where(control:false).first.renderedURL %>
+                    </td>
 
                     <!-- Verified -->
                     <td align="right">
