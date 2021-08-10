@@ -22,7 +22,6 @@
 #
 
 class Experiment < ApplicationRecord
-  acts_as_taggable_on :variation_tag, :page_tag  # experiment.variation_tag_list
 
   belongs_to :profile
   has_many :variations, dependent: :destroy
@@ -31,4 +30,12 @@ class Experiment < ApplicationRecord
   has_one :audience, dependent: :destroy
 
   validates :crawlId, :domain, :a_id, :profile_id, :vendor_id, presence: true
+
+  def tags
+    self.variations.map{ |v| v.tag_list + v.page_tag_list}
+      .flatten
+      .uniq
+      .sort
+  end
+
 end
