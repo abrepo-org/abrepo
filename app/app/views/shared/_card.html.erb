@@ -37,10 +37,10 @@
         <% end %>
 
         <!-- Tags  -->
-        <% unless experiment.variation_tag_list.empty? && experiment.page_tag_list.empty? %>
+        <% unless experiment.tags.empty? %>
             <div class="tags mt-2">
                 <%= render partial: "shared/tag_list", locals: {
-                    tag_list: experiment.variation_tag_list + experiment.page_tag_list,
+                    tag_list: experiment.tags,
                     classes: "tag is-info is-light"
                 }%>
             </div>
@@ -87,7 +87,9 @@
                     </td>
 
                     <!--  URL -->
-                    <td class="is-hidden-mobile"><%= renderable.renderedURL %></td>
+                    <td class="is-hidden-mobile">
+                      <%= variation.renderables.where(control:false).first.renderedURL %>
+                    </td>
 
                     <!-- Verified -->
                     <td align="right">

@@ -25,7 +25,7 @@ commentary = false
                 <div class="tags are-medium">
                     <%= render partial: "shared/tag_list",
                     locals: {
-                        tag_list: @variation.tag_list + @variation.page_tag_list,
+                        tag_list: (@variation.tag_list + @variation.page_tag_list).sort,
                         classes: "tag is-info is-light"
                     }
                     %>
