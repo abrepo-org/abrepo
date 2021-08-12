@@ -19,6 +19,28 @@ end
 
 ```
 
+### pg_search
+
+* General approach is to have ExpVar data as general multisearch corpus
+* augmented by scopes to filter query result given tags, additional information
+* accessed via a singular query route: `POST /search` with multiple querystring params:
+  * `q=`: freetext query
+  * `industries=`: industry tags
+  * `tags=`: expvar tags
+  * `companies=`: company domain ? want higher guarantee of uniqueness
+
+
+#### Multisearch: multi-model, global index
+
+To rebuild indices:
+
+* `rake pg_search:multisearch:rebuild[Campaign]`
+* `rake pg_search:multisearch:rebuild[Experiment]`
+* `rake pg_search:multisearch:rebuild[Variation]`
+* `rake pg_search:multisearch:rebuild[Audience]`
+
+
+
 ### Imports Controller Logic
 
 #### When to update, when to create

@@ -22,6 +22,10 @@
 #
 
 class Variation < ApplicationRecord
+  include PgSearch::Model
+  multisearchable against: [:summary_name],
+                  additional_attributes: -> (variation) { { experiment_id: variation.experiment_id } }
+
   belongs_to :experiment
   has_one :vendor
 
