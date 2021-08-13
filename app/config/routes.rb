@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   resources :profiles, only: ['show', 'index']
   resources :variations, only: ['show']
   resources :tags, only: ['index']
+  resources :industries, only: ['index']
 
   # Search
   get 'search', action: :show, controller: 'search'
