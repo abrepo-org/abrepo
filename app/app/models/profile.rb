@@ -12,7 +12,17 @@
 #
 
 class Profile < ApplicationRecord
+  include PgSearch::Model
+
   acts_as_taggable_on :industry_tag  # profile.industry_tag_list
+
+  pg_search_scope :search_industry_tag,
+                  associated_against: { industry_tag: [:name] },
+                  using: { tsearch: { prefix: true, dictionary: 'english' } }
+  pg_search_scope :search_company_name,
+                  against: :company_name,
+                  using: { tsearch: { prefix: true, dictionary: 'english' } }
+
   has_many :experiments
 
   has_and_belongs_to_many :related_companies,

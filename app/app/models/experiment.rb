@@ -24,7 +24,7 @@
 class Experiment < ApplicationRecord
   include PgSearch::Model
   multisearchable against: [:summary_name],
-  additional_attributes: -> (experiment) { { experiment_id: experiment.id } }
+                  additional_attributes: -> (experiment) { { experiment_id: experiment.id } }
 
   belongs_to :profile
   has_many :variations, dependent: :destroy
