@@ -2,8 +2,18 @@ class ProfilesController < ApplicationController
 
   def index
     p = profile_filter_params #{query: 'xyz', tag: '123'}
-    @profiles = Profile.includes(:experiments)
-                  .where.not(experiments: { profile_id: nil})
+
+    @profiles = []
+    if (p[:query])
+
+      @profiles = Profile.search_company_name(p[:query])
+                    .includes(:experiments)
+                    .where.not(experiments: { profile_id: nil})
+    else
+
+      @profiles = Profile.includes(:experiments)
+                    .where.not(experiments: { profile_id: nil})
+    end
   end
 
   def show
