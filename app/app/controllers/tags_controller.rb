@@ -19,7 +19,6 @@ class TagsController < ApplicationController
               .where(["#{ActsAsTaggableOn.taggings_table}.context IN (?)", ['tag', 'page_tag'] ])
               .select("DISTINCT #{ActsAsTaggableOn.tags_table}.*")
 
-    render json: @tags
   end
 
 end
