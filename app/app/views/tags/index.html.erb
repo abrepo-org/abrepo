@@ -3,5 +3,39 @@
 <% end %>
 
 <h1>tags#index</h1>
+
+<%= form_with(url: tags_path,
+              method: :get,
+              id: "tag-filter",
+              class: "is-flex") do |form| %>
+
+    <div id="attach"></div>
+
+    <div class="field">
+        <div id="search-control" class="control has-icons-left">
+
+            <%= form.text_field :query,
+                class: "input is-small react-component-tag",
+                placeholder: "Filter Tags",
+                value: params[:query]
+            %>
+
+            <span class="icon is-small is-left">
+                <i class="fas fa-search"></i>
+            </span>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="control">
+            <input class="button is-small" type="submit" value="Filter">
+        </div>
+    </div>
+<% end %>
+
+<%= render partial: 'tags' %>
+
+<!--
 <div class="tag" data-id="1"></div>
 <div class="tag" data-id="2"></div>
+-->

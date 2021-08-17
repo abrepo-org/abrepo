@@ -11,13 +11,14 @@ import Test from './autocomplete.jsx';
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-
-    const $tags = Array.from( document.getElementsByClassName('tag') );
+    const $attach = document.getElementById('attach');
+    const $tags = Array.from( document.getElementsByClassName('react-component-tag') );
+    console.log("TAG", $tags)
     $tags.map( $tag => {
-        
+
         ReactDOM.render(
-            <Test dataset={$tag.dataset} />,
-            $tag
+            <Test tag={$tag} dataset={$tag.dataset} />,
+            $attach
         );
     });
 
