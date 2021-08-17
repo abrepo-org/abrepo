@@ -4,9 +4,9 @@ class ProfilesController < ApplicationController
     p = profile_filter_params #{query: 'xyz', tag: '123'}
 
     @profiles = []
-    if (p[:query])
+    if (p[:q])
 
-      @profiles = Profile.search_company_name(p[:query])
+      @profiles = Profile.search_company_name(p[:q])
                     .includes(:experiments)
                     .where.not(experiments: { profile_id: nil})
     else
@@ -14,6 +14,8 @@ class ProfilesController < ApplicationController
       @profiles = Profile.includes(:experiments)
                     .where.not(experiments: { profile_id: nil})
     end
+
+
   end
 
   def show
@@ -44,6 +46,6 @@ class ProfilesController < ApplicationController
 
   def profile_filter_params
     #NB array params must go at end
-    params.permit(:query, :utf8, tags: [], industries: [])
+    params.permit(:q, :utf8, tags: [], industries: [])
   end
 end
