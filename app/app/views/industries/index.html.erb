@@ -2,12 +2,13 @@
 <%= javascript_pack_tag 'autocomplete' %>
 <% end %>
 
-<h1>tags#index</h1>
+<h1>industries#index</h1>
 
-<%= form_with(url: tags_path,
+<%= form_with(url: industries_path,
               method: :get,
               id: "tag-filter",
               class: "is-flex") do |form| %>
+
 
     <div id="attach"></div>
 
@@ -16,7 +17,7 @@
 
             <%= form.text_field :query,
                 class: "input is-small react-component-tag",
-                placeholder: "Filter Tags",
+                placeholder: "Filter Industries",
                 value: params[:query]
             %>
 
