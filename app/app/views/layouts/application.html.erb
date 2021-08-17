@@ -10,7 +10,12 @@
         <%= csp_meta_tag %>
 
         <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-        <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+        <%
+          packs = ['application']
+          packs = ['application', 'shared-components'] if current_page?(industries_path) or \
+          current_page?(tags_path)
+        %>
+        <%= javascript_pack_tag *packs, 'data-turbolinks-track': 'reload' %>
         <%= yield :js %>
 
         <link href='https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto' rel='stylesheet' type='text/css'>

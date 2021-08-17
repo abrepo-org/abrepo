@@ -1,20 +1,32 @@
 import React, { useState, useEffect } from 'react';
 
-export const Test = (props) => {
+/*
+ * InputTextField
+ * tags, industry autocomplete
+ *
+ */
+export const InputTextField = (props) => {
+
+    const baseURL = props.$component.dataset.baseurl;
+    const destination = props.$component.dataset.destination;
 
     const changeHandler = (e) => {
-        console.log("hi", e.target.value);
 
-        const $ulTags = document.querySelector('ul.tags');
-
-        const response = fetch(`/tags?query=${e.target.value}&partial=true`)
+        const response = fetch(`${baseURL}?query=${e.target.value}&partial=true`)
             .then(res => res.text())
-            .then( res => $ulTags.outerHTML = res );
+            .then( res => {
+
+                const $destination = document.querySelector(destination);
+
+                if($destination) {
+                    $destination.outerHTML = res
+                }
+            });
     };
 
-    props.tag.addEventListener("input", changeHandler);
+    props.$component.addEventListener("input", changeHandler);
 
     return null;
 };
 
-export default Test;
+export default { InputTextField };

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Test from './autocomplete.jsx';
+import { InputTextField } from './autocomplete.jsx';
 
 /*
  * example for code-splitting
@@ -11,14 +11,15 @@ import Test from './autocomplete.jsx';
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    const $attach = document.getElementById('attach');
-    const $tags = Array.from( document.getElementsByClassName('react-component-tag') );
-    console.log("TAG", $tags)
-    $tags.map( $tag => {
+
+    const $components = Array
+          .from( document.getElementsByClassName('component-input-textfield-autocomplete') );
+
+    $components.map( ($component, i) => {
 
         ReactDOM.render(
-            <Test tag={$tag} dataset={$tag.dataset} />,
-            $attach
+            <InputTextField $component={$component} />,
+            $component.insertAdjacentElement('beforebegin', document.createElement('div'))
         );
     });
 
