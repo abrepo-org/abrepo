@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { InputTextField } from './autocomplete.jsx';
+import { InputTextField, InputSubmit } from './autocomplete.jsx';
 
 /*
  * example for code-splitting
@@ -23,5 +23,14 @@ document.addEventListener('DOMContentLoaded', () => {
         );
     });
 
+    const $submits = Array
+          .from(document.getElementsByClassName('component-input-submit-autocomplete'));
+
+    $submits.map( $submit => {
+        ReactDOM.render(
+            <InputSubmit $component={$submit} />,
+            $submit.insertAdjacentElement('beforebegin', document.createElement('div'))
+        );
+    });
 
 });
