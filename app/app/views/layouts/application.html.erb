@@ -12,8 +12,8 @@
         <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
         <%
           packs = ['application']
-          packs = ['application', 'shared-components'] if current_page?(industries_path) or \
-          current_page?(tags_path)
+          packs = ['application', 'shared-components'] \
+          if current_page?(industries_path) or current_page?(tags_path) or current_page?(search_path)
         %>
         <%= javascript_pack_tag *packs, 'data-turbolinks-track': 'reload' %>
         <%= yield :js %>

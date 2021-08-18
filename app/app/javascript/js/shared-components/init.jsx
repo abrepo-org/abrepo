@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { InputAutoCompleteForm } from './InputAutoCompleteForm.jsx';
+import { SearchForm } from './SearchForm.jsx';
 
 /*
  * used for autocomplete and submit on /tags and /industries
@@ -9,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const $tagForm = document.querySelector('form#tag-filter');
     const $industryForm = document.querySelector('form#industries-filter');
+    const $searchForm = document.querySelector('form#search-form');
 
     const $inputTemp = document.createElement('div');
 
@@ -18,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
             $inputTemp
         );
 
-        $form.replaceWith($inputTemp)
+        $form.replaceWith($inputTemp);
     };
 
     if ($tagForm) {
@@ -26,10 +28,18 @@ document.addEventListener('DOMContentLoaded', () => {
         render($tagForm, props );
     }
 
-
     if ($industryForm) {
         const props = { baseURL: '/industries', destination: 'ul.tags'};
         render($industryForm, props);
     }
 
+    if ($searchForm) {
+        const props = {}
+        ReactDOM.render(
+            <SearchForm {...props} />,
+            $inputTemp
+        );
+
+        $searchForm.replaceWith($inputTemp)
+    }
 });
