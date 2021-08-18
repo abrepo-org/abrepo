@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { InputTextAutoComplete } from './InputTextAutoComplete.jsx';
 
 export const SearchForm = (props) => {
+
+    const baseURL = props.baseURL;
 
     let searchParams = new URLSearchParams(window.location.search);
     const [query, setQuery] = useState( (searchParams && searchParams.get("query")) || '' );
@@ -12,33 +15,12 @@ export const SearchForm = (props) => {
     return(
         <form id="search-form"
               className="is-flex"
-              action="/search"
+              action={baseURL}
               acceptCharset="UTF-8"
               method="get">
             <input name="utf8" type="hidden" value="✓" />
 
-            <div className="field">
-                <div id="search-control" className="control has-icons-left">
-
-                    <input className="input is-small"
-                           placeholder="query"
-                           type="text" name="query" id="query"
-                           value={query}
-                    />
-
-                    <span className="icon is-small is-left">
-                        <i className="fas fa-search"></i>
-                    </span>
-                </div>
-            </div>
-
-            <div className="field">
-                <div className="control">
-                    <input className="ml-4 button is-small is-info"
-                           type="submit" value="Submit" />
-                </div>
-            </div>
-
+            <InputTextAutoComplete {...props} />
 
             <div className="field">
 
