@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { InputAutoCompleteForm } from './InputAutoCompleteForm.jsx';
+import { FormTag } from './FormTag.jsx';
 import { SearchForm } from './SearchForm.jsx';
-import { updateURL } from './URLUpdater.js';
+
 /*
  * used for autocomplete and submit on /tags and /industries
  */
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const render = ($form, props) => {
         ReactDOM.render(
-            <InputAutoCompleteForm {...props} />,
+            <FormTag {...props} />,
             $inputTemp
         );
 
@@ -25,12 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     if ($tagForm) {
-        const props = { baseURL: '/tags', destination: 'ul.tags', updateURL};
+        const props = { baseURL: '/tags', destination: 'ul.tags'};
         render($tagForm, props );
     }
 
     if ($industryForm) {
-        const props = { baseURL: '/industries', destination: 'ul.tags', updateURL};
+        const props = { baseURL: '/industries', destination: 'ul.tags'};
         render($industryForm, props);
     }
 

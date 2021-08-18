@@ -1,4 +1,3 @@
-
 export const updateURL = (value) => {
 
     if (window.history.pushState) {
