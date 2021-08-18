@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { InputTextAutoComplete } from './InputTextAutoComplete.jsx';
+import { Button } from './Button.jsx';
 import { updateURL } from './URLUpdater.js';
 
 export const FormTag = (props) => {
+
+    const [inputBusy, setInputBusy] = useState(false);
 
     return(
         <form id="tag-filter"
@@ -13,7 +16,11 @@ export const FormTag = (props) => {
 
             <input name="utf8" type="hidden" value="✓" />
 
-            <InputTextAutoComplete updateURL={updateURL} { ...props } />
+            <InputTextAutoComplete updateURL={updateURL}
+                                   setInputBusy={setInputBusy}
+                                   { ...props } />
+
+            <Button disabled={inputBusy} />
         </form>
     );
 

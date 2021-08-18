@@ -9,13 +9,13 @@ export const InputTextAutoComplete = (props) => {
 
     let searchParams = new URLSearchParams(window.location.search);
     const [query, setQuery] = useState( (searchParams && searchParams.get("query")) || '' );
-    const [submitDisabled, setSubmitDisabled] = useState(false);
+
 
     const changeHandler = (e) => {
 
         //TODO: debounce
 
-        setSubmitDisabled(true);
+        props.setInputBusy(true);
 
         setQuery(e.target.value);
 
@@ -35,17 +35,17 @@ export const InputTextAutoComplete = (props) => {
                     updateURL(e.target.value);
                 }
 
-                setSubmitDisabled(false);
+                props.setInputBusy(false);
             });
     };
 
 
     return(
-        <>
         <div className="field">
             <div id="search-control" className="control has-icons-left">
 
                 <input onChange={(e) => changeHandler(e) }
+                       autoComplete="off"
                        className="input is-small"
                        placeholder={placeholder}
                        type="text"
@@ -58,16 +58,6 @@ export const InputTextAutoComplete = (props) => {
                 </span>
             </div>
         </div>
-
-        <div className="field">
-            <div className="control">
-                <input className="ml-4 button is-small is-info"
-                       type="submit"
-                       disabled={submitDisabled}
-                       value="Submit" />
-            </div>
-        </div>
-        </>
     );
 
 };
