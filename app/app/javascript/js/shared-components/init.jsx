@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { InputAutoCompleteForm } from './InputAutoCompleteForm.jsx';
 import { SearchForm } from './SearchForm.jsx';
-
+import { updateURL } from './URLUpdater.js';
 /*
  * used for autocomplete and submit on /tags and /industries
  */
@@ -23,13 +23,14 @@ document.addEventListener('DOMContentLoaded', () => {
         $form.replaceWith($inputTemp);
     };
 
+
     if ($tagForm) {
-        const props = { baseURL: '/tags', destination: 'ul.tags'};
+        const props = { baseURL: '/tags', destination: 'ul.tags', updateURL};
         render($tagForm, props );
     }
 
     if ($industryForm) {
-        const props = { baseURL: '/industries', destination: 'ul.tags'};
+        const props = { baseURL: '/industries', destination: 'ul.tags', updateURL};
         render($industryForm, props);
     }
 

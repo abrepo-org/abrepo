@@ -4,26 +4,11 @@ export const InputAutoCompleteForm = (props) => {
 
     const baseURL = props.baseURL;
     const destination = props.destination;
+    const updateURL = props.updateURL;
     let searchParams = new URLSearchParams(window.location.search);
 
     const [query, setQuery] = useState( (searchParams && searchParams.get("query")) || '' );
     const [submitDisabled, setSubmitDisabled] = useState(false);
-
-    const updateURL = (value) => {
-
-        if (window.history.pushState) {
-            searchParams.set('query', value);
-            const newURL = [
-                window.location.origin,
-                window.location.pathname,
-                '?',
-                searchParams.toString()
-            ].join("");
-
-            window.history.pushState({path: newURL}, '', newURL);
-        }
-
-    };
 
     const changeHandler = (e) => {
 
@@ -44,7 +29,10 @@ export const InputAutoCompleteForm = (props) => {
                     $destination.outerHTML = res;
                 }
 
-                updateURL(e.target.value);
+                //updateURL if available
+                if (updateURL) {
+                    updateURL(e.target.value);
+                }
 
                 setSubmitDisabled(false);
             });
