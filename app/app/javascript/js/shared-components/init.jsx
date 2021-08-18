@@ -1,36 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import { InputTextField, InputSubmit } from './autocomplete.jsx';
+import { InputAutoCompleteForm } from './InputAutoCompleteForm.jsx';
 
 /*
- * example for code-splitting
- * have some kind of class name indicator ".shared-component .<type>"
- * use dataset as init params
- * to indicate decoration
+ * used for autocomplete and submit on /tags and /industries
  */
-
 document.addEventListener('DOMContentLoaded', () => {
 
-    const $components = Array
-          .from( document.getElementsByClassName('component-input-textfield-autocomplete') );
+    const $tagForm = document.querySelector('form#tag-filter');
+    const $industryForm = document.querySelector('form#industries-filter');
 
-    $components.map( ($component, i) => {
+    const $inputTemp = document.createElement('div');
 
+    const render = ($form, props) => {
         ReactDOM.render(
-            <InputTextField $component={$component} />,
-            $component.insertAdjacentElement('beforebegin', document.createElement('div'))
+            <InputAutoCompleteForm {...props} />,
+            $inputTemp
         );
-    });
 
-    const $submits = Array
-          .from(document.getElementsByClassName('component-input-submit-autocomplete'));
+        $form.replaceWith($inputTemp)
+    };
 
-    $submits.map( $submit => {
-        ReactDOM.render(
-            <InputSubmit $component={$submit} />,
-            $submit.insertAdjacentElement('beforebegin', document.createElement('div'))
-        );
-    });
+    if ($tagForm) {
+        const props = { baseURL: '/tags', destination: 'ul.tags'};
+        render($tagForm, props );
+    }
+
+
+    if ($industryForm) {
+        const props = { baseURL: '/industries', destination: 'ul.tags'};
+        render($industryForm, props);
+    }
 
 });

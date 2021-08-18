@@ -2,7 +2,7 @@
 
 <%= form_with(url: industries_path,
               method: :get,
-              id: "tag-filter",
+              id: "industries-filter",
               class: "is-flex") do |form| %>
 
 
@@ -13,7 +13,6 @@
 
             <%= form.text_field :query,
                 class: "input is-small component-input-textfield-autocomplete",
-                data: {baseurl: '/industries', destination: 'ul.tags'},
                 placeholder: "Filter Industries",
                 value: params[:query]
             %>
