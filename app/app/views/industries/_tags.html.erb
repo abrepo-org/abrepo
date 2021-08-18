@@ -1,4 +1,4 @@
-<ul class="tags">
+<ul class="tags ml-0 mt-2">
     <% @tags.each do |tag| %>
         <li class="tag">
             <%= link_to tag.name, "/search/?industries[]=#{tag.name}" %>
