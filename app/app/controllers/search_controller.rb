@@ -5,7 +5,8 @@ class SearchController < ApplicationController
 
     query = params[:q]
     filters = params[:tags]
-    @results = Search.build(query, filters)
+    industries = params[:industries]
+    @results = Search.build(query, filters, industries)
   end
 
 end
