@@ -4,6 +4,7 @@ export const InputTextAutoComplete = (props) => {
 
     const baseURL = props.baseURL;
     const destination = props.destination;
+    const placeholder = props.placeholder;
     const updateURL = props.updateURL;
 
     let searchParams = new URLSearchParams(window.location.search);
@@ -46,7 +47,7 @@ export const InputTextAutoComplete = (props) => {
 
                 <input onChange={(e) => changeHandler(e) }
                        className="input is-small"
-                       placeholder="Filter Tags"
+                       placeholder={placeholder}
                        type="text"
                        name="query" id="query"
                        value={query}

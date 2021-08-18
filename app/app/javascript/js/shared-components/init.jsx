@@ -25,17 +25,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     if ($tagForm) {
-        const props = { baseURL: '/tags', destination: 'ul.tags'};
+        const props = {
+            baseURL: '/tags',
+            destination: 'ul.tags',
+            placeholder: "Filter Tags"
+        };
         render($tagForm, props );
     }
 
     if ($industryForm) {
-        const props = { baseURL: '/industries', destination: 'ul.tags'};
+        const props = {
+            baseURL: '/industries',
+            destination: 'ul.tags',
+            placeholder: "Filter Industries"
+        };
         render($industryForm, props);
     }
 
     if ($searchForm) {
-        const props = {}
+        const props = {
+            baseURL: '/search',
+            destination: 'pre',
+            placeholder: "Search"
+        }
+
         ReactDOM.render(
             <SearchForm {...props} />,
             $inputTemp
