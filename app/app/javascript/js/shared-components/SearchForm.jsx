@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { InputTextAutoComplete } from './InputTextAutoComplete.jsx';
+import { InputText } from './InputText.jsx';
 import { SearchInputTextAutoComplete } from './SearchInputTextAutoComplete.jsx';
 import { Button } from './Button.jsx';
 import { AutoCompleteTag } from './AutoCompleteTag.jsx';
@@ -10,6 +10,7 @@ export const SearchForm = (props) => {
     const [inputBusy, setInputBusy] = useState(false);
 
     let searchParams = new URLSearchParams(window.location.search);
+
     //query
     const [query, setQuery] = useState( (searchParams && searchParams.get("query")) || '' );
 
@@ -41,9 +42,8 @@ export const SearchForm = (props) => {
 
             <input name="utf8" type="hidden" value="✓" />
 
-            <InputTextAutoComplete
-                setInputBusy={setInputBusy}
-                {...props} />
+            <InputText queryField="query"
+                       {...props} />
 
             <Button disabled={inputBusy} />
 
