@@ -10,7 +10,12 @@ class TagsController < ApplicationController
 
       # autocomplete
       if (params[:partial])
-        render partial: 'tags'
+
+        respond_to do |format|
+          format.html { render partial: 'tags' }
+          format.json { render json: @tags }
+        end
+
       end
       return
     end

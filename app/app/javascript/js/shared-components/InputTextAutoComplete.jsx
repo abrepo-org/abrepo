@@ -3,19 +3,22 @@ import React, { useState, useEffect } from 'react';
 export const InputTextAutoComplete = (props) => {
 
     const baseURL = props.baseURL;
-    const destination = props.destination;
+    const destinationSelector = props.destinationSelector;
+    const setInputResults = props.setInputResults;
     const placeholder = props.placeholder;
     const updateURL = props.updateURL;
+    const queryField = props.queryField || "query"
 
     let searchParams = new URLSearchParams(window.location.search);
-    const [query, setQuery] = useState( (searchParams && searchParams.get("query")) || '' );
+    const [query, setQuery] = useState( (searchParams && searchParams.get(queryField)) || '' );
 
 
     const changeHandler = (e) => {
 
         //TODO: debounce
 
-        props.setInputBusy(true);
+        props.setInputBusy && props.setInputBusy(true);
+
 
         setQuery(e.target.value);
 
@@ -23,19 +26,25 @@ export const InputTextAutoComplete = (props) => {
             .then(res => res.text())
             .then(res => {
 
-                const $destination = document.querySelector(destination);
+                /*
+                 * pass querySelector if update content is external
+                 * of Form / React App
+                 * otherwise call setInputResults
+                 */
 
-                //update content
+                //update content with available options
+                const $destination = document.querySelector(destinationSelector);
                 if($destination) {
                     $destination.outerHTML = res;
                 }
 
-                //updateURL if available
-                if (updateURL) {
-                    updateURL(e.target.value);
-                }
+                //updateValue
+                setInputResults && setInputResults(res);
 
-                props.setInputBusy(false);
+                //updateURL bar w/ change
+                updateURL && updateURL(e.target.value);
+
+                props.setInputBusy && props.setInputBusy(false);
             });
     };
 
