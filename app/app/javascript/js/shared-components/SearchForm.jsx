@@ -34,6 +34,12 @@ export const SearchForm = (props) => {
                 placeholder="Filter Tags"
                 baseURL="/tags.json" />
 
+            <SearchFilter
+                searchParams={searchParams}
+                queryField="industries[]"
+                placeholder="Filter Industries"
+                baseURL="/industries.json" />
+
         </form>
     );
 };
