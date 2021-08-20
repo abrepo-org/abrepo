@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if ($tagForm) {
         const props = {
             baseURL: '/tags',
-            destination: 'ul.tags',
+            destinationSelector: 'ul.tags',
             placeholder: "Filter Tags"
         };
         render($tagForm, props );
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if ($industryForm) {
         const props = {
             baseURL: '/industries',
-            destination: 'ul.tags',
+            destinationSelector: 'ul.tags',
             placeholder: "Filter Industries"
         };
         render($industryForm, props);
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if ($searchForm) {
         const props = {
             baseURL: '/search',
-            destination: 'pre',
+            destinationSelector: 'pre',
             placeholder: "Search"
         }
 
