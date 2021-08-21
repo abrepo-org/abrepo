@@ -11,7 +11,7 @@ export const SearchFilter = (props) => {
 
     const [autocompleteTags, setAutocompleteTags] = useState([]);
     const [resetTrigger, setResetTrigger] = useState(0);
-
+    const [isOpen, setIsOpen] = useState(false);
 
     const addTag = (tag) => {
         setSelectedTags(selectedTags => [...selectedTags, tag])
@@ -25,15 +25,30 @@ export const SearchFilter = (props) => {
         setAutocompleteTags([]) //clear auto complete list
         setResetTrigger(resetTrigger+1)       //trigger useEffect hook to clear input value
     };
-    
-    return(
 
+    //open close Tag dropdown
+    const openCloseClickHandler = (e) => {
+        e.preventDefault();
+        //props.setCloseAll(true);
+        console.log(isOpen)
+        setIsOpen(!isOpen);
+    };
+
+    const cancelStyle = {
+        padding: 'calc(0.5em - 2px) 1em calc(0.5em - 1px) 1em',
+        display: 'inline-flex'
+    }
+
+    return(
 
         <div className="field">
 
-            <div className="dropdown is-active">
+            <div className={`dropdown ${isOpen ? 'is-active' : ''}`}>
                 <div className="dropdown-trigger">
-                    <button className="button" aria-haspopup="true" aria-controls="dropdown-menu-tag">
+                    <button className="button"
+                            onClick={(e) => openCloseClickHandler(e)}
+                            aria-haspopup="true"
+                            aria-controls="dropdown-menu-tag">
                         <span>Tag</span>
                         <span className="icon is-small">
                             <i className="fas fa-angle-down" aria-hidden="true"></i>
@@ -75,15 +90,17 @@ export const SearchFilter = (props) => {
                             </div>
                         </div>
 
+                        <hr className="dropdown-divider" />
                         <div className="dropdown-item">
                             <button type="submit" className="button is-small">
                                 Apply Filters
                             </button>
+                            <a href="#" style={cancelStyle}
+                               onClick={(e) => openCloseClickHandler(e)}>
+                                Cancel
+                            </a>
                         </div>
 
-                        <hr className="dropdown-divider" />
-                        <a href="#" className="dropdown-item">
-                        </a>
                     </div>
                 </div>
 
