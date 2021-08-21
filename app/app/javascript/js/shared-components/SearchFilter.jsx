@@ -11,7 +11,6 @@ export const SearchFilter = (props) => {
 
     const [autocompleteTags, setAutocompleteTags] = useState([]);
     const [resetTrigger, setResetTrigger] = useState(0);
-    const [isOpen, setIsOpen] = useState(false);
 
     const addTag = (tag) => {
         setSelectedTags(selectedTags => [...selectedTags, tag])
@@ -22,16 +21,23 @@ export const SearchFilter = (props) => {
     };
 
     const clearSelected = () => {
-        setAutocompleteTags([]) //clear auto complete list
-        setResetTrigger(resetTrigger+1)       //trigger useEffect hook to clear input value
+        setAutocompleteTags([])           //clear auto complete list
+        setResetTrigger(resetTrigger+1)   //trigger useEffect hook to clear input value
     };
 
     //open close Tag dropdown
     const openCloseClickHandler = (e) => {
         e.preventDefault();
-        //props.setCloseAll(true);
-        console.log(isOpen)
-        setIsOpen(!isOpen);
+        const update = {}
+        update[props.id] = !props.filterOpenState[props.id]
+
+        //close All
+        Object.keys(props.filterOpenState).forEach( key => {
+            props.filterOpenState[key] = false;
+        });
+
+        //toggle individual (open or close)
+        props.setFilterOpenState( {...props.filterOpenState, ...update });
     };
 
     const cancelStyle = {
@@ -43,13 +49,13 @@ export const SearchFilter = (props) => {
 
         <div className="field">
 
-            <div className={`dropdown ${isOpen ? 'is-active' : ''}`}>
+            <div className={`dropdown ${props.filterOpenState[props.id] ? 'is-active' : ''}`}>
                 <div className="dropdown-trigger">
                     <button className="button"
                             onClick={(e) => openCloseClickHandler(e)}
                             aria-haspopup="true"
                             aria-controls="dropdown-menu-tag">
-                        <span>Tag</span>
+                        <span>{props.name}</span>
                         <span className="icon is-small">
                             <i className="fas fa-angle-down" aria-hidden="true"></i>
                         </span>
@@ -60,7 +66,7 @@ export const SearchFilter = (props) => {
                     <div className="dropdown-content">
 
                         <div className="dropdown-item">
-                            <p><strong>Tags</strong></p>
+                            <p><strong>{props.name}</strong></p>
 
                             <SearchInputTextAutoComplete
                                 baseURL={props.baseURL}
