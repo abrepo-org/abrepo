@@ -13,19 +13,29 @@
   <%= @industries.to_json %>
 </pre>
 
-<!-- TODO: color code based on tag or industries -->
-<ul class="tags ml-0 mt-2">
+<!-- TODO: color code based on tag or industries:
+     make sure consistent with SearchTextAutoComplete
+   -->
+<div class="tags-container">
 
     <% @industries.each do |tag| %>
-        <li class="tag">
-            <%= tag %>
-        </li>
+        <span class ="tags is-inline-flex is-flex-wrap-nowrap has-addons mb-0 mr-2">
+            <span class="tag is-info mb-0">
+                <%= tag %>
+            </span>
+            <%= link_to '', tag_link_for(@query, @tags, @industries.excluding(tag)),
+                class: "tag is-delete mb-0" %>
+        </span>
     <% end %>
 
     <% @tags.each do |tag| %>
-        <li class="tag">
-            <%= tag %>
-        </li>
+        <span class ="tags is-inline-flex is-flex-wrap-nowrap has-addons mb-0 mr-2">
+            <span class="tag is-info mb-0">
+                <%= tag %>
+            </span>
+            <%= link_to '', tag_link_for(@query, @tags.excluding(tag), @industries),
+                class: "tag is-delete mb-0" %>
+        </span>
     <% end %>
 
 </ul>
