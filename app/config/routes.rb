@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   resources :industries, only: ['index']
 
   # Search
-  get 'search', action: :show, controller: 'search'
+  get 'search', action: :index, controller: 'search'
 
   #
   # Stripe

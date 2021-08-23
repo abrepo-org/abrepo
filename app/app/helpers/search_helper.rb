@@ -3,9 +3,7 @@ module SearchHelper
 
   def tag_link_for(query, tags, industries)
 
-    url_for(controller: 'search',
-            action: 'show',
-            params: {
+    url_for(params: {
               utf8: params[:utf8],
               query: query,
               tags: tags,

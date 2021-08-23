@@ -1,6 +1,6 @@
 class SearchController < ApplicationController
 
-  def show
+  def index
     #TODO: highlight match snippet
 
     query = params[:query] || nil
