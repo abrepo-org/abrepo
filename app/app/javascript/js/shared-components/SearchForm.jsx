@@ -33,26 +33,29 @@ export const SearchForm = (props) => {
 
             <Button disabled={inputBusy} />
 
-            <SearchFilter
-                searchParams={searchParams}
-                filterOpenState={filterOpenState}
-                setFilterOpenState={setFilterOpenState}
-                id="1"
-                queryField="tags[]"
-                name="Tags"
-                placeholder="Filter Tags"
-                baseURL="/tags.json" />
+            {props.tags &&
+             <SearchFilter
+                 searchParams={searchParams}
+                 filterOpenState={filterOpenState}
+                 setFilterOpenState={setFilterOpenState}
+                 id="1"
+                 queryField="tags[]"
+                 name="Tags"
+                 placeholder="Filter Tags"
+                 baseURL="/tags.json" />
+            }
 
-            <SearchFilter
-                searchParams={searchParams}
-                filterOpenState={filterOpenState}
-                setFilterOpenState={setFilterOpenState}
-                id="2"
-                queryField="industries[]"
-                name="Industries"
-                placeholder="Filter Industries"
-                baseURL="/industries.json" />
-
+            {props.industries &&
+             <SearchFilter
+                 searchParams={searchParams}
+                 filterOpenState={filterOpenState}
+                 setFilterOpenState={setFilterOpenState}
+                 id="2"
+                 queryField="industries[]"
+                 name="Industries"
+                 placeholder="Filter Industries"
+                 baseURL="/industries.json" />
+            }
         </form>
     );
 };

@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const $tagForm = document.querySelector('form#tag-filter');
     const $industryForm = document.querySelector('form#industries-filter');
     const $searchForm = document.querySelector('form#search-form');
+    const $profileForm = document.querySelector('form#profile-form');
 
     const $inputTemp = document.createElement('div');
 
@@ -47,13 +48,31 @@ document.addEventListener('DOMContentLoaded', () => {
             baseURL: '/search',
             destinationSelector: 'pre',
             placeholder: "Search"
-        }
+        };
 
         ReactDOM.render(
-            <SearchForm {...props} />,
+            <SearchForm tags={true}
+                        industries={true}
+                        {...props} />,
             $inputTemp
         );
 
-        $searchForm.replaceWith($inputTemp)
+        $searchForm.replaceWith($inputTemp);
+    }
+
+    if ($profileForm) {
+        const props = {
+            baseURL: '/profiles',
+            destinationSelector: 'pre',
+            placeholder: "Search"
+        };
+
+        ReactDOM.render(
+            <SearchForm industries={true}
+                        {...props} />,
+            $inputTemp
+        );
+
+        $profileForm.replaceWith($inputTemp);
     }
 });
