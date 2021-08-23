@@ -26,8 +26,6 @@ export const SearchForm = (props) => {
               acceptCharset="UTF-8"
               method="get">
 
-            <input name="utf8" type="hidden" value="✓" />
-
             <InputText queryField="query"
                        {...props} />
 

@@ -2,6 +2,7 @@
 
 <%= form_with(url: tags_path,
               method: :get,
+              skip_enforcing_utf8: true,
               id: "tag-filter",
               class: "is-flex") do |form| %>
 

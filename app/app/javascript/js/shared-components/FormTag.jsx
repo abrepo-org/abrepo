@@ -14,8 +14,6 @@ export const FormTag = (props) => {
               acceptCharset="UTF-8"
               method="get">
 
-            <input name="utf8" type="hidden" value="✓" />
-
             <InputTextAutoComplete updateURL={updateURL}
                                    setInputBusy={setInputBusy}
                                    { ...props } />

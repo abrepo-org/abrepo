@@ -4,6 +4,7 @@
 
 
     <%= form_with(url: profiles_path,
+                  skip_enforcing_utf8: true,
                   method: :get,
                   id: "profile-form",
                   class: "is-flex") do |form| %>

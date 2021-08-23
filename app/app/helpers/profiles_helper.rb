@@ -4,7 +4,6 @@ module ProfilesHelper
     industries.map { |industry|
 
       new_params = {
-        utf8: params[:utf8],
         industries: [industry]
       }
 

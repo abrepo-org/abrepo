@@ -2,6 +2,7 @@
 
 <%= form_with(url: industries_path,
               method: :get,
+              skip_enforcing_utf8: true,
               id: "industries-filter",
               class: "is-flex") do |form| %>
 
