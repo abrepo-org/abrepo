@@ -1,5 +1,18 @@
 module ProfilesHelper
 
+  def profile_industry_filter_links(params, industries)
+    industries.map { |industry|
+
+      new_params = {
+        utf8: params[:utf8],
+        industries: [industry]
+      }
+
+      link_to(industry, url_for(params: new_params))
+
+    }.join(", ").html_safe
+  end
+
   def get_related_companies(profile, num)
 
     results = profile.active_related_companies(num).collect do |company|

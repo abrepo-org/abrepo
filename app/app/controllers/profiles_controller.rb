@@ -8,11 +8,11 @@ class ProfilesController < ApplicationController
                   .includes(:experiments)
                   .where.not(experiments: { profile_id: nil})
 
-    if (@query)
+    if @query
       @profiles = @profiles.search_company_name(@query)
     end
 
-    if (@industries)
+    unless @industries.empty?
       @profiles = @profiles.tagged_with(@industries)
     end
 
