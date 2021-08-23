@@ -1,3 +1,31 @@
+<h5>queries</h5>
 <pre>
   <%= @results.to_json %>
 </pre>
+
+<h5>Tags</h5>
+<pre>
+  <%= @tags.to_json %>
+</pre>
+
+<h5>Industries</h5>
+<pre>
+  <%= @industries.to_json %>
+</pre>
+
+<!-- TODO: color code based on tag or industries -->
+<ul class="tags ml-0 mt-2">
+
+    <% @industries.each do |tag| %>
+        <li class="tag">
+            <%= tag %>
+        </li>
+    <% end %>
+
+    <% @tags.each do |tag| %>
+        <li class="tag">
+            <%= tag %>
+        </li>
+    <% end %>
+
+</ul>

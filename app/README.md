@@ -19,6 +19,51 @@ end
 
 ```
 
+
+### ActsAsTaggableOn
+
+Plugin to add tags to models: https://github.com/mbleigh/acts-as-taggable-on
+
+`name`: name of the tag
+`context`: "category" of the tag
+`taggable_type`: name of model where `acts_on_taggable` is set
+
+
+Currently have:
+
+* `Profile.industry_tag`
+* `Variation.page_tag`
+* `Variation.tag` (variation tags)
+
+
+Common tasks:
+
+* Find records with tags: `<Model>.tagged_with(<tag>)`
+* Find tag: ActsAsTaggableOn::Tag.where(<query>)
+* Find tags with context:
+
+```
+    #NB: join attributes are available but not explicitly displayed in
+    #Active Record assocation
+    #Taggable_type: model, context: tag "category"
+    @tags = ActsAsTaggableOn::Tag
+              .joins(:taggings)
+              .where(name: tags)
+              .where("#{ActsAsTaggableOn.taggings_table}.taggable_type IN (?)",
+                     ["Variation"])
+              .select(:id, :name, :context)
+              .distinct
+
+    @industries = ActsAsTaggableOn::Tag
+                    .joins(:taggings)
+                    .where(name: industries)
+                    .where("#{ActsAsTaggableOn.taggings_table}.taggable_type IN (?)",
+                           ["Profile"])
+                    .select(:id, :name, :context)
+                    .distinct
+
+```
+
 ### pg_search
 
 * General approach is to have ExpVar data as general multisearch corpus
@@ -28,7 +73,6 @@ end
   * `industries=`: industry tags
   * `tags=`: expvar tags
   * `companies=`: company domain ? want higher guarantee of uniqueness
-
 
 #### Multisearch: multi-model, global index
 

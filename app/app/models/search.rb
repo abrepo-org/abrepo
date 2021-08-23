@@ -14,12 +14,12 @@ class Search
     end
 
     #filters: tag/page_tag
-    if (filters)
+    unless (filters.empty?)
       variations = variations.tagged_with(filters)
     end
 
     #industries
-    if (industries)
+    unless (industries.empty?)
       profile_ids = Profile.tagged_with(industries).pluck(:id).uniq
       experiments = Experiment.where(profile_id: profile_ids).pluck(:id)
       variations = variations.where(experiment_id: experiments)
