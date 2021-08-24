@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import debounce from "lodash.debounce";
 
 export const SearchInputTextAutoComplete = (props) => {
 
@@ -12,15 +13,14 @@ export const SearchInputTextAutoComplete = (props) => {
     let searchParams = new URLSearchParams(window.location.search);
     const [query, setQuery] = useState('');
 
-    const changeHandler = (e) => {
+    const debouncedFetchAPI = useCallback(
+        debounce(value => fetchAPI(value), 500),
+	[]
+    );
 
-        //TODO: debounce
+    const fetchAPI = (value) => {
 
-        props.setInputBusy && props.setInputBusy(true);
-
-        setQuery(e.target.value);
-
-        const response = fetch(`${baseURL}?query=${e.target.value}&partial=true`)
+        return fetch(`${baseURL}?query=${value}&partial=true`)
             .then(res => res.json())
             .then(res => {
 
@@ -29,28 +29,37 @@ export const SearchInputTextAutoComplete = (props) => {
                 setAutoCompleteResults && setAutoCompleteResults(autocompleteTags);
 
                 //updateURL bar w/ change
-                updateURL && updateURL(e.target.value);
+                updateURL && updateURL(value);
 
                 props.setInputBusy && props.setInputBusy(false);
             });
     };
 
+    const changeHandler = (e) => {
+
+        props.setInputBusy && props.setInputBusy(true);
+
+        setQuery(e.target.value);
+
+        debouncedFetchAPI(e.target.value);
+    };
+
     //reset trigger
     useEffect( () => {
         console.log("useEffect", props.resetTrigger);
-        setQuery("")
+        setQuery("");
 
     }, [props.resetTrigger]);
 
     const controlStyle = {
         width: '20rem'
-    }
+    };
 
     const inputStyle = {
         border: 'none',
         boxShadow: 'none',
         marginLeft: '-0.5rem'
-    }
+    };
 
 
     return(

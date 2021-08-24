@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import debounce from "lodash.debounce";
 
 export const InputTextAutoComplete = (props) => {
 
@@ -7,22 +8,19 @@ export const InputTextAutoComplete = (props) => {
     const setInputResults = props.setInputResults;
     const placeholder = props.placeholder;
     const updateURL = props.updateURL;
-    const queryField = props.queryField || "query"
+    const queryField = props.queryField || "query";
 
     let searchParams = new URLSearchParams(window.location.search);
     const [query, setQuery] = useState( (searchParams && searchParams.get(queryField)) || '' );
 
+    const debouncedFetchAPI = useCallback(
+        debounce(value => fetchAPI(value), 500),
+	[]
+    );
 
-    const changeHandler = (e) => {
+    const fetchAPI = (value) => {
 
-        //TODO: debounce
-
-        props.setInputBusy && props.setInputBusy(true);
-
-
-        setQuery(e.target.value);
-
-        const response = fetch(`${baseURL}?query=${e.target.value}&partial=true`)
+        return fetch(`${baseURL}?query=${value}&partial=true`)
             .then(res => res.text())
             .then(res => {
 
@@ -42,10 +40,19 @@ export const InputTextAutoComplete = (props) => {
                 setInputResults && setInputResults(res);
 
                 //updateURL bar w/ change
-                updateURL && updateURL(e.target.value);
+                updateURL && updateURL(value);
 
                 props.setInputBusy && props.setInputBusy(false);
             });
+    };
+
+    const changeHandler = (e) => {
+
+        props.setInputBusy && props.setInputBusy(true);
+
+        setQuery(e.target.value);
+
+        debouncedFetchAPI(e.target.value);
     };
 
 
