@@ -14,6 +14,11 @@
         icon: "tags"
     } %>
 
+    <%= render partial: '/layouts/navlink', locals: {
+        linkurl: "/industries/", linkclass:"navbar-item", text: "Industries",
+        icon: "industry"
+    } %>
+
 
     <!-- not sure maybe add pages (page types) -->
     <% if user_signed_in? %>

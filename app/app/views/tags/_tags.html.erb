@@ -1,0 +1,7 @@
+<ul class="tags ml-0 mt-2">
+    <% @tags.each do |tag| %>
+        <li class="tag">
+            <%= link_to tag.name, "/search/?tags[]=#{tag.name}" %>
+        </li>
+    <% end %>
+</ul>

@@ -1,20 +1,23 @@
 class ProfilesController < ApplicationController
 
   def index
-    p = profile_filter_params #{query: 'xyz', tag: '123'}
+    @query = params[:query] || nil
+    @industries = [* params[:industries] ]
 
-    @profiles = []
-    if (p[:query])
+    @profiles = Profile
+                  .includes(:experiments)
+                  .where.not(experiments: { profile_id: nil})
 
-      @profiles = Profile.search_company_name(p[:query])
-                    .includes(:experiments)
-                    .where.not(experiments: { profile_id: nil})
-    else
-
-      @profiles = Profile.includes(:experiments)
-                    .where.not(experiments: { profile_id: nil})
+    if @query
+      @profiles = @profiles.search_company_name(@query)
     end
+
+    unless @industries.empty?
+      @profiles = @profiles.tagged_with(@industries)
+    end
+
   end
+
 
   def show
     @profile = Profile.includes(experiments: {variations: :renderables})
@@ -42,8 +45,4 @@ class ProfilesController < ApplicationController
     params.permit(:id)
   end
 
-  def profile_filter_params
-    #NB array params must go at end
-    params.permit(:query, :utf8, tags: [], industries: [])
-  end
 end

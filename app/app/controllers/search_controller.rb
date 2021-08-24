@@ -1,32 +1,26 @@
 class SearchController < ApplicationController
 
-  def show
+  def index
     #TODO: highlight match snippet
 
-    #
-    # BUILD QUERY
-    #
+    query = params[:query] || nil
+    industries = [* params[:industries] || [] ]
+    tags = [* params[:tags] || [] ]
 
-    #freetext
-    variations = Variation
+    @query = query
+    @tags = tags
+    @industries = industries
 
-    if(params[:q])
-      q = params[:q]
-      exp_ids = PgSearch.multisearch(q).pluck(:experiment_id).uniq
-      variations = Variation.where(experiment_id: exp_ids)
+    # Currently:
+    # just passing params to view layer; no check for query validity
+    # show params in query even if not valid tags
+    # keep Search model as filter/results search generator
+    @results = Search.build(query, tags, industries)
+
+
+    if (params[:partial])
+      return render partial: "results"
     end
-
-    #filters
-    if (params[:tags])
-      tags = params[:tags]
-      variations = variations.tagged_with(tags)
-    end
-
-    blob = variations.pluck(:id, :summary_name)
-
-    #TODO: what am I returning - experiments and nested variations?
-
-    render json: blob
   end
 
 end

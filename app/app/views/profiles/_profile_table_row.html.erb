@@ -20,11 +20,13 @@
         <% end  %>
     </td>
 
-    <td>A/B Testing helps businesses test out different ways to make their websites or apps more effective.</td>
+    <td>
+      A/B Testing helps businesses test out different ways to make their websites or apps more effective.
+    </td>
 
-    <td>industry 1, industry 2, industry 3</td>
-
-    <td>taggg 1, tag 2, tag 3, tag 4</td>
+    <td>
+      <%= profile_industry_filter_links(params, profile.industry_tag_list) %>
+    </td>
 
     <td class="white-space-nowrap has-text-centered">
         <%=format_profile_date(profile.updated_at)%>
