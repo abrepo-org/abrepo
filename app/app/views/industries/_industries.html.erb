@@ -1,0 +1,7 @@
+<ul class="tags ml-0 mt-2">
+    <% @industries.each do |industry| %>
+        <li class="tag">
+            <%= link_to industry.name, "/profiles?industries[]=#{industry.name}" %>
+        </li>
+    <% end %>
+</ul>
