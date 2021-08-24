@@ -1,11 +1,15 @@
-<table class="table is-fullwidth is-striped">
+<% @DAYS = 14 %>
+<table class="table is-fullwidth is-striped table-tags">
     <thead>
         <tr>
             <th>Industry</th>
             <!-- defer: <th>Description</th>  -->
             <th>Number of Companies</th>
-            <th>New Companies</th>
-            <th>New Experiments</th>
+            <th>
+                New Companies
+                (<%= pluralize(@DAYS, "day") %>)
+            </th>
+            <th>Variations</th>
         </tr>
     </thead>
 
@@ -16,9 +20,15 @@
                 <td>
                     <%= link_to industry.name, "/profiles?industries[]=#{industry.name}" %>
                 </td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>
+                    <%= industry.taggings_count %>
+                </td>
+                <td>
+                    <%= calc_recency_for(tag, @DAYS.days.ago) %>
+                </td>
+                <td>
+                    <%= calc_tagged_experiments(industry) %>
+                </td>
             </tr>
         <% end %>
     </tbody>
