@@ -1,7 +1,26 @@
-<ul class="tags ml-0 mt-2">
-    <% @industries.each do |industry| %>
-        <li class="tag">
-            <%= link_to industry.name, "/profiles?industries[]=#{industry.name}" %>
-        </li>
-    <% end %>
-</ul>
+<table class="table is-fullwidth is-striped">
+    <thead>
+        <tr>
+            <th>Industry</th>
+            <!-- defer: <th>Description</th>  -->
+            <th>Number of Companies</th>
+            <th>New Companies</th>
+            <th>New Experiments</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <% @industries.each do |industry| %>
+            <tr>
+                <td>
+                    <%= link_to industry.name, "/profiles?industries[]=#{industry.name}" %>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        <% end %>
+    </tbody>
+</table>
+
