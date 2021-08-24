@@ -11,8 +11,7 @@
      but for profile#show it would be repetitive
    -->
 
-<%# unless type == "profile#show" %>
-<%# end %>
+
 <%#experiment-row-data%>
 <div class="experiment is-flex is-justify-content-space-between">
 
@@ -22,15 +21,10 @@
             <%= experiment.summary_name || "Experiment Name: Unnamed" %>
         </h4>
 
-        <!--
-        <div>
-            <span class="profile_favicon">
-                <%= image_tag('https://www.' + profile.domain + '/favicon.ico',
-                              width: '16px') %>
-            </span>
-            <span><%= profile.domain %></span>
-        </div>
-        -->
+        <% unless controller_name == "profiles" and action_name == "show" %>
+            <!-- company info -->
+            <%= render partial: "shared/profile_info", locals: {profile: profile} %>
+        <% end %>
 
         <% if audience['name'] %>
             <div class="mt-1"><%= audience['name'] %></div>

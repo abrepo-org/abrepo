@@ -98,8 +98,7 @@
 
 <% @experiments.each do |experiment| %>
     <%= render partial: "/shared/card",
-    locals: {type: "profile#show",
-             profile: @profile,
+    locals: {profile: @profile,
              experiment: experiment,
              renderable: @renderable,
              audience: @audience,
