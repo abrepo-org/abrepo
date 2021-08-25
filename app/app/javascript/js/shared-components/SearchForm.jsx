@@ -18,7 +18,6 @@ export const SearchForm = (props) => {
     //query
     const [query, setQuery] = useState( (searchParams && searchParams.get("query")) || '' );
 
-
     return(
         <form id="search-form"
               className="is-flex"
@@ -29,8 +28,6 @@ export const SearchForm = (props) => {
             <InputText queryField="query"
                        {...props} />
 
-            <Button disabled={inputBusy} />
-
             {props.tags &&
              <SearchFilter
                  searchParams={searchParams}
@@ -39,7 +36,7 @@ export const SearchForm = (props) => {
                  id="1"
                  queryField="tags[]"
                  name="Tags"
-                 placeholder="Filter Tags"
+                 placeholder="CTA, home page"
                  baseURL="/tags.json" />
             }
 
@@ -51,9 +48,10 @@ export const SearchForm = (props) => {
                  id="2"
                  queryField="industries[]"
                  name="Industries"
-                 placeholder="Filter Industries"
+                 placeholder='Internet, Media'
                  baseURL="/industries.json" />
             }
+
         </form>
     );
 };

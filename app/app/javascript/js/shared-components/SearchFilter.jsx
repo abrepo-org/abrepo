@@ -47,11 +47,12 @@ export const SearchFilter = (props) => {
 
     return(
 
-        <div className="field">
+        <div className="field ml-2">
 
             <div className={`dropdown ${props.filterOpenState[props.id] ? 'is-active' : ''}`}>
                 <div className="dropdown-trigger">
-                    <button className="button"
+                    <button className="button is-small"
+                            type="button"
                             onClick={(e) => openCloseClickHandler(e)}
                             aria-haspopup="true"
                             aria-controls="dropdown-menu-tag">
@@ -66,7 +67,17 @@ export const SearchFilter = (props) => {
                     <div className="dropdown-content">
 
                         <div className="dropdown-item">
-                            <p><strong>{props.name}</strong></p>
+
+                            <p className="is-flex is-justify-content-space-between">
+                                <span>
+                                    <strong>Filter by {props.name}</strong>
+                                </span>
+                                <span>
+                                    <a href={`/${props.name.toLowerCase()}/`}>
+                                       View All {props.name}
+                                    </a>
+                                </span>
+                            </p>
 
                             <SearchInputTextAutoComplete
                                 baseURL={props.baseURL}
@@ -80,7 +91,7 @@ export const SearchFilter = (props) => {
 
                             <div id="tag-destination">
 
-                                <ul className="tags">
+                                <ul className="tags ml-0">
 
                                     {
                                         autocompleteTags.map(tag => {
@@ -98,7 +109,7 @@ export const SearchFilter = (props) => {
 
                         <hr className="dropdown-divider" />
                         <div className="dropdown-item">
-                            <button type="submit" className="button is-small">
+                            <button className="button is-small">
                                 Apply Filters
                             </button>
                             <a href="#" style={cancelStyle}
