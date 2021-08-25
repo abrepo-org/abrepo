@@ -39,8 +39,7 @@
     <%= render partial: "/shared/card",
     locals: {profile: @profile,
              experiment: experiment,
-             renderable: @renderable,
-             audience: @audience,
+             audience: experiment.audience,
              vendor: @vendor}
     %>
 <% end %>
