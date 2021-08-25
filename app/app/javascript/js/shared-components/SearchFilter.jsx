@@ -47,11 +47,12 @@ export const SearchFilter = (props) => {
 
     return(
 
-        <div className="field">
+        <div className="field ml-2">
 
             <div className={`dropdown ${props.filterOpenState[props.id] ? 'is-active' : ''}`}>
                 <div className="dropdown-trigger">
-                    <button className="button"
+                    <button className="button is-small"
+                            type="button"
                             onClick={(e) => openCloseClickHandler(e)}
                             aria-haspopup="true"
                             aria-controls="dropdown-menu-tag">
@@ -98,7 +99,7 @@ export const SearchFilter = (props) => {
 
                         <hr className="dropdown-divider" />
                         <div className="dropdown-item">
-                            <button type="submit" className="button is-small">
+                            <button className="button is-small">
                                 Apply Filters
                             </button>
                             <a href="#" style={cancelStyle}
