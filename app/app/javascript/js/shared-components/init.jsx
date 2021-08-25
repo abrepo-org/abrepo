@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if ($tagForm) {
         const props = {
             baseURL: '/tags',
-            destinationSelector: 'ul.tags',
+            destinationSelector: 'table.table-tags',
             placeholder: "Filter Tags"
         };
         render($tagForm, props );
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if ($industryForm) {
         const props = {
             baseURL: '/industries',
-            destinationSelector: 'ul.tags',
+            destinationSelector: 'table.table-tags',
             placeholder: "Filter Industries"
         };
         render($industryForm, props);

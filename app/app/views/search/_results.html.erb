@@ -39,3 +39,15 @@
     <% end %>
 
 </ul>
+
+<hr />
+
+<% @experiments.each do |experiment| %>
+    <%= render partial: "/shared/card",
+    locals: {profile: @profile,
+             experiment: experiment,
+             renderable: @renderable,
+             audience: @audience,
+             vendor: @vendor}
+    %>
+<% end %>
