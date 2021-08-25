@@ -29,8 +29,8 @@
 
                             <%= form.text_field :query,
                                 class: "input",
-                                    placeholder: "Search Experiments",
-                                    value: params[:query]
+                                placeholder: "Search Experiments",
+                                value: current_page?(search_path) ? params[:query] : ''
                             %>
 
                             <span class="icon is-small is-left">
