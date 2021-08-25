@@ -19,7 +19,6 @@ export const InputText = (props) => {
     return(
         <div className="field">
             <div id="search-control" className="control has-icons-left">
-
                 <input onChange={(e) => changeHandler(e) }
                        autoComplete="off"
                        className="input is-small"

@@ -67,7 +67,17 @@ export const SearchFilter = (props) => {
                     <div className="dropdown-content">
 
                         <div className="dropdown-item">
-                            <p><strong>{props.name}</strong></p>
+
+                            <p className="is-flex is-justify-content-space-between">
+                                <span>
+                                    <strong>Filter by {props.name}</strong>
+                                </span>
+                                <span>
+                                    <a href={`/${props.name.toLowerCase()}/`}>
+                                       View All {props.name}
+                                    </a>
+                                </span>
+                            </p>
 
                             <SearchInputTextAutoComplete
                                 baseURL={props.baseURL}
@@ -81,7 +91,7 @@ export const SearchFilter = (props) => {
 
                             <div id="tag-destination">
 
-                                <ul className="tags">
+                                <ul className="tags ml-0">
 
                                     {
                                         autocompleteTags.map(tag => {
