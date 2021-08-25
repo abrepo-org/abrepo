@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const props = {
             baseURL: '/search',
             destinationSelector: 'pre',
-            placeholder: "Search"
+            placeholder: "Search Experiments"
         };
 
         ReactDOM.render(
