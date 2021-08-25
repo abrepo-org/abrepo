@@ -5,27 +5,31 @@ class Search
   # TODO: separate query build from search exeution
 
   def self.build(query, filters, industries)
-    variations = Variation
+
+    variations = nil
 
     #freetext
     if (query)
       exp_ids = PgSearch.multisearch(query).pluck(:experiment_id).uniq
-      variations = Variation.where(experiment_id: exp_ids)
+      variations = (variations || Variation)
+                     .includes(:experiment)
+                     .where(experiment_id: exp_ids)
     end
 
     #filters: tag/page_tag
     unless (filters.empty?)
-      variations = variations.tagged_with(filters)
+      variations = (variations || Variation).tagged_with(filters)
     end
 
     #industries
     unless (industries.empty?)
       profile_ids = Profile.tagged_with(industries).pluck(:id).uniq
       experiments = Experiment.where(profile_id: profile_ids).pluck(:id)
-      variations = variations.where(experiment_id: experiments)
+      variations = (variations || Variation).where(experiment_id: experiments)
     end
 
-    variations.pluck(:id, :summary_name)
-    #TODO: what am I returning - experiments and nested variations?
+    #TODO: add an experiment or variation scope to filter experiments?
+    (variations || []).map{ |variation| variation.experiment }
+
   end
 end

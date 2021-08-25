@@ -1,7 +1,11 @@
 <div>
+  <%= link_to profile do %>
   <span class="profile_favicon">
     <%= image_tag('https://www.' + profile.domain + '/favicon.ico',
         width: '16px') %>
   </span>
-  <span><%= profile.domain %></span>
+  <span>
+    <%= profile.domain %>
+  </span>
+  <% end %>
 </div>
