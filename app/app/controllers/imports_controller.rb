@@ -46,6 +46,14 @@ class ImportsController < ApplicationController
     puts @profile.related_companies.inspect
 
     #
+    # VENDOR
+    #
+
+    @sourcevendor = SourceVendor
+                      .where(name: group['experiment']['vendor_type'])
+                      .first_or_create
+
+    #
     # EXPERIMENT
     #
 
@@ -59,6 +67,7 @@ class ImportsController < ApplicationController
     @experiment.update(crawlId: experiment['crawlId'],
                        domain: experiment['domain'],
                        summary_name: experiment['summary_name'],
+                       source_vendor: @sourcevendor,
                        profile: @profile)
 
 
@@ -186,13 +195,7 @@ class ImportsController < ApplicationController
         diff.group_id = d['group_id']
       end
 
-
-
     end
-
-    #TODO: how to get Vendor name - variation - parser?
-    #pause vendor model for now
-    #@vendor = Vendor.new()
 
     render json: {"success": true, "diffs": diffs}
   end

@@ -26,14 +26,6 @@ class SearchController < ApplicationController
 
       @profile = @experiments[0].profile
       @num_variations = @experiments.inject(0) { |sum, exp| sum + exp.variations.length }
-
-      #need action
-      @renderable = @experiments[0].variations[0].renderables[0]
-
-      #TODO: populate audience, vendor
-      @audience = {'name': 'audienceName'}
-      @vendor = { 'ABType': 1, 'name': "Optimizely" }
-      @action = {}
     end
 
     if (params[:partial])

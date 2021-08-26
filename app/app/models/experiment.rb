@@ -2,23 +2,26 @@
 #
 # Table name: experiments
 #
-#  id           :bigint           not null, primary key
-#  crawlId      :string
-#  domain       :string
-#  summary_name :string
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  a_id         :string
-#  profile_id   :bigint
-#  vendor_id    :string
+#  id               :bigint           not null, primary key
+#  crawlId          :string
+#  domain           :string
+#  summary_name     :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  a_id             :string
+#  profile_id       :bigint
+#  source_vendor_id :bigint
+#  vendor_id        :string
 #
 # Indexes
 #
-#  index_experiments_on_profile_id  (profile_id)
+#  index_experiments_on_profile_id        (profile_id)
+#  index_experiments_on_source_vendor_id  (source_vendor_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (profile_id => profiles.id)
+#  fk_rails_...  (source_vendor_id => source_vendors.id)
 #
 
 class Experiment < ApplicationRecord
@@ -27,8 +30,8 @@ class Experiment < ApplicationRecord
                   additional_attributes: -> (experiment) { { experiment_id: experiment.id } }
 
   belongs_to :profile
+  belongs_to :source_vendor
   has_many :variations, dependent: :destroy
-  has_one :vendor, dependent: :destroy
   has_one :campaign, dependent: :destroy
   has_one :audience, dependent: :destroy
 

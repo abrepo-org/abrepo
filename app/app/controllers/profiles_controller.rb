@@ -22,20 +22,14 @@ class ProfilesController < ApplicationController
   def show
     @profile = Profile.includes(experiments: {variations: :renderables})
                  .find_by_id(profile_params[:id])
+
     @experiments = @profile.experiments
-    @num_variations = @experiments.inject(0) { |sum, x| sum + x.variations.length }
 
-    #need action
-    @renderable = @experiments[0].variations[0].renderables[0]
+    if (@experiments.length > 0)
 
-    #TODO: populate audience, vendor
-    @audience = {'name': 'audienceName'}
-    @vendor = { 'ABType': 1, 'name': "Optimizely" }
-    @action = {}
-
-    # @num_variations = Variation
-    #                     .where(experiment_id: @experiments.pluck(:id))
-    #                     .count()
+      @profile = @experiments[0].profile
+      @num_variations = @experiments.inject(0) { |sum, exp| sum + exp.variations.length }
+    end
 
   end
 

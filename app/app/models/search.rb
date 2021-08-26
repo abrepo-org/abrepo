@@ -12,20 +12,27 @@ class Search
     if (query)
       exp_ids = PgSearch.multisearch(query).pluck(:experiment_id).uniq
       variations = (variations || Variation)
-                     .includes(:experiment)
+                     .includes(experiment: [:audience])
+                     .includes(:renderables)
                      .where(experiment_id: exp_ids)
     end
 
     #filters: tag/page_tag
     unless (filters.empty?)
-      variations = (variations || Variation).tagged_with(filters)
+      variations = (variations || Variation)
+                     .includes(experiment: [:audience])
+                     .includes(:renderables)
+                     .tagged_with(filters)
     end
 
     #industries
     unless (industries.empty?)
       profile_ids = Profile.tagged_with(industries).pluck(:id).uniq
       experiments = Experiment.where(profile_id: profile_ids).pluck(:id)
-      variations = (variations || Variation).where(experiment_id: experiments)
+      variations = (variations || Variation)
+                     .includes(experiment: [:audience])
+                     .includes(:renderables)
+                     .where(experiment_id: experiments)
     end
 
     #TODO: add an experiment or variation scope to filter experiments?

@@ -39,8 +39,6 @@ class Variation < ApplicationRecord
                   }
 
   belongs_to :experiment
-  has_one :vendor
-
   has_many :renderables, dependent: :destroy
   has_many :actions, -> { distinct }, through: :renderables
 
