@@ -67,6 +67,11 @@ commentary = false
 
                 <div class="has-text-grey mt-3"> URL:</div>
                 <div><%= @renderable['renderedURL'] %> </div>
+
+                <% if @experiment.source_vendor %>
+                    <div class="has-text-grey mt-3"> Vendor:</div>
+                    <div><%= @experiment.source_vendor.name %> </div>
+                <% end %>
             </div>
 
             <% if commentary %>

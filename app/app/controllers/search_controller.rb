@@ -26,9 +26,6 @@ class SearchController < ApplicationController
 
       @profile = @experiments[0].profile
       @num_variations = @experiments.inject(0) { |sum, exp| sum + exp.variations.length }
-
-      #TODO: populate vendor
-      @vendor = { 'ABType': 1, 'name': "Optimizely" }
       @action = {}
     end
 
