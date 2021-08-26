@@ -26,7 +26,6 @@ class SearchController < ApplicationController
 
       @profile = @experiments[0].profile
       @num_variations = @experiments.inject(0) { |sum, exp| sum + exp.variations.length }
-      @action = {}
     end
 
     if (params[:partial])
