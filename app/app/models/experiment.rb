@@ -28,7 +28,6 @@ class Experiment < ApplicationRecord
 
   belongs_to :profile
   has_many :variations, dependent: :destroy
-  has_one :vendor, dependent: :destroy
   has_one :campaign, dependent: :destroy
   has_one :audience, dependent: :destroy
 
