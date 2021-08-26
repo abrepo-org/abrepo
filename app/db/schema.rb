@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_12_215928) do
+ActiveRecord::Schema.define(version: 2021_08_25_235046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -203,21 +203,6 @@ ActiveRecord::Schema.define(version: 2021_08_12_215928) do
     t.index ["experiment_id"], name: "index_variations_on_experiment_id"
   end
 
-  create_table "vendors", force: :cascade do |t|
-    t.string "name"
-    t.string "campaignID"
-    t.string "variationID"
-    t.string "variantID"
-    t.bigint "experiment_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "experimentID"
-    t.bigint "variation_id"
-    t.string "viewID"
-    t.index ["experiment_id"], name: "index_vendors_on_experiment_id"
-    t.index ["variation_id"], name: "index_vendors_on_variation_id"
-  end
-
   add_foreign_key "audiences", "experiments"
   add_foreign_key "campaigns", "experiments"
   add_foreign_key "diffs", "renderables"
@@ -227,6 +212,4 @@ ActiveRecord::Schema.define(version: 2021_08_12_215928) do
   add_foreign_key "subscriptions", "users"
   add_foreign_key "taggings", "tags"
   add_foreign_key "variations", "experiments"
-  add_foreign_key "vendors", "experiments"
-  add_foreign_key "vendors", "variations"
 end
