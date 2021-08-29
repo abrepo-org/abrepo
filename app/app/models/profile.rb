@@ -22,8 +22,11 @@ class Profile < ApplicationRecord
   pg_search_scope :search_industry_tag,
                   associated_against: { industry_tag: [:name] },
                   using: { tsearch: { prefix: true, dictionary: 'english' } }
-  pg_search_scope :search_company_name,
-                  against: :company_name,
+  pg_search_scope :search_company,
+                  against: [
+                    [:company_name, 'A'],
+                    [:description, 'B']
+                  ],
                   using: { tsearch: { prefix: true, dictionary: 'english' } }
 
   has_many :experiments
