@@ -10,7 +10,7 @@
 <tr>
     <td>
         <span class="profile_favicon">
-            <%= image_tag('https://www.' + profile.domain + '/favicon.ico') %>
+            <%= image_tag(profile.favicon_url) if profile.favicon_url %>
         </span>
 
     </td>
@@ -21,7 +21,7 @@
     </td>
 
     <td>
-      A/B Testing helps businesses test out different ways to make their websites or apps more effective.
+      <%= profile.description.split(".").first if profile.description %>
     </td>
 
     <td>
