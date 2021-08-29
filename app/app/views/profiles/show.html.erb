@@ -8,8 +8,9 @@
                 <%= link_to @profile do %>
 
                     <span class="profile_favicon">
-                        <%= image_tag('https://www.' + @profile.domain + '/favicon.ico') %>
+                        <%= image_tag(@profile.favicon_url) if @profile.favicon_url %>
                     </span>
+
                     <span><%= link_to @profile.hostname, @profile.url %></span>
 
                 <% end %>
@@ -29,7 +30,7 @@
     </div>
     <!-- - About -->
     <div class="profile-label has-text-grey mt-3">About</div>
-    <p>This is a blurb. Optimizely helps businesses test out different ways to make their websites or apps more effective.</p>
+    <p><%= @profile.description %></p>
 
     <!-- Related Companies -->
     <% if @profile.related_companies.length %>

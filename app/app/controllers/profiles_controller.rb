@@ -9,7 +9,7 @@ class ProfilesController < ApplicationController
                   .where.not(experiments: { profile_id: nil})
 
     if @query
-      @profiles = @profiles.search_company_name(@query)
+      @profiles = @profiles.search_company(@query)
     end
 
     unless @industries.empty?

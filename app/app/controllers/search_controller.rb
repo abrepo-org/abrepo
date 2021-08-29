@@ -15,12 +15,7 @@ class SearchController < ApplicationController
     # just passing params to view layer; no check for query validity
     # show params in query even if not valid tags
     # keep Search model as filter/results search generator
-    @results = Search.build(query, tags, industries)
-
-    #
-    # FROM PROFILE
-    #
-    @experiments = @results
+    @experiments = Search.build(query, tags, industries)
 
     if (@experiments.length > 0)
 

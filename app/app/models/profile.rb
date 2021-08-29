@@ -4,7 +4,10 @@
 #
 #  id           :bigint           not null, primary key
 #  company_name :string
+#  description  :string
 #  domain       :string
+#  favicon_url  :string
+#  logo_url     :string
 #  url          :string
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
@@ -19,8 +22,11 @@ class Profile < ApplicationRecord
   pg_search_scope :search_industry_tag,
                   associated_against: { industry_tag: [:name] },
                   using: { tsearch: { prefix: true, dictionary: 'english' } }
-  pg_search_scope :search_company_name,
-                  against: :company_name,
+  pg_search_scope :search_company,
+                  against: [
+                    [:company_name, 'A'],
+                    [:description, 'B']
+                  ],
                   using: { tsearch: { prefix: true, dictionary: 'english' } }
 
   has_many :experiments
