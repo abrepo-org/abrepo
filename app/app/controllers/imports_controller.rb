@@ -27,7 +27,10 @@ class ImportsController < ApplicationController
 
     @profile.update(company_name: profile['company_name'],
                     industry_tag_list: group['tags']['industry_tag_list'],
-                    url: profile['url'])
+                    url: profile['url'],
+                    description: profile['description'],
+                    favicon_url: profile['favicon_url'],
+                    logo_url: profile['logo_url'])
 
     #related companies
     related_companies = group['profile']['related_companies']
