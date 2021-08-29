@@ -4,7 +4,10 @@
 #
 #  id           :bigint           not null, primary key
 #  company_name :string
+#  description  :string
 #  domain       :string
+#  favicon_url  :string
+#  logo_url     :string
 #  url          :string
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
