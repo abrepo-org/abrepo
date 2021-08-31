@@ -8,10 +8,10 @@
                 <%= link_to @profile do %>
 
                     <span class="profile_favicon">
-                        <%= image_tag(@profile.favicon_url) if @profile.favicon_url %>
+                      <%= image_tag(@profile.favicon_url) if @profile.favicon_url %>
                     </span>
 
-                    <span><%= link_to @profile.hostname, @profile.url %></span>
+                    <span><%= link_to @profile.domain, @profile %></span>
 
                 <% end %>
             </h4>
