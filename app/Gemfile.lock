@@ -133,6 +133,8 @@ GEM
       activesupport (>= 5.2)
     public_suffix (4.0.6)
     puma (3.12.6)
+    pundit (2.1.1)
+      activesupport (>= 3.0.0)
     rack (2.2.3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
@@ -233,6 +235,7 @@ DEPENDENCIES
   pg
   pg_search (~> 2.3)
   puma (~> 3.11)
+  pundit (~> 2.1)
   rack-cors
   rails (~> 6.1)
   selenium-webdriver
