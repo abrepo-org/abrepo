@@ -19,6 +19,7 @@
 
         <h4>
             <%= experiment.summary_name || "Experiment Name: Unnamed" %>
+            [Pub: <%= experiment.published? %>]
         </h4>
 
         <% unless controller_name == "profiles" and action_name == "show" %>
@@ -75,7 +76,8 @@
                     <!-- Summary Name -->
                     <td>
                         <%= link_to variation_path(variation) do %>
-                        <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
+                            <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
+                            [Pub: <%= variation.published? %>]
                         <% end %>
                     </td>
 
