@@ -39,6 +39,8 @@ class Variation < ApplicationRecord
                     tsearch: { prefix: true, dictionary: 'english' }
                   }
 
+  scope :as_published, -> { where(published: true) }
+
   belongs_to :experiment
   has_many :renderables, dependent: :destroy
   has_many :actions, -> { distinct }, through: :renderables
