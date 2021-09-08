@@ -1,5 +1,6 @@
 class ImportsController < ApplicationController
   protect_from_forgery with: :exception, except: :create
+  before_action :authenticate_user!
 
   def test
     render json: params
