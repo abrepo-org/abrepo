@@ -43,7 +43,7 @@ class VariationsController < ApplicationController
     end
 
     @renderable = @actionRenderables[ @actions[0].id ][:renderable]
-    @variation_index = @experiment.variations.find_index(@variation)
+    @variation_index = @experiment.variations.as_published.find_index(@variation)
 
   end
 

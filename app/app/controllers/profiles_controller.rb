@@ -28,7 +28,7 @@ class ProfilesController < ApplicationController
     if (@experiments.length > 0)
 
       @profile = @experiments[0].profile
-      @num_variations = @experiments.inject(0) { |sum, exp| sum + exp.variations.length }
+      @num_variations = @experiments.inject(0) { |sum, exp| sum + exp.variations.as_published.length }
     end
 
   end

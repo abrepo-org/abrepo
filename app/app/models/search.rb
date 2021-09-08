@@ -14,6 +14,7 @@ class Search
       variations = (variations || Variation)
                      .includes(experiment: [:audience])
                      .includes(:renderables)
+                     .as_published
                      .where(experiment_id: exp_ids)
     end
 
@@ -22,16 +23,18 @@ class Search
       variations = (variations || Variation)
                      .includes(experiment: [:audience])
                      .includes(:renderables)
+                     .as_published
                      .tagged_with(filters)
     end
 
     #industries
     unless (industries.empty?)
       profile_ids = Profile.tagged_with(industries).pluck(:id).uniq
-      experiments = Experiment.where(profile_id: profile_ids).pluck(:id)
+      experiments = Experiment.as_published.where(profile_id: profile_ids).pluck(:id)
       variations = (variations || Variation)
                      .includes(experiment: [:audience])
                      .includes(:renderables)
+                     .as_published
                      .where(experiment_id: experiments)
     end
 

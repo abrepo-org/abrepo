@@ -1,5 +1,6 @@
 class ImportsController < ApplicationController
   protect_from_forgery with: :exception, except: :create
+  before_action :authenticate_user!
 
   def test
     render json: params
@@ -71,6 +72,7 @@ class ImportsController < ApplicationController
                        domain: experiment['domain'],
                        summary_name: experiment['summary_name'],
                        source_vendor: @sourcevendor,
+                       published: experiment['published'] || false,
                        profile: @profile)
 
 
@@ -96,6 +98,7 @@ class ImportsController < ApplicationController
     # VARIATION
     # TODO: add crawlId: variation['crawlId'],
     variation = group['variation']
+
     @variation = Variation
                    .where(a_id: variation['_id'],
                           vendor_id: variation['variation_id'])
@@ -106,6 +109,7 @@ class ImportsController < ApplicationController
                       url: variation['crawlURL'],
                       tag_list: variation['tags']['tag_list'],
                       page_tag_list: variation['tags']['page_tag_list'],
+                      published: variation['published'] || false,
                       experiment: @experiment)
 
     #Aciton, Renderable, Diffs - pegged to Variation and crawlId

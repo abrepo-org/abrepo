@@ -16,7 +16,7 @@ commentary = false
             <div class="mb-4">
                 <%= render partial: "stats", locals: { profile: @profile,
                     variation_index: @variation_index,
-                    total: @experiment.variations.count }%>
+                    total: @experiment.variations.as_published.count }%>
             </div>
 
             <!-- Tags -->

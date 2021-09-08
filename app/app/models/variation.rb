@@ -3,6 +3,7 @@
 # Table name: variations
 #
 #  id            :bigint           not null, primary key
+#  published     :boolean          default(FALSE)
 #  summary_name  :string
 #  url           :string
 #  verified      :boolean          default(FALSE), not null
@@ -37,6 +38,8 @@ class Variation < ApplicationRecord
                   using: {
                     tsearch: { prefix: true, dictionary: 'english' }
                   }
+
+  scope :as_published, -> { where(published: true) }
 
   belongs_to :experiment
   has_many :renderables, dependent: :destroy

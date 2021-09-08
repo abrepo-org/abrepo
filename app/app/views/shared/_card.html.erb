@@ -12,13 +12,17 @@
    -->
 
 
-<%#experiment-row-data%>
+<% unless experiment.published? %>
+    <% return %>
+<% end  %>
+
 <div class="experiment is-flex is-justify-content-space-between">
 
     <div class="experiment-header">
 
         <h4>
             <%= experiment.summary_name || "Experiment Name: Unnamed" %>
+            [Pub: <%= experiment.published? %>]
         </h4>
 
         <% unless controller_name == "profiles" and action_name == "show" %>
@@ -48,7 +52,7 @@
         locals: {
             expvar_date: experiment.created_at,
             num_experiments: nil,
-            num_variations: experiment.variations.count
+            num_variations: experiment.variations.as_published.count
         }%>
 
     </div>
@@ -69,13 +73,14 @@
         </thead>
 
         <tbody>
-            <% experiment.variations.each_with_index do |variation, index| %>
+            <% experiment.variations.as_published.each_with_index do |variation, index| %>
                 <tr class="variation-row-data">
 
                     <!-- Summary Name -->
                     <td>
                         <%= link_to variation_path(variation) do %>
-                        <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
+                            <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
+                            [Pub: <%= variation.published? %>]
                         <% end %>
                     </td>
 
