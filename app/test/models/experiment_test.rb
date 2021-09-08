@@ -5,6 +5,7 @@
 #  id               :bigint           not null, primary key
 #  crawlId          :string
 #  domain           :string
+#  published        :boolean          default(FALSE)
 #  summary_name     :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
