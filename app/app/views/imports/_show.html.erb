@@ -1,0 +1,55 @@
+<div class="experiment is-flex is-justify-content-space-between">
+    <div class="experiment-header">
+        <h5>
+            <%= experiment.summary_name || "Experiment Name: Unnamed" %>
+            [Pub: <%= experiment.published? %>]
+        </h5>
+    </div>
+</div>
+
+
+<div class="variation pb-5">
+
+    <table class="is-table is-fullwidth fixed">
+        <thead class="variation-row-header">
+            <tr>
+                <th>Variation Name </th>
+                <th class="is-hidden-mobile">Page</th>
+                <th>Updated</th>
+                <th>Publish</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% experiment.variations.each_with_index do |variation, index| %>
+                <tr class="variation-row-data">
+                    <!-- Summary Name -->
+                    <td>
+                        <%= link_to variation_path(variation) do %>
+                            <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
+                            [Pub: <%= variation.published? %>]
+                        <% end %>
+                    </td>
+
+                    <!--  URL -->
+                    <td class="is-hidden-mobile">
+                        <%= variation.renderables.where(control:false).first ?
+                        variation.renderables.where(control:false).first.renderedURL : '' %>
+                    </td>
+
+                    <!-- date -->
+                    <td>
+                        <%= variation.updated_at.strftime("%b %e, '%y") %>
+                    </td>
+                    <!-- Publish -->
+                    <td>
+                        <button class="button">
+                            Publish
+                        </button>
+                    </td>
+                </tr>
+
+            <% end %>
+        </tbody>
+    </table>
+</div>

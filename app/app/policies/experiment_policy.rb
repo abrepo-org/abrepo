@@ -13,4 +13,8 @@ class ExperimentPolicy < ApplicationPolicy
     !user.nil? && user.moderator?
   end
 
+  def index?
+    !user.nil? && user.moderator?
+  end
+
 end
