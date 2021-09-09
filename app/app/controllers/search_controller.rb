@@ -15,12 +15,13 @@ class SearchController < ApplicationController
     # just passing params to view layer; no check for query validity
     # show params in query even if not valid tags
     # keep Search model as filter/results search generator
-    @experiments = Search.build(query, tags, industries)
+    @experiments = Search.build(query, tags, industries,
+                                policy_scope(Experiment), policy_scope(Variation))
 
     if (@experiments.length > 0)
 
       @profile = @experiments[0].profile
-      @num_variations = @experiments.inject(0) { |sum, exp| sum + exp.variations.as_published.length }
+      @num_variations = @experiments.inject(0) { |sum, exp| sum + policy_scope(exp.variations).length }
     end
 
     if (params[:partial])

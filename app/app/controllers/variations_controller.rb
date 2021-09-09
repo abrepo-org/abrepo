@@ -1,9 +1,10 @@
 class VariationsController < ApplicationController
 
   def show
-    @variation = Variation.includes(:actions,
-                                    :renderables,
-                                    experiment: [:profile, :audience, :campaign])
+    @variation = policy_scope(Variation)
+                   .includes(:actions,
+                             :renderables,
+                             experiment: [:profile, :audience, :campaign])
                    .find_by_id( variation_params[:id] )
 
     raise ActionController::RoutingError.new('Not Found') if (@variation.nil?)
@@ -43,7 +44,7 @@ class VariationsController < ApplicationController
     end
 
     @renderable = @actionRenderables[ @actions[0].id ][:renderable]
-    @variation_index = @experiment.variations.as_published.find_index(@variation)
+    @variation_index = policy_scope(@experiment.variations).find_index(@variation)
 
   end
 

@@ -12,10 +12,6 @@
    -->
 
 
-<% unless experiment.published? %>
-    <% return %>
-<% end  %>
-
 <div class="experiment is-flex is-justify-content-space-between">
 
     <div class="experiment-header">
@@ -52,7 +48,7 @@
         locals: {
             expvar_date: experiment.created_at,
             num_experiments: nil,
-            num_variations: experiment.variations.as_published.count
+            num_variations: policy_scope(experiment.variations).count
         }%>
 
     </div>
@@ -73,7 +69,7 @@
         </thead>
 
         <tbody>
-            <% experiment.variations.as_published.each_with_index do |variation, index| %>
+            <% policy_scope(experiment.variations).each_with_index do |variation, index| %>
                 <tr class="variation-row-data">
 
                     <!-- Summary Name -->

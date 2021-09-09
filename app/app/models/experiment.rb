@@ -30,8 +30,6 @@ class Experiment < ApplicationRecord
   multisearchable against: [:summary_name],
                   additional_attributes: -> (experiment) { { experiment_id: experiment.id } }
 
-  scope :as_published, -> { where(published: true) }
-
   belongs_to :profile
   belongs_to :source_vendor
   has_many :variations, dependent: :destroy
