@@ -22,7 +22,8 @@ Rails.application.routes.draw do
 
   #TODO: nest these routes profiles/<domain>/variations/<slugname> for better SEO
   resources :profiles, only: ['show', 'index']
-  resources :variations, only: ['show']
+  resources :variations, only: ['show', 'update']
+  resources :experiments, only: ['update']
   resources :tags, only: ['index']
   resources :industries, only: ['index']
 

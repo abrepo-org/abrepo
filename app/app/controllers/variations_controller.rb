@@ -5,7 +5,7 @@ class VariationsController < ApplicationController
                    .includes(:actions,
                              :renderables,
                              experiment: [:profile, :audience, :campaign])
-                   .find_by_id( variation_params[:id] )
+                   .find_by_id( params[:id] )
 
     raise ActionController::RoutingError.new('Not Found') if (@variation.nil?)
 
@@ -48,7 +48,17 @@ class VariationsController < ApplicationController
 
   end
 
+  def update
+    variation = Variation.find(params[:id])
+    if variation
+      variation.update(variation_params)
+    end
+    redirect_to imports_path
+  end
+
+  private
+
   def variation_params
-    params.permit(:id)
+    params.require(:variation).permit(:id, :published)
   end
 end
