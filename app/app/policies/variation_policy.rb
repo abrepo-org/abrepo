@@ -1,4 +1,4 @@
-class ExperimentPolicy < ApplicationPolicy
+class VariationPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       if !user.nil? && user.moderator?
@@ -7,10 +7,6 @@ class ExperimentPolicy < ApplicationPolicy
         scope.where(published: true)
       end
     end
-  end
-
-  def create?
-    !user.nil? && user.moderator?
   end
 
 end
