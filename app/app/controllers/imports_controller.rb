@@ -1,6 +1,7 @@
 class ImportsController < ApplicationController
   protect_from_forgery with: :exception, except: :create
   before_action :authenticate_user!
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   def test
     render json: params
@@ -13,6 +14,8 @@ class ImportsController < ApplicationController
   # sure if entirely desirable
 
   def create
+    authorize Experiment
+
     #
     # GROUP
     #
@@ -207,5 +210,11 @@ class ImportsController < ApplicationController
     render json: {"success": true, "diffs": diffs}
   end
 
+
+  private
+
+  def user_not_authorized(exception)
+    render json: {"status": "Unauthorized"}, status: 401
+  end
 
 end
