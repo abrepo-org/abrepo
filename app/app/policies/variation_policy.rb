@@ -9,4 +9,8 @@ class VariationPolicy < ApplicationPolicy
     end
   end
 
+  def update?
+    !user.nil? && user.moderator?
+  end
+
 end

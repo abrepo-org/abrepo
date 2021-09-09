@@ -1,4 +1,6 @@
 class VariationsController < ApplicationController
+  before_action :authenticate_user!, only: [:update]
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   def show
     @variation = policy_scope(Variation)
@@ -49,16 +51,22 @@ class VariationsController < ApplicationController
   end
 
   def update
-    variation = Variation.find(params[:id])
+    variation = authorize Variation.find(params[:id])
     if variation
       variation.update(variation_params)
     end
     redirect_to imports_path
   end
 
+
   private
 
   def variation_params
     params.require(:variation).permit(:id, :published)
   end
+
+  def user_not_authorized(exception)
+    redirect_to profiles_path
+  end
+
 end

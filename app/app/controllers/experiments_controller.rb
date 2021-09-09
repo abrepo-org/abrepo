@@ -1,7 +1,9 @@
 class ExperimentsController < ApplicationController
+  before_action :authenticate_user!, only: [:update]
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   def update
-    experiment = Experiment.find(params[:id])
+    experiment = authorize Experiment.find(params[:id])
     if experiment
       experiment.update(experiment_params)
     end
@@ -14,4 +16,9 @@ class ExperimentsController < ApplicationController
   def experiment_params
     params.require(:experiment).permit(:id, :published)
   end
+
+  def user_not_authorized(exception)
+    redirect_to profiles_path
+  end
+
 end

@@ -17,4 +17,7 @@ class ExperimentPolicy < ApplicationPolicy
     !user.nil? && user.moderator?
   end
 
+  def update?
+    !user.nil? && user.moderator?
+  end
 end
