@@ -1,3 +1,7 @@
+<% if @experiments.length == 0 %>
+    <p> No Imports Waiting </p>
+<% end %>
+
 <% @experiments.each do |experiment| %>
     <%= render partial: "show", locals: {
         experiment: experiment
