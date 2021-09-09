@@ -1,10 +1,13 @@
 class VariationsController < ApplicationController
+  before_action :authenticate_user!, only: [:update]
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   def show
-    @variation = Variation.includes(:actions,
-                                    :renderables,
-                                    experiment: [:profile, :audience, :campaign])
-                   .find_by_id( variation_params[:id] )
+    @variation = policy_scope(Variation)
+                   .includes(:actions,
+                             :renderables,
+                             experiment: [:profile, :audience, :campaign])
+                   .find_by_id( params[:id] )
 
     raise ActionController::RoutingError.new('Not Found') if (@variation.nil?)
 
@@ -43,11 +46,27 @@ class VariationsController < ApplicationController
     end
 
     @renderable = @actionRenderables[ @actions[0].id ][:renderable]
-    @variation_index = @experiment.variations.as_published.find_index(@variation)
+    @variation_index = policy_scope(@experiment.variations).find_index(@variation)
 
   end
+
+  def update
+    variation = authorize Variation.find(params[:id])
+    if variation
+      variation.update(variation_params)
+    end
+    redirect_to imports_path
+  end
+
+
+  private
 
   def variation_params
-    params.permit(:id)
+    params.require(:variation).permit(:id, :published)
   end
+
+  def user_not_authorized(exception)
+    redirect_to profiles_path
+  end
+
 end

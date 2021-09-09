@@ -17,12 +17,13 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   get 'healthcheck', action: :index, controller: 'healthcheck'
 
-  post 'imports/test', action: :test, controller: 'imports'
+  get 'imports', action: :index, controller: 'imports'
   post 'imports', action: :create, controller: 'imports'
 
   #TODO: nest these routes profiles/<domain>/variations/<slugname> for better SEO
   resources :profiles, only: ['show', 'index']
-  resources :variations, only: ['show']
+  resources :variations, only: ['show', 'update']
+  resources :experiments, only: ['update']
   resources :tags, only: ['index']
   resources :industries, only: ['index']
 

@@ -23,12 +23,14 @@ class ProfilesController < ApplicationController
     @profile = Profile.includes(experiments: {variations: :renderables})
                  .find_by_id(profile_params[:id])
 
-    @experiments = @profile.experiments
+    @experiments = policy_scope(@profile.experiments)
 
     if (@experiments.length > 0)
 
       @profile = @experiments[0].profile
-      @num_variations = @experiments.inject(0) { |sum, exp| sum + exp.variations.as_published.length }
+
+      @num_variations = @experiments
+                          .inject(0) { |sum, exp| sum + policy_scope(exp.variations).length }
     end
 
   end

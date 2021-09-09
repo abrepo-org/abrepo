@@ -19,6 +19,83 @@ end
 
 ```
 
+### Authorization Basics / Notes via Pundit
+
+Authorization is "contained" in `/app/policies` directory via gem [Pundit](https://github.com/varvet/pundit)
+
+Current "role" is a simple boolean for`user.moderator`.
+
+##### Importer User
+
+There is a seed `importer` user
+in [db/seeds.rb](/blob/master/app/db/seeds.rb) with password in
+`.env`. To be able to submit from abannotate, current browser session
+must be logged in as `importer` user. CORS request is enabled via
+`rack-cors`, with accepted origins as `localhost:4000` and
+`127.0.0.1:4000` - as indicated in abannotate browser. AuthN
+credentials are passed via fetch for the import request.
+
+
+##### Policies
+
+Authorization policies are designed as extensions to resources; currently:
+
+* `policies/ExperimentPolicy.rb`
+* `policies/VariationPolicy.rb`
+
+Each policy has a number of boolean methods that correspond to a
+controller action, e.g.:
+
+```
+def create?
+  user.moderator?
+end
+```
+
+This sets a policy to "gate" the 'create' action for that resource.
+
+The actual call to check authorization is in the controller via the
+`authorize` method, which is wrapped around the class or instance.
+
+```
+experiment = authorize Experiment.find(id: 123)
+```
+
+
+##### Scope
+
+Authorization entails a restricted view of resources, done via an
+added `Scope` class in the respective policy.
+
+This definition is then applied throughout controllers or views via a
+decorator `policy_scope` chainable method.
+
+```
+# app/views/variations/index.html.erb
+
+filtered_variations = policy_scope(@experiment.variations).where(...)
+
+```
+
+##### Notes
+
+* `policy_scope`, `authorize` aren't available in models; these are
+  controller/view helpers. But can dependency inject them in
+  controller to helper models; e.g. see
+  `search_controller#index`, and `models/search.rb`
+
+* `user` in policy referenced as `current_user` (devise-friendly)
+  automatically in pundit. However, this requires rescue when
+  there is no logged in user (user is nil)
+
+* unauthorized cases throw an error and require catching: `rescue_From
+  Pundit::NotAuthorizedError, with: :user_helper_method` typically
+  added to a controller.
+
+
+
+
+
 
 ### ActsAsTaggableOn
 

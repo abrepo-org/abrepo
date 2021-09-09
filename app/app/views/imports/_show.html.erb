@@ -1,0 +1,76 @@
+<div class="experiment is-flex is-justify-content-space-between">
+    <div class="experiment-header">
+        <h5>
+            <%= experiment.summary_name || "Experiment Name: Unnamed" %>
+            [Pub: <%= experiment.published? %>]
+        </h5>
+        <div>
+            <span> <%= experiment.profile.domain %>
+        </div>
+    </div>
+    <div>
+        <%= form_for experiment do |f| %>
+            <td>
+                <%= f.check_box :published, class: "mr-4" %>
+            </td>
+            <td>
+                <%= f.submit "update Exp" %>
+            </td>
+        <% end  %>
+    </div>
+</div>
+
+
+<% if experiment.variations.where(published: false).length > 0 %>
+
+    <div class="variation pb-5">
+
+        <table class="is-table is-fullwidth fixed">
+            <thead class="variation-row-header">
+                <tr>
+                    <th>Variation Name </th>
+                    <th class="is-hidden-mobile">Page</th>
+                    <th>Updated</th>
+                    <th>Published</th>
+                    <th>Submit</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% experiment.variations.where(published: false).each_with_index do |variation, index| %>
+                    <tr class="variation-row-data">
+                        <!-- Summary Name -->
+                        <td>
+                            <%= link_to variation_path(variation) do %>
+                                <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
+                                [Pub: <%= variation.published? %>]
+                            <% end %>
+                        </td>
+
+                        <!--  URL -->
+                        <td class="is-hidden-mobile">
+                            <%= variation.renderables.where(control:false).first ?
+                            variation.renderables.where(control:false).first.renderedURL : '' %>
+                        </td>
+
+                        <!-- date -->
+                        <td>
+                            <%= variation.updated_at.strftime("%b %e, '%y") %>
+                        </td>
+                        <!-- Publish -->
+                        <%= form_for variation do |f| %>
+                            <td>
+                                <%= f.check_box :published %>
+                            </td>
+                            <td>
+                                <%= f.submit "update Var" %>
+                            </td>
+                        <% end  %>
+                    </tr>
+
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+
+<% end %>
