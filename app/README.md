@@ -18,6 +18,40 @@ class AddPartNumberToProducts < ActiveRecord::Migration[5.0]
 end
 
 ```
+### Homepage Feed Brainstorm
+
+Design and calculate quality / recency score, initial approach
+
+---
+
+initial:
+
+0. sort by "new", add pagination
+1. initially calculate a quality score vs recency - have a fixed list (top 100), then link to sort by new - how Stack overflow does it
+
+2. add visits/clicks score input; promote? wouldn't we want more popular tests? demote personal, promote global?
+3. quality score is combination of commentary exists, summaries, tags - the more "informative" and complete an experiment is, the higher score it gets.
+4. (quality, visitor, date, affinity): affinity some score of personal preference
+5. notion of diversity/ browsing
+
+phase 2: ask for user preferences onboarding, edit user settings
+present a list of topN companies, industries, and checkbox
+
+later:
+phase 3: tracking - logging users behavior into warehouse (segment.js)
+phase 4: building a user preferences model from data
+
+---
+
+feed of experiments
+
+* recency/date
+* popularity (views?), up/down votes - weird with a paid product- like
+  who are these other people deciding things for me
+* search/tag clicktrack interests
+* signup interests from onboarding
+
+
 
 ### Authorization Basics / Notes via Pundit
 
