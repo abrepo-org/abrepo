@@ -11,7 +11,6 @@ class HomeController < ApplicationController
   def index
     @experiments = policy_scope( Experiment )
                      .order(created_at: :desc)
-                     .limit(15)
-
+    @pagy, @experiments = pagy(@experiments)
   end
 end
