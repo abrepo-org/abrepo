@@ -47,6 +47,7 @@ class Experiment < ApplicationRecord
   end
 
   # calculated score for each experiment based on avg number of diffs
+  # used at import time; provides numerator score used against decay (calc in db)
   def score
 
     numDiffs = self.variations.joins(renderables: :diffs).group(:id).count
@@ -56,6 +57,15 @@ class Experiment < ApplicationRecord
     avgRenderables = [numRenderables.values.sum.to_f / [numRenderables.size, 1].max, 1].max
 
     Distribution::Poisson.pdf(3, avgDiffs / avgRenderables).floor(5)
+
+  end
+
+  def self.calcRank
+
+    Experiment
+      .select("*, e.calcscore / (POW(( ( (SELECT EXTRACT(EPOCH FROM CURRENT_TIMESTAMP(0))) - (SELECT EXTRACT(EPOCH FROM e.created_at)) ) / 3600) + 2, 1.8)) as rank")
+      .from("experiments e")
+      .order(rank: :desc)
 
   end
 end

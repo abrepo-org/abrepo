@@ -9,8 +9,7 @@ class HomeController < ApplicationController
   # 5. (quality, visitor, date, affinity): affinity some score of personal preference
 
   def index
-    @experiments = policy_scope( Experiment )
-                     .order(created_at: :desc)
+    @experiments = policy_scope( Experiment.calcRank )
     @pagy, @experiments = pagy(@experiments)
   end
 end
