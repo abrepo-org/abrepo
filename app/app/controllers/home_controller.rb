@@ -7,7 +7,11 @@ class HomeController < ApplicationController
   # 3. (quality, visitor, date): add visits/clicks score input; promote? wouldn't we want more popular tests? demote personal, promote global?
   # 4. quality score is combination of commentary exists, summaries, tags - the more "informative" and complete an experiment is, the higher score it gets.
   # 5. (quality, visitor, date, affinity): affinity some score of personal preference
-  
-def index
+
+  def index
+    @experiments = policy_scope( Experiment )
+                     .order(created_at: :desc)
+                     .limit(15)
+
   end
 end

@@ -1,1 +1,13 @@
-<h1>home sweet home</h1>
+<% content_for :title, "ABRepo | Home Feed" %>
+<div class="header">
+    <h1>home#index</h1>
+</div>
+<hr />
+<% @experiments.each do |experiment| %>
+    <%= render partial: "/shared/card",
+    locals: {profile: experiment.profile,
+             experiment: experiment,
+             audience: experiment.audience,
+             source_vendor: experiment.source_vendor}
+    %>
+<% end %>
