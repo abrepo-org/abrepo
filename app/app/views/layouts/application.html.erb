@@ -22,7 +22,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
     </head>
 
-    <body class="content has-navbar-fixed-top <%= "devise" if content_for?(:devise) %>" >
+    <body class="has-navbar-fixed-top <%= "devise" if content_for?(:devise) %>" >
 
         <header>
           <%= render (current_page?(checkout_account_path(params[:lookup_key])) ||
@@ -38,10 +38,11 @@
                     <div class="hero-body px-0 py-0">
                         <div class="container ">
 
-                                <div class="column is-fullwidth is-8-tablet is-offset-2-tablet is-6-desktop is-offset-3-desktop is-4-widescreen is-offset-4-widescreen">
+                            <div class="column is-fullwidth is-8-tablet is-offset-2-tablet is-6-desktop is-offset-3-desktop is-4-widescreen is-offset-4-widescreen">
+                                <div class="content">
                                     <%= yield(:devise) %>
                                 </div>
-
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -57,7 +58,9 @@
                             <div class="columns is-mobile">
 
                                 <div class="column is-full">
-                                    <%= yield %>
+                                    <div class="content">
+                                        <%= yield %>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -69,7 +72,10 @@
                             <div class="columns is-mobile">
 
                                 <div class="column is-full">
-                                    <%= yield %>
+                                    <div class="content">
+                                        <%= yield %>
+                                    </div>
+                                    <%== pagy_bulma_nav(@pagy) if @pagy %>
                                 </div>
 
                             </div>

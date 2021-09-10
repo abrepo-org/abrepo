@@ -37,8 +37,10 @@ class Search
                      .where(experiment_id: experiments)
     end
 
-    #TODO: add an experiment or variation scope to filter experiments?
-    (variations || []).map{ |variation| variation.experiment }
+    if (variations)
+      return Experiment.where(id: variations.pluck(:experiment_id))
+    end
 
+    return []
   end
 end
