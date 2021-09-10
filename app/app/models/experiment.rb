@@ -46,4 +46,16 @@ class Experiment < ApplicationRecord
       .sort
   end
 
+  # calculated score for each experiment based on avg number of diffs
+  def score
+
+    numDiffs = self.variations.joins(renderables: :diffs).group(:id).count
+    avgDiffs = [numDiffs.values.sum.to_f / [numDiffs.size, 1].max, 1].max
+
+    numRenderables = self.variations.joins(:renderables).group(:id).count
+    avgRenderables = [numRenderables.values.sum.to_f / [numRenderables.size, 1].max, 1].max
+
+    Distribution::Poisson.pdf(3, avgDiffs / avgRenderables).floor(5)
+
+  end
 end
