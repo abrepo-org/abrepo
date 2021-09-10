@@ -95,6 +95,7 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    distribution (0.8.0)
     erubi (1.10.0)
     ffi (1.13.1)
     globalid (0.4.2)
@@ -231,6 +232,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   chromedriver-helper
   devise
+  distribution (~> 0.8.0)
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
   pagy (~> 4.11)
