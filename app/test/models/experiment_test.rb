@@ -3,6 +3,7 @@
 # Table name: experiments
 #
 #  id               :bigint           not null, primary key
+#  calcscore        :float            default(0.0)
 #  crawlId          :string
 #  domain           :string
 #  published        :boolean          default(FALSE)

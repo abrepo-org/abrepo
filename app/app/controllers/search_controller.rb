@@ -19,7 +19,7 @@ class SearchController < ApplicationController
                                 policy_scope(Experiment), policy_scope(Variation))
 
     if (@experiments.length > 0)
-
+      @pagy, @experiments = pagy(@experiments)
       @profile = @experiments[0].profile
       @num_variations = @experiments.inject(0) { |sum, exp| sum + policy_scope(exp.variations).length }
     end

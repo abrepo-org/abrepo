@@ -203,6 +203,10 @@ class ImportsController < ApplicationController
 
     end
 
+    # update Experiment calcscore with avg Diff counts
+    score = @experiment.score
+    @experiment.update(calcscore: score)
+    
     render json: {"success": true, "diffs": diffs}
   end
 
