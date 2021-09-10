@@ -29,7 +29,7 @@
 
     <div class="num-results-container">
         <p>
-            <%= pluralize(@experiments.length, "result") %>
+            <%= pluralize(@pagy ? @pagy.count : @experiments.length, "result") %>
         </p>
     </div>
 </div>

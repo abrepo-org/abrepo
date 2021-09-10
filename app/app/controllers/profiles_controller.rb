@@ -28,9 +28,10 @@ class ProfilesController < ApplicationController
     if (@experiments.length > 0)
 
       @profile = @experiments[0].profile
-      @pagy, @experiments = pagy(@experiments)
       @num_variations = @experiments
                           .inject(0) { |sum, exp| sum + policy_scope(exp.variations).length }
+      @pagy, @experiments = pagy(@experiments)
+
     end
 
   end

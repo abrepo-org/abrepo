@@ -22,7 +22,7 @@
             <%= render partial: "/shared/num_expvar",
             locals: {
                 expvar_date: @profile.created_at,
-                num_experiments: @experiments.length,
+                num_experiments: @pagy ? @pagy.count : @experiments.length,
                 num_variations: @num_variations
             }%>
         </div>
@@ -82,7 +82,7 @@
     <%= render partial: "/shared/num_expvar",
     locals: {
         expvar_date: @profile.created_at,
-        num_experiments: @experiments.length,
+        num_experiments: @pagy ? @pagy.count : @experiments.length,
         num_variations: @num_variations
     }%>
     </div>
