@@ -37,8 +37,8 @@
                 <section class="section hero is-fullheight-with-navbar" >
                     <div class="hero-body px-0 py-0">
                         <div class="container ">
-
                             <div class="column is-fullwidth is-8-tablet is-offset-2-tablet is-6-desktop is-offset-3-desktop is-4-widescreen is-offset-4-widescreen">
+                                <% #flash is internal content %>
                                 <div class="content">
                                     <%= yield(:devise) %>
                                 </div>
@@ -58,6 +58,12 @@
                             <div class="columns is-mobile">
 
                                 <div class="column is-full">
+
+                                    <% flash.each do |name, msg| %>
+                                        <%= content_tag :div, msg,
+                                        class: "#{name} notification is-primary is-light has-text-centered" %>
+                                    <% end %>
+
                                     <div class="content">
                                         <%= yield %>
                                     </div>
@@ -73,6 +79,12 @@
 
                                 <div class="column is-full">
                                     <div class="content">
+
+                                        <% flash.each do |name, msg| %>
+                                            <%= content_tag :div, msg,
+                                            class: "#{name} notification is-primary is-light has-text-centered" %>
+                                        <% end %>
+
                                         <%= yield %>
                                     </div>
                                     <%== pagy_bulma_nav(@pagy) if @pagy %>
