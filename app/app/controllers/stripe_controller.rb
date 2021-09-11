@@ -31,7 +31,7 @@ class StripeController < ApplicationController
     # typically webhook will have already done this
     @session_id = params[:session_id]
     if @session_id.nil?
-      render :success
+      redirect_to checkout_subscribe_path
       return
     end
 
@@ -53,7 +53,10 @@ class StripeController < ApplicationController
       puts "\e[#{31}m#{out}\e[0m"
 
     end
-    render :success
+
+    flash[:notice] = "Your subscription is enabled. Thank you!."
+    redirect_to root_path
+
   end
 
 
