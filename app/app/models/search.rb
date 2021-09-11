@@ -9,6 +9,7 @@ class Search
 
     exp_ids = []
     variations = nil
+    profiles = nil
 
     #freetext
     if (query)
@@ -16,10 +17,19 @@ class Search
                   .pluck(:experiment_id)
                   .uniq
 
+      profile_exp_ids = Experiment
+                          .where(profile_id: Profile.search_company(query).pluck(:id))
+                          .pluck(:id)
+      #
+      # updated freetext exp_ids
+      # join with any Profile.search_company experiment matches
+      exp_ids = (exp_ids + profile_exp_ids).uniq
+
       variations = (variations || variationPolicyModel)
                      .includes(experiment: [:audience])
                      .includes(:renderables)
                      .where(experiment_id: exp_ids)
+
     end
 
     #filters: tag/page_tag
@@ -57,14 +67,16 @@ class Search
 
     if (variations)
 
-      experiments = Experiment
-                      .where(id: variations.pluck(:experiment_id).uniq )
+      experiments = Experiment.where(id: variations.pluck(:experiment_id).uniq )
 
       # attach join
       # reorder using exp_ids freetext ordering
+      # reorder('t.ord') crucial or else get mal-ordred pagy results
       if (exp_ids.length > 0)
         experiments = experiments
                         .joins("JOIN unnest('{#{exp_ids.join(',')}}'::int[]) WITH ORDINALITY t(id, ord) USING (id)")
+                        .reorder('t.ord')
+
       end
 
       return experiments
