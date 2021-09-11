@@ -7,11 +7,15 @@ class Search
   def self.build(query, filters, industries,
                  experimentPolicyModel, variationPolicyModel)
 
+    exp_ids = []
     variations = nil
 
     #freetext
     if (query)
-      exp_ids = PgSearch.multisearch(query).pluck(:experiment_id).uniq
+      exp_ids = PgSearch.multisearch(query)
+                  .pluck(:experiment_id)
+                  .uniq
+
       variations = (variations || variationPolicyModel)
                      .includes(experiment: [:audience])
                      .includes(:renderables)
@@ -20,6 +24,7 @@ class Search
 
     #filters: tag/page_tag
     unless (filters.empty?)
+
       variations = (variations || variationPolicyModel)
                      .includes(experiment: [:audience])
                      .includes(:renderables)
@@ -29,18 +34,44 @@ class Search
     #industries
     unless (industries.empty?)
 
-      profile_ids = Profile.tagged_with(industries).pluck(:id).uniq
-      experiments = experimentPolicyModel.where(profile_id: profile_ids).pluck(:id)
+      profile_ids = Profile.tagged_with(industries)
+                      .pluck(:id).uniq
+
+      profile_exp_ids = experimentPolicyModel
+                          .where(profile_id: profile_ids)
+                          .pluck(:id)
+
       variations = (variations || variationPolicyModel)
                      .includes(experiment: [:audience])
                      .includes(:renderables)
-                     .where(experiment_id: experiments)
+                     .where(experiment_id: profile_exp_ids)
+
     end
+
+    #
+    # NB: chaining queries above loses multisearch rank ordering of
+    # the exp_ids. So at the end of all the query / filtering, we use
+    # the original exp_ids to "re-order" via unnest-ORDINALITY in
+    # postgres
+    #
 
     if (variations)
-      return Experiment.where(id: variations.pluck(:experiment_id))
+
+      experiments = Experiment
+                      .where(id: variations.pluck(:experiment_id).uniq )
+
+      # attach join
+      # reorder using exp_ids freetext ordering
+      if (exp_ids.length > 0)
+        experiments = experiments
+                        .joins("JOIN unnest('{#{exp_ids.join(',')}}'::int[]) WITH ORDINALITY t(id, ord) USING (id)")
+      end
+
+      return experiments
     end
 
+
     return []
+
   end
 end
