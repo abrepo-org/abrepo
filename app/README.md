@@ -213,9 +213,18 @@ To rebuild indices:
 * `rake pg_search:multisearch:rebuild[Variation]`
 * `rake pg_search:multisearch:rebuild[Audience]`
 
+#####
 
-NB: To add `additional_attributes`, need to explicitly state add column
+* To add `additional_attributes`, need to explicitly state add column
 and index in a migration to `pg_search_documents` table.
+
+* Search scope rank: To retrieve the rank, call `.with_pg_search_rank`
+  on a scope, and then call `.pg_search_rank` on a returned record.
+
+```
+
+```
+
 
 
 ### Imports Controller Logic
