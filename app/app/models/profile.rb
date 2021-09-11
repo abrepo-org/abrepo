@@ -22,10 +22,12 @@ class Profile < ApplicationRecord
   pg_search_scope :search_industry_tag,
                   associated_against: { industry_tag: [:name] },
                   using: { tsearch: { prefix: true, dictionary: 'english' } }
+
   pg_search_scope :search_company,
                   against: [
                     [:company_name, 'A'],
-                    [:description, 'B']
+                    [:description, 'B'],
+                    [:domain, 'C']
                   ],
                   using: { tsearch: { prefix: true, dictionary: 'english' } }
 

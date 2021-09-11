@@ -214,6 +214,9 @@ To rebuild indices:
 * `rake pg_search:multisearch:rebuild[Audience]`
 
 
+NB: To add `additional_attributes`, need to explicitly state add column
+and index in a migration to `pg_search_documents` table.
+
 
 ### Imports Controller Logic
 
