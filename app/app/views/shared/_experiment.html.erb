@@ -1,0 +1,53 @@
+<div class="experiment is-flex is-justify-content-space-between">
+
+    <!-- Experiment Name -->
+    <div class="experiment-header mb-2">
+
+        <h4>
+            <%= experiment.summary_name || "Experiment Name: Unnamed" %>
+            [Pub: <%= experiment.published? %>]
+        </h4>
+
+
+        <div class="is-flex">
+
+            <!-- company info -->
+            <%= render partial: "shared/profile_info", locals: {profile: profile} %>
+
+
+            <!-- Tags  -->
+            <% unless experiment.tags.empty? %>
+                <span class="tags">
+                    <%= render partial: "shared/tag_list", locals: {
+                        tag_list: experiment.tags,
+                        classes: "tag is-info is-light"
+                    }%>
+                </span>
+            <% end %>
+        </div>
+
+        <!-- Targeting -->
+        <% unless audience['name'].blank? %>
+            <div class="mt-2">
+                <span title="Targeting"
+                      class="targeting-value has-text-grey">
+                    <%= audience['name'].split(',').join(", ") %>
+                </span>
+            </div>
+        <% end %>
+
+
+    </div>
+
+
+    <!-- expvar -->
+    <div class="expvar-wrapper is-hidden-touch">
+        <%= render partial: "/shared/num_expvar",
+        locals: {
+            expvar_date: experiment.created_at,
+            num_experiments: nil,
+            num_variations: policy_scope(experiment.variations).count
+        }%>
+    </div>
+
+</div>
