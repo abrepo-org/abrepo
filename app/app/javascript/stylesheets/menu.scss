@@ -1,8 +1,33 @@
+
+
+/* TOP NAVBAR */
+nav {
+  border-bottom: 1px solid rgb(227, 232, 238);
+}
+
+#search-control {
+  @include from($desktop) {
+    width: 20rem;
+  }
+}
+
 nav.navbar {
-  background: #f7fafc;
+  //background: #f7fafc;
 }
 
 .navbar-menu, .navbar-brand {
-  background: $off-grey-color;
+  //background: $off-grey-color;
   min-height: 4rem;
+}
+
+a.navbar-item, .navbar-link {
+  &:focus, &:focus-within, &:hover {
+    background-color: hsl(0, 0%, 100%);
+  }
+}
+
+.navbar > .container.is-fluid {
+  @include until ($desktop) {
+    padding: 0 $gap / 2;
+  }
 }
