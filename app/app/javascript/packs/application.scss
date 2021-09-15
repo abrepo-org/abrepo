@@ -112,9 +112,12 @@ td.white-space-nowrap {
   min-width: 225px;
 }
 .experiment .expvar-wrapper {
-  padding-top:1.4rem;
+  //padding-top:1.4rem;
   font-size:.85rem;
 
+}
+table .experiment .expvar_wrapper {
+  padding-top:0;
 }
 .expvar {
   display: inline-flex;
@@ -139,13 +142,24 @@ td.white-space-nowrap {
   font-weight: 400;
   color: #7a7a7a !important;
   //padding-top: 2rem !important;
-  background: #fafafa;
-  border-width: 1px 0 !important;
+  //background: #fafafa;
+  //border-width: 1px 0 !important;
 }
 
-.td.nowrap {
+//overrides
+.content table td, .content table th {
+  border: none;
+}
+
+.table tbody tr.variation-row-data:not(.is-selected):hover {
+  background-color: #fafafa;
+}
+//Alignment for previous multiple tables
+/*
+  .td.nowrap {
   white-space:nowrap;
 }
+
 
 table.fixed { width:100%;}
 table.fixed th {
@@ -164,3 +178,4 @@ table.fixed td:nth-of-type(2) {width: 45%;}
 //control icons
 //2-> align right defer to browser auto sizing
 table.fixed td:nth-of-type(4) {width: 1%;}
+*/

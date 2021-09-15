@@ -1,0 +1,110 @@
+<tr>
+    <th colspan="4">
+
+        <div class="experiment is-flex is-justify-content-space-between">
+
+            <!-- Experiment Name -->
+            <div class="experiment-header">
+                <h4>
+                    <%= experiment.summary_name || "Experiment Name: Unnamed" %>
+                    [Pub: <%= experiment.published? %>]
+                </h4>
+
+                
+                <% unless controller_name == "profiles" and action_name == "show" %>
+                    <!-- company info -->
+                    <%= render partial: "shared/profile_info", locals: {profile: profile} %>
+                <% end %>
+
+                <% if audience['name'] %>
+                    <div class="mt-1"><%= audience['name'] %></div>
+                <% end %>
+
+                <!-- Tags  -->
+                <% unless experiment.tags.empty? %>
+                    <div class="tags mt-2">
+                        <%= render partial: "shared/tag_list", locals: {
+                            tag_list: experiment.tags,
+                            classes: "tag is-info is-light"
+                        }%>
+                    </div>
+                <% end %>
+            </div>
+
+
+            <!-- expvar -->
+            <div class="expvar-wrapper is-hidden-touch">
+                <%= render partial: "/shared/num_expvar",
+                locals: {
+                    expvar_date: experiment.created_at,
+                    num_experiments: nil,
+                    num_variations: policy_scope(experiment.variations).count
+                }%>
+            </div>
+
+        </div>
+
+
+    </th>
+</tr>
+
+<tr class="variation-row-header">
+    <th> Variation Name </th>
+    <th class="is-hidden-mobile"> Page</th>
+    <th align="right"> Verified</th>
+    <th align="right"> Watch </th>
+</tr>
+
+<% policy_scope(experiment.variations).each_with_index do |variation, index| %>
+    <tr class="variation-row-data">
+        <!-- Summary Name -->
+        <td>
+            <%= link_to variation_path(variation) do %>
+                <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
+                [Pub: <%= variation.published? %>]
+            <% end %>
+        </td>
+
+        <!--  URL -->
+        <td class="is-hidden-mobile">
+            <%= variation.renderables.where(control:false).first ?
+            variation.renderables.where(control:false).first.renderedURL : '' %>
+        </td>
+
+        <!-- Verified -->
+        <td align="right">
+            <% if variation.verified %>
+                <div>
+                    <span class="tag is-success is-light"
+                          title="Variation implemented">
+                        <span class="icon-text">
+
+                            <span class="icon"><i class="fas fa-check"></i></span>
+                        </span>
+                    </span>
+
+                </div>
+            <% else %>
+                <div>&mdash;</div>
+            <% end %>
+        </td>
+
+        <!--  Watch * -->
+        <td align="right">
+            <button title="Watch" class="button is-small watch">
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="far fa-star"></i>
+                    </span>
+                </span>
+            </button>
+        </td>
+
+    </tr>
+<% end %>
+
+<tr>
+    <th colspan="4">
+        <hr />
+    </th>
+</tr>
