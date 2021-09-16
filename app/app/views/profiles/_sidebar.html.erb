@@ -1,0 +1,27 @@
+<div class="panel ml-2">
+    <p class="panel-heading">
+        Company Summary
+    </p>
+
+    <div class="panel-block has-text-grey">
+
+        <ul>
+            <li>
+                <%= format_expvar_date(@profile.created_at) %>
+            </li>
+
+            <% if @experiments.count > 0 %>
+                <li>
+                    <span><%= @experiments.count %></span>
+                    <%= 'experiment'.pluralize( policy_scope(@experiments).count ) %>
+                </li>
+
+                <li>
+                    <span><%= @num_variations %></span>
+                    <%= 'variation'.pluralize(@num_variations) %>
+                </li>
+            <% end %>
+        </ul>
+
+    </div>
+</div>

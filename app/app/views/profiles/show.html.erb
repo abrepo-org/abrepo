@@ -17,16 +17,6 @@
             </h4>
         </div>
 
-        <!-- expvar -->
-        <div class="expvar-wrapper is-hidden-touch">
-            <%= render partial: "/shared/num_expvar",
-            locals: {
-                expvar_date: @profile.created_at,
-                num_experiments: @pagy ? @pagy.count : @experiments.length,
-                num_variations: @num_variations
-            }%>
-        </div>
-
     </div>
     <!-- - About -->
     <div class="profile-label has-text-grey mt-3">About</div>
@@ -109,3 +99,7 @@
 
     </tbody>
 </table>
+
+<% content_for :sidebar do %>
+<%= render 'sidebar' %>
+<% end %>

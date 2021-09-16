@@ -92,7 +92,11 @@
 
                                     <!--  wrap below mobile -->
                                     <div class="column is-full-mobile is-one-quarter">
-                                        Stats here
+                                        <% if content_for?(:sidebar) %>
+                                            <%= yield(:sidebar) %>
+                                        <% else  %>
+                                            TODO: Sidebar Content
+                                        <% end %>
                                     </div>
                                 </div>
                             </div>
