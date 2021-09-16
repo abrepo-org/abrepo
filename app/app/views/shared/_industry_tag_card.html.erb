@@ -2,15 +2,27 @@
     <header></header>
 
     <div class="card-content">
-        <p class="title is-6">
+        <p class="title is-5">
             <%= link_to name, "#{name_link_path}" %>
         </p>
 
-        <ul>
+        <% if examples.length > 0 %>
+            <span class="is-size-7 has-text-grey">Examples</span>
+        <% else %>
+            <span class="is-size-6 has-text-grey">
+                <i>No Examples</i>
+            </span>
+        <% end %>
+
+        <ul class="mt-1 ml-0" style="height:80px;">
             <% examples.each do |example| %>
-                <li><%= example %></li>
+                <li style="height:1.5rem; overflow:hidden; text-overflow:ellipsis;">
+                    <%= example %>
+                </li>
             <% end %>
         </ul>
+
+
 
     </div>
 
