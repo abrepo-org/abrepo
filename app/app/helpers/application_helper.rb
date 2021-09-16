@@ -1,6 +1,17 @@
 module ApplicationHelper
   include Pagy::Frontend
 
+  def is_layout_full
+
+    tags_index = controller.controller_name == "tags" &&
+                 controller.action_name == "index"
+
+    industry_index = controller.controller_name == "industries" &&
+                     controller.action_name == "index"
+
+    return tags_index || industry_index
+  end
+
   def format_subscription_date(subscription_id)
     begin
       stripe_subscription = Stripe::Subscription.retrieve(subscription_id)
