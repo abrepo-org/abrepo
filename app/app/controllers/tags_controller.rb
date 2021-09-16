@@ -2,33 +2,31 @@ class TagsController < ApplicationController
 
   def index
 
-    if (params[:query])
+    unless params[:query].blank?
+
       tags = params[:query]
       @tags = (ActsAsTaggableOn::Tag.named_like(tags).for_context('tag') +
                ActsAsTaggableOn::Tag.named_like(tags).for_context('page_tag'))
                 .flatten
+    else
 
-      # autocomplete
-      if (params[:partial])
+      num = ActsAsTaggableOn::Tag.count
 
-        respond_to do |format|
-          format.html { render partial: 'tags' }
-          format.json { render json: @tags }
-        end
+      @tags = ActsAsTaggableOn::Tag
+                .most_used(num)
+                .joins(:taggings)
+                .where(["#{ActsAsTaggableOn.taggings_table}.context IN (?)", ['tag', 'page_tag'] ])
+                .select("DISTINCT #{ActsAsTaggableOn.tags_table}.*")
 
-      end
-      return
     end
 
-    num = ActsAsTaggableOn::Tag.count
 
-    @tags = ActsAsTaggableOn::Tag
-              .most_used(num)
-              .joins(:taggings)
-              .where(["#{ActsAsTaggableOn.taggings_table}.context IN (?)", ['tag', 'page_tag'] ])
-              .select("DISTINCT #{ActsAsTaggableOn.tags_table}.*")
+    if params[:partial]
+      respond_to do |format|
+        format.html { render partial: 'tags' }
+      end
+    end
   end
-
 
 
 end
