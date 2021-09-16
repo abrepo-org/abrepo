@@ -1,6 +1,7 @@
 <% content_for :title, "ABRepo | Tags" %>
 <h1>tags#index</h1>
 
+<!-- Filter -->
 <%= form_with(url: tags_path,
               method: :get,
               skip_enforcing_utf8: true,
@@ -30,4 +31,5 @@
     </div>
 <% end %>
 
+<!-- Results -->
 <%= render partial: 'tags' %>
