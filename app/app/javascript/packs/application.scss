@@ -173,8 +173,8 @@ table .experiment {
   background-color: #fafafa;
 }
 
-.variation-row-data td:first-child {
-  @include from ($desktop) {
-    min-width: 500px;
+.variation-row-data td.table-col-page {
+  @include from ($tablet) {
+    max-width: 25vw;
   }
 }
