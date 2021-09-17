@@ -62,7 +62,8 @@
         <tbody>
 
             <% @profiles.each do |profile| %>
-                <%= render partial: "profile_table_row", locals: {profile: profile} %>
+                <%= render partial: "profile_card_row", locals: {profile: profile} %>
+                <hr />
             <% end %>
         </tbody>
     </table>
