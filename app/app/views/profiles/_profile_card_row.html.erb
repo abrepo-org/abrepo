@@ -2,10 +2,14 @@
   <div class="card-content">
       <div class="media">
 
-          <div class="media-left">
+          <div class="media-left is-hidden-mobile">
               <%= link_to profile_path(profile) do %>
                   <figure class="image is-64x64 is-flex is-align-items-center">
-                      <%= image_tag(profile.logo_url) if profile.logo_url %>
+                      <% if profile.logo_url %>
+                          <%= image_tag(profile.logo_url, loading: "lazy") %>
+                      <% else %>
+                          <%= image_tag('https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg', loading: "lazy") %>
+                      <% end %>
                   </figure>
               <% end %>
           </div>

@@ -1,0 +1,21 @@
+/*
+ * num_expvar partial
+ * used in expvar display for dates, num experiments
+ * to adjust mobile view - bottom inline
+ */
+
+.expvar {
+  display: inline-flex;
+  padding-right: 1.5rem;
+
+  @include from($desktop) {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    padding-right: 0rem;
+  }
+}
+
+.expvar_label {
+  min-width: 70px
+}

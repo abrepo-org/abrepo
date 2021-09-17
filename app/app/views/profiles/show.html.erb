@@ -71,7 +71,7 @@
 
     <!-- expvar -->
     <div class="expvar-wrapper is-hidden-desktop">
-    <%= render partial: "/shared/num_expvar",
+    <%= render partial: "/shared/expvar_num_expvar",
     locals: {
         expvar_date: @profile.created_at,
         num_experiments: @pagy ? @pagy.count : @experiments.length,

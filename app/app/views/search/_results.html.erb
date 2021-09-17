@@ -35,15 +35,22 @@
 </div>
 <hr />
 
-<% @experiments.each do |experiment| %>
-    <%= render partial: "/shared/card",
-    locals: {profile: experiment.profile,
-             experiment: experiment,
-             audience: experiment.audience,
-             source_vendor: experiment.source_vendor}
-    %>
-<% end %>
+<!-- experiments loop -->
+<table class="table">
+  <tbody>
+
+    <% @experiments.each do |experiment| %>
+    <%= render partial: "/shared/expvar_table",
+        locals: {profile: experiment.profile,
+        experiment: experiment,
+        audience: experiment.audience,
+        source_vendor: experiment.source_vendor}
+        %>
+    <% end %>
+
+  </tbody>
+</table>
 
 <% if @experiments.empty? %>
-    <strong>No results found</strong>
+<strong>No results found</strong>
 <% end %>
