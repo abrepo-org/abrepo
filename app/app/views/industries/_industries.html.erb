@@ -12,9 +12,9 @@
 
                 # content
                 examples: Profile.tagged_with(industry.name)
-                .select('DISTINCT company_name')
-                .limit(3)
-                .map(&:company_name),
+                .select('DISTINCT ON (company_name) profiles.company_name')
+                .select(:id, :company_name)
+                .limit(3),
 
                 # footer
                 total: industry.taggings_count,

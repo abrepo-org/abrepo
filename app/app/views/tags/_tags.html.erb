@@ -9,11 +9,9 @@
                 name: tag.name,
                 name_link_path: "/search/?tags[]=#{tag.name}",
 
-                # content
                 examples: policy_scope(Variation.tagged_with(tag.name)
-                                       .select('DISTINCT summary_name')
-                                       .limit(3))
-                .map(&:summary_name),
+                                       .select('DISTINCT ON (summary_name) variations.summary_name')
+                                       .select(:id, :summary_name)).limit(3),
 
                 # footer
                 total: tag.taggings_count,
