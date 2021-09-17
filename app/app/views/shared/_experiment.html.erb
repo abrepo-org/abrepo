@@ -18,7 +18,8 @@
             <!-- Tags  -->
             <% unless experiment.tags.empty? %>
                 <span class="tags">
-                    <%= render partial: "shared/tag_list", locals: {
+                    <%= render partial: "shared/search_tag_list", locals: {
+                        tag_param: "tags",
                         tag_list: experiment.tags,
                         classes: "tag is-info is-light"
                     }%>

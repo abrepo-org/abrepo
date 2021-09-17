@@ -33,7 +33,8 @@
         <!-- Tags  -->
         <% unless experiment.tags.empty? %>
             <div class="tags mt-2">
-                <%= render partial: "shared/tag_list", locals: {
+                <%= render partial: "shared/search_tag_list", locals: {
+                    tag_param: "tags",
                     tag_list: experiment.tags,
                     classes: "tag is-info is-light"
                 }%>
@@ -120,36 +121,3 @@
         </tbody>
     </table>
 </div>
-
-
-
-
-<!--
-     EXPERIMENT CARD CONTENT OUTLINE
-     toggle off certain info depending on source used to access
-
-     favicon
-     profile.company_name
-     profile.domain
-     vendor ID
-
-
-     exp.name
-     exp.experimentSummary
-     exp.target / audience
-     exp.createdAt
-
-
-     variation.name
-     variation.variationSummary
-     variation.page/view name or url
-     Renderable.renderedTitle
-     Renderable.renderedURL
-     Renderable.screenshotFilename (thumbnail)
-
-Calc:
-  Tags
-
-
-
--->

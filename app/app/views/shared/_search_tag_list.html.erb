@@ -2,7 +2,9 @@
 
     <% tag_list.each do |tag| %>
         <span class="<%= classes %>" >
-            <%= tag %>
+            <%= link_to search_path(tag_param.to_sym => [tag]) do %>
+                <%= tag %>
+            <% end %>
         </span>
     <% end %>
 

@@ -23,8 +23,9 @@ commentary = false
             <% unless @variation.tag_list.empty? && @variation.page_tag_list.empty? %>
 
                 <div class="tags are-medium">
-                    <%= render partial: "shared/tag_list",
+                    <%= render partial: "shared/search_tag_list",
                     locals: {
+                        tag_param: "tags",
                         tag_list: (@variation.tag_list + @variation.page_tag_list).sort,
                         classes: "tag is-info is-light"
                     }
