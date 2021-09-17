@@ -32,16 +32,18 @@
 
                 <% if result[:type] == :active %>
 
-                    <%= link_to profile_path(result[:company].id) do %>
-                        <span class="tag has-text-link">
+                    <span class="tag has-text-link">
+                        <%= link_to profile_path(result[:company].id) do %>
                             <%= result[:company].company_name %>
-                        </span>
-                    <% end %>
+                        <% end %>
+                    </span>
 
                 <% else %>
+
                     <span class="tag">
                         <%= result[:company].company_name %>
                     </span>
+
                 <%end%>
             <% end %>
         </div>
