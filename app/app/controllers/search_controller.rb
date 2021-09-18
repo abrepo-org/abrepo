@@ -20,7 +20,17 @@ class SearchController < ApplicationController
 
     if (@experiments.length > 0)
       @pagy, @experiments = pagy(@experiments)
-      @num_variations = @experiments.inject(0) { |sum, exp| sum + policy_scope(exp.variations).length }
+
+      # these are num search results, but we keep variable
+      # as @num_variations to reuse partial
+      @num_variations = policy_scope(Variation)
+                          .joins(:experiment)
+                          .where(experiment: @experiments)
+                          .select('experiments.id, COUNT(variations.id) as count')
+                          .group('experiments.id')
+                          .pluck('variations.count')
+                          .sum
+
     end
 
     if (params[:partial])

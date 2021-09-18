@@ -28,11 +28,35 @@ class ProfilesController < ApplicationController
     if (@experiments.length > 0)
 
       @profile = @experiments[0].profile
-      @num_variations = @experiments
-                          .inject(0) { |sum, exp| sum + policy_scope(exp.variations).length }
+
+      @num_variations = policy_scope(Variation)
+                          .joins(:experiment)
+                          .where({experiment: {profile_id: @profile.id}})
+                          .select('experiment.id, COUNT(variations.id) as count')
+                          .group('experiment.id')
+                          .pluck('variations.count')
+                          .sum
+
       @pagy, @experiments = pagy(@experiments)
 
+      #Company tags and counts
+      @tag_counts = ActsAsTaggableOn::Tag
+                      .joins(:taggings)
+                      .select('tags.id, tags.name, COUNT(taggings.id) as count')
+                      .group('tags.id, tags.name')
+                      .where(taggings: { taggable_type: 'Variation',
+                                         taggable_id: policy_scope(Variation)
+                                           .joins(:experiment)
+                                           .where({experiment: {profile_id: @profile.id}})
+                                       })
+                      .order('tags.count desc')
+                      .limit(10)
+                      .map{ |tag| { id: tag[:id], name: tag[:name], count: tag['count'] } }
+
+      puts @tag_counts.inspect
+
     end
+
 
   end
 

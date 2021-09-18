@@ -22,7 +22,7 @@
                     <span><%= @experiments.count %></span>
                 </li>
 
-                <li class="stack-layout">
+                <li>
                     <span class="has-text-weight-bold">
                         <%= 'Total ' + 'Variation'.pluralize(@num_variations) %>
                     </span>
@@ -34,4 +34,48 @@
 
     </div>
 
+</div>
+
+<!-- Tag Counts -->
+<div class="panel ml-2">
+
+    <p class="panel-heading">
+        Top Tags
+    </p>
+
+
+    <div class="panel-block has-text-grey">
+        <div class="field is-grouped is-grouped-multiline">
+
+            <% @tag_counts.each do |tag| %>
+
+                <div class="control" style="width: 100%;">
+                    <div class="tags are-medium has-addons">
+                        <%= link_to search_path(tags: [ tag[:name] ]) do %>
+                            <span class="tag is-info is-light" title="Tag name">
+                                <%= tag[:name] %>
+                            </span>
+                        <% end %>
+                        <span class="tag" title="Number of tagged variations">
+                            <%= tag[:count] %>
+                        </span>
+                    </div>
+                </div>
+            <% end %>
+
+        </div>
+    </div>
+</div>
+
+<!-- Featured ExpVar -->
+<div class="panel ml-2">
+
+    <p class="panel-heading">
+        Featured Experiments
+    </p>
+
+
+    <div class="panel-block has-text-grey">
+
+    </div>
 </div>
