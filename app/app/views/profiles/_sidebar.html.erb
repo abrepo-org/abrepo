@@ -1,3 +1,4 @@
+<!-- Expvar Counts -->
 <div class="panel ml-2">
     <p class="panel-heading">
         Company Summary
@@ -5,23 +6,32 @@
 
     <div class="panel-block has-text-grey">
 
-        <ul>
-            <li>
-                <%= format_expvar_date(@profile.created_at) %>
+        <ul style="width:100%;">
+            <li class="">
+                <span class="has-text-weight-bold">Last Updated</span>
+                <span>
+                    <%= format_expvar_date(@profile.updated_at) %>
+                </span>
             </li>
 
             <% if @experiments.count > 0 %>
-                <li>
+                <li class="">
+                    <span class="has-text-weight-bold">
+                        <%= "Total " + 'Experiment'.pluralize( policy_scope(@experiments).count ) %>
+                    </span>
                     <span><%= @experiments.count %></span>
-                    <%= 'experiment'.pluralize( policy_scope(@experiments).count ) %>
                 </li>
 
-                <li>
+                <li class="stack-layout">
+                    <span class="has-text-weight-bold">
+                        <%= 'Total ' + 'Variation'.pluralize(@num_variations) %>
+                    </span>
+
                     <span><%= @num_variations %></span>
-                    <%= 'variation'.pluralize(@num_variations) %>
                 </li>
             <% end %>
         </ul>
 
     </div>
+
 </div>
