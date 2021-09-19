@@ -53,8 +53,7 @@ class ProfilesController < ApplicationController
                       .limit(10)
                       .map{ |tag| { id: tag[:id], name: tag[:name], count: tag['count'] } }
 
-      puts @tag_counts.inspect
-
+      @featured_experiments = policy_scope(Experiment).calcRank.limit(5)
     end
 
 
