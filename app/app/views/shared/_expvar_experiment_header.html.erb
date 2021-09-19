@@ -3,7 +3,7 @@
     <!-- Experiment Name -->
     <div class="experiment-header mb-2">
 
-        <h4>
+        <h4 id="exp<%=experiment.id%>" class="anchor-fragment">
             <%= experiment.summary_name || "Experiment Name: Unnamed" %>
             [Pub: <%= experiment.published? %>]
         </h4>

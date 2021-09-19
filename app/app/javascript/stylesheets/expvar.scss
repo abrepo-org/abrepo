@@ -2,6 +2,16 @@
  * "Expvar" Main Table component
  */
 
+// expvar anchor fragment (h4)
+
+.anchor-fragment::before {
+  margin-top: -90px;
+  height: 90px;
+  visibility:hidden;
+  content:"";
+  display:block;
+}
+
 /* expvar table row verified */
 .experiment i.fa-check {
   color: green;
