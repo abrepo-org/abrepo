@@ -11,5 +11,26 @@ class HomeController < ApplicationController
   def index
     @experiments = policy_scope( Experiment.calcRank )
     @pagy, @experiments = pagy(@experiments)
+
+    # topcompanies
+    # sum of a companies calcscores
+    @top_profiles = Profile
+                      .joins(:experiments)
+                      .group('id')
+                      .order('sum_experiments_calcscore_pow_select_extract_epoch_from_current desc')
+                      .sum('experiments.calcscore / (POW(( ( (SELECT EXTRACT(EPOCH FROM CURRENT_TIMESTAMP(0))) - (SELECT EXTRACT(EPOCH FROM experiments.created_at)) ) / 3600) + 2, 1.8))')
+
+
+    # top industries
+    # sum of an industry companies calcscores
+    @top_industries = ActsAsTaggableOn::Tag.find_by_sql("SELECT tags.id, SUM(experiments.calcscore / (POW(( ( (SELECT EXTRACT(EPOCH FROM CURRENT_TIMESTAMP(0))) - (SELECT EXTRACT(EPOCH FROM experiments.created_at)) ) / 3600) + 2, 1.8))) as score FROM tags INNER JOIN taggings ON taggings.tag_id = tags.id INNER JOIN profiles ON taggings.taggable_id = profiles.id INNER JOIN experiments ON experiments.profile_id = profiles.id WHERE taggings.taggable_type = 'Profile' GROUP BY tags.id ORDER BY score DESC")
+                           .pluck(:id, 'score')
+
+    # featured experiments
+    # choose experiments:
+    # 1. featured: true -> defer for now
+    # 2. or topN of calcRank
+    @featured_experiments = Experiment.calcRank.limit(5)
+
   end
 end
