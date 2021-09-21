@@ -36,20 +36,8 @@
                     <%= audience['name'].split(',').join(", ") %>
                 </span>
             </div>
-        <% end %>
+         <% end %>
 
-
-    </div>
-
-
-    <!-- expvar -->
-    <div class="expvar-wrapper is-size-6-5 is-hidden-touch">
-        <%= render partial: "/shared/expvar_num_expvar",
-        locals: {
-            expvar_date: experiment.created_at,
-            num_experiments: nil,
-            num_variations: policy_scope(experiment.variations).count
-        }%>
     </div>
 
 </div>

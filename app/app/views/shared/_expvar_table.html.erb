@@ -68,6 +68,11 @@
 
 <tr>
     <th colspan="4">
+        <!-- expvar num -->
+        <%= render partial: '/shared/expvar_num_expvar', locals: {
+            expvar_date: experiment.created_at,
+            #num_variations: policy_scope(experiment.variations).count
+        }%>
         <hr />
     </th>
 </tr>
