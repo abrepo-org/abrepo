@@ -1,0 +1,28 @@
+<!-- Top Profiles -->
+<div class="panel ml-2">
+
+    <p class="panel-heading">
+        Active Companies
+    </p>
+
+
+    <div class="panel-block has-text-grey">
+
+        <ul style="width:100%;">
+
+            <% top_profiles.each do |top_profile, rank| %>
+
+                <li class="is-inline-block has-text-left"
+                    style="width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+
+                    <%= link_to profile_path(top_profile[0]) do %>
+                        <%= top_profile[1] %>
+                    <% end %>
+                </li>
+
+            <% end %>
+
+        </ul>
+
+    </div>
+</div>

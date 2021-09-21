@@ -1,0 +1,27 @@
+<!-- Industry Counts -->
+<div class="panel ml-2">
+
+    <p class="panel-heading">
+        Active Industries
+    </p>
+
+    <div class="panel-block has-text-grey">
+        <div class="field is-grouped is-grouped-multiline">
+
+            <% top_industries.each do |tag| %>
+
+                <div class="control" style="width: 100%;">
+                    <div class="tags are-medium">
+                        <%= link_to search_path(industries: [ tag[:name] ]) do %>
+                            <span class="tag is-info is-light" title="Tag name">
+                                <%= tag[:name] %>
+                            </span>
+                        <% end %>
+
+                    </div>
+                </div>
+            <% end %>
+
+        </div>
+    </div>
+</div>

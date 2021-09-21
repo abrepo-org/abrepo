@@ -33,9 +33,22 @@ class SearchController < ApplicationController
 
     end
 
+    # autocomplete
     if (params[:partial])
       return render partial: "results"
     end
+
+    #sidebar
+    @top_profiles = Sidebar.top_profiles
+
+    @top_industries = Sidebar.top_industries
+
+    # featured experiments
+    # choose experiments:
+    # 1. featured: true -> defer for now
+    # 2. or topN of calcRank
+    @featured_experiments = Experiment.calcRank.limit(5)
+
   end
 
 end
