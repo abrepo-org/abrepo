@@ -11,12 +11,15 @@
 
         <% @experiments.each do |experiment| %>
 
-            <%= render partial: "/shared/expvar_table",
-            locals: {profile: experiment.profile,
-                     experiment: experiment,
-                     audience: experiment.audience,
-                     source_vendor: experiment.source_vendor}
-            %>
+            <% if policy_scope(experiment.variations).count > 0 %>
+                <%= render partial: "/shared/expvar_table",
+                locals: {profile: experiment.profile,
+                         experiment: experiment,
+                         audience: experiment.audience,
+                         source_vendor: experiment.source_vendor}
+                %>
+            <% end %>
+
         <% end %>
 
     </tbody>
