@@ -2,6 +2,11 @@
  * "Expvar" Main Table component
  */
 
+//add a tr border for a "group"
+tr.expvar-root-border {
+  border-top: 1px solid #dbdbdb;
+}
+
 // expvar anchor fragment (h4)
 
 .anchor-fragment::before {
@@ -21,6 +26,16 @@
 .variation-row-header th {
   font-weight: 400;
   color: #7a7a7a !important;
+}
+
+//expvar children vanilla rows transition
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.variation-row-data:not(.is-root) {
+  animation: fadeIn .35s;
 }
 
 //expvar table default overrides

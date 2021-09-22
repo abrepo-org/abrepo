@@ -13,7 +13,8 @@ function varViewClickHandler($rootDiv, vendor_id) {
         .forEach( $i => $i.classList.toggle('is-hidden'));
 
     $variationViews.forEach($v => $v.classList.toggle('is-hidden'));
-    $rootDiv.querySelector('.see-more').classList.toggle('is-hidden');
+    $rootDiv.querySelectorAll('.see-more')
+        .forEach( $div => $div.classList.toggle('is-hidden'));;
 };
 
 document.addEventListener('DOMContentLoaded', () => {
