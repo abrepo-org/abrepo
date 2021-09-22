@@ -1,0 +1,45 @@
+/*
+ * "Expvar" Main Table component
+ */
+
+// expvar anchor fragment (h4)
+
+.anchor-fragment::before {
+  margin-top: -90px;
+  height: 90px;
+  visibility:hidden;
+  content:"";
+  display:block;
+}
+
+/* expvar table row verified */
+.experiment i.fa-check {
+  color: green;
+}
+
+//expvar table header font
+.variation-row-header th {
+  font-weight: 400;
+  color: #7a7a7a !important;
+}
+
+//expvar table default overrides
+.content table td, .content table th {
+  border: none;
+}
+.content table {
+  td:first-child, th:first-child {
+    padding: 0.5em 0;
+  }
+}
+
+.table tbody tr.variation-row-data:not(.is-selected):hover {
+  background-color: #fafafa;
+}
+
+//expvar table 'page' column demote visually
+.variation-row-data td.table-col-page {
+  @include from ($tablet) {
+    max-width: 25vw;
+  }
+}

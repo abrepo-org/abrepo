@@ -35,36 +35,19 @@
 
     <%= render partial: "results" %>
 
-
-    <!--
-         want to avoid 'ajax' table filter; instead prsent as resulting query and display
-
-         name/domain filter
-         tags selector
-         sort order ^>
-       -->
-    <!-- num results -->
 </div>
 <hr />
 
 <div class="profiles-data">
 
-    <table class="table is-fullwidth is-striped">
-        <thead>
-            <tr>
-                <th></th> <!-- Favicon -->
-                <th>Profile</th>
-                <th>Description</th>
-                <th>Industries</th>
-                <th>Updated</th><!-- New -->
-            </tr>
-        </thead>
-        <tbody>
-
-            <% @profiles.each do |profile| %>
-                <%= render partial: "profile_table_row", locals: {profile: profile} %>
-            <% end %>
-        </tbody>
-    </table>
+    <% @profiles.each do |profile| %>
+        <%= render partial: "profile_card_row", locals: {profile: profile} %>
+        <hr />
+    <% end %>
 
 </div>
+
+
+<% content_for :sidebar do %>
+    <%= render 'index_sidebar' %>
+<% end %>

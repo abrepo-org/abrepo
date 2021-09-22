@@ -1,0 +1,78 @@
+<tr>
+    <th colspan="4">
+
+        <%= render partial: "/shared/expvar_experiment_header",
+        locals: {
+            experiment: experiment,
+            profile: profile,
+            audience: audience
+        }%>
+
+    </th>
+</tr>
+
+<tr class="variation-row-header is-size-7">
+    <th>Variations</th>
+    <th class="is-hidden-mobile">Page</th>
+    <th align="right">Verified</th>
+    <th align="right">Watch</th>
+</tr>
+
+<% policy_scope(experiment.variations).each_with_index do |variation, index| %>
+    <tr class="variation-row-data">
+        <!-- Summary Name -->
+        <td>
+            <%= link_to variation_path(variation) do %>
+                <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
+                [Pub: <%= variation.published? %>]
+            <% end %>
+        </td>
+
+        <!--  Page -->
+        <td class="is-hidden-mobile table-col-page">
+            <%= variation.renderables.where(control:false).first ?
+            variation.renderables.where(control:false).first.renderedURL.sub(/https?\:\/\//, '') : '' %>
+        </td>
+
+        <!-- Verified -->
+        <td align="right">
+            <% if variation.verified %>
+                <div>
+                    <span class="tag is-success is-light"
+                          title="Variation implemented">
+                        <span class="icon-text">
+
+                            <span class="icon"><i class="fas fa-check"></i></span>
+                        </span>
+                    </span>
+
+                </div>
+            <% else %>
+                <div>&mdash;</div>
+            <% end %>
+        </td>
+
+        <!--  Watch * -->
+        <td align="right">
+            <button title="Watch" class="button is-small watch">
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="far fa-star"></i>
+                    </span>
+                </span>
+            </button>
+        </td>
+
+    </tr>
+<% end %>
+
+<tr>
+    <th colspan="4">
+        <!-- expvar num -->
+        <%= render partial: '/shared/expvar_num_expvar', locals: {
+            expvar_date: experiment.created_at,
+            #num_variations: policy_scope(experiment.variations).count
+        }%>
+        <hr />
+    </th>
+</tr>

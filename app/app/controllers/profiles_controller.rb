@@ -16,6 +16,18 @@ class ProfilesController < ApplicationController
       @profiles = @profiles.tagged_with(@industries)
     end
 
+    #sidebar
+    @top_profiles = Sidebar.top_profiles
+
+    @top_industries = Sidebar.top_industries
+
+    # featured experiments
+    # choose experiments:
+    # 1. featured: true -> defer for now
+    # 2. or topN of calcRank
+    @featured_experiments = Experiment.calcRank.limit(5)
+
+
   end
 
 
@@ -28,11 +40,34 @@ class ProfilesController < ApplicationController
     if (@experiments.length > 0)
 
       @profile = @experiments[0].profile
-      @num_variations = @experiments
-                          .inject(0) { |sum, exp| sum + policy_scope(exp.variations).length }
+
+      @num_variations = policy_scope(Variation)
+                          .joins(:experiment)
+                          .where({experiment: {profile_id: @profile.id}})
+                          .select('experiment.id, COUNT(variations.id) as count')
+                          .group('experiment.id')
+                          .pluck('variations.count')
+                          .sum
+
       @pagy, @experiments = pagy(@experiments)
 
+      #Company tags and counts
+      @tag_counts = ActsAsTaggableOn::Tag
+                      .joins(:taggings)
+                      .select('tags.id, tags.name, COUNT(taggings.id) as count')
+                      .group('tags.id, tags.name')
+                      .where(taggings: { taggable_type: 'Variation',
+                                         taggable_id: policy_scope(Variation)
+                                           .joins(:experiment)
+                                           .where({experiment: {profile_id: @profile.id}})
+                                       })
+                      .order('tags.count desc')
+                      .limit(10)
+                      .map{ |tag| { id: tag[:id], name: tag[:name], count: tag['count'] } }
+
+      @featured_experiments = policy_scope(Experiment).calcRank.limit(5)
     end
+
 
   end
 

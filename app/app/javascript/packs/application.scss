@@ -28,6 +28,8 @@ $border-grey: rgb(227, 232, 238); //#e2e7ee
 @import "bulma";
 @import "../stylesheets/icons.scss";
 @import "../stylesheets/menu.scss";
+@import "../stylesheets/expvar.scss";
+@import "../stylesheets/sidebar.scss";
 @import "../stylesheets/variation.scss";
 @import "../stylesheets/profile.scss";
 @import "../stylesheets/devise.scss";
@@ -39,23 +41,13 @@ $border-grey: rgb(227, 232, 238); //#e2e7ee
   }
 }
 
-/* TOP NAVBAR */
-nav {
-  border-bottom: 1px solid rgb(227, 232, 238);
-}
-
-#search-control {
-  @include from($desktop) {
-    width: 20rem;
-  }
-}
-
 /* SECTION */
 section.section {
   //TODO: adjust once <footer> is built
   //on login want min-height to reach footer
   min-height: 80vh;
 }
+
 footer {
   border-top: 1px solid #000;
 }
@@ -69,109 +61,3 @@ footer {
     margin-top: 0.75rem;
   }
 }
-
-/*
- * navbar
- */
-#signin {
-  border: 1px solid #dbdbdb;
-}
-
-#signup {
-  //matches is-primary color
-  border: 1px solid #d1eae6;
-}
-
-/*
- * profile#index
- */
-#profile-filter-search-control {
-  width: 20rem;
-}
-td.white-space-nowrap {
-  white-space: nowrap;
-}
-
-/*
- * profile#show
- */
-
-//ellipsis text
-.company-info > div, .experiment-header > p, .variation a {
-  overflow:hidden;
-  text-overflow: ellipsis;
-  max-width: calc(100vw - 150px);
-  @include from ($desktop) {
-    max-width: calc(50vw - 170px);
-  }
-}
-
-.profile_favicon {
-  display:inline-block;
-  width: 1.25rem; //match is-size-5 font
-}
-
-.experiment i.fa-check {
-  color: green;
-}
-
-
-/*
- * num_expvar partial
- */
-.expvar-wrapper {
-  min-width: 225px;
-}
-.experiment .expvar-wrapper {
-  padding-top:1.4rem;
-  font-size:.85rem;
-
-}
-.expvar {
-  display: inline-flex;
-  padding-right: 1.5rem;
-
-  @include from($desktop) {
-    display: flex;
-    flex-direction: column;
-    text-align: right;
-    padding-right: 0rem;
-  }
-}
-
-.expvar_label {
-  min-width: 70px
-}
-
-
-//table data
-.variation-row-header th {
-  font-size: .75rem;
-  font-weight: 400;
-  color: #7a7a7a !important;
-  //padding-top: 2rem !important;
-  background: #fafafa;
-  border-width: 1px 0 !important;
-}
-
-.td.nowrap {
-  white-space:nowrap;
-}
-
-table.fixed { width:100%;}
-table.fixed th {
-  //alignment nudge font size differential
-  padding-left: calc(.75em + 3px) !important;
-}
-table.fixed td {overflow:hidden;}
-table.fixed td:nth-of-type(1) {
-  width: 100%;
-  @include from ($tablet) {
-    width: 45%;
-  }
-}
-table.fixed td:nth-of-type(2) {width: 45%;}
-
-//control icons
-//2-> align right defer to browser auto sizing
-table.fixed td:nth-of-type(4) {width: 1%;}

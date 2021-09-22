@@ -1,0 +1,65 @@
+<div class="card">
+    <header></header>
+
+    <div class="card-content">
+        <p class="title is-5">
+            <%= link_to name, "#{name_link_path}" %>
+        </p>
+
+        <% if examples.length > 0 %>
+            <span class="is-size-7 has-text-grey">Examples</span>
+        <% else %>
+            <span class="is-size-6 has-text-grey">
+                <i>No Examples</i>
+            </span>
+        <% end %>
+
+        <ul class="mt-1 ml-0" style="height:80px;">
+            <% examples.each do |example| %>
+                <li style="height:1.5rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+
+                    <% if controller_name == "tags"  %>
+                        <%= link_to variation_path(example.id) do %>
+                            <%= example.summary_name %>
+                        <% end %>
+                    <% end %>
+
+                    <% if controller_name == "industries"  %>
+                        <%= link_to profile_path(example.id) do %>
+                            <%= example.company_name %>
+                        <% end %>
+                    <% end %>
+
+                </li>
+            <% end %>
+        </ul>
+
+
+
+    </div>
+
+
+    <footer class="card-footer has-text-grey">
+        <!-- Totals -->
+        <p class="card-footer-item is-flex-direction-column is-justify-content-space-between mb-0">
+            <span><%= total %></span>
+            <span class="is-size-7">Total</span>
+        </p>
+
+        <!-- Num Past 2 weeks -->
+        <p class="card-footer-item is-flex-direction-column is-justify-content-space-between mb-0">
+            <span><%= past_n %></span>
+            <span class="is-size-7">Past 2 weeks</span>
+        </p>
+
+        <!-- Date added  days ago-->
+        <p class="card-footer-item is-flex-direction-column is-justify-content-space-between mb-0">
+
+            <time datetime="<%= updated_at.to_datetime %>">
+                <%= format_expvar_date(updated_at) %>
+            </time>
+            <span class="is-size-7">Last Updated</span>
+        </p>
+
+    </footer>
+</div>

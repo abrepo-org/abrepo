@@ -3,11 +3,28 @@
     <h1>home#index</h1>
 </div>
 <hr />
-<% @experiments.each do |experiment| %>
-    <%= render partial: "/shared/card",
-    locals: {profile: experiment.profile,
-             experiment: experiment,
-             audience: experiment.audience,
-             source_vendor: experiment.source_vendor}
-    %>
+
+
+<!-- experiments loop -->
+<table class="table">
+    <tbody>
+
+        <% @experiments.each do |experiment| %>
+
+            <% if policy_scope(experiment.variations).count > 0 %>
+                <%= render partial: "/shared/expvar_table",
+                locals: {profile: experiment.profile,
+                         experiment: experiment,
+                         audience: experiment.audience,
+                         source_vendor: experiment.source_vendor}
+                %>
+            <% end %>
+
+        <% end %>
+
+    </tbody>
+</table>
+
+<% content_for :sidebar do %>
+    <%= render 'sidebar' %>
 <% end %>

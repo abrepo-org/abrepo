@@ -1,31 +1,25 @@
 <% @DAYS = 14 %>
-<table class="table is-fullwidth is-striped table-tags">
-    <thead>
-        <tr>
-            <th>Tag</th>
-            <!-- defer: <th>Description</th>  -->
-            <th>Number of Variations</th>
-            <th>
-                Recently Tagged Variations
-                (<%= pluralize(@DAYS, "day") %>)
-            </th>
-        </tr>
-    </thead>
+<div id="autocomplete-destination" class="columns is-multiline">
 
-    <tbody>
+    <% @tags.each do |tag| %>
+        <div class="column is-half-tablet is-one-third-desktop">
+            <%= render partial: '/shared/industry_tag_card',
+            locals: {
+                # title
+                name: tag.name,
+                name_link_path: "/search/?tags[]=#{tag.name}",
 
-        <% @tags.each do |tag| %>
-            <tr>
-                <td>
-                    <%= link_to tag.name, "/search/?tags[]=#{tag.name}" %>
-                </td>
-                <td>
-                    <%= tag.taggings_count %>
-                </td>
-                <td>
-                    <%= calc_recency_for(tag, @DAYS.days.ago) %>
-                </td>
-            </tr>
-        <% end %>
-    </tbody>
-</table>
+                examples: policy_scope(Variation.tagged_with(tag.name)
+                                       .select('DISTINCT ON (summary_name) variations.summary_name')
+                                       .select(:id, :summary_name)).limit(3),
+
+                # footer
+                total: tag.taggings_count,
+                past_n: calc_recency_for(tag, @DAYS.days.ago),
+                updated_at: tag.updated_at
+            }
+            %>
+        </div>
+    <% end %>
+
+</div>

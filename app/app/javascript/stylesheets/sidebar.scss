@@ -1,0 +1,21 @@
+.panel-block {
+
+  li {
+
+    //layout:stack
+    display:flex;
+    flex-direction: column-reverse;
+    text-align:center;
+
+    //layout: side by side
+    @include from($widescreen) {
+      flex-direction:row;
+      justify-content:space-between;
+    }
+
+    padding: 0.5em 0.75em;
+    color: #363636;
+    font-size: 1rem;
+  }
+
+}

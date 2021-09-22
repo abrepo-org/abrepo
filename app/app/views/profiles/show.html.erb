@@ -17,41 +17,40 @@
             </h4>
         </div>
 
-        <!-- expvar -->
-        <div class="expvar-wrapper is-hidden-touch">
-            <%= render partial: "/shared/num_expvar",
-            locals: {
-                expvar_date: @profile.created_at,
-                num_experiments: @pagy ? @pagy.count : @experiments.length,
-                num_variations: @num_variations
-            }%>
-        </div>
-
     </div>
     <!-- - About -->
-    <div class="profile-label has-text-grey mt-3">About</div>
+    <div class="profile-label has-text-grey mt-3 mb-2">About</div>
     <p><%= @profile.description %></p>
 
     <!-- Related Companies -->
     <% if @profile.related_companies.length %>
 
-        <div class="profile-label has-text-grey mt-3">Related Companies</div>
+        <div class="profile-label has-text-grey mt-3 mb-2">Related Companies</div>
 
         <div class="tags are-medium">
             <% get_related_companies(@profile, 7).each do |result| %>
 
                 <% if result[:type] == :active %>
 
-                    <%= link_to profile_path(result[:company].id) do %>
-                        <span class="tag has-text-link">
-                            <%= result[:company].company_name %>
-                        </span>
-                    <% end %>
+                    <span class="tag is-info is-light">
+                        <%= link_to profile_path(result[:company].id), class:'is-flex' do %>
+                            <%= image_tag(result[:company].favicon_url,
+                                          class:"mr-2",
+                                          width: '24px', height: '24px') if result[:company].favicon_url%>
+
+                            <span>
+                                <%= result[:company].company_name %>
+                            </span>
+                        <% end %>
+                    </span>
 
                 <% else %>
-                    <span class="tag">
+
+                    <span class="tag is-white has-text-grey">
+
                         <%= result[:company].company_name %>
                     </span>
+
                 <%end%>
             <% end %>
         </div>
@@ -60,32 +59,15 @@
 
     <!-- Industry Tags -->
     <% unless @profile.industry_tag_list.empty? %>
-        <div class="profile-label has-text-grey mt-3">Industries</div>
+        <div class="profile-label has-text-grey mt-3 mb-2">Industries</div>
         <div class="tags are-medium mt-1">
-            <%= render partial: "shared/tag_list", locals: {
+            <%= render partial: "shared/search_tag_list", locals: {
+                tag_param: "industries",
                 tag_list: @profile.industry_tag_list,
-                classes: "tag"
+                classes: "tag is-info is-light",
             }%>
         </div>
     <% end %>
-
-    <!-- - Calc Top Tags: ignore for now?
-         <div class="profile-label has-text-grey mt-3">Top Tags</div>
-         <div class="tags are-medium">
-         <span class="tag">finance</span>
-         <span class="tag">ui/ux</span>
-         </div>
-       -->
-
-    <!-- expvar -->
-    <div class="expvar-wrapper is-hidden-desktop">
-    <%= render partial: "/shared/num_expvar",
-    locals: {
-        expvar_date: @profile.created_at,
-        num_experiments: @pagy ? @pagy.count : @experiments.length,
-        num_variations: @num_variations
-    }%>
-    </div>
 
 
 
@@ -93,15 +75,23 @@
 <hr />
 
 
-<!--
-     experiments loop
-  -->
+<!-- experiments loop -->
+<table class="table">
+    <tbody>
 
-<% @experiments.each do |experiment| %>
-    <%= render partial: "/shared/card",
-    locals: {profile: @profile,
-             experiment: experiment,
-             audience: experiment.audience,
-             source_vendor: experiment.source_vendor}
-    %>
+        <% @experiments.each do |experiment| %>
+
+            <%= render partial: "/shared/expvar_table",
+            locals: {profile: @profile,
+                     experiment: experiment,
+                     audience: experiment.audience,
+                     source_vendor: experiment.source_vendor}
+            %>
+        <% end %>
+
+    </tbody>
+</table>
+
+<% content_for :sidebar do %>
+    <%= render 'show_sidebar' %>
 <% end %>

@@ -11,5 +11,17 @@ class HomeController < ApplicationController
   def index
     @experiments = policy_scope( Experiment.calcRank )
     @pagy, @experiments = pagy(@experiments)
+
+    # sidebar
+    @top_profiles = Sidebar.top_profiles
+
+    @top_industries = Sidebar.top_industries
+
+    # featured experiments
+    # choose experiments:
+    # 1. featured: true -> defer for now
+    # 2. or topN of calcRank
+    @featured_experiments = Experiment.calcRank.limit(5)
+
   end
 end

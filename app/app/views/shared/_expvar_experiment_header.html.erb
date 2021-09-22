@@ -1,0 +1,43 @@
+<div class="experiment is-flex is-justify-content-space-between">
+
+    <!-- Experiment Name -->
+    <div class="experiment-header mb-2">
+
+        <h4 id="exp<%=experiment.id%>" class="anchor-fragment">
+            <%= experiment.summary_name || "Experiment Name: Unnamed" %>
+            [Pub: <%= experiment.published? %>]
+        </h4>
+
+
+        <div class="is-flex">
+
+            <!-- company info -->
+            <%= render partial: "shared/expvar_experiment_profile_info",
+                locals: {profile: profile} %>
+
+
+            <!-- Tags  -->
+            <% unless experiment.tags.empty? %>
+                <span class="tags">
+                    <%= render partial: "shared/search_tag_list", locals: {
+                        tag_param: "tags",
+                        tag_list: experiment.tags,
+                        classes: "tag is-info is-light"
+                    }%>
+                </span>
+            <% end %>
+        </div>
+
+        <!-- Targeting -->
+        <% unless audience['name'].blank? %>
+            <div class="mt-2">
+                <span title="Targeting"
+                      class="targeting-value has-text-grey has-text-weight-normal">
+                    <%= audience['name'].split(',').join(", ") %>
+                </span>
+            </div>
+         <% end %>
+
+    </div>
+
+</div>

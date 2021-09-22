@@ -1,13 +1,13 @@
-/* profile#show */
-
-.variation.is-invisible {
-  height: 0;
-  opacity: 0;
+/* profile#index */
+.profile-card .card-content {
+  padding: 0 1.5rem;
 }
 
-//base transition
-.variation.is-visible {
-  height: auto;
-  opacity: 1;
-  transition: visibility 0s, opacity 0.5s linear;
+/*
+ * profile#show
+ */
+
+.profile_favicon {
+  display:inline-block;
+  width: 1.25rem; //match is-size-5 font
 }

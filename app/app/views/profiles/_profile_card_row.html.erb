@@ -1,0 +1,69 @@
+<div class="profile-card card is-shadowless">
+  <div class="card-content">
+      <div class="media">
+
+          <div class="media-left is-hidden-mobile">
+              <%= link_to profile_path(profile) do %>
+                  <figure class="image is-64x64 is-flex is-align-items-center">
+                      <% if profile.logo_url %>
+                          <%= image_tag(profile.logo_url, loading: "lazy") %>
+                      <% else %>
+                          <%= image_tag('https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg', loading: "lazy") %>
+                      <% end %>
+                  </figure>
+              <% end %>
+          </div>
+
+          <div class="content is-flex is-justify-content-space-between"
+               style="width:100%;">
+
+              <div style="width:85%;">
+                  <%= link_to profile_path(profile) do %>
+                      <p class="title is-5">
+                          <%= profile.company_name || profile.domain %>
+                      </p>
+                  <% end  %>
+
+                  <p>
+                      <%= profile.description.split(".").first if profile.description %>
+                  </p>
+
+                  <p class="tags mb-0">
+                      <%= profile_industry_filter_links(params,
+                                                        profile.industry_tag_list,
+                                                        "tag is-info is-light") %>
+                  </p>
+
+                  <!--  mobile -->
+                  <div class="mt-1 is-hidden-tablet">
+                      <span class="mr-1 is-size-7 has-text-grey">
+                          Last Update
+                      </span>
+                      <time datetime="<%= profile.updated_at%>">
+                          <%= format_profile_date(profile.updated_at) %>
+                      </time>
+
+
+                  </div>
+
+
+              </div>
+
+              <!-- orig -->
+              <div class="is-flex is-flex-direction-column has-text-right is-hidden-mobile">
+                  <time datetime="<%= profile.updated_at%>">
+                      <%= format_profile_date(profile.updated_at) %>
+                  </time>
+                  <span class="is-size-7 has-text-grey">
+                      Last Update
+                  </span>
+
+              </div>
+
+          </div>
+
+      </div>
+
+  </div>
+
+</div>

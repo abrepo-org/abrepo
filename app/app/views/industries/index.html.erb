@@ -1,6 +1,7 @@
 <% content_for :title, "ABRepo | Industries" %>
 <h1>industries#index</h1>
 
+<!-- Filter -->
 <%= form_with(url: industries_path,
               method: :get,
               skip_enforcing_utf8: true,
@@ -30,4 +31,6 @@
     </div>
 <% end %>
 
-<%= render partial: 'industries' %>
+
+<!-- Results -->
+<%= render partial: "industries" %>
