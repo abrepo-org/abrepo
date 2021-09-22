@@ -12,6 +12,7 @@
 </tr>
 
 <tr class="variation-row-header is-size-7">
+    <th></th>
     <th>Variations</th>
     <th class="is-hidden-mobile">Page</th>
     <th align="right">Verified</th>
@@ -19,19 +20,56 @@
 </tr>
 
 <% policy_scope(experiment.variations).each_with_index do |variation, index| %>
-    <tr class="variation-row-data">
-        <!-- Summary Name -->
-        <td>
+
+    <!-- variation header -->
+    <% if !isVarDupeView(policy_scope(experiment.variations), index) %>
+        <tr data-root-vendor-id="<%= experiment.variations[index].vendor_id %>"
+            class="variation-row-data">
+    <% else %>
+        <tr class="variation-row-data is-hidden"
+            data-vendor="<%= experiment.variations[index].vendor_id %>">
+    <% end %>
+
+    <!-- Toggle -->
+    <td style="min-width:0.75rem;" class="is-clickable">
+        <% if !isVarDupeView(policy_scope(experiment.variations), index)  %>
+            <i class="fas fa-caret-right"></i>
+            <i class="fas fa-caret-down is-hidden"></i>
+        <% end %>
+    </td>
+
+    <!-- Summary Name -->
+        <td class="summary_name">
             <%= link_to variation_path(variation) do %>
                 <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
                 [Pub: <%= variation.published? %>]
             <% end %>
         </td>
 
-        <!--  Page -->
+        <!--  Page(s) -->
         <td class="is-hidden-mobile table-col-page">
-            <%= variation.renderables.where(control:false).first ?
-            variation.renderables.where(control:false).first.renderedURL.sub(/https?\:\/\//, '') : '' %>
+            <%= pageURLHelper(variation) %>
+
+            <% if !isVarDupeView(policy_scope(experiment.variations), index) &&
+                policy_scope(experiment.variations).length > 1 %>
+                <div class="see-more is-size-7 is-clickable has-link-text">
+                    show more pages (<%= experiment.variations.length - 1 %>)
+                </div>
+            <% end %>
+
+            <!--  WORKING HERE -->
+            <!-- not sure we need hide
+                 issue now is to indicate a separation between variations and subviews
+               -->
+            <% if isVarDupeView(policy_scope(experiment.variations), index) &&
+                policy_scope(experiment.variations).length - 1 == index %>
+                <div class="see-more-hide is-size-7 is-clickable has-link-text"
+                     data-root-vendor-id="<%= experiment.variations[index].vendor_id %>"
+                >
+                    hide
+                </div>
+            <% end %>
+
         </td>
 
         <!-- Verified -->
