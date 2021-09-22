@@ -16,6 +16,7 @@ if (user.empty?)
   user = User.where(email: "importer@abrepo.com",
                     password: ENV['USER_IMPORTER_PASSWORD'],
                     moderator: true).new
+  user.skip_confirmation!
   user.save
 else
   user.update(moderator:true)
