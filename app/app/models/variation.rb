@@ -45,6 +45,10 @@ class Variation < ApplicationRecord
 
   validates :a_id, :experiment_id, :vendor_id, presence: true
 
+  #expvar table display temp attributes
+  attribute :multiple_views
+  attribute :is_root
+
   # variation.tag_list, page_tag_list
   acts_as_taggable_on :tag, :page_tag
 
