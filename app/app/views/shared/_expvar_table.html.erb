@@ -19,26 +19,29 @@
     <th align="right">Watch</th>
 </tr>
 
-<% policy_scope(experiment.variations).each_with_index do |variation, index| %>
+
+<% variations.each_with_index do |variation, index| %>
+
+    <% set_multiple_views(variations, index) %>
 
     <!-- variation header -->
-    <% if !isVarDupeView(policy_scope(experiment.variations), index) %>
-        <tr data-root-vendor-id="<%= experiment.variations[index].vendor_id %>"
+    <% if variation.is_root %>
+        <tr data-root-vendor-id="<%= variation.vendor_id %>"
             class="variation-row-data">
     <% else %>
         <tr class="variation-row-data is-hidden"
-            data-vendor="<%= experiment.variations[index].vendor_id %>">
+            data-vendor="<%= variation.vendor_id %>">
     <% end %>
 
-    <!-- Toggle -->
-    <td style="min-width:0.75rem;" class="is-clickable">
-        <% if !isVarDupeView(policy_scope(experiment.variations), index)  %>
-            <i class="fas fa-caret-right"></i>
-            <i class="fas fa-caret-down is-hidden"></i>
-        <% end %>
-    </td>
+        <!-- Toggle -->
+        <td style="min-width:0.75rem;" class="is-clickable">
+            <% if variation.multiple_views %>
+                <i class="fas fa-caret-right"></i>
+                <i class="fas fa-caret-down is-hidden"></i>
+            <% end %>
+        </td>
 
-    <!-- Summary Name -->
+        <!-- Summary Name -->
         <td class="summary_name">
             <%= link_to variation_path(variation) do %>
                 <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
@@ -50,26 +53,11 @@
         <td class="is-hidden-mobile table-col-page">
             <%= pageURLHelper(variation) %>
 
-            <% if !isVarDupeView(policy_scope(experiment.variations), index) &&
-                policy_scope(experiment.variations).length > 1 %>
+            <% if variation.multiple_views %>
                 <div class="see-more is-size-7 is-clickable has-link-text">
-                    show more pages (<%= experiment.variations.length - 1 %>)
+                    Multi-page variation (<%= num_by_vendor_id(variations, index) %>)
                 </div>
             <% end %>
-
-            <!--  WORKING HERE -->
-            <!-- not sure we need hide
-                 issue now is to indicate a separation between variations and subviews
-               -->
-            <% if isVarDupeView(policy_scope(experiment.variations), index) &&
-                policy_scope(experiment.variations).length - 1 == index %>
-                <div class="see-more-hide is-size-7 is-clickable has-link-text"
-                     data-root-vendor-id="<%= experiment.variations[index].vendor_id %>"
-                >
-                    hide
-                </div>
-            <% end %>
-
         </td>
 
         <!-- Verified -->
