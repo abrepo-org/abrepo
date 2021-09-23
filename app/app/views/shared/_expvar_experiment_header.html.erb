@@ -9,16 +9,26 @@
         </h4>
 
 
-        <div class="is-flex">
+        <div class="is-flex is-flex-wrap-wrap is-align-items-baseline">
 
             <!-- company info -->
-            <%= render partial: "shared/expvar_experiment_profile_info",
-                locals: {profile: profile} %>
+            <div class="mr-6 mb-4">
+                <%= link_to profile do %>
+                    <span class="profile_favicon">
+                        <%= image_tag('https://www.' + profile.domain + '/favicon.ico',
+                                      width: '16px') %>
+                    </span>
+
+                    <span class="profile_domain has-text-grey">
+                        <%= profile.domain %>
+                    </span >
+                <% end %>
+            </div>
 
 
             <!-- Tags  -->
             <% unless experiment.tags.empty? %>
-                <span class="tags">
+                <span class="tags mb-2">
                     <%= render partial: "shared/search_tag_list", locals: {
                         tag_param: "tags",
                         tag_list: experiment.tags,
@@ -30,7 +40,7 @@
 
         <!-- Targeting -->
         <% unless audience['name'].blank? %>
-            <div class="mt-2">
+            <div>
                 <span title="Targeting"
                       class="targeting-value has-text-grey has-text-weight-normal">
                     <%= audience['name'].split(',').join(", ") %>
