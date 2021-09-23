@@ -6,16 +6,18 @@
     </p>
 
     <div class="panel-block has-text-grey">
-        <div class="field is-grouped is-grouped-multiline">
+        <div class="field is-grouped is-grouped-multiline is-flex-inline" style="width:100%;">
 
             <% top_industries.each do |tag| %>
 
-                <div class="control" style="width: 100%;">
-                    <div class="tags are-medium">
+                <div class="control" style="max-width:100%;">
+                    <div class="tags are-medium is-block">
                         <%= link_to search_path(industries: [ tag[:name] ]) do %>
-                            <span class="tag is-info is-light" title="Tag name">
+                            <div class="tag is-info is-light is-block"
+                                 title="Tag name"
+                                 style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
                                 <%= tag[:name] %>
-                            </span>
+                            </div>
                         <% end %>
 
                     </div>
