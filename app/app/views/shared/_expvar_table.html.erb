@@ -12,7 +12,6 @@
 </tr>
 
 <tr class="variation-row-header is-size-7">
-    <th></th>
     <th>Variations</th>
     <th class="is-hidden-mobile">Page</th>
     <th align="right">Verified</th>
@@ -33,19 +32,28 @@
             data-vendor="<%= variation.vendor_id %>">
     <% end %>
 
-        <!-- Toggle -->
-        <td style="min-width:0.75rem;" class="is-clickable">
-            <% if variation.multiple_views %>
-                <i class="fas fa-caret-right"></i>
-                <i class="fas fa-caret-down is-hidden"></i>
-            <% end %>
-        </td>
-
         <!-- Summary Name -->
         <td class="summary_name">
-            <%= link_to variation_path(variation) do %>
-                <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
-                [Pub: <%= variation.published? %>]
+            <% if variation.multiple_views & variation.is_root %>
+                <i class="fas fa-caret-right mr-4 is-clickable"></i>
+                <i class="fas fa-caret-down mr-4 is-clickable is-hidden "></i>
+            <% end %>
+
+            <% if !variation.multiple_views && !variation.is_root %>
+
+                <!-- indented -->
+                <i class="fas fa-caret-down is-invisible mr-4"></i>
+                <%= link_to variation_path(variation) do %>
+                    <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
+                    [Pub: <%= variation.published? %>]
+                <% end %>
+
+            <% else %>
+                <%= link_to variation_path(variation) do %>
+                    <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
+                    [Pub: <%= variation.published? %>]
+                <% end %>
+
             <% end %>
         </td>
 
