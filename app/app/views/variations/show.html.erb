@@ -68,14 +68,14 @@ commentary = false
                 >
                     <!-- Experiment -->
                     <div class="mr-6">
-                        <div class="has-text-grey mt-4">Experiment</div>
+                        <div class="has-text-grey mt-4 is-size-7">Experiment</div>
                         <div><%= @experiment.summary_name || "Experiment name" %></div>
                     </div>
 
 
                     <% if @audience && @audience.name %>
                         <div class="mr-6">
-                            <div class="has-text-grey mt-4">Targeting</div>
+                            <div class="has-text-grey mt-4 is-size-7">Targeting</div>
                             <div><%= @audience.name %></div>
                         </div>
                     <% end %>
@@ -84,7 +84,7 @@ commentary = false
                          TODO: deprecate and fold this into variation summary
                     <% if @campaign && @campaign.name %>
                         <div class="mr-6">
-                            <div class="has-text-grey mt-4">Group</div>
+                            <div class="has-text-grey mt-4 is-size-7">Group</div>
                             <div><%= @campaign.name %></div>
                         </div>
                     <% end %>
@@ -94,25 +94,25 @@ commentary = false
                     <!-- view not available across vendors -->
                     <% unless @variation['view'].nil? %>
                         <div class="mr-6">
-                            <div class="has-text-grey mt-4">View</div>
+                            <div class="has-text-grey mt-4 is-size-7">View</div>
                             <div> ? </div>
                         </div>
                     <% end %>
 
                     <!--
                     <div class="mr-6">
-                        <div class="has-text-grey mt-4"> Page Title:</div>
+                        <div class="has-text-grey mt-4 is-size-7"> Page Title:</div>
                         <div><%= @renderable['renderedTitle'] %> </div>
                     </div>
 
                     <div class="mr-6">
-                        <div class="has-text-grey mt-4"> URL:</div>
+                        <div class="has-text-grey mt-4 is-size-7"> URL:</div>
                         <div><%= @renderable['renderedURL'] %> </div>
                     </div>
                     -->
                     <% if @experiment.source_vendor %>
                         <div class="mr-6">
-                            <div class="has-text-grey mt-4"> Vendor:</div>
+                            <div class="has-text-grey mt-4 is-size-7"> Vendor</div>
                             <div><%= @experiment.source_vendor.name %> </div>
                         </div>
                     <% end %>

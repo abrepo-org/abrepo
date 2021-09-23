@@ -192,17 +192,29 @@ export default class RenderableContainer extends React.Component {
 
         return(
             <div className="column" style={wrapStyle}>
-                <h4>{this.props.label}</h4>
 
-                <RenderableScroll
-                    scrollListener = {this.renderableScrollHandler.bind(this)}
-                    {...this.props}>
+                <div className="mb-1">
 
-                    { this.drawSVGRects() }
+                    <h4 className="mb-1">{this.props.label}</h4>
 
-                </RenderableScroll>
+                    {this.props.renderable.renderedURL &&
+                     <div className='is-size-6'
+                          title={this.props.renderable.renderedTitle}>
+                         {this.props.renderable.renderedURL.replace(/https?:\/\//, '')}
+                     </div>
+                    }
 
-                <Img {...this.props} />
+                </div>
+
+              <RenderableScroll
+                  scrollListener = {this.renderableScrollHandler.bind(this)}
+                  {...this.props}>
+
+                  { this.drawSVGRects() }
+
+              </RenderableScroll>
+
+              <Img {...this.props} />
             </div>
         )
     }
