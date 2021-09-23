@@ -33,7 +33,7 @@ class ProfilesController < ApplicationController
 
   def show
     @profile = Profile.includes(experiments: {variations: :renderables})
-                 .find_by_id(profile_params[:id])
+                 .find_by_id(params[:id])
 
     @experiments = policy_scope(@profile.experiments)
 
@@ -67,14 +67,6 @@ class ProfilesController < ApplicationController
 
       @featured_experiments = policy_scope(Experiment).calcRank.limit(5)
     end
-
-
-  end
-
-
-
-  def profile_params
-    params.permit(:id)
   end
 
 end
