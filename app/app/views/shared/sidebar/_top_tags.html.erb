@@ -5,26 +5,37 @@
         Top Tags
     </p>
 
-
     <div class="panel-block has-text-grey">
-        <div class="field is-grouped is-grouped-multiline">
+        <ul class="field is-grouped-multiline" style="width:100%">
 
             <% tag_counts.each do |tag| %>
 
-                <div class="control" style="width: 100%;">
-                    <div class="tags are-medium has-addons">
+                <li class="control is-block has-text-left">
+                    <div class="tags are-medium has-addons is-block">
+
                         <%= link_to search_path(tags: [ tag[:name] ]) do %>
-                            <span class="tag is-info is-light" title="Tag name">
-                                <%= tag[:name] %>
-                            </span>
+
+                            <div class="is-inline-flex" style="max-width:100%;">
+
+                                <span class="tag is-info is-light is-block pt-1"
+                                      title=<%= tag[:name] %>
+                                      style="overflow:hidden; text-overflow:ellipsis;"
+                                >
+                                    <%= tag[:name] %>
+                                </span>
+
+                                <span class="tag"
+                                      title="Number of tagged variations">
+                                    <%= tag[:count] %>
+                                </span>
+                            </div>
+
                         <% end %>
-                        <span class="tag" title="Number of tagged variations">
-                            <%= tag[:count] %>
-                        </span>
+
                     </div>
-                </div>
+                </li>
             <% end %>
 
-        </div>
+        </ul>
     </div>
 </div>
