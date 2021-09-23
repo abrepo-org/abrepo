@@ -6,12 +6,12 @@ const DiffSummary = (props) => {
 
     return(
         <div className="diff-summary is-flex is-align-items-baseline pt-2 pb-1">
-          <span className={`${props.colorClass}`}>
+          <div className={`${props.colorClass}`}>
             {props.icon}
-          </span>
-          <span className='pl-2'>
+          </div>
+          <div className='diff-summary summary-text pl-2'>
             {props.summary}
-          </span>
+          </div>
         </div>
     );
 };
