@@ -3,9 +3,10 @@
 $addColorIcon: #228b22; //green;
 $removeColorIcon: #e03c31; //red
 
-.variation-stats {
-  min-width: 200px;
-  text-align: right;
+section.variation .tags {
+  @include from($desktop) {
+    margin-top: -.75rem;
+  }
 }
 
 /* variation#show */
