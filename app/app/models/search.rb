@@ -18,11 +18,13 @@ class Search
                   .uniq
 
       profile_exp_ids = Experiment
-                          .where(profile_id: Profile.search_company(query).pluck(:id))
+                          #.where(profile_id: Profile.search_industry(query).pluck(:id))
+                          .where(profile_id: Profile.search_industry_and_company(query).pluck(:id))
                           .pluck(:id)
       #
       # updated freetext exp_ids
       # join with any Profile.search_company experiment matches
+      #
       exp_ids = (exp_ids + profile_exp_ids).uniq
 
       variations = (variations || variationPolicyModel)
