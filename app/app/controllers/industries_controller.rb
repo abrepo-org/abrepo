@@ -22,6 +22,7 @@ class IndustriesController < ApplicationController
     if (params[:partial])
       respond_to do |format|
         format.html { render partial: 'industries' }
+        format.json { render json: @industries, only: [:name] }
       end
     end
   end
