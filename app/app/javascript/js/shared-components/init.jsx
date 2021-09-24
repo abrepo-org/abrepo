@@ -43,6 +43,15 @@ document.addEventListener('DOMContentLoaded', () => {
         render($industryForm, props);
     }
 
+    if ($profileForm) {
+        const props = {
+            baseURL: '/profiles',
+            destinationSelector: '#autocomplete-destination',
+            placeholder: "Filter Companies"
+        };
+        render($profileForm, props);
+    }
+
     if ($searchForm) {
         const props = {
             baseURL: '/search',
@@ -60,19 +69,4 @@ document.addEventListener('DOMContentLoaded', () => {
         $searchForm.replaceWith($inputTemp);
     }
 
-    if ($profileForm) {
-        const props = {
-            baseURL: '/profiles',
-            destinationSelector: 'pre',
-            placeholder: "Search"
-        };
-
-        ReactDOM.render(
-            <SearchForm industries={true}
-                        {...props} />,
-            $inputTemp
-        );
-
-        $profileForm.replaceWith($inputTemp);
-    }
 });

@@ -1,0 +1,6 @@
+<div id="autocomplete-destination" class="profiles-data">
+    <% @profiles.each do |profile| %>
+        <%= render partial: "profile_card_row", locals: {profile: profile} %>
+        <hr />
+    <% end %>
+</div>

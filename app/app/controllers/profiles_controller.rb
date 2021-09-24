@@ -1,7 +1,7 @@
 class ProfilesController < ApplicationController
 
   def index
-    @query = params[:query] || nil
+    @query = params[:query].blank? ? nil : params[:query]
     @industries = [* params[:industries] ]
 
     @profiles = Profile
@@ -28,6 +28,11 @@ class ProfilesController < ApplicationController
     @featured_experiments = Experiment.calcRank.limit(5)
 
 
+    if params[:partial]
+      respond_to do |format|
+        format.html { render partial: 'profile_cards' }
+      end
+    end
   end
 
 
