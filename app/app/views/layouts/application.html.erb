@@ -87,7 +87,8 @@
 
                                             <%= yield %>
                                         </div>
-                                        <%== pagy_bulma_nav(@pagy) if @pagy %>
+
+                                        <%== pagy_bulma_nav(@pagy) if @pagy && (@pagy.pages > 1) %>
                                     </div>
 
                                     <% unless is_layout_full %>
