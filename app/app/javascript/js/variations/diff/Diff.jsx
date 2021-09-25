@@ -44,7 +44,12 @@ export default class Diff extends React.Component {
 
         const rect = dim.ref.current.getClientRects()[0];
 
-        return {y: rect.y, height: rect.height};
+        return {
+            newDim: this.props.diff.newDim,
+            origDim: this.props.diff.origDim,
+            y: rect.y,
+            height: rect.height
+        };
     }
 
     render() {

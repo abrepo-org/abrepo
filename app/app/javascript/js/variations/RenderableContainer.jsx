@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import DiffBoundingBox from './boundingBox/DiffBoundingBox.jsx';
 import ActionBoundingBox from './boundingBox/ActionBoundingBox.jsx';
+import MaskBoundingBox from './boundingBox/MaskBoundingBox.jsx';
 import Img from './Img.jsx';
 import RenderableScroll from './RenderableScroll.jsx'
 
@@ -99,6 +100,7 @@ export default class RenderableContainer extends React.Component {
         };
 
         const elements = [].concat(...this.props.diffs, ...this.props.visibleActions)
+        const maskBboxes = [];
 
         const Bboxes = this.sortedBbox(elements).map( elem => {
 
@@ -106,6 +108,15 @@ export default class RenderableContainer extends React.Component {
                         (this.state.isControl ? elem.origDim : elem.newDim)
 
             if (elem.diffType) {
+
+                /* build and collect matching diff rect masks */
+                const mask = <MaskBoundingBox key={`mask-${elem.id}`}
+                                              isControl={this.state.isControl}
+                                              elem={elem}
+                                              dim={dim}
+                                              fill="black"/>;
+                maskBboxes.push(mask)
+
                 return <DiffBoundingBox key={elem.id}
                                         elem={elem}
                                         dim={dim}
@@ -117,6 +128,15 @@ export default class RenderableContainer extends React.Component {
             }
 
             if (elem.actionType) {
+
+                /* build and collect matching diff rect masks */
+                const mask = <MaskBoundingBox key={`mask-{elem.id}`}
+                                              isControl={this.state.isControl}
+                                              elem={elem}
+                                              dim={dim}
+                                              fill="black"/>;
+                maskBboxes.push(mask)
+
                 return <ActionBoundingBox key={elem.id}
                                           elem={elem}
                                           dim={dim}
@@ -126,13 +146,36 @@ export default class RenderableContainer extends React.Component {
                                           bboxClickHandler={this.props.rerender}
                        />;
             }
-        })
 
+        });
+
+        const maskID = this.state.isControl ? 'c-svg-mask' : 'svg-mask';
 
         return(
             <svg style={svgStyle} className="svg"
                  viewBox={`0 0 ${this.state.imgWidth} ${this.state.imgHeight}`}
                  xmlns="http://www.w3.org/2000/svg">
+
+                /* Mask */
+                <defs>
+                    <mask id={`${maskID}`}>
+
+                        <rect x="0" y="0"
+                              width={`${this.state.imgWidth}`}
+                              height={`${this.state.imgHeight}`}
+                              fill="white" />
+
+                        { maskBboxes }
+                    </mask>
+                </defs>
+
+
+                /* white, black toggle background here */
+                <rect x="0" y="0" width="1366" height="6062"
+                      fill="white"
+                      fillOpacity="0.6"
+                      mask={`url(#${maskID})`}/>
+
                 {Bboxes}
             </svg>
         )
