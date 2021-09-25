@@ -1,4 +1,5 @@
 class UserSavedVariationsController < ApplicationController
+  include UserSavedVariationsHash
   before_action :authenticate_user!
 
   def create
@@ -19,6 +20,23 @@ class UserSavedVariationsController < ApplicationController
   end
 
   def index
+
+    @experiments = Experiment
+                     .joins(variations: { user_saved_variations: :variation})
+                     .where('user_saved_variations.deleted': false,
+                            'user_saved_variations.user_id': current_user)
+                     .distinct
+
+    @experiments = policy_scope( @experiments )
+    @pagy, @experiments = pagy(@experiments)
+
+    # sidebar
+    @top_profiles = Sidebar.top_profiles
+
+    @top_industries = Sidebar.top_industries
+
+    # save hash indicator
+    @user_saved_variations = user_saved_variations_hash
   end
 
 

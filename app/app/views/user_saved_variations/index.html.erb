@@ -1,1 +1,39 @@
-<h1>UserSavedVariations#index</h1>
+<% content_for :title, "ABRepo | Saved Experments" %>
+<div class="header">
+  <h1>UserSavedVariations#index</h1>
+</div>
+<hr />
+
+<% if @experiments.empty? %>
+
+    <h5>Nothing Saved</h5>
+
+<% else %>
+    <!-- experiments loop -->
+    <table class="table">
+        <tbody>
+
+            <% @experiments.each do |experiment| %>
+
+                <% if policy_scope(experiment.variations).count > 0 %>
+                    <%= render partial: "/shared/expvar_table",
+                    locals: {profile: experiment.profile,
+                             experiment: experiment,
+                             variations: policy_scope(experiment.variations.order(:vendor_id)),
+                             audience: experiment.audience,
+                             source_vendor: experiment.source_vendor,
+                             user_saved_variations: @user_saved_variations
+                    }
+                    %>
+                <% end %>
+
+            <% end %>
+
+        </tbody>
+    </table>
+<% end %>
+
+
+<% content_for :sidebar do %>
+    <%= render 'sidebar' %>
+<% end %>
