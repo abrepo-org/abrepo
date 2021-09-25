@@ -5,6 +5,7 @@
 
         <%= form_with(url: search_path,
                       method: :get,
+                      local: true,
                       skip_enforcing_utf8: true,
                       id: "search-form-nav",
                       class: "is-flex") do |form| %>
@@ -12,10 +13,9 @@
             <div class="field">
                 <div id="search-control" class="control has-icons-left">
 
-                    <%= form.text_field :query,
-                        class: "input",
-                            placeholder: "Search Experiments",
-                            value: current_page?(search_path) ? params[:query] : ''
+                    <%= form.text_field :query, class: "input",
+                        placeholder: "Search Experiments",
+                        value: current_page?(search_path) ? params[:query] : ''
                     %>
 
                     <span class="icon is-small is-left">
