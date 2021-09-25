@@ -66,13 +66,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
               const vendor_id = $div.dataset.rootVendorId;
 
-              $div.addEventListener('click', (e) => {
+              $div.querySelectorAll('td.summary_name i, td.table-col-page')
+                  .forEach($d => {
+                      $d.addEventListener('click', (e) => {
 
-                  //*want* to follow link, and not run js
-                  if(e.target.tagName != "A") {
-                      varViewClickHandler($div, vendor_id);
-                  }
-              });
+                          console.log(e.target);
+
+                          varViewClickHandler($div, vendor_id);
+
+                      });
+                  });
           });
 
     /* attach save click handlers */
