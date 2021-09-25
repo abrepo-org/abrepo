@@ -9,9 +9,8 @@ class UserSavedVariationsController < ApplicationController
 
     # if exists set delete false / else true
     # has_many, dependent: :destroy
-    #status = true if @uv.save
-
-    #status = true
+    # status = true if @uv.save
+    # status = true
 
 
     respond_to do |format|

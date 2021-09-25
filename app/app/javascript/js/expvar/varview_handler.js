@@ -43,8 +43,14 @@ function userSaveVariationClickHandler($div) {
         if (res.ok) return res.json();
         throw new Error('[UserSaveVariation] error');
     }).then(resJSON => {
-        ///sucess
+
+        ///success
         console.log(resJSON);
+
+
+        resJSON.saved ?
+            $div.querySelector('i.fa-star').classList.replace('far', 'fas') :
+            $div.querySelector('i.fa-star').classList.replace('fas', 'far');
 
     }).catch(e => {
         console.error(e);

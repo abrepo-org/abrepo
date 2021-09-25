@@ -5,7 +5,20 @@ button.user-save-variations {
   span.icon {
     font-size: 14px;
   }
+  span.icon i.fas.fa-star {
+    //just keeping as solid for now
+    //color:  hsl(141, 53%, 31%); //solid only
+    //color: #28a745;
+  }
   span.text {
     font-size: 12px;
+  }
+
+  //overrides
+  &:focus, &.is-focused {
+    border-color: #dbdbdb;
+  }
+  &:focus:not(:active), &.is-focused:not(:active) {
+    box-shadow:none;
   }
 }
