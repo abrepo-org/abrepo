@@ -24,6 +24,7 @@ class TagsController < ApplicationController
     if params[:partial]
       respond_to do |format|
         format.html { render partial: 'tags' }
+        format.json { render json: @tags, only: [:name] }
       end
     end
   end

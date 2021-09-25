@@ -35,14 +35,14 @@
         <!-- Summary Name -->
         <td class="summary_name">
             <% if variation.multiple_views & variation.is_root %>
-                <i class="fas fa-caret-right mr-4 is-clickable"></i>
-                <i class="fas fa-caret-down mr-4 is-clickable is-hidden "></i>
+                <i class="fas fa-caret-right is-clickable"></i>
+                <i class="fas fa-caret-down is-clickable is-hidden "></i>
             <% end %>
 
             <% if !variation.multiple_views && !variation.is_root %>
 
                 <!-- indented -->
-                <i class="fas fa-caret-down is-invisible mr-4"></i>
+                <i class="fas fa-caret-down is-invisible"></i>
                 <%= link_to variation_path(variation) do %>
                     <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
                     [Pub: <%= variation.published? %>]
@@ -111,6 +111,8 @@
             expvar_date: experiment.created_at,
             #num_variations: policy_scope(experiment.variations).count
         }%>
-        <hr />
+
+        <%# has-background-grey-light, has-background-grey %>
+        <hr class="has-background-grey-light" />
     </th>
 </tr>

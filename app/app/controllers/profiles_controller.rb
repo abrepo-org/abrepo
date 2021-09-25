@@ -1,7 +1,7 @@
 class ProfilesController < ApplicationController
 
   def index
-    @query = params[:query] || nil
+    @query = params[:query].blank? ? nil : params[:query]
     @industries = [* params[:industries] ]
 
     @profiles = Profile
@@ -28,12 +28,17 @@ class ProfilesController < ApplicationController
     @featured_experiments = Experiment.calcRank.limit(5)
 
 
+    if params[:partial]
+      respond_to do |format|
+        format.html { render partial: 'profile_cards' }
+      end
+    end
   end
 
 
   def show
     @profile = Profile.includes(experiments: {variations: :renderables})
-                 .find_by_id(profile_params[:id])
+                 .find_by_id(params[:id])
 
     @experiments = policy_scope(@profile.experiments)
 
@@ -51,30 +56,10 @@ class ProfilesController < ApplicationController
 
       @pagy, @experiments = pagy(@experiments)
 
-      #Company tags and counts
-      @tag_counts = ActsAsTaggableOn::Tag
-                      .joins(:taggings)
-                      .select('tags.id, tags.name, COUNT(taggings.id) as count')
-                      .group('tags.id, tags.name')
-                      .where(taggings: { taggable_type: 'Variation',
-                                         taggable_id: policy_scope(Variation)
-                                           .joins(:experiment)
-                                           .where({experiment: {profile_id: @profile.id}})
-                                       })
-                      .order('tags.count desc')
-                      .limit(10)
-                      .map{ |tag| { id: tag[:id], name: tag[:name], count: tag['count'] } }
+      @tag_counts = Sidebar.top_tags(@profile)
 
       @featured_experiments = policy_scope(Experiment).calcRank.limit(5)
     end
-
-
-  end
-
-
-
-  def profile_params
-    params.permit(:id)
   end
 
 end

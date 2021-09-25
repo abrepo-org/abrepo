@@ -11,10 +11,11 @@
       <ul style="width:100%;">
 
         <% featured_experiments.each do |experiment| %>
-            <li class="is-inline-block has-text-left"
+            <li class="is-inline-block has-text-left"                
                 style="width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
 
-                <%= link_to profile_path(experiment.profile, anchor: "exp#{experiment.id}") do %>
+                <%= link_to profile_path(experiment.profile, anchor: "exp#{experiment.id}"),
+                            title: experiment.summary_name do %>
                     <%= experiment.summary_name %>
                 <% end %>
 

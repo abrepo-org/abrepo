@@ -58,3 +58,8 @@ tr.expvar-root-border {
     max-width: 25vw;
   }
 }
+
+//toggle icon min-width (prevent minor size adjust jiggle)
+.summary_name i.fas {
+  min-width: 1rem;
+}

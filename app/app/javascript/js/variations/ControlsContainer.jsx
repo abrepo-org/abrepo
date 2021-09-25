@@ -35,7 +35,8 @@ export default class ControlsContainer extends React.Component {
                                     </button>
                                     </>
                                     }
-                                    <button className="button" onClick={() => this.props.toggleDiffVisibleHandler()}>
+                                    <button className="button"
+                                            onClick={() => this.props.toggleDiffVisibleHandler()}>
 
                                         <span className="icon-text">
                                             <span className="icon is-small">
@@ -62,15 +63,16 @@ export default class ControlsContainer extends React.Component {
 
                             <SelectDropDown {...this.props} />
 
-                            <button className="button" onClick={() => this.props.togglebboxClickHandler()}>
+                            <button className="button"
+                                    onClick={() => this.props.togglebboxClickHandler()}>
                                 <span className="icon is-small" title="toggle bounding boxes">
                                     {this.props.bboxVisible ?
                                      <i className="fas fa-toggle-on"></i> :
                                      <i className="fas fa-toggle-off"></i>
                                     }
-
                                 </span>
                             </button>
+
                             <button className="button is-hidden-touch"
                                     onClick={() => this.props.toggleScrollBoxHandler()}>
                                 <span className="icon is-small" title="toggle scroll adjust">
@@ -80,16 +82,17 @@ export default class ControlsContainer extends React.Component {
                                     }
                                 </span>
                             </button>
+
+                            {/* reset */}
+                            {this.props.scrollBoxEnabled &&
+                            <button className="button is-hidden-touch"
+                                    onClick={() => this.props.resetScrollBoxHandler()}>
+                                <span className="icon is-small" title="toggle scroll adjust">
+                                    <i className="fas fa-level-up-alt"></i>
+                                </span>
+                            </button>
+                            }
                         </p>
-                        {/* reset */}
-                        {this.props.scrollBoxEnabled &&
-                        <button className="button is-hidden-touch"
-                                onClick={() => this.props.resetScrollBoxHandler()}>
-                            <span className="icon is-small" title="toggle scroll adjust">
-                                <i className="fas fa-level-up-alt"></i>
-                            </span>
-                        </button>
-                        }
 
                     </div>
                 </div>

@@ -25,11 +25,10 @@
 class Variation < ApplicationRecord
   include PgSearch::Model
 
-  multisearchable against: [:summary_name],
+  multisearchable against: [:summary_name, :tag_list, :page_tag_list],
+                  #against: [:summary_name],
                   additional_attributes: -> (variation) {{ experiment_id: variation.experiment_id }}
 
-  # TODO: move search to pg_search_documents
-  # table to leverage indexing
   pg_search_scope :search_tag,
                   associated_against: {
                     tag: [:name],

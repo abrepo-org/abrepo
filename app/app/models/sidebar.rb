@@ -45,4 +45,54 @@ class Sidebar
 
   end
 
+  def self.top_tags(profile)
+    # inner query groups number of taggings id per variation's vendor_id
+    # outer query groups by tag (totals) id and counts those instances
+    #
+    # for multi-page variations, there are typically multiple views
+    # rendered per variation. Our goal to count tags per single
+    # "variation" group, indicated by a shared variation.vendor_id.
+    #
+    # so our outer query groups counts each vendor_id tag instance
+    #
+
+    sql = %{
+        SELECT totals.id, totals.name, COUNT(totals.id) FROM
+            (SELECT tags.id, variations.vendor_id, tags.name
+             FROM tags
+             INNER JOIN taggings ON taggings.tag_id = tags.id
+             INNER JOIN variations ON taggings.taggable_id = variations.id
+             WHERE taggings.taggable_type = 'Variation'
+             GROUP BY tags.id, variations.vendor_id) as totals
+         GROUP BY totals.id, totals.name
+         ORDER BY count DESC
+         LIMIT 10
+    }
+
+    ActsAsTaggableOn::Tag
+      .find_by_sql(sql)
+      .map{ |tag| {id: tag.id, name: tag.name, count: tag['count']} }
+
+
+    #
+    # Previous Company tags and counts - this is across all
+    # variation-views (not grouped by vendor ids) so it overcounts
+    # tags on multi-page variations
+    #
+
+    # ActsAsTaggableOn::Tag
+    #   .joins(:taggings)
+    #   .select('tags.id, tags.name, COUNT(taggings.id) as count')
+    #   .group('tags.id, tags.name')
+    #   .where(taggings: { taggable_type: 'Variation',
+    #                          #taggable_id: policy_scope(Variation)
+    #                      taggable_id: Variation
+    #                        .joins(:experiment)
+    #                        .where({experiment: {profile_id: profile.id}})
+    #                    })
+    #   .order('tags.count desc')
+    #   .limit(10)
+    #   .map{ |tag| { id: tag[:id], name: tag[:name], count: tag['count'] } }
+
+  end
 end

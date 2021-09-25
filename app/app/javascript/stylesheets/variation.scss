@@ -60,7 +60,13 @@ button.diffDetail {
   font-size:.85rem;
 }
 
+/*
+ * DiffPanel DiffSummary
+ */
 
+.diffPanel .diff-summary .summary-text {
+  word-break: break-word;
+}
 
 /*
  * action control
