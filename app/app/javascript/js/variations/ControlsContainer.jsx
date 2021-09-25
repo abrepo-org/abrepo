@@ -59,7 +59,7 @@ export default class ControlsContainer extends React.Component {
 
                         {/* renderable control placeholders */}
 
-                        <p className="buttons">
+                        <div className="buttons">
 
                             <SelectDropDown {...this.props} />
 
@@ -92,7 +92,7 @@ export default class ControlsContainer extends React.Component {
                                 </span>
                             </button>
                             }
-                        </p>
+                        </div>
 
                     </div>
                 </div>
