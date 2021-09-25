@@ -3,6 +3,7 @@
 # Table name: user_saved_variations
 #
 #  id           :bigint           not null, primary key
+#  deleted      :boolean          default(FALSE)
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  user_id      :bigint
@@ -16,4 +17,6 @@
 class UserSavedVariation < ApplicationRecord
   belongs_to :user
   belongs_to :variation
+
+  validates_uniqueness_of :user_id, :scope => [:variation_id]
 end

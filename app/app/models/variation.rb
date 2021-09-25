@@ -42,7 +42,7 @@ class Variation < ApplicationRecord
   has_many :renderables, dependent: :destroy
   has_many :actions, -> { distinct }, through: :renderables
 
-  has_many :user_saved_variations
+  has_many :user_saved_variations, dependent: :destroy
   has_many :users, through: :user_saved_variations
 
   validates :a_id, :experiment_id, :vendor_id, presence: true

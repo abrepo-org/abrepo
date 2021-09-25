@@ -33,7 +33,7 @@
 #
 class User < ApplicationRecord
   has_many :subscriptions
-  has_many :user_saved_variations
+  has_many :user_saved_variations, dependent: :destroy
   has_many :variations, through: :user_saved_variations
 
 
