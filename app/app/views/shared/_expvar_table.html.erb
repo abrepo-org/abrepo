@@ -98,7 +98,11 @@
 
                 <span class="icon-text">
                     <span class="icon">
-                        <i class="far fa-star"></i>
+                        <% if user_saved_variations[variation.id] %>
+                            <i class="fas fa-star"></i>
+                        <% else %>
+                            <i class="far fa-star"></i>
+                        <% end %>
                     </span>
                 </span>
            </button>
