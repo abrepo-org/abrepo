@@ -1,4 +1,5 @@
 class ProfilesController < ApplicationController
+  include UserSavedVariationsHash
 
   def index
     @query = params[:query].blank? ? nil : params[:query]
@@ -59,6 +60,8 @@ class ProfilesController < ApplicationController
       @tag_counts = Sidebar.top_tags(@profile)
 
       @featured_experiments = policy_scope(Experiment).calcRank.limit(5)
+
+      @user_saved_variations = user_saved_variations_hash
     end
   end
 

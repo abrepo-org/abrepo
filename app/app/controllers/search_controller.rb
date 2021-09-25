@@ -1,4 +1,5 @@
 class SearchController < ApplicationController
+  include UserSavedVariationsHash
 
   def index
     #TODO: highlight match snippet
@@ -49,6 +50,7 @@ class SearchController < ApplicationController
     # 2. or topN of calcRank
     @featured_experiments = Experiment.calcRank.limit(5)
 
+    @user_saved_variations = user_saved_variations_hash
   end
 
 end
