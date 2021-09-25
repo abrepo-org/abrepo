@@ -17,7 +17,9 @@
                          experiment: experiment,
                          variations: policy_scope(experiment.variations.order(:vendor_id)),
                          audience: experiment.audience,
-                         source_vendor: experiment.source_vendor}
+                         source_vendor: experiment.source_vendor,
+                         user_saved_variations: @user_saved_variations
+                }
                 %>
             <% end %>
 

@@ -33,6 +33,9 @@
 #
 class User < ApplicationRecord
   has_many :subscriptions
+  has_many :user_saved_variations, dependent: :destroy
+  has_many :variations, through: :user_saved_variations
+
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

@@ -1,4 +1,5 @@
 class HomeController < ApplicationController
+  include UserSavedVariationsHash
 
   # home page feeed
   # 1. date: sort by "new", add pagination
@@ -23,5 +24,6 @@ class HomeController < ApplicationController
     # 2. or topN of calcRank
     @featured_experiments = Experiment.calcRank.limit(5)
 
+    @user_saved_variations = user_saved_variations_hash
   end
 end

@@ -1,0 +1,10 @@
+<!-- most active companies -->
+<%= render partial: "/shared/sidebar/top_profiles", locals: {
+    top_profiles: @top_profiles
+} if @top_profiles.length > 0 %>
+
+
+<!-- most active industries -->
+<%= render partial: "/shared/sidebar/top_industries", locals: {
+    top_industries: @top_industries
+} if @top_industries.length > 0 %>

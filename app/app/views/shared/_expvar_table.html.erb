@@ -18,7 +18,7 @@
     <th align="right">Watch</th>
 </tr>
 
-<!-- trying to find last child for broder-->
+
 <% variations.each_with_index do |variation, index| %>
 
     <% set_multiple_views(variations, index) %>
@@ -79,8 +79,9 @@
                     <span class="tag is-success is-light"
                           title="Variation implemented">
                         <span class="icon-text">
-
-                            <span class="icon"><i class="fas fa-check"></i></span>
+                            <span class="icon">
+                                <i class="fas fa-check"></i>
+                            </span>
                         </span>
                     </span>
 
@@ -90,15 +91,21 @@
             <% end %>
         </td>
 
-        <!--  Watch * -->
+        <!--  Saved -->
         <td align="right">
-            <button title="Watch" class="button is-small watch">
+            <button class="button is-small user-save-variations"
+                    data-variation-id="<%= variation.id %>" >
+
                 <span class="icon-text">
                     <span class="icon">
-                        <i class="far fa-star"></i>
+                        <% if user_saved_variations[variation.id] %>
+                            <i class="fas fa-star"></i>
+                        <% else %>
+                            <i class="far fa-star"></i>
+                        <% end %>
                     </span>
                 </span>
-            </button>
+           </button>
         </td>
 
     </tr>

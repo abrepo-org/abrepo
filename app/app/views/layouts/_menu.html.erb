@@ -5,6 +5,7 @@
 
         <%= form_with(url: search_path,
                       method: :get,
+                      local: true,
                       skip_enforcing_utf8: true,
                       id: "search-form-nav",
                       class: "is-flex") do |form| %>
@@ -12,10 +13,9 @@
             <div class="field">
                 <div id="search-control" class="control has-icons-left">
 
-                    <%= form.text_field :query,
-                        class: "input",
-                            placeholder: "Search Experiments",
-                            value: current_page?(search_path) ? params[:query] : ''
+                    <%= form.text_field :query, class: "input",
+                        placeholder: "Search Experiments",
+                        value: current_page?(search_path) ? params[:query] : ''
                     %>
 
                     <span class="icon is-small is-left">
@@ -29,22 +29,22 @@
     </a>
 
     <%= render partial: '/layouts/navlink', locals: {
-        linkurl: "/", linkclass:"navbar-item", text: "Home",
+        linkurl: root_path, linkclass:"navbar-item", text: "Home",
         icon: "home"
     } %>
 
     <%= render partial: '/layouts/navlink', locals: {
-        linkurl: "/profiles/", linkclass:"navbar-item", text: "Companies",
+        linkurl: profiles_path, linkclass:"navbar-item", text: "Companies",
         icon: "building"
     } %>
 
     <%= render partial: '/layouts/navlink', locals: {
-        linkurl: "/tags/", linkclass:"navbar-item", text: "Tags",
+        linkurl: tags_path, linkclass:"navbar-item", text: "Tags",
         icon: "tags"
     } %>
 
     <%= render partial: '/layouts/navlink', locals: {
-        linkurl: "/industries/", linkclass:"navbar-item", text: "Industries",
+        linkurl: industries_path, linkclass:"navbar-item", text: "Industries",
         icon: "industry"
     } %>
 
@@ -53,7 +53,7 @@
     <% if user_signed_in? %>
 
         <%= render partial: '/layouts/navlink', locals: {
-            linkurl: "/saved/", linkclass:"navbar-item", text: "Saved",
+            linkurl: saved_path, linkclass:"navbar-item", text: "Saved",
             icon: "star"
         } %>
 
