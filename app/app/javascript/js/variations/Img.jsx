@@ -9,20 +9,11 @@ export default class Img extends React.Component {
 
     }
 
-    // imgClick() {
-    //     this.props.imgClickHandler(this.props.renderable.control);
-    //     this.setState({bboxVisible: !this.state.bboxVisible});
-    // }
-
     render() {
 
         const style = {
-            outline: '1px solid #000',
-            opacity: this.props.bboxVisible ? .5 : 1.0
-            //filter: this.props.bboxVisible ? 'grayscale(1)' : false
+            outline: '1px solid #000'
         };
-
-        //console.log("IMG BBOXVISIBLE", this.props.bboxVisible);
 
         return(
             <img src={this.props.renderable.screenshot}
