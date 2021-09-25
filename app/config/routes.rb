@@ -27,6 +27,9 @@ Rails.application.routes.draw do
   resources :tags, only: ['index']
   resources :industries, only: ['index']
 
+  post '/saved', to: 'user_saved_variations#create'
+  get '/saved', to: 'user_saved_variations#index'
+
   # Search
   get 'search', action: :index, controller: 'search'
 

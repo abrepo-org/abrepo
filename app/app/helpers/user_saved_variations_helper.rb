@@ -1,0 +1,2 @@
+module UserSavedVariationsHelper
+end

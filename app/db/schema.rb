@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_10_074041) do
+ActiveRecord::Schema.define(version: 2021_09_25_050706) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -176,6 +176,15 @@ ActiveRecord::Schema.define(version: 2021_09_10_074041) do
     t.datetime "updated_at"
     t.integer "taggings_count", default: 0
     t.index ["name"], name: "index_tags_on_name", unique: true
+  end
+
+  create_table "user_saved_variations", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "variation_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_user_saved_variations_on_user_id"
+    t.index ["variation_id"], name: "index_user_saved_variations_on_variation_id"
   end
 
   create_table "users", force: :cascade do |t|
