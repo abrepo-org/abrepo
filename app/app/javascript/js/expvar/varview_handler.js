@@ -1,5 +1,5 @@
 /*
- * shared/expvar_table handler to toggle classes onClick
+ * shared/expvar_table handlers to toggle classes onClick
  */
 
 function varViewClickHandler($rootDiv, vendor_id) {
@@ -16,6 +16,40 @@ function varViewClickHandler($rootDiv, vendor_id) {
     $rootDiv.querySelectorAll('.see-more')
         .forEach( $div => $div.classList.toggle('is-hidden'));;
 };
+
+
+function userSaveVariationClickHandler($div) {
+
+    const url = '/saved';
+
+    const authenticity_token = document
+          .querySelector('meta[name="csrf-token"]')
+          .getAttribute("content");
+
+    const data = {
+        authenticity_token,
+        id: $div.dataset.variationId,
+    };
+
+    window.fetch(url, {
+        method: 'POST',
+        headers:  {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+
+    }).then(res => {
+        if (res.ok) return res.json();
+        throw new Error('[UserSaveVariation] error');
+    }).then(resJSON => {
+        ///sucess
+        console.log(resJSON);
+
+    }).catch(e => {
+        console.error(e);
+    });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -34,5 +68,14 @@ document.addEventListener('DOMContentLoaded', () => {
                   }
               });
           });
+
+    /* attach save click handlers */
+    const $user_saves = document
+          .querySelectorAll('button.user-save-variations')
+          .forEach( $div => {
+              $div.addEventListener('click', (e) => {
+                  userSaveVariationClickHandler($div);
+              });
+    });
 
 });
