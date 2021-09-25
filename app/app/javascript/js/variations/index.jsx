@@ -103,18 +103,36 @@ export default class Variation extends React.Component {
 
         if (!location) return;
 
-        const y = location.y
+        const y = location.y;
 
         this.renderablePanelRef.current.scrollBy({left:0,
                                                   top: y - window.innerHeight/2,
                                                   behavior: "smooth"});
+
+
+        // Wiggle animation onClick to help identify diff location
+        const addAnimation = ($bbox) => {
+
+            $bbox.addEventListener('animationend', () => {
+                $bbox.classList.toggle('shake');
+            }, {once:true});
+
+            $bbox.classList.toggle('shake');
+        };
+
+        const $newBbox = location.newDim && location.newDim.ref.current;
+        if ($newBbox) addAnimation($newBbox);
+
+        const $origBbox = location.origDim && location.origDim.ref.current;
+        if ($origBbox) addAnimation($origBbox);
+
     }
 
     modalLaunchHandler(diff) {
         console.log("modalLaunchHandler", diff);
         this.setState({
             modalDiff: diff
-        })
+        });
     }
 
     //elem: diff or action element (not bbox);
@@ -131,7 +149,7 @@ export default class Variation extends React.Component {
         }
 
         //ElemPanel desktop view
-        const y = rect.y
+        const y = rect.y;
 
         this.diffPanelRef.current.scrollBy({left:0,
                                             top: y - window.innerHeight/2,
