@@ -109,6 +109,7 @@ class ImportsController < ApplicationController
                       tag_list: variation['tags']['tag_list'],
                       page_tag_list: variation['tags']['page_tag_list'],
                       published: variation['published'] || false,
+                      verified: variation['annotationStatus'] == 'verified',
                       experiment: @experiment)
 
     #Aciton, Renderable, Diffs - pegged to Variation and crawlId
