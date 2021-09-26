@@ -19,7 +19,8 @@
                     <%= render partial: "/shared/expvar_table",
                     locals: {profile: experiment.profile,
                              experiment: experiment,
-                             variations: policy_scope(experiment.variations.order(:vendor_id)),
+                             variations: policy_scope(experiment.variations
+                                                      .order(vendor_id: :asc, verified: :desc)),
                              audience: experiment.audience,
                              source_vendor: experiment.source_vendor,
                              user_saved_variations: @user_saved_variations
