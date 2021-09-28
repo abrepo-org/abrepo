@@ -18,7 +18,7 @@ export default class RenderableScroll extends React.Component {
             //TODO: add debounce
             console.log(e);
 
-            this.props.scrollListener(e.deltaY);
+            this.props.scrollListener(this.props.shiftID, e.deltaY);
         }
     }
 

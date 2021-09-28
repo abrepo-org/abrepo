@@ -17,10 +17,6 @@ export default class RenderableContainer extends React.Component {
 
             imgWidth: this.props.renderable.screenshotWidth,
             imgHeight: this.props.renderable.screenshotHeight,
-
-            shift: 0,
-            resetShift: this.props.resetShift,
-            busy: false
         };
 
     }
@@ -181,46 +177,11 @@ export default class RenderableContainer extends React.Component {
         )
     }
 
-
-
-    renderableScrollHandler(deltaY) {
-        console.log("rcScroll", deltaY);
-
-        //deltaY value is inconsistent across browsers, can only rely
-        //on direction
-        const normDeltaY = deltaY > 0 ? 1 : -1;
-        const deltaYScrollFactor = 120;
-
-        if (!this.state.busy) {
-            setTimeout(() => {
-
-                this.setState({
-                    shift: this.state.shift + (normDeltaY * deltaYScrollFactor),
-                    busy: false
-                });
-
-            }, 100);
-        }
-
-        this.setState({ busy: true});
-    }
-
-    componentDidUpdate(prevProps) {
-        //if resetShift is triggered externally, the prop will increment
-        //indicating a reset compared to previous prop.
-        //Otherwise additional re-renders are tied to setState, so props don't change.
-        //example of when you need props to update an internal component state
-        if(this.props.resetShift != prevProps.resetShift) {
-            console.log('reset shift')
-            this.setState({shift:0})
-        }
-    }
-
-    render() {
+  render() {
 
         let marginTop = '0px'
-        if (this.state.shift) {
-            marginTop = `${-this.state.shift}px`
+        if (this.props.shift) {
+            marginTop = `${-this.props.shift}px`
         }
 
         const wrapStyle = {
@@ -250,7 +211,8 @@ export default class RenderableContainer extends React.Component {
                 </div>
 
               <RenderableScroll
-                  scrollListener = {this.renderableScrollHandler.bind(this)}
+                  scrollListener = {this.props.renderableScrollHandler}
+                  shiftID={this.props.shiftID}
                   {...this.props}>
 
                   { this.drawSVGRects() }
