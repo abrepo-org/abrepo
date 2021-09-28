@@ -48,8 +48,8 @@ export default class Variation extends React.Component {
 
             modalDiff: null,
 
-            shiftV: 0,
-            shiftC: 0,
+            shiftV: 0,  //shift Variation RenderableContainer
+            shiftC: 0,  //shift Control RenderableContainer
             busy:false
         }
 
@@ -96,7 +96,7 @@ export default class Variation extends React.Component {
         });
     }
 
-    //DiffPanel diff click
+    //DIFFPANEL diff click
     diffClickHandler(diffRef, location) {
         //setState clicked, toggle diff visible
         //ref are set in BoundingBox.jsx, Diff.jsx on componentDidMount
@@ -104,6 +104,30 @@ export default class Variation extends React.Component {
         console.log("diffClickHandler", diffRef, location);
 
         if (!location) return;
+
+        /*
+         * SHIFT offset
+         * resets any off-screen shift of renderable container, while
+         * maintaining the offset.
+         *
+         * A shift represents a Y value scroll.
+         * shift > 0 is Y-value down, meaning the upper part of the
+         * image scrolls off screen and won't be visible.
+         *
+         * Issue: when diffClick to scroll to bbox, position is off screen
+         * so we calculate the offset and then re-shift everything to 0
+         * to maintain alignment.
+         */
+
+        const offset = Math.abs(this.state.shiftV - this.state.shiftC);
+        const shiftV = this.state.shiftV > this.state.shiftC ? 0 : -offset;
+        const shiftC = this.state.shiftV > this.state.shiftC ? -offset : 0;
+
+        this.setState({
+            shiftV, shiftC
+        });
+
+        console.log("DIFFBB", this.state.shiftV, this.state.shiftC);
 
         const y = location.y;
 
@@ -137,7 +161,7 @@ export default class Variation extends React.Component {
         });
     }
 
-    //elem: diff or action element (not bbox);
+    //DIFFBBOX elem: diff or action element (not bbox);
     diffBboxClickHandler(elem, rect) {
         console.log("diffBboxClickHandler", elem, rect);
 
