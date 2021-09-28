@@ -48,6 +48,8 @@ export default class Variation extends React.Component {
 
             modalDiff: null,
 
+            shiftV: 0,  //shift Variation RenderableContainer
+            shiftC: 0,  //shift Control RenderableContainer
             busy:false
         }
 
@@ -94,7 +96,7 @@ export default class Variation extends React.Component {
         });
     }
 
-    //DiffPanel diff click
+    //DIFFPANEL diff click
     diffClickHandler(diffRef, location) {
         //setState clicked, toggle diff visible
         //ref are set in BoundingBox.jsx, Diff.jsx on componentDidMount
@@ -102,6 +104,30 @@ export default class Variation extends React.Component {
         console.log("diffClickHandler", diffRef, location);
 
         if (!location) return;
+
+        /*
+         * SHIFT offset
+         * resets any off-screen shift of renderable container, while
+         * maintaining the offset.
+         *
+         * A shift represents a Y value scroll.
+         * shift > 0 is Y-value down, meaning the upper part of the
+         * image scrolls off screen and won't be visible.
+         *
+         * Issue: when diffClick to scroll to bbox, position is off screen
+         * so we calculate the offset and then re-shift everything to 0
+         * to maintain alignment.
+         */
+
+        const offset = Math.abs(this.state.shiftV - this.state.shiftC);
+        const shiftV = this.state.shiftV > this.state.shiftC ? 0 : -offset;
+        const shiftC = this.state.shiftV > this.state.shiftC ? -offset : 0;
+
+        this.setState({
+            shiftV, shiftC
+        });
+
+        console.log("DIFFBB", this.state.shiftV, this.state.shiftC);
 
         const y = location.y;
 
@@ -135,7 +161,7 @@ export default class Variation extends React.Component {
         });
     }
 
-    //elem: diff or action element (not bbox);
+    //DIFFBBOX elem: diff or action element (not bbox);
     diffBboxClickHandler(elem, rect) {
         console.log("diffBboxClickHandler", elem, rect);
 
@@ -156,6 +182,39 @@ export default class Variation extends React.Component {
                                             behavior: "smooth"});
     }
 
+
+    renderableScrollHandler(shiftID, deltaY) {
+        console.log("rcScroll", shiftID, deltaY);
+
+        //deltaY value is inconsistent across browsers, can only rely
+        //on direction
+        const normDeltaY = deltaY > 0 ? 1 : -1;
+        const deltaYScrollFactor = 120;
+
+        if (!this.state.busy) {
+            setTimeout(() => {
+
+                const shift = this.state[shiftID] + (normDeltaY * deltaYScrollFactor);
+
+                this.setState({
+                    [shiftID]: shift,
+                    busy: false
+                });
+
+            }, 100);
+        }
+
+        this.setState({ busy: true});
+    }
+
+
+    resetScrollBoxHandler() {
+        /* console.log("resetScrollBoxHandler", this.state.resetShift);
+         * this.setState({resetShift: this.state.resetShift + 1})
+         */
+        this.setState({shiftV:0, shiftC:0});
+    }
+
     //toggles for compare-single-double: {0,1,2}
     toggleActiveViewHandler(activeView) {
         console.log('toggleActiveViewHandler', activeView);
@@ -173,11 +232,6 @@ export default class Variation extends React.Component {
         this.setState({
             scrollBoxEnabled: !this.state.scrollBoxEnabled,
         });
-    }
-
-    resetScrollBoxHandler() {
-        console.log("resetScrollBoxHandler", this.state.resetShift);
-        this.setState({resetShift: this.state.resetShift + 1})
     }
 
     toggleDiffVisibleHandler() {
@@ -362,7 +416,9 @@ export default class Variation extends React.Component {
                                                   bboxHoverHandler={this.bboxHoverHandler.bind(this)}
                                                   rerender={this.rerender.bind(this)}
                                                   diffBboxClickHandler={this.diffBboxClickHandler.bind(this)}
-                                                  resetShift={this.state.resetShift}
+                                                  renderableScrollHandler={this.renderableScrollHandler.bind(this)}
+                                                  shiftID="shiftV"
+                                                  shift={this.state.shiftV}
 
                                                   isVisible={[0, 1].includes(this.state.activeView)}
                                                   {...this.props} />
@@ -378,7 +434,9 @@ export default class Variation extends React.Component {
                                                   bboxHoverHandler={this.bboxHoverHandler.bind(this)}
                                                   rerender={this.rerender.bind(this)}
                                                   diffBboxClickHandler={this.diffBboxClickHandler.bind(this)}
-                                                  resetShift={this.state.resetShift}
+                                                  renderableScrollHandler={this.renderableScrollHandler.bind(this)}
+                                                  shiftID="shiftC"
+                                                  shift={this.state.shiftC}
 
                                                   isVisible={[0, 2].includes(this.state.activeView)}
                                                   {...this.props} />
