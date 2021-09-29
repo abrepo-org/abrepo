@@ -37,7 +37,8 @@ commentary = false
                     <%= link_to profile_path(@profile) do %>
 
                         <span class="profile_favicon">
-                            <%= image_tag('https://www.' + @profile.domain + '/favicon.ico',
+                            <%= image_tag(@profile.favicon_url ||
+                                          'https://www.' + @profile.domain + '/favicon.ico',
                                           loading: 'lazy') %>
                         </span>
                         <span><%= @profile.company_name || @profile.domain %></span>

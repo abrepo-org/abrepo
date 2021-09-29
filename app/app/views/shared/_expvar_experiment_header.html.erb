@@ -15,7 +15,8 @@
             <div class="mr-6 mb-4">
                 <%= link_to profile do %>
                     <span class="profile_favicon">
-                        <%= image_tag('https://www.' + profile.domain + '/favicon.ico',
+                        <%= image_tag(profile.favicon_url ||
+                                      'https://www.' + profile.domain + '/favicon.ico',
                                       loading: 'lazy',
                                       width: '16px') %>
                     </span>
