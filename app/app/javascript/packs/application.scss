@@ -35,6 +35,12 @@ $border-grey: rgb(227, 232, 238); //#e2e7ee
 @import "../stylesheets/devise.scss";
 @import "../stylesheets/checkout.scss";
 
+.navbar-brand {
+  font-family: 'Dosis', sans-serif;
+  font-weight:600;
+  font-size:32px;
+}
+
 .is-fullwidth-tablet {
   @include from($tablet) {
     width: 100%;
