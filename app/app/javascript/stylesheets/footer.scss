@@ -1,0 +1,18 @@
+/* footer */
+
+footer {
+  border-top: 1px solid #000;
+
+  .content ul {
+    list-style: none;
+    li { padding: 1rem; }
+
+    //override
+    li + li { margin-top: 0px !important; }
+  }
+
+  .navbar-brand {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+}

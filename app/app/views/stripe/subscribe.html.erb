@@ -84,7 +84,10 @@
 
 <%= content_for(:footer) do %>
 
-    <pre><%= @price %> </pre>
+    <% unless ENV['production'] %>
+        <!-- only dev/staging  -->
+        <script>console.log(<%= raw @price %>)</script>
+    <% end %>
 
     <script src="https://js.stripe.com/v3/"></script>
     <script>

@@ -34,6 +34,13 @@ $border-grey: rgb(227, 232, 238); //#e2e7ee
 @import "../stylesheets/profile.scss";
 @import "../stylesheets/devise.scss";
 @import "../stylesheets/checkout.scss";
+@import "../stylesheets/footer.scss";
+
+.navbar-brand {
+  font-family: 'Dosis', sans-serif;
+  font-weight:600;
+  font-size:32px;
+}
 
 .is-fullwidth-tablet {
   @include from($tablet) {
@@ -48,9 +55,6 @@ section.section {
   min-height: 80vh;
 }
 
-footer {
-  border-top: 1px solid #000;
-}
 
 .is-size-6-5 {
   font-size: .875rem !important;

@@ -10,6 +10,20 @@
         <%= csp_meta_tag %>
 
         <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+        <%= favicon_pack_tag 'favicons/apple-touch-icon.png', sizes:'180x180',
+            rel:"apple-touch-icon" %>
+        <%= favicon_pack_tag 'favicons/android-chrome-192x192.png', sizes:'192x192' %>
+        <%= favicon_pack_tag 'favicons/android-chrome-512x512.png', sizes:'512x512' %>
+        <%= favicon_pack_tag 'favicons/favicon-32x32.png', sizes:'32x32'%>
+        <%= favicon_pack_tag 'favicons/favicon-16x16.png', sizes:'16x16' %>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500;600&family=Lato:wght@400;500;600&family=Open+Sans&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+
         <%
           packs = ['application']
           packs = ['application', 'shared-components'] \
@@ -18,8 +32,6 @@
         <%= javascript_pack_tag *packs, 'data-turbolinks-track': 'reload' %>
         <%= yield :js %>
 
-        <link href='https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
     </head>
 
     <body class="has-navbar-fixed-top <%= "devise" if content_for?(:devise) %>" >

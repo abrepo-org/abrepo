@@ -1,8 +1,8 @@
 <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="container is-fluid">
     <div class="navbar-brand">
-        <a class="navbar-item navbar-logo" href="#">
-            <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+        <a class="navbar-item navbar-logo" href="<%= root_path %>">
+          ABREPO
         </a>
 
         <a role="button" class="mt-4 navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
@@ -16,7 +16,7 @@
         <div class="container navbar-start">
             <!-- Menu Desktop -->
             <%= render partial: "/layouts/menu", locals: {
-                classes: 'is-inline-flex ml-2 is-hidden-touch'} %>
+                classes: 'is-inline-flex ml-4 is-hidden-touch'} %>
         </div>
 
         <div class="navbar-end ml-0">
