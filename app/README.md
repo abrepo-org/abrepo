@@ -336,6 +336,12 @@ Login page error messages use flash
 
 ```
 
+
+## Favicons
+
+https://redketchup.io/favicon-generator
+
+
 ---
 
 This README would normally document whatever steps are necessary to get the
