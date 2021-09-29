@@ -25,6 +25,9 @@ a.navbar-item, .navbar-link {
   }
 }
 
+.navbar-end {
+  min-width: 194px; //to even out container width
+}
 /*
  * navbar buttons
  */
