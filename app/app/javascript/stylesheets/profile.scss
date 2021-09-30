@@ -9,9 +9,11 @@
 
 /*
  * profile#show
+ * also expvar
  */
 
 .profile_favicon {
   display:inline-block;
   width: 1.25rem; //match is-size-5 font
+  vertical-align:middle;
 }
