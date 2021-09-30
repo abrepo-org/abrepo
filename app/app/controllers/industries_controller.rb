@@ -22,7 +22,13 @@ class IndustriesController < ApplicationController
     if (params[:partial])
       respond_to do |format|
         format.html { render partial: 'industries' }
-        format.json { render json: @industries, only: [:name] }
+        format.json {
+          render json: {
+                   results: @industries.slice(0, 11).map{ |k| { name: k.name }},
+                   total: ActsAsTaggableOn::Tag.for_context('industry_tag').count
+                 }
+        }
+
       end
     end
   end

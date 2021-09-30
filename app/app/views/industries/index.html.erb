@@ -1,35 +1,10 @@
 <% content_for :title, "ABRepo | Industries" %>
-<h1>industries#index</h1>
+<h1>Industries</h1>
 
 <!-- Filter -->
-<%= form_with(url: industries_path,
-              method: :get,
-              skip_enforcing_utf8: true,
-              id: "industries-filter",
-              class: "is-flex") do |form| %>
-
-    <div class="field">
-        <div id="search-control" class="control has-icons-left">
-
-            <%= form.text_field :query,
-                class: "input is-small",
-                placeholder: "Filter Industries",
-                value: params[:query]
-            %>
-
-            <span class="icon is-small is-left">
-                <i class="fas fa-search"></i>
-            </span>
-        </div>
-    </div>
-
-    <div class="field">
-        <div class="control">
-          <input class="ml-4 button is-small is-info"
-                 type="submit" value="Submit">
-        </div>
-    </div>
-<% end %>
+<form id="industries-filter">
+  <!-- JS -->
+</form>
 
 
 <!-- Results -->

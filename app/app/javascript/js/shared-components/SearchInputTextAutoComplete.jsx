@@ -6,53 +6,73 @@ export const SearchInputTextAutoComplete = (props) => {
     const baseURL = props.baseURL;
     const destinationSelector = props.destinationSelector;
     const setAutoCompleteResults = props.setAutoCompleteResults;
+    const setAutoCompleteTotals = props.setAutoCompleteTotals;
     const placeholder = props.placeholder;
     const updateURL = props.updateURL;
     const queryField = props.queryField;
+    //const selectedTags = props.selectedTags;
 
     let searchParams = new URLSearchParams(window.location.search);
     const [query, setQuery] = useState('');
 
     const debouncedFetchAPI = useCallback(
         debounce(value => fetchAPI(value), 500),
-	[]
+	[props.resetTrigger]
     );
+
+    //NB: these hit the *.json* endpoint
+    //so the response does differ from the resource (tags/industries)
+    //autocomplete forms which request html
 
     const fetchAPI = (value) => {
 
+
         return fetch(`${baseURL}?query=${value}&partial=true`)
             .then(res => res.json())
-            .then(res => {
+            .then(json => {
 
                 //updateValue (setAutoCompleteTags)
-                const autocompleteTags = res.map( tag => tag.name);
+                const res = json.results;
+                const totalTags = json.total;
+
+                //filter out already selected
+                const autocompleteTags = res.map( tag => tag.name)
+                                            .filter(name => !props.selectedTags.includes(name));
+
                 setAutoCompleteResults && setAutoCompleteResults(autocompleteTags);
+                setAutoCompleteTotals && setAutoCompleteTotals(totalTags);
 
                 //updateURL bar w/ change
                 updateURL && updateURL(value);
 
-                props.setInputBusy && props.setInputBusy(false);
             });
     };
 
     const changeHandler = (e) => {
-
-        props.setInputBusy && props.setInputBusy(true);
 
         setQuery(e.target.value);
 
         debouncedFetchAPI(e.target.value);
     };
 
-    //reset trigger
+
+    /*
+     * NB: useEffect is called on each update
+     * an empty array is equivalent to componentDidMount(), called once
+     * on initial render.
+     * resetTrigger provides change condition to run useEffect;
+     */
     useEffect( () => {
-        console.log("useEffect", props.resetTrigger);
-        setQuery("");
+        //console.log("useEffect", props.resetTrigger);
+        setQuery('')
+
+        debouncedFetchAPI(query);
 
     }, [props.resetTrigger]);
 
     const controlStyle = {
-        width: '20rem'
+        width: '20rem',
+        overflow: 'auto'
     };
 
     const inputStyle = {
@@ -62,6 +82,7 @@ export const SearchInputTextAutoComplete = (props) => {
     };
 
 
+    //selected autocomplete tags
     return(
         <div className="field">
           <div id="search-control-tag"

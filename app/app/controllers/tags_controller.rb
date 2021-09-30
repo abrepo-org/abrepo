@@ -24,7 +24,13 @@ class TagsController < ApplicationController
     if params[:partial]
       respond_to do |format|
         format.html { render partial: 'tags' }
-        format.json { render json: @tags, only: [:name] }
+        format.json {
+          render json: {
+                   results: @tags.slice(0, 11).map{ |k| { name: k.name }},
+                   total: ActsAsTaggableOn::Tag.for_context('page_tag').count +
+                   ActsAsTaggableOn::Tag.for_context('tag').count
+                 }
+        }
       end
     end
   end

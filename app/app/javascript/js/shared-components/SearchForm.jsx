@@ -27,7 +27,6 @@ export const SearchForm = (props) => {
 
             <InputText queryField="query"
                        {...props} />
-
             {props.tags &&
              <SearchFilter
                  searchParams={searchParams}

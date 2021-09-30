@@ -8,7 +8,7 @@ export const Button = (props) => {
             <input className="ml-4 button is-small is-info"
                    type="submit"
                    disabled={props.disabled}
-                   value="Submit" />
+                   value="Filter" />
           </div>
         </div>
     );

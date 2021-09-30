@@ -10,14 +10,17 @@ export const SearchFilter = (props) => {
                                                            .getAll(props.queryField)) || '' )
 
     const [autocompleteTags, setAutocompleteTags] = useState([]);
+    const [autocompleteTotals, setAutocompleteTotals]  = useState(false);
     const [resetTrigger, setResetTrigger] = useState(0);
 
     const addTag = (tag) => {
         setSelectedTags(selectedTags => [...selectedTags, tag])
+        setResetTrigger(resetTrigger+1);
     };
 
     const removeTag = (tag) => {
         setSelectedTags(selectedTags => selectedTags.filter(t => t != tag))
+        setResetTrigger(resetTrigger+1);
     };
 
     const clearSelected = () => {
@@ -56,7 +59,7 @@ export const SearchFilter = (props) => {
                             onClick={(e) => openCloseClickHandler(e)}
                             aria-haspopup="true"
                             aria-controls="dropdown-menu-tag">
-                        <span>{props.name}</span>
+                        <span>Filter by {props.name}</span>
                         <span className="icon is-small">
                             <i className="fas fa-angle-down" aria-hidden="true"></i>
                         </span>
@@ -84,6 +87,7 @@ export const SearchFilter = (props) => {
                                 queryField={props.queryField}
                                 resetTrigger={resetTrigger}
                                 setAutoCompleteResults={setAutocompleteTags}
+                                setAutoCompleteTotals={setAutocompleteTotals}
                                 selectedTags={selectedTags}
                                 removeTag={removeTag}
                                 placeholder={props.placeholder}
@@ -91,18 +95,29 @@ export const SearchFilter = (props) => {
 
                             <div id="tag-destination">
 
-                                <ul className="tags ml-0">
+                                <ul className="tags ml-0 is-inline">
 
                                     {
-                                        autocompleteTags.map(tag => {
+                                        autocompleteTags.map( (tag, i) => {
                                             return (<AutoCompleteTag key={tag}
                                                                      tag={tag}
+                                                                     i={i}
                                                                      clearSelected={clearSelected}
                                                                      addTag={addTag} />);
                                         })
                                     }
 
                                 </ul>
+
+
+                                {!!autocompleteTotals &&
+                                 <div className="ml-1 mt-2">
+                                     <a href={`/${props.name.toLowerCase()}/`}>
+                                         See All {autocompleteTotals ?
+                                                    `(${autocompleteTotals})` : '' }
+                                     </a>
+                                 </div>
+                                }
 
                             </div>
                         </div>
