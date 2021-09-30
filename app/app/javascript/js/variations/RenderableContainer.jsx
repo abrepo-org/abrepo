@@ -167,7 +167,9 @@ export default class RenderableContainer extends React.Component {
 
 
                 /* white, black toggle background here */
-                <rect x="0" y="0" width="1366" height="6062"
+                <rect x="0" y="0"
+                      width={`${this.state.imgWidth}`}
+                      height={`${this.state.imgHeight}`}
                       fill="white"
                       fillOpacity="0.6"
                       mask={`url(#${maskID})`}/>

@@ -1,18 +1,28 @@
 <div class="experiment is-flex is-justify-content-space-between">
 
     <!-- Experiment Name -->
-    <div class="experiment-header mb-2">
+    <div class="experiment-header">
 
-        <h4 id="exp<%=experiment.id%>" class="anchor-fragment">
+        <h4 id="exp<%=experiment.id%>" class="anchor-fragment  mb-2">
             <%= experiment.summary_name || "Experiment Name: Unnamed" %>
             [Pub: <%= experiment.published? %>]
         </h4>
 
+        <!-- Targeting -->
+        <% unless audience['name'].blank? %>
+            <div class="is-flex is-flex-wrap-wrap mb-2">
+                <span title="Targeting"
+                      class="targeting-value has-text-grey has-text-weight-normal">
+                    <%= audience['name'].split(',').join(", ") %>
+                </span>
+            </div>
+        <% end %>
 
-        <div class="is-flex is-flex-wrap-wrap is-align-items-baseline">
+
+        <div class="is-flex is-flex-wrap-wrap is-align-items-center">
 
             <!-- company info -->
-            <div class="mr-6 mb-4">
+            <div class="mr-4 mb-4">
                 <%= link_to profile do %>
                     <span class="profile_favicon">
                         <%= image_tag(profile.favicon_url ||
@@ -21,7 +31,7 @@
                                       width: '16px') %>
                     </span>
 
-                    <span class="profile_domain has-text-grey">
+                    <span class="profile_domain has-text-grey has-text-weight-normal">
                         <%= profile.domain %>
                     </span >
                 <% end %>
@@ -39,16 +49,6 @@
                 </span>
             <% end %>
         </div>
-
-        <!-- Targeting -->
-        <% unless audience['name'].blank? %>
-            <div>
-                <span title="Targeting"
-                      class="targeting-value has-text-grey has-text-weight-normal">
-                    <%= audience['name'].split(',').join(", ") %>
-                </span>
-            </div>
-         <% end %>
 
     </div>
 
