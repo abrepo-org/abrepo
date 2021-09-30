@@ -15,10 +15,12 @@ export const SearchFilter = (props) => {
 
     const addTag = (tag) => {
         setSelectedTags(selectedTags => [...selectedTags, tag])
+        setResetTrigger(resetTrigger+1);
     };
 
     const removeTag = (tag) => {
         setSelectedTags(selectedTags => selectedTags.filter(t => t != tag))
+        setResetTrigger(resetTrigger+1);
     };
 
     const clearSelected = () => {
