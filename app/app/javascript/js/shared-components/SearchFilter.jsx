@@ -10,6 +10,7 @@ export const SearchFilter = (props) => {
                                                            .getAll(props.queryField)) || '' )
 
     const [autocompleteTags, setAutocompleteTags] = useState([]);
+    const [autocompleteTotals, setAutocompleteTotals]  = useState(false);
     const [resetTrigger, setResetTrigger] = useState(0);
 
     const addTag = (tag) => {
@@ -84,6 +85,7 @@ export const SearchFilter = (props) => {
                                 queryField={props.queryField}
                                 resetTrigger={resetTrigger}
                                 setAutoCompleteResults={setAutocompleteTags}
+                                setAutoCompleteTotals={setAutocompleteTotals}
                                 selectedTags={selectedTags}
                                 removeTag={removeTag}
                                 placeholder={props.placeholder}
@@ -91,18 +93,29 @@ export const SearchFilter = (props) => {
 
                             <div id="tag-destination">
 
-                                <ul className="tags ml-0">
+                                <ul className="tags ml-0 is-inline">
 
                                     {
-                                        autocompleteTags.map(tag => {
+                                        autocompleteTags.map( (tag, i) => {
                                             return (<AutoCompleteTag key={tag}
                                                                      tag={tag}
+                                                                     i={i}
                                                                      clearSelected={clearSelected}
                                                                      addTag={addTag} />);
                                         })
                                     }
 
                                 </ul>
+
+
+                                {!!autocompleteTotals &&
+                                 <div className="ml-1 mt-2">
+                                     <a href={`/${props.name.toLowerCase()}/`}>
+                                         See All {autocompleteTotals ?
+                                                    `(${autocompleteTotals})` : '' }
+                                     </a>
+                                 </div>
+                                }
 
                             </div>
                         </div>

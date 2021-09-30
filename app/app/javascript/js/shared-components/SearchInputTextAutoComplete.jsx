@@ -6,6 +6,7 @@ export const SearchInputTextAutoComplete = (props) => {
     const baseURL = props.baseURL;
     const destinationSelector = props.destinationSelector;
     const setAutoCompleteResults = props.setAutoCompleteResults;
+    const setAutoCompleteTotals = props.setAutoCompleteTotals;
     const placeholder = props.placeholder;
     const updateURL = props.updateURL;
     const queryField = props.queryField;
@@ -18,15 +19,24 @@ export const SearchInputTextAutoComplete = (props) => {
 	[]
     );
 
+    //NB: these hit the *.json* endpoint
+    //so the response does differ from the resource (tags/industries)
+    //autocomplete forms which request html
+
     const fetchAPI = (value) => {
 
         return fetch(`${baseURL}?query=${value}&partial=true`)
             .then(res => res.json())
-            .then(res => {
+            .then(json => {
 
                 //updateValue (setAutoCompleteTags)
+                const res = json.results;
+                const totalTags = json.total;
+
                 const autocompleteTags = res.map( tag => tag.name);
                 setAutoCompleteResults && setAutoCompleteResults(autocompleteTags);
+                setAutoCompleteTotals && setAutoCompleteTotals(totalTags);
+
 
                 //updateURL bar w/ change
                 updateURL && updateURL(value);
@@ -53,7 +63,9 @@ export const SearchInputTextAutoComplete = (props) => {
      */
     useEffect( () => {
         //console.log("useEffect", props.resetTrigger);
+        setQuery('')
         debouncedFetchAPI(query);
+
 
     }, [props.resetTrigger]);
 
@@ -68,6 +80,7 @@ export const SearchInputTextAutoComplete = (props) => {
     };
 
 
+    //selected autocomplete tags
     return(
         <div className="field">
           <div id="search-control-tag"
