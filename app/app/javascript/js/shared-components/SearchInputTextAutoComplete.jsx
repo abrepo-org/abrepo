@@ -44,10 +44,16 @@ export const SearchInputTextAutoComplete = (props) => {
         debouncedFetchAPI(e.target.value);
     };
 
-    //reset trigger
+
+    /*
+     * NB: useEffect is called on each update
+     * an empty array is equivalent to componentDidMount(), called once
+     * on initial render.
+     * resetTrigger provides change condition to run useEffect;
+     */
     useEffect( () => {
-        console.log("useEffect", props.resetTrigger);
-        setQuery("");
+        //console.log("useEffect", props.resetTrigger);
+        debouncedFetchAPI(query);
 
     }, [props.resetTrigger]);
 

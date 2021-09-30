@@ -56,7 +56,7 @@ export const SearchFilter = (props) => {
                             onClick={(e) => openCloseClickHandler(e)}
                             aria-haspopup="true"
                             aria-controls="dropdown-menu-tag">
-                        <span>{props.name}</span>
+                        <span>Filter by {props.name}</span>
                         <span className="icon is-small">
                             <i className="fas fa-angle-down" aria-hidden="true"></i>
                         </span>
