@@ -21,3 +21,4 @@ import "../js/layouts/notification.js";
 import "../js/profiles/variation_show.js";
 import "../js/stripe/manage_account.js";
 import "../js/expvar/varview_handler.js";
+import "../js/users/edit.js";

@@ -117,13 +117,19 @@
 
         <% if false %>
 
-            <% # avoid direct cancel for now  %>
+          <% # avoid direct cancel for now
+             # see users/edit.js for form submit logic %>
+
             <hr />
 
             <div class="field" style="margin-top:auto;">
-                <div class="label">Cancel ABRepo Account</div>
-                <%= button_to "Cancel", registration_path(resource_name),
-                class: 'button', data: { confirm: "Are you sure? This will destroy everything!" }, method: :delete %>
+                <div class="label">Cancel your Account?</div>
+                <%= button_to "Cancel",
+                    registration_path(resource_name),
+                    class: 'button',
+                    form: { "id" => "cancel-account" },
+                    data: { confirm: "Are you sure? This will destroy your ABREPO account!" },
+                    method: :delete %>
             </div>
         <% else %>
             <hr />
