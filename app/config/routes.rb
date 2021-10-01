@@ -48,4 +48,10 @@ Rails.application.routes.draw do
 
   #default page
   root to: "home#index"
+
+  #legal
+  get '/privacy-policy', to: 'legal#privacy'
+  get '/terms-of-service', to: 'legal#tos'
+  get '/dmca', to: 'legal#dmca'
+
 end
