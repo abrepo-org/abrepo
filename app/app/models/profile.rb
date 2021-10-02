@@ -37,8 +37,11 @@ class Profile < ApplicationRecord
                   },
                   against: [
                     [:company_name, 'A'],
-                    [:description, 'B'],
-                    [:domain, 'C']
+                    # ignore description now until we can show query
+                    # in description snippet - otherwise can't show relevance
+                    # in search results to user
+                    # [:description, 'B'],
+                    [:domain, 'B']
                   ],
                   using: { tsearch: { prefix: true, dictionary: 'english' } }
 
