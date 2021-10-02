@@ -26,8 +26,8 @@ class Profile < ApplicationRecord
   pg_search_scope :search_company,
                   against: [
                     [:company_name, 'A'],
-                    [:description, 'B'],
-                    [:domain, 'C']
+                    [:domain, 'B'],
+                    [:description, 'C']
                   ],
                   using: { tsearch: { prefix: true, dictionary: 'english' } }
 
