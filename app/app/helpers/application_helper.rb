@@ -9,10 +9,10 @@ module ApplicationHelper
     industry_index = controller.controller_name == "industries" &&
                      controller.action_name == "index"
 
-    users_edit = controller.controller_name == "checkout" &&
-                 controller.action_name == "edit"
+    #devise: /users/edit and /users
+    users = controller.controller_name == "checkout"
 
-    return tags_index || industry_index || users_edit
+    return tags_index || industry_index || users
   end
 
   def format_subscription_date(subscription_id)
