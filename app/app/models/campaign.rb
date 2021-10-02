@@ -22,8 +22,15 @@
 
 class Campaign < ApplicationRecord
   include PgSearch::Model
-  multisearchable against: [:name],
-                  additional_attributes: -> (campaign) { { experiment_id: campaign.experiment_id } }
+  #
+  # Exlcude campaign.name from search corpus since info is currently
+  # not being displayed (user can't discern relevance of search result)
+  #
+  # NB: PgSearch::Document.where(searchable_type: "Campaign").delete_all
+  #
+  #
+  # multisearchable against: [:name],
+  #                 additional_attributes: -> (campaign) { { experiment_id: campaign.experiment_id } }
 
   belongs_to :experiment
   validates :a_id, :experiment_id, :vendor_id, presence: true
