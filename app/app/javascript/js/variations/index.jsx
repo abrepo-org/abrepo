@@ -129,12 +129,29 @@ export default class Variation extends React.Component {
 
         console.log("DIFFBB", this.state.shiftV, this.state.shiftC);
 
+        const scaledContentHeight = this.getScaledHeight();
+
         const y = location.y;
 
-        this.renderablePanelRef.current.scrollBy({left:0,
-                                                  top: y - window.innerHeight/2,
-                                                  behavior: "smooth"});
+        // displayed image can be too short for a scrollbar
+        // (compared to window.innerHeight)
+        //
+        // in this case we scroll the global window down to the
+        // y coord of the rect
+        if (scaledContentHeight < window.innerHeight) {
 
+            window.scrollTo({
+                top: y,
+                left: 0,
+                behavior: 'smooth'
+            });
+
+        } else {
+
+            this.renderablePanelRef.current.scrollBy({left:0,
+                                                      top: y - window.innerHeight / 2,
+                                                      behavior: "smooth"});
+        }
 
         // Wiggle animation onClick to help identify diff location
         const addAnimation = ($bbox) => {
@@ -266,6 +283,13 @@ export default class Variation extends React.Component {
         this.setState({busy:true});
     }
 
+    getScaledHeight() {
+        const $svgs = this.renderablePanelRef.current.querySelectorAll('svg');
+        const svgDims = Array.from( $svgs )
+                             .map( $svg => $svg.getBoundingClientRect().height );
+        const scaledContentHeight = Math.max( ...svgDims );
+        return scaledContentHeight;
+    }
 
     componentDidMount() {
         window.addEventListener('resize', this.windowResizeHandler.bind(this));

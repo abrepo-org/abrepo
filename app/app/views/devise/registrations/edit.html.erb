@@ -107,23 +107,35 @@
             </div>
         <% end %>
 
-        <div class="field">
-            <div class="label">Manage Payments</div>
-            <div class="control control-height">
-                <button id="manageAccount" class="button" token="<%= form_authenticity_token %>" >
-                    Manage Stripe Payments
-                </button>
+        <% if current_user.subscribed? %>
+            <div class="field">
+                <div class="label">Manage Payments</div>
+                <div class="control control-height">
+                    <button id="manageAccount" class="button"
+                            token="<%= form_authenticity_token %>" >
+                        Manage Stripe Payments
+                    </button>
+                </div>
             </div>
+        <% else %>
+            <div class="field">
+                <div class="label">Enable Subscription</div>
+                <div class="control control-height">
+                    <%= link_to root_path(anchor: "pricing") do %>
+                        <button class="button">
+                            Subscribe Now
+                        </button>
+                    <% end %>
+                </div>
 
-        </div>
+            </div>
+        <% end %>
 
-        <% #TODO: hide manage payments above if no subscription; add Subscribe Now option %>
+
+        <% # avoid direct cancel for now
+            # see users/edit.js for form submit logic %>
 
         <% if false %>
-
-          <% # avoid direct cancel for now
-             # see users/edit.js for form submit logic %>
-
             <hr />
 
             <div class="field" style="margin-top:auto;">
