@@ -3,7 +3,6 @@
 # Table name: audiences
 #
 #  id            :bigint           not null, primary key
-#  description   :string
 #  name          :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -20,7 +19,7 @@
 
 class Audience < ApplicationRecord
   include PgSearch::Model
-  multisearchable against: [:name, :description],
+  multisearchable against: [:name],
                   additional_attributes: -> (audience) { { experiment_id: audience.experiment_id } }
 
   belongs_to :experiment
