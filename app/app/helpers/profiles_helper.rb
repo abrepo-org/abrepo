@@ -7,9 +7,13 @@ module ProfilesHelper
         industries: [industry]
       }
 
+      unless params[:query].blank?
+        new_params[:query] = params[:query]
+      end
+
       link_to(industry, url_for(params: new_params), class: classes)
 
-    }.join().html_safe
+    }.join()
   end
 
   def get_related_companies(profile, num)
