@@ -20,7 +20,11 @@ export const InputTextAutoComplete = (props) => {
 
     const fetchAPI = (value) => {
 
-        return fetch(`${baseURL}?query=${value}&partial=true`)
+        let url = `${baseURL}?query=${value}&partial=true`;
+        if (props.industriesParam) {
+            url = `${baseURL}?industries[]=${props.industriesParam}&query=${value}&partial=true`;
+        }
+        return fetch(url)
             .then(res => res.text())
             .then(res => {
 

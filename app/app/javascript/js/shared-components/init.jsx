@@ -44,11 +44,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if ($profileForm) {
+
+        const params = new URLSearchParams(window.location.search);
+
         const props = {
             baseURL: '/profiles',
             destinationSelector: '#autocomplete-destination',
-            placeholder: "Filter Companies"
+            placeholder: "Filter Companies",
+            industriesParam: params.get("industries[]") ? params.get("industries[]") : null
         };
+
         render($profileForm, props);
     }
 
