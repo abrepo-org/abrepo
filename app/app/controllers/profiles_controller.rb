@@ -14,7 +14,23 @@ class ProfilesController < ApplicationController
     end
 
     unless @industries.empty?
-      @profiles = @profiles.tagged_with(@industries)
+
+      profile_ids = @profiles.pluck(:id).uniq
+
+      @profiles = @profiles
+                    .tagged_with(@industries)
+
+
+      # ISSUE: ordering of results
+      # query sets a ranking
+      # if there is no query we have no idea what the "order" should be
+      # even if we have a way to order results, we don't know what that order should be
+      # when there's no query
+      # so back and forth things can move around
+      #
+      #.joins("JOIN unnest('{#{profile_ids.join(',')}}'::int[]) WITH ORDINALITY t(profile_id, ord) USING (profile_id)")
+      #.reorder('t.ord')
+
     end
 
     if (@profiles.length > 0)
