@@ -21,9 +21,11 @@ export const InputTextAutoComplete = (props) => {
     const fetchAPI = (value) => {
 
         let url = `${baseURL}?query=${value}&partial=true`;
+
         if (props.industriesParam) {
             url = `${baseURL}?industries[]=${props.industriesParam}&query=${value}&partial=true`;
         }
+
         return fetch(url)
             .then(res => res.text())
             .then(res => {
@@ -61,21 +63,46 @@ export const InputTextAutoComplete = (props) => {
 
 
     return(
-        <div className="field">
-            <div id="search-control" className="control has-icons-left">
+        <div>
+            <div className="field">
+                <div id="search-control" className="control has-icons-left">
 
-                <input onChange={(e) => changeHandler(e) }
-                       autoComplete="off"
-                       className="input is-small"
-                       placeholder={placeholder}
-                       type="text"
-                       name="query" id="query"
-                       value={query}
-                />
+                    {props.industriesParam &&
+                     <input autoComplete="off"
+                            className="input is-small"
+                            type="hidden"
+                            name="industries[]" id="industries[]"
+                            value={props.industriesParam}
+                     />
 
-                <span className="icon is-small is-left">
-                    <i className="fas fa-search"></i>
-                </span>
+                    }
+
+                     <input onChange={(e) => changeHandler(e) }
+                            autoComplete="off"
+                            className="input is-small"
+                            placeholder={placeholder}
+                            type="text"
+                            name="query" id="query"
+                            value={query}
+                     />
+
+                     <span className="icon is-small is-left">
+                         <i className="fas fa-search"></i>
+                     </span>
+                </div>
+            </div>
+
+            <div className="field">
+                {props.industriesParam &&
+                 <span key={props.industriesParam}
+                       className="tags is-inline-flex is-flex-wrap-nowrap has-addons mb-0 mr-2">
+                     <span className="tag is-info mb-0">
+                         {props.industriesParam}
+                     </span>
+                     <a className="tag is-delete mb-0" href={`${baseURL}?query=${query}`}></a>
+                 </span>
+
+                }
             </div>
         </div>
     );
