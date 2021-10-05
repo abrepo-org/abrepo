@@ -53,7 +53,7 @@ class Profile < ApplicationRecord
                           foreign_key: "profile_id",
                           association_foreign_key: "related_profile_id"
 
-  validates :domain, :a_id, presence: true
+  validates :domain, :a_id, presence: true, uniqueness: true
 
 
   def active_related_companies(num)
