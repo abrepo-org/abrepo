@@ -17,6 +17,11 @@ class ProfilesController < ApplicationController
       @profiles = @profiles.tagged_with(@industries)
     end
 
+    if (@profiles.length > 0)
+      @pagy, @profiles = pagy(@profiles, items: 20)
+    end
+
+
     #sidebar
     @top_profiles = Sidebar.top_profiles
 
