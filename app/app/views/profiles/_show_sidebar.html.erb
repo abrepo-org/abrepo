@@ -35,11 +35,8 @@
 
 </div>
 
-<%= render partial: "/shared/sidebar/top_tags", locals: {
-    tag_counts: @tag_counts
-} if @tag_counts.length > 0 %>
+<!-- Tag Counts -->
+<%= render partial: "/shared/sidebar/top_tags" if @tag_counts.length > 0 %>
 
-
-<%= render partial: "/shared/sidebar/featured_expvar", locals: {
-    featured_experiments: @featured_experiments
-} if @featured_experiments.length > 0 %>
+<!-- featured expvar -->
+<%= render partial: "/shared/sidebar/featured_expvars" if @featured_experiments.length > 0 %>

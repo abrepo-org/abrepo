@@ -1,0 +1,16 @@
+<!-- Featured ExpVars -->
+<div class="panel ml-2">
+
+    <p class="panel-heading">
+      Featured Experiments
+    </p>
+
+    <div class="panel-block has-text-grey">
+
+      <ul style="width:100%;">
+        <%= render partial: "/shared/sidebar/featured_expvar",
+            collection: @featured_experiments, as: :experiment, cached: true %>
+      </ul>
+
+    </div>
+</div>
