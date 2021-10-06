@@ -48,7 +48,6 @@
                 <% else %>
 
                     <span class="tag has-text-grey">
-
                         <%= result[:company].company_name %>
                     </span>
 
@@ -59,12 +58,12 @@
     <% end %>
 
     <!-- Industry Tags -->
-    <% unless @profile.industry_tag_list.empty? %>
+    <% unless @profile.industry_tag.empty? %>
         <div class="profile-label has-text-grey mt-3 mb-2">Industries</div>
         <div class="tags are-medium mt-1">
             <%= render partial: "shared/search_tag_list", locals: {
                 tag_param: "industries",
-                tag_list: @profile.industry_tag_list,
+                tag_list: @profile.industry_tag,
                 classes: "tag is-info is-light",
             }%>
         </div>
@@ -82,18 +81,24 @@
 
         <% @experiments.each do |experiment| %>
 
-            <%= render partial: "/shared/expvar_table",
-            locals: {profile: @profile,
-                     experiment: experiment,
-                     variations: policy_scope(experiment.variations
-                                              .order(vendor_id: :asc, verified: :desc)),
-                     audience: experiment.audience,
-                     source_vendor: experiment.source_vendor,
-                     user_saved_variations: @user_saved_variations
-            }
-            %>
-        <% end %>
+            <% cache [experiment, calc_usv_cache_key(@user_saved_variations, experiment),
+                      '/expvar_table'] do %>
 
+                <%= render partial: "/shared/expvar_table",
+                locals: {profile: @profile,
+                         experiment: experiment,
+                         variations: policy_scope(experiment.variations
+                                                  .order(vendor_id: :asc,
+                                                         verified: :desc,
+                                                         created_at: :desc)),
+                         audience: experiment.audience,
+                         source_vendor: experiment.source_vendor,
+                         user_saved_variations: @user_saved_variations
+                }
+                %>
+
+            <% end %>
+        <% end %>
     </tbody>
 </table>
 

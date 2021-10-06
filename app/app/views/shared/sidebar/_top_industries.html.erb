@@ -8,23 +8,9 @@
     <div class="panel-block has-text-grey">
         <ul class="field is-grouped-multiline" style="width:100%;">
 
-            <% top_industries.each do |tag| %>
+          <%= render partial: "/shared/sidebar/top_industry",
+          collection: @top_industries, as: :tag, cached: true  %>
 
-                <li class="control is-block has-text-left">
-                    <div class="tags are-medium is-block">
-
-                        <%= link_to search_path(industries: [ tag[:name] ]) do %>
-                            <div class="tag is-info is-light is-inline-block is-size-6-5 pt-1"
-                                 title=<%= tag[:name] %>
-                                 style="overflow:hidden; text-overflow:ellipsis; max-width:100%;"
-                            >
-                                <%= tag[:name] %>
-                            </div>
-                        <% end %>
-
-                    </div>
-                </li>
-            <% end %>
         </ul>
 
     </div>

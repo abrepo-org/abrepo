@@ -2,8 +2,8 @@
 
     <% tag_list.each do |tag| %>
         <span class="<%= classes %>" >
-            <%= link_to search_path(tag_param.to_sym => [tag]) do %>
-                <%= tag %>
+            <%= link_to search_path(tag_param.to_sym => [tag.name]) do %>
+                <%= tag.name %>
             <% end %>
         </span>
     <% end %>

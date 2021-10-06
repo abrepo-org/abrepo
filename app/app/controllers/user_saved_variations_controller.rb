@@ -21,13 +21,12 @@ class UserSavedVariationsController < ApplicationController
 
   def index
 
-    @experiments = Experiment
+    @experiments = policy_scope(Experiment)
                      .joins(variations: { user_saved_variations: :variation})
                      .where('user_saved_variations.deleted': false,
                             'user_saved_variations.user_id': current_user)
                      .distinct
 
-    @experiments = policy_scope( @experiments )
     @pagy, @experiments = pagy(@experiments)
 
     # sidebar

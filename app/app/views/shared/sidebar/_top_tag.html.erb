@@ -1,0 +1,23 @@
+<li class="control is-block has-text-left">
+    <div class="tags are-medium has-addons is-block">
+
+        <%= link_to search_path(tags: [ tag[:name] ]) do %>
+
+            <div class="is-inline-flex" style="max-width:100%;">
+
+                <span class="tag is-info is-light is-block pt-1"
+                      title=<%= tag[:name] %>
+                      style="overflow:hidden; text-overflow:ellipsis;">
+                    <%= tag[:name] %>
+                </span>
+
+                <span class="tag"
+                      title="Number of tagged variations">
+                    <%= tag[:count] %>
+                </span>
+            </div>
+
+        <% end %>
+
+    </div>
+</li>

@@ -5,22 +5,12 @@
         Active Companies
     </p>
 
-
     <div class="panel-block has-text-grey">
 
         <ul style="width:100%;">
 
-            <% top_profiles.each do |top_profile, rank| %>
-
-                <li class="is-inline-block has-text-left"
-                    style="width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
-
-                    <%= link_to profile_path(top_profile[0]) do %>
-                        <%= top_profile[1] %>
-                    <% end %>
-                </li>
-
-            <% end %>
+          <%= render partial: "/shared/sidebar/top_profile",
+          collection: @top_profiles, cached: true  %>
 
         </ul>
 

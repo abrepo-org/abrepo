@@ -1,28 +1,10 @@
-<!-- Featured ExpVar -->
-<div class="panel ml-2">
+<li class="is-inline-block has-text-left"
+    style="width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
 
-    <p class="panel-heading">
-      Featured Experiments
-    </p>
+    <%= link_to profile_path(experiment.profile,
+                             anchor: "exp#{experiment.id}"),
+                             title: experiment.summary_name do %>
+        <%= experiment.summary_name %>
+    <% end %>
 
-
-    <div class="panel-block has-text-grey">
-
-      <ul style="width:100%;">
-
-        <% featured_experiments.each do |experiment| %>
-            <li class="is-inline-block has-text-left"                
-                style="width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
-
-                <%= link_to profile_path(experiment.profile, anchor: "exp#{experiment.id}"),
-                            title: experiment.summary_name do %>
-                    <%= experiment.summary_name %>
-                <% end %>
-
-            </li>
-        <% end %>
-
-      </ul>
-
-    </div>
-</div>
+</li>

@@ -40,7 +40,7 @@ class Experiment < ApplicationRecord
   validates :crawlId, :domain, :a_id, :profile_id, :vendor_id, presence: true
 
   def tags
-    self.variations.map{ |v| v.tag_list + v.page_tag_list}
+    self.variations.map{ |v| v.tag + v.page_tag}
       .flatten
       .uniq
       .sort

@@ -59,20 +59,22 @@ class ProfilesController < ApplicationController
 
 
   def show
-    @profile = Profile.includes(experiments: {variations: :renderables})
+    @profile = Profile.includes(:experiments)
                  .find_by_id(params[:id])
 
     @experiments = policy_scope(@profile.experiments)
+                     .includes([:source_vendor,
+                                :audience,
+                                variations: [:renderables, :tag, :page_tag]
+                               ])
+                     .order(created_at: :desc)
 
     if (@experiments.length > 0)
 
-      @profile = @experiments[0].profile
-
       @num_variations = policy_scope(Variation)
-                          .joins(:experiment)
-                          .where({experiment: {profile_id: @profile.id}})
-                          .select('experiment.id, COUNT(variations.id) as count')
-                          .group('experiment.id')
+                          .where(experiment_id: @experiments)
+                          .select('experiment_id, COUNT(variations.id) as count')
+                          .group('experiment_id')
                           .pluck('variations.count')
                           .sum
 

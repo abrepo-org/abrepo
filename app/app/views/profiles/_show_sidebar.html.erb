@@ -13,12 +13,12 @@
                 </span>
             </li>
 
-            <% if @experiments.count > 0 %>
+            <% if @experiments.length > 0 %>
                 <li class="">
                     <span class="has-text-weight-bold">
-                        <%= "Total " + 'Experiment'.pluralize( policy_scope(@experiments).count ) %>
+                        <%= "Total " + 'Experiment'.pluralize( @experiments.length ) %>
                     </span>
-                    <span><%= @experiments.count %></span>
+                    <span><%= @experiments.length %></span>
                 </li>
 
                 <li>
@@ -35,11 +35,8 @@
 
 </div>
 
-<%= render partial: "/shared/sidebar/top_tags", locals: {
-    tag_counts: @tag_counts
-} if @tag_counts.length > 0 %>
+<!-- Tag Counts -->
+<%= render partial: "/shared/sidebar/top_tags" if @tag_counts.length > 0 %>
 
-
-<%= render partial: "/shared/sidebar/featured_expvar", locals: {
-    featured_experiments: @featured_experiments
-} if @featured_experiments.length > 0 %>
+<!-- featured expvar -->
+<%= render partial: "/shared/sidebar/featured_expvars" if @featured_experiments.length > 0 %>
