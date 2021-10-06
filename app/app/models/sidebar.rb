@@ -41,9 +41,10 @@ class Sidebar
         LIMIT 10
     }
 
+    # score: tag['score'] - removed for caching
     ActsAsTaggableOn::Tag
       .find_by_sql(sql)
-      .map{ |tag| {id: tag.id, name: tag.name, score: tag['score']} }
+      .map{ |tag| {id: tag.id, name: tag.name} }
 
   end
 
