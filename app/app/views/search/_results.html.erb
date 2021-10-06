@@ -39,17 +39,28 @@
 <table class="table">
   <tbody>
 
-    <% @experiments.each do |experiment| %>
-        <%= render partial: "/shared/expvar_table", locals: {
-            profile: experiment.profile,
-            experiment: experiment,
-            variations: policy_scope(experiment.variations
-                                     .order(vendor_id: :asc, verified: :desc)),
-            audience: experiment.audience,
-            source_vendor: experiment.source_vendor,
-            user_saved_variations: @user_saved_variations
-        } %>
-    <% end %>
+      <% @experiments.each do |experiment| %>
+
+          <% cache [experiment, calc_usv_cache_key(@user_saved_variations, experiment),
+                    '/expvar_table'] do %>
+
+              <%= render partial: "/shared/expvar_table",
+              locals: {
+                  profile: experiment.profile,
+                  experiment: experiment,
+                  variations: policy_scope(experiment.variations
+                                           .order(vendor_id: :asc,
+                                                  verified: :desc,
+                                                  created_at: :desc)),
+                  audience: experiment.audience,
+                  source_vendor: experiment.source_vendor,
+                  user_saved_variations: @user_saved_variations
+              }
+              %>
+
+          <% end %>
+
+      <% end %>
 
   </tbody>
 </table>

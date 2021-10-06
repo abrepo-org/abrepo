@@ -25,10 +25,9 @@ class SearchController < ApplicationController
       # these are num search results, but we keep variable
       # as @num_variations to reuse partial
       @num_variations = policy_scope(Variation)
-                          .joins(:experiment)
-                          .where(experiment: @experiments)
-                          .select('experiments.id, COUNT(variations.id) as count')
-                          .group('experiments.id')
+                          .where(experiment_id: @experiments)
+                          .select('experiment_id, COUNT(variations.id) as count')
+                          .group('experiment_id')
                           .pluck('variations.count')
                           .sum
 
