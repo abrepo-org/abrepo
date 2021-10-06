@@ -54,6 +54,33 @@ class Variation < ApplicationRecord
   # variation.tag_list, page_tag_list
   acts_as_taggable_on :tag, :page_tag
 
+
+  def self.build_tag_examples(user, scopedVariation, tags)
+
+    tag_variations = {}
+
+    tags.each do |tag|
+      val = Rails.cache
+              .fetch(
+                ["#{tag.cache_key_with_version}-#{user && user.moderator?}",
+                 "/variation_build_tag_examples"
+                ].join(),
+                expires_in: 1.day) do
+
+        variations = scopedVariation.tagged_with(tag.name)
+                       .select('DISTINCT ON (summary_name) variations.summary_name')
+                       .select(:id, :summary_name)
+                       .limit(3)
+
+        variations.map{ |v| {id: v.id, summary_name: v.summary_name } }
+      end
+
+      tag_variations[tag.id] = val
+    end
+
+    tag_variations
+  end
+
   def visibleActions
     visibleActions = { active: [], control: [] }
 

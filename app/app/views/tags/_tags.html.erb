@@ -1,25 +1,26 @@
-<% @DAYS = 14 %>
+<% #NB: this is rendered by #index *and* autocomplete response  %>
 <div id="autocomplete-destination" class="columns is-multiline">
 
     <% @tags.each do |tag| %>
-        <div class="column is-half-tablet is-one-third-desktop">
-            <%= render partial: '/shared/industry_tag_card',
-            locals: {
-                # title
-                name: tag.name,
-                name_link_path: "/search/?tags[]=#{tag.name}",
+        <% cache tag do  %>
+            <div class="column is-half-tablet is-one-third-desktop">
+                <%= render partial: '/shared/tag_card',
+                locals: {
+                    # title
+                    name: tag.name,
+                    name_link_path: "/search/?tags[]=#{tag.name}",
 
-                examples: policy_scope(Variation.tagged_with(tag.name)
-                                       .select('DISTINCT ON (summary_name) variations.summary_name')
-                                       .select(:id, :summary_name)).limit(3),
+                    examples: @variation_hash_by_id[tag.id],
+                    #examples: calc_users_variation_examples_for(current_user, tag),
 
-                # footer
-                total: tag.taggings_count,
-                past_n: calc_recency_for(tag, @DAYS.days.ago),
-                updated_at: tag.updated_at
-            }
-            %>
-        </div>
+                    # footer
+                    total: tag.taggings_count,
+                    past_n: @recency_hash_by_id[tag.id] || 0,
+                    updated_at: tag.updated_at
+                }
+                %>
+            </div>
+        <% end %>
     <% end %>
 
 </div>

@@ -19,22 +19,20 @@
                 <li style="height:1.5rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
 
                     <% if controller_name == "tags"  %>
-                        <%= link_to variation_path(example.id) do %>
-                            <%= example.summary_name %>
+                        <%= link_to variation_path(example[:id]) do %>
+                            <%= example[:summary_name] %>
                         <% end %>
                     <% end %>
 
                     <% if controller_name == "industries"  %>
-                        <%= link_to profile_path(example.id) do %>
-                            <%= example.company_name %>
+                        <%= link_to profile_path(example[:id]) do %>
+                            <%= example[:company_name] %>
                         <% end %>
                     <% end %>
 
                 </li>
             <% end %>
         </ul>
-
-
 
     </div>
 
@@ -60,6 +58,6 @@
             </time>
             <span class="is-size-7">Last Updated</span>
         </p>
-
     </footer>
+
 </div>

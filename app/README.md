@@ -221,7 +221,41 @@ and index in a migration to `pg_search_documents` table.
 * Search scope rank: To retrieve the rank, call `.with_pg_search_rank`
   on a scope, and then call `.pg_search_rank` on a returned record.
 
+
+
+
+### Caching
+
+Need to enable caching in dev mode to see results (default in
+uncached). Toggle back and forth:
+
+`rails dev:cache`
+
+* Try to cache results; primitives, or ids for primary key lookup (faster)
+* If not caching, check you're not inadvertently caching an active
+  record relation (scope) - which is just the query, not the results.
+
+
+#### Fragment Caching
+
+In views: can cache a block - need to watch cache key dependencies
 ```
+<% cache(key, expires_in: 30.seconds) do %>
+    <%= render xyz %>
+<% end %>
+```
+
+#### Low level Caching
+
+Ideally put in model, but can be placed in helpers
+
+```
+
+def cache_helper_fn_for(instance)
+    Rails.cache.fetch("#{instance.cache_key_with_version}/cache_helper_fn_for", expires_in: 30.seconds) do
+      <cachable calculation>
+    end
+end
 
 ```
 

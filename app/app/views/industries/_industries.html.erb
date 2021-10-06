@@ -4,21 +4,18 @@
     <% @industries.each do |industry| %>
 
         <div class="column is-half-tablet is-one-third-desktop">
-            <%= render partial: '/shared/industry_tag_card',
+            <%= render partial: '/shared/tag_card',
             locals: {
                 # title
                 name: industry.name,
                 name_link_path: "/search/?industries[]=#{industry.name}",
 
                 # content
-                examples: Profile.tagged_with(industry.name)
-                .select('DISTINCT ON (company_name) profiles.company_name')
-                .select(:id, :company_name)
-                .limit(3),
+                examples: @profile_hash_by_id[industry.id],
 
                 # footer
                 total: industry.taggings_count,
-                past_n: calc_recency_for(industry, @DAYS.days.ago),
+                past_n: @recency_hash_by_id[industry.id],
                 updated_at: industry.updated_at
             }
             %>
