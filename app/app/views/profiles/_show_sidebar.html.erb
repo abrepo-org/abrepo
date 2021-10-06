@@ -16,7 +16,7 @@
             <% if @experiments.length > 0 %>
                 <li class="">
                     <span class="has-text-weight-bold">
-                        <%= "Total " + 'Experiment'.pluralize( policy_scope(@experiments).length ) %>
+                        <%= "Total " + 'Experiment'.pluralize( @experiments.length ) %>
                     </span>
                     <span><%= @experiments.length %></span>
                 </li>
