@@ -66,10 +66,9 @@ class ProfilesController < ApplicationController
                      .includes(:source_vendor,
                                :audience,
                                variations: [:renderables, :tag, :page_tag])
+                     .order(created_at: :desc)
 
     if (@experiments.length > 0)
-
-      @profile = @experiments[0].profile
 
       @num_variations = policy_scope(Variation)
                           .joins(:experiment)

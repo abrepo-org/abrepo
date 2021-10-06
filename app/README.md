@@ -238,7 +238,13 @@ uncached). Toggle back and forth:
 
 #### Fragment Caching
 
-In views: can cache a block - need to watch cache key dependencies
+In views: can cache a block - need to *watch cache key dependencies*.
+
+If looping over an has_many association; likely need to add
+`touch:true` on model 's association attribute (belongs_to) to trigger
+dirty and a cache reload while loop.
+
+
 ```
 <% cache(key, expires_in: 30.seconds) do %>
     <%= render xyz %>
@@ -256,6 +262,29 @@ def cache_helper_fn_for(instance)
       <cachable calculation>
     end
 end
+
+```
+
+#### Collection Partial Caching
+
+Defer to the render function caching key, looping - just need a singular
+partial to render the element. Internal counter (example below
+`variation_counter`) as auto counter variable made available in partial.
+
+Big issue: need to be careful with counters and especially helper functions.
+
+Cache busts on updated_at object change, the internal counter (index)
+will start at 0, regardless of position in collection (as it's fresh count).
+
+Can cause problems in helpers.
+
+
+
+```
+
+<%= render partial: '/shared/expvar_variation', collection: variations,
+    as: :variation,
+    locals: {variations: variations}, cached: true %>
 
 ```
 

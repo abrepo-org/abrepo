@@ -16,7 +16,7 @@
 #
 class UserSavedVariation < ApplicationRecord
   belongs_to :user
-  belongs_to :variation
+  belongs_to :variation, touch: true #collection cache update
 
   validates_uniqueness_of :user_id, :scope => [:variation_id]
 end

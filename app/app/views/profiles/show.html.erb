@@ -81,18 +81,23 @@
 
         <% @experiments.each do |experiment| %>
 
-            <%= render partial: "/shared/expvar_table",
-            locals: {profile: @profile,
-                     experiment: experiment,
-                     variations: policy_scope(experiment.variations
-                                              .order(vendor_id: :asc, verified: :desc)),
-                     audience: experiment.audience,
-                     source_vendor: experiment.source_vendor,
-                     user_saved_variations: @user_saved_variations
-            }
-            %>
-        <% end %>
+            <% cache experiment do %>
 
+                <%= render partial: "/shared/expvar_table",
+                locals: {profile: @profile,
+                         experiment: experiment,
+                         variations: policy_scope(experiment.variations
+                                                  .order(vendor_id: :asc,
+                                                         verified: :desc,
+                                                         created_at: :desc)),
+                         audience: experiment.audience,
+                         source_vendor: experiment.source_vendor,
+                         user_saved_variations: @user_saved_variations
+                }
+                %>
+
+            <% end %>
+        <% end %>
     </tbody>
 </table>
 

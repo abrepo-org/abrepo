@@ -38,7 +38,7 @@ class Variation < ApplicationRecord
                     tsearch: { prefix: true, dictionary: 'english' }
                   }
 
-  belongs_to :experiment
+  belongs_to :experiment, touch: true # expvar cache update
   has_many :renderables, dependent: :destroy
   has_many :actions, -> { distinct }, through: :renderables
 

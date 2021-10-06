@@ -12,7 +12,7 @@ class UserSavedVariationsController < ApplicationController
       @uv = current_user.user_saved_variations.create(variation_id: params[:id])
     end
 
-    status = !@uv.deleted
+    status = @uv.deleted
 
     respond_to do |format|
       format.json  { render json: {saved: status}  }

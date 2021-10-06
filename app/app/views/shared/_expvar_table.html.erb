@@ -18,106 +18,19 @@
     <th align="right">Watch</th>
 </tr>
 
-
 <% variations.each_with_index do |variation, index| %>
-
-    <% set_multiple_views(variations, index) %>
-
-    <!-- variation header -->
-    <% if variation.is_root %>
-        <tr data-root-vendor-id="<%= variation.vendor_id %>"
-            class="variation-row-data expvar-root-border is-root">
-    <% else %>
-        <tr class="variation-row-data is-hidden"
-            data-vendor="<%= variation.vendor_id %>">
+    <% cache "#{variation.cache_key_with_version}-#{index}" do %>
+        <%= render partial: '/shared/expvar_variation',
+        locals: {variations: variations, variation: variation, variation_counter: index} %>
     <% end %>
-
-        <!-- Summary Name -->
-        <td class="summary_name">
-            <% if variation.multiple_views & variation.is_root %>
-                <i class="fas fa-caret-right is-clickable"></i>
-                <i class="fas fa-caret-down is-clickable is-hidden "></i>
-            <% end %>
-
-            <% if !variation.multiple_views && !variation.is_root %>
-
-                <!-- indented -->
-                <i class="fas fa-caret-down is-invisible"></i>
-                <%= link_to variation_path(variation) do %>
-                    <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
-                    [Pub: <%= variation.published? %>]
-                <% end %>
-
-            <% else %>
-                <%= link_to variation_path(variation) do %>
-                    <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
-                    [Pub: <%= variation.published? %>]
-                <% end %>
-
-            <% end %>
-        </td>
-
-        <!--  Page(s) -->
-        <td class="is-hidden-mobile table-col-page
-                   <%= 'is-clickable' if variation.multiple_views && variation.is_root %>">
-            <%= pageURLHelper(variation) %>
-
-            <% if variation.multiple_views %>
-                <div class="see-more is-size-7 has-link-text">
-                    Multi-page variations (<%= num_by_vendor_id(variations, index) %>)
-                </div>
-                <div class="see-more is-size-7 has-link-text is-hidden">
-                    close
-                </div>
-            <% end %>
-        </td>
-
-        <!-- Verified -->
-        <td align="right">
-            <% if variation.verified %>
-                <div class="verified">
-                    <span class="tag"
-                          title="Variation implemented">
-                        <span class="icon-text">
-                            <span class="icon">
-                                <i class="fas fa-check"></i>
-                            </span>
-                        </span>
-                    </span>
-
-                </div>
-            <% else %>
-                <div class="has-text-centered">&mdash;</div>
-            <% end %>
-        </td>
-
-        <!--  Saved -->
-        <td align="right">
-            <button class="button is-small user-save-variations"
-                    data-variation-id="<%= variation.id %>" >
-
-                <span class="icon-text">
-                    <span class="icon">
-                        <% if user_saved_variations[variation.id] %>
-                            <i class="fas fa-star"></i>
-                        <% else %>
-                            <i class="far fa-star"></i>
-                        <% end %>
-                    </span>
-                </span>
-           </button>
-        </td>
-
-    </tr>
 <% end %>
 
 <tr>
     <th colspan="5">
         <!-- expvar num -->
         <%= render partial: '/shared/expvar_num_expvar', locals: {
-            expvar_date: experiment.created_at,
-            #num_variations: policy_scope(experiment.variations).count
-        }%>
+            expvar_date: experiment.created_at
+        } %>
 
         <%# has-background-grey-light, has-background-grey %>
         <hr class="has-background-grey-light" />
