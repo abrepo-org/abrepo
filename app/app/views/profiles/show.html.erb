@@ -48,7 +48,6 @@
                 <% else %>
 
                     <span class="tag has-text-grey">
-
                         <%= result[:company].company_name %>
                     </span>
 
@@ -59,12 +58,12 @@
     <% end %>
 
     <!-- Industry Tags -->
-    <% unless @profile.industry_tag_list.empty? %>
+    <% unless @profile.industry_tag.empty? %>
         <div class="profile-label has-text-grey mt-3 mb-2">Industries</div>
         <div class="tags are-medium mt-1">
             <%= render partial: "shared/search_tag_list", locals: {
                 tag_param: "industries",
-                tag_list: @profile.industry_tag_list,
+                tag_list: @profile.industry_tag,
                 classes: "tag is-info is-light",
             }%>
         </div>

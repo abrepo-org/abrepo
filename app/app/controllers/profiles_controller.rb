@@ -63,6 +63,9 @@ class ProfilesController < ApplicationController
                  .find_by_id(params[:id])
 
     @experiments = policy_scope(@profile.experiments)
+                     .includes(:source_vendor,
+                               :audience,
+                               variations: [:renderables, :tag, :page_tag])
 
     if (@experiments.length > 0)
 
