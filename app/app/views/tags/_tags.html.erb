@@ -2,7 +2,10 @@
 <div id="autocomplete-destination" class="columns is-multiline">
 
     <% @tags.each do |tag| %>
-        <% cache tag do  %>
+
+        <% cache("#{tag.cache_key_with_version}-#{current_user && current_user.moderator?}",
+                 expires_in: 1.day) do  %>
+
             <div class="column is-half-tablet is-one-third-desktop">
                 <%= render partial: '/shared/tag_card',
                 locals: {
@@ -10,8 +13,8 @@
                     name: tag.name,
                     name_link_path: "/search/?tags[]=#{tag.name}",
 
+                    # content
                     examples: @variation_hash_by_id[tag.id],
-                    #examples: calc_users_variation_examples_for(current_user, tag),
 
                     # footer
                     total: tag.taggings_count,
@@ -20,7 +23,9 @@
                 }
                 %>
             </div>
+
         <% end %>
+
     <% end %>
 
 </div>

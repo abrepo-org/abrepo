@@ -3,23 +3,29 @@
 
     <% @industries.each do |industry| %>
 
-        <div class="column is-half-tablet is-one-third-desktop">
-            <%= render partial: '/shared/tag_card',
-            locals: {
-                # title
-                name: industry.name,
-                name_link_path: "/search/?industries[]=#{industry.name}",
+        <% cache("#{industry.cache_key_with_version}-#{current_user && current_user.moderator?}",
+                 expires_in: 1.day) do  %>
 
-                # content
-                examples: @profile_hash_by_id[industry.id],
+            <div class="column is-half-tablet is-one-third-desktop">
+                <%= render partial: '/shared/tag_card',
+                locals: {
+                    # title
+                    name: industry.name,
+                    name_link_path: "/search/?industries[]=#{industry.name}",
 
-                # footer
-                total: industry.taggings_count,
-                past_n: @recency_hash_by_id[industry.id],
-                updated_at: industry.updated_at
-            }
-            %>
-        </div>
+                    # content
+                    examples: @profile_hash_by_id[industry.id],
+
+                    # footer
+                    total: industry.taggings_count,
+                    past_n: @recency_hash_by_id[industry.id] || 0,
+                    updated_at: industry.updated_at
+                }
+                %>
+            </div>
+
+        <% end %>
+
     <% end %>
 
 </div>
