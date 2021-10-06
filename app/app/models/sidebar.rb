@@ -48,7 +48,7 @@ class Sidebar
 
   end
 
-  def self.top_tags(profile)
+  def self.top_tags
     # inner query groups number of taggings id per variation's vendor_id
     # outer query groups by tag (totals) id and counts those instances
     #
