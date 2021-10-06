@@ -6,16 +6,18 @@ class Sidebar
   #[[:id, :company_name] => calcscoreRank, ...]
   def self.top_profiles
 
-    Profile
-      .joins(:experiments)
-      .group(:id, :company_name)
-      .order('sum_experiments_calcscore_pow_select_extract_epoch_from_current desc')
-      .limit(5)
-      .sum(%{
+    profiles = Profile
+                 .joins(:experiments)
+                 .group(:id, :company_name)
+                 .order('sum_experiments_calcscore_pow_select_extract_epoch_from_current desc')
+                 .limit(5)
+                 .sum(%{
         experiments.calcscore /
         (POW(( ( (SELECT EXTRACT(EPOCH FROM CURRENT_TIMESTAMP(0))) -
         (SELECT EXTRACT(EPOCH FROM experiments.created_at)) ) / 3600) + 2, 1.8))
       })
+
+    profiles.map{ |p| {id: p[0][0], name: p[0][1] } }
 
   end
 
