@@ -98,7 +98,7 @@ class CheckoutController < Devise::RegistrationsController
   #
   def after_sign_up_path_for(resource)
     return checkout_subscribe_path(params[:lookup_key]) unless params[:lookup_key].blank?
-    root_path
+    home_path
   end
 
 end
