@@ -14,10 +14,8 @@
  *= require_self
  */
 
-$family-sans-serif: "Lato", "Open Sans", "Roboto", BlinkMacSystemFont,
--apple-system, "Segoe UI", "Oxygen", "Ubuntu", "Cantarell", "Fira
-Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial",
-sans-serif;
+$family-sans-serif: "Lato", "Open Sans", "Inter", BlinkMacSystemFont,
+-apple-system, sans-serif;
 
 $tablet: 768px;
 
@@ -56,6 +54,12 @@ $border-grey: rgb(227, 232, 238); //#e2e7ee
   }
 }
 
+.is-fullwidth-mobile {
+  @include until($tablet) {
+    width: 100%;
+  }
+}
+
 .is-size-6-5 {
   font-size: .875rem !important;
 }
@@ -63,5 +67,12 @@ $border-grey: rgb(227, 232, 238); //#e2e7ee
 .mt-3-tablet {
   @include from($tablet) {
     margin-top: 0.75rem;
+  }
+}
+
+@media(max-width: $tablet) {
+  .reverse-columns-tablet {
+    flex-direction: column-reverse;
+    display: flex;
   }
 }
