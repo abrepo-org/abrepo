@@ -3,6 +3,7 @@
 
 .hero-title {
   font-size: 4rem;
+  font-weight:900;
 }
 
 //has-background-white-ter good
@@ -26,6 +27,8 @@
 
 .roles ul {
   list-style-type: none;
+  margin-top: 1.25rem;
+  li + li { margin-top: 1.25rem; }
 
   li span {
     padding-top: 1px;
