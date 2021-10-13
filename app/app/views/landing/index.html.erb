@@ -9,14 +9,8 @@
 
                 <div class="container">
 
-                    <div class="columns">
+                    <div class="columns reverse-columns-tablet is-vcentered">
 
-                        <!--
-                             save time
-                             competitive intelligence
-                             Ideation
-                             Monitor industry trends across leading companies and growth teams
-                           -->
                         <div class="column is-4">
 
                             <h1 class="title hero-title mb-6">
@@ -26,7 +20,7 @@
 
                             <h2 class="subtitle is-4">
                                 ABRepo is the internet's newest experimentation
-                                search engine.
+                                archive.
                             </h2>
 
                             <h2 class="subtitle is-4">
@@ -35,26 +29,20 @@
                                 top companies.
                             </h2>
 
-                            <a class="button is-large is-info mt-4 is-fullwidth-mobile">
-                                Get Started
-                            </a>
+                            <%= link_to "Get Started", "#pricing",
+                            class:"button is-large is-info mt-4 is-fullwidth-mobile"
+                            %>
 
                         </div>
 
-                        <div class="column is-offset-1 is-7">
-                            <div class="box2" >
-                                <%= image_pack_tag('hero2.jpg') %>
-                            </div>
-                            <!-- -
-                            <img src="http://placekitten.com/700/500" />
-                               -->
+                        <div class="column is-offset-1 is-11">
+                          <div class="box2" >
+                            <%= image_pack_tag("output.gif") %>
+                          </div>
                         </div>
-
 
                     </div>
-
                 </div>
-
             </div>
 
         </section>
@@ -63,71 +51,28 @@
         <!-- ROLES & USE CASES -->
         <%= render partial: "roles" %>
 
-        <!-- PRICING -->
-        <section id="pricing" class="section is-medium has-background-white-ter">
-            <%= render partial: "pricing" %>
-        </section>
-
         <!-- HOW IT WORKS -->
         <section class="section how-it-works is-medium has-background-dark-blue">
             <%= render partial: "how_it_works" %>
         </section>
 
-        <!-- FAQ -->
-        <section class="section is-medium">
-
-            <div class="container">
-                <div class="columns content">
-                    <div class="column is-12 has-text-centered">
-                        <h1 class="is-size-3">FAQ</h1>
-                    </div>
-                </div>
-
-
-                <div class="columns content">
-
-                    <div class="column is-4">
-                        <h5>Question</h5>
-                        <p>Answer xyz</p>
-                    </div>
-
-                    <div class="column is-4">
-                        <h5>Question</h5>
-                        <p>Answer xyz</p>
-                    </div>
-
-                    <div class="column is-4">
-                        <h5>Question</h5>
-                        <p>Answer xyz</p>
-                    </div>
-                </div>
-
-                <div class="columns content">
-
-                    <div class="column is-4">
-                        <h5>Question</h5>
-                        <p>Answer xyz</p>
-                    </div>
-
-                    <div class="column is-4">
-                        <h5>Question</h5>
-                        <p>Answer xyz</p>
-                    </div>
-
-                    <div class="column is-4">
-                        <h5>Question</h5>
-                        <p>Answer xyz</p>
-                    </div>
-                </div>
-
-
-            </div>
-        </section>
-
         <!-- PRICING -->
-        <section class="section is-medium has-background-white-ter">
+        <section id="pricing" class="section is-medium has-background-white-ter">
             <%= render partial: "pricing" %>
         </section>
+
+
+        <% if false %>
+            <!-- FAQ -->
+            <section class="section is-medium">
+                <%= render partial: "faq" %>
+            </section>
+
+            <!-- PRICING -->
+            <section class="section is-medium has-background-white-ter">
+                <%= render partial: "pricing" %>
+            </section>
+        <% end %>
 
     </main>
 
