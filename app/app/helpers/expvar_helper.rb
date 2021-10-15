@@ -38,7 +38,9 @@ module ExpvarHelper
 
   def pageURLHelper(variation)
     variation.renderables.where(control:false).first ?
-      variation.renderables.where(control:false).first.renderedURL.sub(/https?\:\/\//, '') :
+      variation.renderables.where(control:false).first
+        .obfuscate
+        .renderedURL.sub(/https?\:\/\//, '') :
       ''
   end
 end

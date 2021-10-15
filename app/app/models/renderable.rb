@@ -38,11 +38,15 @@
 # actions are available
 #
 class Renderable < ApplicationRecord
+  include Obfuscatable
+
   belongs_to :action
   belongs_to :variation
   belongs_to :controlRenderable, class_name: "Renderable",
              foreign_key: :renderable_id, optional: true
   has_many :diffs, dependent: :destroy
+
+  obfuscatable attributes: [:renderedURL], dependent: :variation
 
   validates :a_id, :action_id, :variation_id, presence: true
   validates :control, inclusion: [true, false]
