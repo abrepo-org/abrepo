@@ -10,8 +10,11 @@ class HomeController < ApplicationController
   # 5. (quality, visitor, date, affinity): affinity some score of personal preference
 
   def index
+    @@NUM_OBS = 4
     @experiments = policy_scope( Experiment.calcRank )
     @pagy, @experiments = pagy(@experiments)
+
+    @experiments = obfuscate_all(@experiments, @@NUM_OBS) if not subscribed_or_moderator
 
     # sidebar
     @top_profiles = Sidebar.top_profiles
