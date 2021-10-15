@@ -31,7 +31,12 @@
 #
 
 class Diff < ApplicationRecord
+  include Obfuscatable
   belongs_to :renderable
+  delegate :variation, to: :renderable, :allow_nil => true
+
+  obfuscatable attributes: [:summary_added, :summary_removed, :summary_delta],
+               dependent: :variation
   validates :a_id, :renderable_id, presence: true
 
 

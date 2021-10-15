@@ -23,6 +23,7 @@
 #
 
 class Variation < ApplicationRecord
+  include Obfuscatable
   include PgSearch::Model
 
   multisearchable against: [:summary_name, :tag_list, :page_tag_list],
@@ -47,13 +48,14 @@ class Variation < ApplicationRecord
 
   validates :a_id, :experiment_id, :vendor_id, presence: true
 
+  obfuscatable attributes: [:summary_name, :url], dependent: :experiment
+
   #expvar table display temp attributes
   attribute :multiple_views
   attribute :is_root
 
   # variation.tag_list, page_tag_list
   acts_as_taggable_on :tag, :page_tag
-
 
   def self.build_tag_examples(user, scopedVariation, tags)
 

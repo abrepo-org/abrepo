@@ -18,9 +18,13 @@
 #
 
 class Audience < ApplicationRecord
+  include Obfuscatable
   include PgSearch::Model
+
   multisearchable against: [:name],
                   additional_attributes: -> (audience) { { experiment_id: audience.experiment_id } }
 
   belongs_to :experiment
+
+  obfuscatable attributes: [:name], dependent: :experiment
 end
