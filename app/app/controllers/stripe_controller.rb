@@ -12,7 +12,7 @@ class StripeController < ApplicationController
     # if already have subscription, send to home
     #
     if current_user.subscribed?
-      redirect_to root_path
+      redirect_to home_path
       return
     end
 
@@ -55,7 +55,7 @@ class StripeController < ApplicationController
     end
 
     flash[:notice] = "Your subscription is enabled. Thank you!."
-    redirect_to root_path
+    redirect_to home_path
 
   end
 

@@ -80,7 +80,7 @@ class ProfilesController < ApplicationController
 
       @pagy, @experiments = pagy(@experiments)
 
-      @tag_counts = Sidebar.top_tags(@profile)
+      @tag_counts = Sidebar.top_tags
 
       @featured_experiments = policy_scope(Experiment).calcRank.limit(5)
 

@@ -20,7 +20,7 @@
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500;600&family=Lato:wght@400;500;600&family=Open+Sans&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500;600&family=Lato:wght@400;600;700;900&family=Open+Sans:wght@400;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
 
@@ -34,37 +34,44 @@
 
     </head>
 
-    <body class="has-navbar-fixed-top <%= "devise" if content_for?(:devise) %>" >
+    <% if current_page?(root_path) %>
+        <%= yield %>
+    <% else %>
 
-        <header>
-          <%= render (current_page?(checkout_account_path(params[:lookup_key])) ||
-              current_page?(checkout_subscribe_path(params[:lookup_key])) ) ?
-              "layouts/navbar_checkout" : "layouts/navbar" %>
-        </header>
+        <body class="has-navbar-fixed-top <%= "devise" if content_for?(:devise) %>" >
 
-        <main>
+            <!-- NAV -->
+            <header>
+                <% if current_page?(checkout_account_path(params[:lookup_key])) || current_page?(checkout_subscribe_path(params[:lookup_key])) %>
+                    <%= render "layouts/navbar_checkout" %>
+                <% else %>
+                    <%= render "layouts/navbar" %>
+                <% end %>
+            </header>
 
-            <% if content_for?(:devise) %>
+            <main>
 
-                <section class="section hero is-fullheight-with-navbar" >
-                    <div class="hero-body px-0 py-0">
-                        <div class="container ">
-                            <div class="column is-fullwidth is-8-tablet is-offset-2-tablet is-6-desktop is-offset-3-desktop is-4-widescreen is-offset-4-widescreen">
-                                <% #flash is internal content %>
-                                <div class="content">
-                                    <%= yield(:devise) %>
+                <% if content_for?(:devise) %>
+
+                    <section class="section hero is-fullheight-with-navbar" >
+                        <div class="hero-body px-0 py-0">
+                            <div class="container ">
+                                <div class="column is-fullwidth is-8-tablet is-offset-2-tablet is-6-desktop is-offset-3-desktop is-4-widescreen is-offset-4-widescreen">
+                                    <% #flash is internal content %>
+                                    <div class="content">
+                                        <%= yield(:devise) %>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
 
-            <% else %>
+                <% else %>
 
-                <section class="section" >
+                    <section class="section" >
 
-                    <% if controller.controller_name == "variations" &&
-                        controller.action_name == "show" %>
+                        <% if controller.controller_name == "variations" &&
+                            controller.action_name == "show" %>
                             <!-- variation#show 'Diff' App: full width -->
                             <div class="container is-fluid px-1">
                                 <div class="columns is-mobile">
@@ -114,15 +121,16 @@
 
                                 </div>
                             </div>
-                    <% end %>
+                        <% end %>
 
 
-                </section>
+                    </section>
 
-            <% end %>
-        </main>
+                <% end %>
+            </main>
 
-        <%= render "/layouts/footer" %>
+            <%= render "/layouts/footer" %>
 
-    </body>
+        </body>
+    <% end %>
 </html>

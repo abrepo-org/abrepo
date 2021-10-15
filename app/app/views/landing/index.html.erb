@@ -1,0 +1,78 @@
+<body>
+    <header>
+    </header>
+
+    <main>
+        <section class="hero is-medium">
+
+            <div class="hero-body">
+
+                <div class="container">
+
+                    <div class="columns reverse-columns-tablet is-vcentered">
+
+                        <div class="column is-4">
+
+                            <h1 class="title hero-title mb-6">
+                                Find Your Best <br/>A/B Test
+                            </h1>
+
+
+                            <h2 class="subtitle is-4">
+                              Instantly search and display A/B tests from
+                              leading companies.
+                            </h2>
+
+                            <h2 class="subtitle is-4">
+                              Supercharge your experimentation with abrepo.
+                            </h2>
+
+                            <%= link_to "Get Started", "#pricing",
+                            class:"button is-large is-info mt-4 is-fullwidth-mobile"
+                            %>
+
+                        </div>
+
+                        <div class="column is-offset-1 is-11">
+                          <div class="box2" >
+                            <%= image_pack_tag("output.gif") %>
+                          </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ROLES & USE CASES -->
+        <%= render partial: "roles" %>
+
+        <!-- HOW IT WORKS -->
+        <section class="section how-it-works is-medium has-background-dark-blue">
+            <%= render partial: "how_it_works" %>
+        </section>
+
+        <!-- PRICING -->
+        <section id="pricing" class="section is-medium has-background-white-ter">
+            <%= render partial: "pricing" %>
+        </section>
+
+
+        <% if false %>
+            <!-- FAQ -->
+            <section class="section is-medium">
+                <%= render partial: "faq" %>
+            </section>
+
+            <!-- PRICING -->
+            <section class="section is-medium has-background-white-ter">
+                <%= render partial: "pricing" %>
+            </section>
+        <% end %>
+
+    </main>
+
+    <%= render "/layouts/footer" %>
+</body>

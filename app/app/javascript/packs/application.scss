@@ -14,10 +14,8 @@
  *= require_self
  */
 
-$family-sans-serif: "Lato", "Open Sans", "Roboto", BlinkMacSystemFont,
--apple-system, "Segoe UI", "Oxygen", "Ubuntu", "Cantarell", "Fira
-Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial",
-sans-serif;
+$family-sans-serif: "Lato", "Open Sans", "Inter", BlinkMacSystemFont,
+-apple-system, sans-serif;
 
 $tablet: 768px;
 
@@ -36,6 +34,7 @@ $border-grey: rgb(227, 232, 238); //#e2e7ee
 @import "../stylesheets/checkout.scss";
 @import "../stylesheets/footer.scss";
 @import "../stylesheets/user.scss";
+@import "../stylesheets/landing.scss";
 
 .navbar-brand {
   font-family: 'Dosis', sans-serif;
@@ -55,11 +54,11 @@ $border-grey: rgb(227, 232, 238); //#e2e7ee
   }
 }
 
-/* SECTION */
-section.section {
-  min-height: 100vh;
+.is-fullwidth-mobile {
+  @include until($tablet) {
+    width: 100%;
+  }
 }
-
 
 .is-size-6-5 {
   font-size: .875rem !important;
@@ -68,5 +67,12 @@ section.section {
 .mt-3-tablet {
   @include from($tablet) {
     margin-top: 0.75rem;
+  }
+}
+
+@media(max-width: $tablet) {
+  .reverse-columns-tablet {
+    flex-direction: column-reverse;
+    display: flex;
   }
 }

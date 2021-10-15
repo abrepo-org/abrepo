@@ -27,6 +27,9 @@ Rails.application.routes.draw do
   resources :tags, only: ['index']
   resources :industries, only: ['index']
 
+  # Home page feed
+  get '/home', to: 'home#index'
+
   post '/saved', to: 'user_saved_variations#create'
   get '/saved', to: 'user_saved_variations#index'
 
@@ -46,8 +49,8 @@ Rails.application.routes.draw do
   # webhook
   post '/webhooks/stripe_payments', to: 'webhooks#index'
 
-  #default page
-  root to: "home#index"
+  # default landing page
+  root to: "landing#index"
 
   #legal
   get '/privacy-policy', to: 'legal#privacy'

@@ -1,0 +1,40 @@
+//.has-background-gray { background: #f6f9fc; }
+///fefefe
+
+.hero-title {
+  font-size: 4rem;
+  font-weight:900;
+}
+
+//has-background-white-ter good
+.has-background-dark-blue {
+  background: #0a2540;
+  .content {
+    h1,h2,h3,h4,h5 { color: #fff; }
+    p { color: #adbdcc; }
+    //body text: rgb(173, 189, 204)
+    .icon i { color: #00ccff; }
+    //href: rgb(0, 212, 255) // #00CCFF
+  }
+}
+
+.has-background-gradient-white-white-ter {
+  background: linear-gradient(#fff, hsl(0, 0, 96%));
+}
+.box2 {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.roles ul {
+  list-style-type: none;
+  margin-top: 1.25rem;
+  li + li { margin-top: 1.25rem; }
+
+  li span {
+    padding-top: 1px;
+  }
+}
+.how-it-works strong { color: lighten(#adbdcc, 10%); }
+.how-it-works hr { background-color: #00ccff; }
+
+.currency { vertical-align: top }
