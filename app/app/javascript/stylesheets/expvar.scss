@@ -50,6 +50,7 @@ tr.expvar-root-border {
 
 //expvar table 'page' column demote visually
 .variation-row-data td.table-col-page {
+  word-wrap: anywhere;
   @include from ($tablet) {
     max-width: 25vw;
   }

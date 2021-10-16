@@ -81,17 +81,19 @@
 
         <% @experiments.each do |experiment| %>
 
-            <% cache [experiment, calc_usv_cache_key(@user_saved_variations, experiment),
+            <% cache [experiment,
+                      subscribed_or_moderator,
+                      calc_usv_cache_key(@user_saved_variations, experiment),
                       '/expvar_table'] do %>
 
                 <%= render partial: "/shared/expvar_table",
                 locals: {profile: @profile,
                          experiment: experiment,
-                         variations: policy_scope(experiment.variations
-                                                  .order(vendor_id: :asc,
-                                                         verified: :desc,
-                                                         created_at: :desc)),
-                         audience: experiment.audience,
+                         variations: obfuscate_all(policy_scope(experiment.variations
+                                                                .order(vendor_id: :asc,
+                                                                       verified: :desc,
+                                                                       created_at: :desc)), 0),
+                         audience: experiment.audience.obfuscate,
                          source_vendor: experiment.source_vendor,
                          user_saved_variations: @user_saved_variations
                 }

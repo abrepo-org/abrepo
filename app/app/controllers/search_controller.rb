@@ -33,6 +33,9 @@ class SearchController < ApplicationController
 
     end
 
+    @experiments = obfuscate_all(@experiments,
+                                 num_from_pagination) if not subscribed_or_moderator
+
     # autocomplete
     if (params[:partial])
       return render partial: "results"
