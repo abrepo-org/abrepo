@@ -16,7 +16,17 @@ class ApplicationController < ActionController::Base
     instances
   end
 
+  # need to accommodate pagination: don't want num visible per page
+  # which happens if we obfuscate_all(4) each ?page=2 we want
+  # obfuscation after 4, which would mean results on every page 2+
+  # obfuscated
 
-  helper_method :subscribed_or_moderator, :obfuscate_all
+  def num_from_pagination(num = Rails.application.config.num_obfuscate)
+    # pagy breaks on excessive page param, so if exceed pages
+    # behave like first page (since that's what's returned)
+    params[:page] && params[:page].to_i > 1 ? 0.to_i : num.to_i
+  end
+
+  helper_method :subscribed_or_moderator, :obfuscate_all, :num_from_pagination
 
 end

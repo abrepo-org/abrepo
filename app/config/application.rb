@@ -44,5 +44,14 @@ module App
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
+
+    # number of records / elements in a collection fully visible
+    # before obfuscation. Records beyond first page are
+    # obfuscated (see application_controller:num_from_pagination)
+    #
+    # NB: non-existent 'overflow' pages return empty result
+    # (see config/initializers/pagy.rb)
+    config.num_obfuscate = 4
+
   end
 end
