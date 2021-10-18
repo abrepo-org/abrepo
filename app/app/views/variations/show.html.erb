@@ -52,6 +52,7 @@ commentary = false
                     <div class="tags are-medium">
                         <%= render partial: "shared/search_tag_list",
                         locals: {
+                            obfuscated: false,
                             tag_param: "tags",
                             tag_list: (@variation.tag + @variation.page_tag).sort,
                             classes: "tag is-info is-light"

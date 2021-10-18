@@ -42,7 +42,7 @@
             <% unless experiment.tags.empty? %>
                 <span class="tags mb-2">
                   <%= render partial: "shared/search_tag_list", locals: {
-                      experiment: experiment,
+                      obfuscated: experiment.obfuscated?,
                       tag_param: "tags",
                       tag_list: experiment.tags,
                       classes: "tag is-info is-light"
