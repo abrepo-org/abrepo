@@ -19,7 +19,9 @@
 </tr>
 
 <% variations.each_with_index do |variation, index| %>
-    <% cache [variation, @user_saved_variations[variation.id], "/expvar_variation"] do %>
+    <% cache [variation, variation.obfuscated?,
+              @user_saved_variations[variation.id],
+              "/expvar_variation"] do %>
         <%= render partial: '/shared/expvar_variation',
         locals: {variations: variations, variation: variation, variation_counter: index} %>
     <% end %>

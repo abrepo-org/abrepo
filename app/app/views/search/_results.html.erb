@@ -42,6 +42,7 @@
       <% @experiments.each do |experiment| %>
 
           <% cache [experiment,
+                    experiment.obfuscated?,
                     subscribed_or_moderator,
                     calc_usv_cache_key(@user_saved_variations, experiment),
                     '/expvar_table'] do %>
