@@ -51,7 +51,7 @@ module App
     #
     # NB: non-existent 'overflow' pages return empty result
     # (see config/initializers/pagy.rb)
-    config.num_obfuscate = 4
+    config.num_obfuscate = 5
 
   end
 end

@@ -81,8 +81,8 @@ class ProfilesController < ApplicationController
 
       @pagy, @experiments = pagy(@experiments)
 
-      @experiments = obfuscate_all(@experiments,
-                                   num_from_pagination) if not subscribed_or_moderator
+      @experiments = obfuscate_from(@experiments,
+                                    num_given_pagination(@experiments.length)) if not subscribed_or_moderator
 
       @tag_counts = Sidebar.top_tags
 

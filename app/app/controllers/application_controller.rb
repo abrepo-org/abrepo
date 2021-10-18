@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   end
 
 
-  def obfuscate_all(instances, num_start)
+  def obfuscate_from(instances, num_start)
     instances.each_with_index do |instance, index|
       instance.obfuscate if index >= num_start && instance.respond_to?('obfuscate')
     end
@@ -16,17 +16,23 @@ class ApplicationController < ActionController::Base
     instances
   end
 
-  # need to accommodate pagination: don't want num visible per page
-  # which happens if we obfuscate_all(4) each ?page=2 we want
-  # obfuscation after 4, which would mean results on every page 2+
-  # obfuscated
+  #
+  # need to accommodate pagination: don't want num visible *per* page
+  # e.g. obfuscate_all(4) on ?page=2 shows first _num_ on each page, we
+  # want everything obfuscated after _num_
+  #
+  def num_given_pagination(max_len, override_num = false)
 
-  def num_from_pagination(num = Rails.application.config.num_obfuscate)
-    # pagy breaks on excessive page param, so if exceed pages
-    # behave like first page (since that's what's returned)
-    params[:page] && params[:page].to_i > 1 ? 0.to_i : num.to_i
+    # currently take min ( ~5 config or N/2)
+    # (e.g. if < 5, obfuscate at least some)
+    num_visible = override_num ||
+                  [Rails.application.config.num_obfuscate.to_i,
+                   (max_len / 2.0).ceil].min
+
+    # past page 1, obfuscate all
+    params[:page] && params[:page].to_i > 1 ? 0.to_i : num_visible
   end
 
-  helper_method :subscribed_or_moderator, :obfuscate_all, :num_from_pagination
+  helper_method :subscribed_or_moderator, :obfuscate_from, :num_given_pagination
 
 end
