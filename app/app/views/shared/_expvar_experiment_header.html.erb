@@ -1,9 +1,9 @@
-<div class="experiment is-flex is-justify-content-space-between <%= 'obfuscated' if experiment.obfuscated? %>">
+<div class="experiment is-flex is-justify-content-space-between <%= 'obfuscate' if experiment.obfuscated? %>">
 
     <!-- Experiment Name -->
     <div class="experiment-header">
 
-        <h4 id="exp<%=experiment.id%>" class="anchor-fragment  mb-2">
+        <h4 id="exp<%=experiment.id%>" class="anchor-fragment mb-2">
             <%= experiment.summary_name || "Experiment Name: Unnamed" %>
             [Pub: <%= experiment.published? %>]
         </h4>

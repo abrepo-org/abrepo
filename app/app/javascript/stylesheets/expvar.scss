@@ -2,13 +2,17 @@
  * "Expvar" Main Table component
  */
 
+//"obfuscated" style
+.obfuscate {
+  filter: blur(2px);
+}
+
 //add a tr border for a "group"
 tr.expvar-root-border {
   border-top: 1px solid #dbdbdb;
 }
 
 // expvar anchor fragment (h4)
-
 .anchor-fragment::before {
   margin-top: -90px;
   height: 90px;
