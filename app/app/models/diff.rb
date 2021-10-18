@@ -41,17 +41,20 @@ class Diff < ApplicationRecord
 
   def randomizeBoundingBox
     ['newDim', 'origDim'].each do |dim|
+      if self[dim]
 
-      x = rand * self[dim]['pageDims']['viewport']['width']
-      y = rand * self[dim]['pageDims']['viewport']['height']
+        x = rand * self[dim]['pageDims']['screenshot_dimensions']['width']
+        y = rand * self[dim]['pageDims']['screenshot_dimensions']['height']
 
-      self[dim]['boundingBox']['rect']['x'] = x
-      self[dim]['boundingBox']['rect']['y'] = y
-      self[dim]['boundingBox']['rect']['left'] = 0
-      self[dim]['boundingBox']['rect']['top'] = 0
-      self[dim]['boundingBox']['rect']['bottom'] = 0
-      self[dim]['boundingBox']['rect']['right'] = 0
-
+        if self[dim]['boundingBox']
+          self[dim]['boundingBox']['rect']['x'] = x
+          self[dim]['boundingBox']['rect']['y'] = y
+          self[dim]['boundingBox']['rect']['left'] = 0
+          self[dim]['boundingBox']['rect']['top'] = 0
+          self[dim]['boundingBox']['rect']['bottom'] = 0
+          self[dim]['boundingBox']['rect']['right'] = 0
+        end
+      end
     end
   end
 
