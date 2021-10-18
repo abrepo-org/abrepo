@@ -16,6 +16,14 @@ class ApplicationController < ActionController::Base
     instances
   end
 
+  def obfuscate_num_visits_variation_show(limit)
+    if session.present? && (not subscribed_or_moderator)
+      session[:num_visits_variation_show] ||= 0
+      session[:num_visits_variation_show] += 1
+      return session[:num_visits_variation_show] >= 3
+    end
+    return false
+  end
   #
   # need to accommodate pagination: don't want num visible *per* page
   # e.g. obfuscate_all(4) on ?page=2 shows first _num_ on each page, we

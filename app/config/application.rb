@@ -53,5 +53,10 @@ module App
     # (see config/initializers/pagy.rb)
     config.num_obfuscate = 5
 
+    # stored in session cookie num_visits to variation#show
+    # used by ApplicationController:obfuscate_num_visits_variation_show
+    # session[:num_visits_variation_show]
+
+    config.max_visits_variation_show = 3
   end
 end
