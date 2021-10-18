@@ -39,6 +39,27 @@ class Diff < ApplicationRecord
                dependent: :variation
   validates :a_id, :renderable_id, presence: true
 
+  def randomizeBoundingBox
+    ['newDim', 'origDim'].each do |dim|
+
+      x = rand * self[dim]['pageDims']['viewport']['width']
+      y = rand * self[dim]['pageDims']['viewport']['height']
+
+      self[dim]['boundingBox']['rect']['x'] = x
+      self[dim]['boundingBox']['rect']['y'] = y
+      self[dim]['boundingBox']['rect']['left'] = 0
+      self[dim]['boundingBox']['rect']['top'] = 0
+      self[dim]['boundingBox']['rect']['bottom'] = 0
+      self[dim]['boundingBox']['rect']['right'] = 0
+
+    end
+  end
+
+  def removeDetails
+    self.calculated = {}
+    self.selector = nil
+    self.selectorDisplayName = nil
+  end
 
   def avgY()
 
