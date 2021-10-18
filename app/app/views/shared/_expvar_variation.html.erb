@@ -3,10 +3,10 @@
 <!-- variation header -->
 <% if variation.is_root %>
     <tr data-root-vendor-id="<%= variation.vendor_id %>"
-        class="variation-row-data expvar-root-border is-root">
+        class="variation-row-data expvar-root-border is-root <%= 'obfuscated' if variation.obfuscated? %>">
 <% else %>
-    <tr class="variation-row-data is-hidden"
-        data-vendor="<%= variation.vendor_id %>">
+        <tr data-vendor="<%= variation.vendor_id %>"
+            class="variation-row-data is-hidden <%= 'obfuscated' if variation.obfuscated? %>">
 <% end %>
 
 <!-- Summary Name -->
