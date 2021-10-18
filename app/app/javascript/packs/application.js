@@ -23,3 +23,4 @@ import "../js/stripe/manage_account.js";
 import "../js/expvar/varview_handler.js";
 import "../js/expvar/obfuscated_link_handler.js";
 import "../js/users/edit.js";
+import "../js/modal/subscribe_modal.js";

@@ -5,8 +5,10 @@ function obfuscated_click_handler($links) {
         $link.addEventListener('click', (e) => {
             e.preventDefault();
 
-            //TODO: replace with toggle modal
-            alert('hi stub click');
+            document
+                .querySelector('#subscribe-modal')
+                .classList
+                .toggle('is-active');
         });
 
     });
