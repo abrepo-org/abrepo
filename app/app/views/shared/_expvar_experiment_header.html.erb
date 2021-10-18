@@ -23,7 +23,7 @@
 
             <!-- company info -->
             <div class="mr-4 mb-4">
-                <%= link_to profile do %>
+                <%= obfuscate_link_to experiment.obfuscated?, profile do %>
                     <span class="profile_favicon">
                         <%= image_tag(profile.favicon_url ||
                                       'https://www.' + profile.domain + '/favicon.ico',
@@ -41,11 +41,12 @@
             <!-- Tags  -->
             <% unless experiment.tags.empty? %>
                 <span class="tags mb-2">
-                    <%= render partial: "shared/search_tag_list", locals: {
-                        tag_param: "tags",
-                        tag_list: experiment.tags,
-                        classes: "tag is-info is-light"
-                    }%>
+                  <%= render partial: "shared/search_tag_list", locals: {
+                      experiment: experiment,
+                      tag_param: "tags",
+                      tag_list: experiment.tags,
+                      classes: "tag is-info is-light"
+                  }%>
                 </span>
             <% end %>
         </div>
