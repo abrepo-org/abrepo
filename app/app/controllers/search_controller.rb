@@ -33,6 +33,10 @@ class SearchController < ApplicationController
 
     end
 
+    # Possible increase search results to 1st page?
+    @experiments = obfuscate_from(@experiments,
+                                  num_given_pagination(@experiments.length)) if not subscribed_or_moderator
+
     # autocomplete
     if (params[:partial])
       return render partial: "results"

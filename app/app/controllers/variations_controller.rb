@@ -28,6 +28,20 @@ class VariationsController < ApplicationController
     end
 
 
+    # determine if obfuscate via visits stored in cookie
+    @obfuscate = obfuscate_num_visits_variation_show(Rails
+                                                       .application
+                                                       .config
+                                                       .max_visits_variation_show)
+
+    if @obfuscate
+      # text content
+      [@experiment, @audience, @variation].each{ |e| e.obfuscate }
+
+      # TODO:
+      # set images on renderable to some subscribe now
+    end
+
     #
     # main window.abrepo obj
     #

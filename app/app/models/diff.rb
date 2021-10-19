@@ -31,9 +31,38 @@
 #
 
 class Diff < ApplicationRecord
+  include Obfuscatable
   belongs_to :renderable
+  delegate :variation, to: :renderable, :allow_nil => true
+
+  obfuscatable attributes: [:summary_added, :summary_removed, :summary_delta],
+               dependent: :variation
   validates :a_id, :renderable_id, presence: true
 
+  def randomizeBoundingBox
+    ['newDim', 'origDim'].each do |dim|
+      if self[dim]
+
+        x = rand * self[dim]['pageDims']['screenshot_dimensions']['width']
+        y = rand * self[dim]['pageDims']['screenshot_dimensions']['height']
+
+        if self[dim]['boundingBox']
+          self[dim]['boundingBox']['rect']['x'] = x
+          self[dim]['boundingBox']['rect']['y'] = y
+          self[dim]['boundingBox']['rect']['left'] = 0
+          self[dim]['boundingBox']['rect']['top'] = 0
+          self[dim]['boundingBox']['rect']['bottom'] = 0
+          self[dim]['boundingBox']['rect']['right'] = 0
+        end
+      end
+    end
+  end
+
+  def removeDetails
+    self.calculated = {}
+    self.selector = nil
+    self.selectorDisplayName = nil
+  end
 
   def avgY()
 

@@ -44,5 +44,19 @@ module App
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
+
+    # number of records / elements in a collection fully visible
+    # before obfuscation. Records beyond first page are
+    # obfuscated (see application_controller:num_from_pagination)
+    #
+    # NB: non-existent 'overflow' pages return empty result
+    # (see config/initializers/pagy.rb)
+    config.num_obfuscate = 5
+
+    # stored in session cookie num_visits to variation#show
+    # used by ApplicationController:obfuscate_num_visits_variation_show
+    # session[:num_visits_variation_show]
+
+    config.max_visits_variation_show = 3
   end
 end

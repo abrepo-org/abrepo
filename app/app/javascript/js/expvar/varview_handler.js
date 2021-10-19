@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* attach save click handlers */
     const $user_saves = document
-          .querySelectorAll('button.user-save-variations')
+          .querySelectorAll('button.user-save-variations:not(.obfuscated-link)')
           .forEach( $div => {
               $div.addEventListener('click', (e) => {
                   userSaveVariationClickHandler($div);

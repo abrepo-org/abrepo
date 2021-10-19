@@ -12,6 +12,8 @@ class HomeController < ApplicationController
   def index
     @experiments = policy_scope( Experiment.calcRank )
     @pagy, @experiments = pagy(@experiments)
+    @experiments = obfuscate_from(@experiments, 0) if (not subscribed_or_moderator) &&
+                                                      (params[:page] && params[:page].to_i > 2)
 
     # sidebar
     @top_profiles = Sidebar.top_profiles

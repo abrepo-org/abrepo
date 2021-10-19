@@ -1,5 +1,12 @@
 module ExpvarHelper
 
+  def obfuscate_link_to(obfuscated, path, &block)
+    path = "#" if obfuscated
+    link_to(path, class: obfuscated ? "obfuscated-link" : "" ) do
+      yield
+    end
+  end
+
   # determines if variation-view is the same variation (should be
   # hidden) with a different view, or is a standalone variation
   #
@@ -38,7 +45,9 @@ module ExpvarHelper
 
   def pageURLHelper(variation)
     variation.renderables.where(control:false).first ?
-      variation.renderables.where(control:false).first.renderedURL.sub(/https?\:\/\//, '') :
+      variation.renderables.where(control:false).first
+        .obfuscate
+        .renderedURL.sub(/https?\:\/\//, '') :
       ''
   end
 end

@@ -1,0 +1,24 @@
+<div id="subscribe-modal" class="modal <%= 'is-active' if is_active %> ">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+
+        <div class="box is-flex is-flex-direction-column is-align-items-center" >
+
+            <h1>Subscribe For Full Access</h1>
+
+            <%= image_pack_tag('role3-sketch.png', width: '66%', class: 'my-4') %>
+
+            <p class="mt-4"> Don't miss another test! </p>
+            <p> Let abrepo help improve your experimentation today! </p>
+
+            <%= link_to "Subscribe Now",
+            root_path(anchor: 'pricing'),
+            class: "button is-info" %>
+        </div>
+
+    </div>
+
+    <% unless noclose %>
+        <button class="modal-close is-large" aria-label="close"></button>
+    <% end %>
+</div>

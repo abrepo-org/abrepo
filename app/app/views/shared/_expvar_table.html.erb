@@ -11,7 +11,7 @@
     </th>
 </tr>
 
-<tr class="variation-row-header is-size-7">
+<tr class="variation-row-header is-size-7 <%= 'obfuscate' if experiment.obfuscated? %> ">
     <th>Variations</th>
     <th class="is-hidden-mobile">Page</th>
     <th align="right">Verified</th>
@@ -19,7 +19,9 @@
 </tr>
 
 <% variations.each_with_index do |variation, index| %>
-    <% cache [variation, @user_saved_variations[variation.id], "/expvar_variation"] do %>
+    <% cache [variation, variation.obfuscated?,
+              @user_saved_variations[variation.id],
+              "/expvar_variation"] do %>
         <%= render partial: '/shared/expvar_variation',
         locals: {variations: variations, variation: variation, variation_counter: index} %>
     <% end %>
@@ -29,7 +31,8 @@
     <th colspan="5">
         <!-- expvar num -->
         <%= render partial: '/shared/expvar_num_expvar', locals: {
-            expvar_date: experiment.created_at
+            expvar_date: experiment.created_at,
+            obfuscated: experiment.obfuscated?
         } %>
 
         <%# has-background-grey-light, has-background-grey %>

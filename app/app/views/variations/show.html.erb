@@ -5,6 +5,12 @@
 commentary = false
 %>
 
+<%= render partial: '/shared/subscribe_modal', locals: {
+    noclose: true,
+    is_active: @obfuscate
+}
+%>
+
 <section class="variation">
     <div class="header">
 
@@ -52,6 +58,7 @@ commentary = false
                     <div class="tags are-medium">
                         <%= render partial: "shared/search_tag_list",
                         locals: {
+                            obfuscated: false,
                             tag_param: "tags",
                             tag_list: (@variation.tag + @variation.page_tag).sort,
                             classes: "tag is-info is-light"
@@ -155,7 +162,6 @@ commentary = false
 
 </section>
 <hr />
-
 <!--
      separate variation here, make it navigable toggle?
      fixed size, that can scroll and render a new for comparison

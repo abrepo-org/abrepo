@@ -27,7 +27,9 @@
 #
 
 class Experiment < ApplicationRecord
+  include Obfuscatable
   include PgSearch::Model
+
   multisearchable against: [:summary_name],
                   additional_attributes: -> (experiment) { { experiment_id: experiment.id } }
 
@@ -37,6 +39,7 @@ class Experiment < ApplicationRecord
   has_one :campaign, dependent: :destroy
   has_one :audience, dependent: :destroy
 
+  obfuscatable attributes: [:summary_name, :domain]
   validates :crawlId, :domain, :a_id, :profile_id, :vendor_id, presence: true
 
   def tags

@@ -38,11 +38,15 @@
 # actions are available
 #
 class Renderable < ApplicationRecord
+  include Obfuscatable
+
   belongs_to :action
   belongs_to :variation
   belongs_to :controlRenderable, class_name: "Renderable",
              foreign_key: :renderable_id, optional: true
   has_many :diffs, dependent: :destroy
+
+  obfuscatable attributes: [:renderedURL], dependent: :variation
 
   validates :a_id, :action_id, :variation_id, presence: true
   validates :control, inclusion: [true, false]
@@ -55,9 +59,21 @@ class Renderable < ApplicationRecord
   def sortedDiffs()
 
     # NB default sort descending - highest avgY, but we want ordered asc (low to high)
-    diffs = self.diffs.sort{ |d| d.avgY }
+    # diffs are obfuscated here if parent variation is obfuscated as well
+    diffs = self.diffs
+              .sort{ |d| d.avgY }
+              .each{ |d|
+
+                     d.obfuscate
+
+                     if d.obfuscated?
+                       d.randomizeBoundingBox
+                       d.removeDetails
+                     end
+              }
               .reverse
               .map{ |d| d.attributes.except("a_id", "renderable_id", "created_at", "updated_at") }
+
 
     return diffs
   end

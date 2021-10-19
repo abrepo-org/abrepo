@@ -78,7 +78,11 @@ class ProfilesController < ApplicationController
                           .pluck('variations.count')
                           .sum
 
+
       @pagy, @experiments = pagy(@experiments)
+
+      @experiments = obfuscate_from(@experiments,
+                                    num_given_pagination(@experiments.length)) if not subscribed_or_moderator
 
       @tag_counts = Sidebar.top_tags
 

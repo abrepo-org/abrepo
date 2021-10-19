@@ -1,3 +1,9 @@
+
+<%= render partial: '/shared/subscribe_modal', locals: {
+    noclose: false,
+    is_active: false
+} %>
+
 <% content_for :title, "ABRepo | Experiments by " + (@profile.company_name || @profile.domain) %>
 <section class="company-profile">
     <div class="header is-flex is-justify-content-space-between">
@@ -62,6 +68,7 @@
         <div class="profile-label has-text-grey mt-3 mb-2">Industries</div>
         <div class="tags are-medium mt-1">
             <%= render partial: "shared/search_tag_list", locals: {
+                obfuscated: false,
                 tag_param: "industries",
                 tag_list: @profile.industry_tag,
                 classes: "tag is-info is-light",
@@ -81,17 +88,20 @@
 
         <% @experiments.each do |experiment| %>
 
-            <% cache [experiment, calc_usv_cache_key(@user_saved_variations, experiment),
+            <% cache [experiment,
+                      experiment.obfuscated?,
+                      subscribed_or_moderator,
+                      calc_usv_cache_key(@user_saved_variations, experiment),
                       '/expvar_table'] do %>
 
                 <%= render partial: "/shared/expvar_table",
                 locals: {profile: @profile,
                          experiment: experiment,
-                         variations: policy_scope(experiment.variations
-                                                  .order(vendor_id: :asc,
-                                                         verified: :desc,
-                                                         created_at: :desc)),
-                         audience: experiment.audience,
+                         variations: obfuscate_from(policy_scope(experiment.variations
+                                                                 .order(vendor_id: :asc,
+                                                                        verified: :desc,
+                                                                        created_at: :desc)), 0),
+                         audience: experiment.audience.obfuscate,
                          source_vendor: experiment.source_vendor,
                          user_saved_variations: @user_saved_variations
                 }

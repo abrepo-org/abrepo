@@ -2,25 +2,34 @@
 
 <div class="header"></div>
 
+<%= render partial: '/shared/subscribe_modal', locals: {
+    noclose: false,
+    is_active: false
+} %>
+
 <!-- experiments loop -->
 <table class="table">
     <tbody>
 
-        <% @experiments.each do |experiment| %>
+        <% @experiments.each_with_index do |experiment, index| %>
 
             <% if policy_scope(experiment.variations).length > 0 %>
 
-                <% cache [experiment, calc_usv_cache_key(@user_saved_variations, experiment),
+                <% cache [experiment,
+                          experiment.obfuscated?,
+                          subscribed_or_moderator,
+                          calc_usv_cache_key(@user_saved_variations, experiment),
                           '/expvar_table'] do %>
 
                     <%= render partial: "/shared/expvar_table",
                     locals: {profile: experiment.profile,
                              experiment: experiment,
-                             variations: policy_scope(experiment.variations
-                                                      .order(vendor_id: :asc,
-                                                             verified: :desc,
-                                                             created_at: :desc)),
-                             audience: experiment.audience,
+                             variations: obfuscate_from(policy_scope(experiment.variations
+                                                                     .order(vendor_id: :asc,
+                                                                            verified: :desc,
+                                                                            created_at: :desc)),
+                                                       0),
+                             audience: experiment.audience.obfuscate,
                              source_vendor: experiment.source_vendor,
                              user_saved_variations: @user_saved_variations
                     }
