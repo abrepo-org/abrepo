@@ -51,7 +51,11 @@ module CheckoutHelper
 
   # used in landing#index
   def get_all_stripe_data
-    prices = Stripe::Price.list({ lookup_keys:['basic-monthly', 'basic-annual'] })
+    lookup_keys = ['basic-monthly', 'basic-annual']
+
+    prices = Rails.cache.fetch("#{lookup_keys}/get_all_stripe_data", expires_in: 1.hours) do
+      Stripe::Price.list({ lookup_keys: lookup_keys })
+    end
 
     basic_monthly = prices[:data].find{ |price| price['lookup_key'] == 'basic-monthly' }
     basic_annual = prices[:data].find{ |price| price['lookup_key'] == 'basic-annual' }
@@ -62,10 +66,11 @@ module CheckoutHelper
   # used in checkout, stripe controllers
   # NB: Price.list does not return lookup_keys by order initially requested
   def get_stripe_data(price_lookup_key)
-    # TODO: cache
 
-    prices = Stripe::Price.list({ lookup_keys:[price_lookup_key,
-                                               ENV['STRIPE_DEFAULT_LOOKUP_KEY']] })
+    prices = Rails.cache.fetch("#{price_lookup_key}/get_stripe_data", expires_in: 1.hours) do
+      Stripe::Price.list({ lookup_keys:[price_lookup_key,
+                                        ENV['STRIPE_DEFAULT_LOOKUP_KEY']] })
+    end
 
     price = prices[:data].find{ |price| price['lookup_key'] == price_lookup_key } ||
             prices[:data].find{ |price| price['lookup_key'] == ENV['STRIPE_DEFAULT_LOOKUP_KEY'] }
