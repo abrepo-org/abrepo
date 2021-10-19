@@ -8,6 +8,8 @@ function obfuscated_click_handler($links) {
             const $modal = document
                   .querySelector('#subscribe-modal');
 
+            if(!$modal) return;
+
             $modal.classList
                 .toggle('is-active');
 
@@ -31,7 +33,7 @@ function obfuscated_click_handler($links) {
 document.addEventListener('DOMContentLoaded', () => {
 
     const $links = Array.from( document.querySelectorAll('.obfuscated-link') );
-
+    
     obfuscated_click_handler($links);
 
 });
