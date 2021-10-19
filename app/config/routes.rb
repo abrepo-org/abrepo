@@ -2,10 +2,10 @@ Rails.application.routes.draw do
 
   devise_scope :user do
 
-    get "/checkout/account(/:lookup_key)", action: :account, controller: 'checkout',
+    get "/checkout/account/(:lookup_key)", action: :account, controller: 'checkout',
         as: "checkout_account"
 
-    post "/checkout/account(/:lookup_key)", action: :create, controller: 'checkout',
+    post "/checkout/account/(:lookup_key)", action: :create, controller: 'checkout',
          as: "checkout_user_create"
 
   end
