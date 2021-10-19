@@ -43,4 +43,11 @@ class ApplicationController < ActionController::Base
 
   helper_method :subscribed_or_moderator, :obfuscate_from, :num_given_pagination
 
+
+  protected
+  ### Devise override
+
+  def after_sign_in_path_for(resource)
+    home_path
+  end
 end
