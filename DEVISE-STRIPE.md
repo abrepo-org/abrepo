@@ -45,6 +45,21 @@ Requires default `lookup_key` in `.env` as
 `STRIPE_DEFAULT_LOOKUP_KEY`. This is a default / fallback stripe
 lookup_key.
 
+#### Customer Portal
+
+`stripe_controllers#portal`: is a POST endpoint at route `/customer-portal` that pings Stripe to
+get a Stripe session url and redirect the user.
+
+This endpoint provides a secure url redirect (no view) for users to
+manage payment information on stripe.
+
+It is toggled for users with active subscriptions via
+`views/devise/registrations/edit`. User clicks "Manage Subscription"
+button, which sends a POST to `/customer-portal` and returns a url.
+
+The javascript is in `/javascript/js/stripe/manage_account.js`, and
+contains the `window.location.href` call to redirect to the url.
+
 
 ## Devise
 
