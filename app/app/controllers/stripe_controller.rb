@@ -93,10 +93,16 @@ class StripeController < ApplicationController
 
   #
   # Customer Portal URL
+  # "Manage Account" sends POST request, which we relay to Stripe
+  # to get a secure redirect URL for user
   #
   def portal
 
-    return_url = 'http://localhost/users/edit/'
+    # needs to be a full URL
+    return_url = [
+      ENV['APPLICATION_HOST'],
+      edit_user_registration_path
+    ].join
 
     customer_id = current_user.subscriptions.last.stripe_customer_id
     session = Stripe::BillingPortal::Session.create(
