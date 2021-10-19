@@ -42,7 +42,8 @@
 
             <!-- NAV -->
             <header>
-                <% if current_page?(checkout_account_path(params[:lookup_key])) || current_page?(checkout_subscribe_path(params[:lookup_key])) %>
+              <% if current_page?(checkout_account_path(params[:lookup_key])) ||
+                 current_page?(checkout_subscribe_path(params[:lookup_key])) %>
                     <%= render "layouts/navbar_checkout" %>
                 <% else %>
                     <%= render "layouts/navbar" %>
@@ -68,7 +69,7 @@
 
                 <% else %>
 
-                    <section class="section" >
+                    <section class="section is-fullheight" >
 
                         <% if controller.controller_name == "variations" &&
                             controller.action_name == "show" %>
