@@ -2,7 +2,11 @@
      make sure consistent with SearchTextAutoComplete
    -->
 
-<%= render partial: '/shared/subscribe_modal', locals: { is_active: false } %>
+<%= render partial: '/shared/subscribe_modal', locals: {
+    noclose: false,
+    is_active: false
+}
+%>
 
 <div class="results is-flex is-justify-content-space-between">
     <div class="tags-container">

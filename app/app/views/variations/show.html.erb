@@ -5,7 +5,11 @@
 commentary = false
 %>
 
-<%= render partial: '/shared/subscribe_modal', locals: { is_active: @obfuscate } %>
+<%= render partial: '/shared/subscribe_modal', locals: {
+    noclose: true,
+    is_active: @obfuscate
+}
+%>
 
 <section class="variation">
     <div class="header">
