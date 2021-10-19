@@ -49,18 +49,34 @@ module CheckoutHelper
 
   end
 
+  # used in landing#index
+  def get_all_stripe_data
+    prices = Stripe::Price.list({ lookup_keys:['basic-monthly', 'basic-annual'] })
 
-  def get_stripe_data(price_key)
+    basic_monthly = prices[:data].find{ |price| price['lookup_key'] == 'basic-monthly' }
+    basic_annual = prices[:data].find{ |price| price['lookup_key'] == 'basic-annual' }
+
+    return basic_monthly, basic_annual
+  end
+
+  # used in checkout, stripe controllers
+  # NB: Price.list does not return lookup_keys by order initially requested
+  def get_stripe_data(price_lookup_key)
     # TODO: cache
-    # NB: assume prices respects lookup_keys order, but not entirely sure.
-    prices = Stripe::Price.list({ lookup_keys:[price_key, ENV['STRIPE_DEFAULT_LOOKUP_KEY']] })
 
-    price = prices[:data].first
+    prices = Stripe::Price.list({ lookup_keys:[price_lookup_key,
+                                               ENV['STRIPE_DEFAULT_LOOKUP_KEY']] })
+
+    price = prices[:data].find{ |price| price['lookup_key'] == price_lookup_key } ||
+            prices[:data].find{ |price| price['lookup_key'] == ENV['STRIPE_DEFAULT_LOOKUP_KEY'] }
 
     return price
   end
 
   #GET initial request (#new) -> lookup_key
+  #
+  # lookup_key is our text 'nick' handle that representing the
+  # "current" product/price
   def params_lookup_key
     params[:lookup_key] || ENV['STRIPE_DEFAULT_LOOKUP_KEY']
   end

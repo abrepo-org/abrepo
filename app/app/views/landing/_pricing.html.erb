@@ -11,9 +11,11 @@
 
             <div class="card">
                 <div class="card-content has-text-centered" >
-                    <p class="title is-4">Monthly Plan</p>
+                    <p class="title is-4">
+                        <%= @basic_monthly_price.nickname %>
+                    </p>
                     <span class="currency is-size-5">$</span>
-                    <span class="title is-1">99</span>
+                    <span class="title is-1"><%= @basic_monthly_price.unit_amount / 100 %></span>
                     <span class="frequency">/ month</p>
                         <p>Billed Monthly</p>
                         <hr />
@@ -52,9 +54,11 @@
 
             <div class="card">
                 <div class="card-content has-text-centered" >
-                    <p class="title is-4">Annual Plan</p>
+                    <p class="title is-4">
+                        <%= @basic_annual_price.nickname %>
+                    </p>
                     <span class="currency is-size-5">$</span>
-                    <span class="title is-1">79</span>
+                    <span class="title is-1"><%= @basic_annual_price.unit_amount / 100 / 12 %></span>
                     <span class="frequency">/ month</p>
                         <p>Billed Annually</p>
                         <hr />
