@@ -32,7 +32,8 @@
 
         <footer class="card-footer">
           <p class="card-footer-item">
-            <a class="button is-fullwidth is-info">Get Started</a>
+            <%= link_to "Get Started", checkout_account_path(lookup_key: 'basic-monthly'),
+                class:"button is-fullwidth is-info" %>
           </p>
         </footer>
       </div>
@@ -53,7 +54,10 @@
 
         <footer class="card-footer">
           <p class="card-footer-item">
-            <a class="button is-fullwidth is-info">Get Started</a>
+            <%= link_to "Get Started", checkout_account_path(lookup_key: 'basic-annual'),
+                class:"button is-fullwidth is-info" %>
+
+
           </p>
         </footer>
       </div>
