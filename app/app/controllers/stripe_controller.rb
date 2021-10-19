@@ -25,10 +25,14 @@ class StripeController < ApplicationController
 
 
   def success
-    # webhook creates actual subscription object; async, client-side
-    # unreliable (could close browser before hitting this route, etc.)
-    # we create subscription on success if webhook is delayed
-    # typically webhook will have already done this
+    # succesful purchase sends user to checkout#success and also
+    # qtriggers webhook; soss there's a race between hitting this endpoint
+    # and webhook to tell us a subscription was enabled
+    #
+    # Since it's async when webhook actually hits our backend to
+    # create a subscription, we create subscription on checkout#success
+    # if webhook is delayed.  typically webhook will have already done
+    # this
     @session_id = params[:session_id]
     if @session_id.nil?
       redirect_to checkout_subscribe_path
