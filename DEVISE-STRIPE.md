@@ -27,6 +27,18 @@ If no `lookup_key`; uses default ('basic-monthly')
 Click "purchase", runs stripe checkout process: (create session_id,
 then stripe_redirect)
 
+## Checkout vs Stripe
+
+### /checkout/account -> /checkout/subscribe:
+
+The routes are the same root (`/checkout`) but controllers + views different (checkout vs
+stripe). This is done because while checkout sequence is what the user sees:
+
+* `/checkout/account` inherits from Devise
+* `/checkout/subscribe' inherits from ApplicationController, more in
+  common with Stripe (not about registration)
+
+
 ## Stripe
 
 Requires default `lookup_key` in `.env` as
@@ -41,30 +53,30 @@ overrides. stripe_controller deals with post authenticated user, and
 setting up Stripe's checkout session object to hand off to Stripe's
 servers.
 
-`checkout#account`-> copies `registrations#new` (both action and view)
-`checkout#create` -> copies `registrations#create`
-`stripe#review` -> post user, vanilla controller.
+* `checkout#account`-> copies `registrations#new` (both action and view)
+* `checkout#create` -> copies `registrations#create`
 
 Mostly copied controller code into `/checkout` with slight url
 modifications, sign_in checks.
 
 Use separate named actions to allow custom before hook behavior.
 
-`checkout_controller` inherits from devise
-`Stripe_controller` are stripe-specific.
+* `checkout_controller` inherits from devise
+* `stripe_controller` are stripe-specific.
 
 #### Views
 
 `/checkout`:
-* `account.html.erb` is `#new` page for user creation
+
+* `account.html.erb`: is equivalent `registrations#new` page for user
+  creation; sends js to execute with selected plan and user, then
+  hands off to stripe
 
 `/stripe`:
-* `cancel.html.erb`: stripe sends on canceled payment
-* `success.html.erb`: stripe sends on successful payment
-* `subscribe.html.erb`: post user creation in unsubscribed state;
-  review allows js to execute with selected plan and user, hands off to stripe
-    * this is an extra step, but a single user-creation + checkout
-      would require creating users via xhr, which we'll defer later.
+
+* `subscribe.html.erb`: user created, but is not subscribed; sends js
+  to stripe, already populated with email
+
 
 #### Subscription Creation
 
@@ -78,8 +90,8 @@ webhook event is delayed, doesn't reach.
 
 #### Routes
 
-* get `checkout/account/:lookup` -> new
-* post `checkout/account/:lookup_key` -> create
-* get `checkout/subscribe/:lookup_key` -> stripe launch
+* GET `checkout/account/:lookup` -> new
+* POST `checkout/account/:lookup_key` -> create
+* GET `checkout/subscribe/:lookup_key` -> stripe launch
 
 `lookup_key` is a param for the corresponding Stripe `lookup_key` (plan.)

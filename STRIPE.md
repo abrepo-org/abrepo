@@ -1,5 +1,10 @@
 # Stripe Notes
 
+These are notes about general Stripe behavior. This is not necessarily
+specific to `abrepo`, which is integrated with devise and user
+creation; found in [DEVISE-STRIPE.md](./DEVISE-STRIPE.md).
+
+
 ## Install
 
 1. Create an account on Stripe
