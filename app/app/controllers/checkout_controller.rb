@@ -4,7 +4,8 @@ class CheckoutController < Devise::RegistrationsController
   #
   # need a separate action to avoid prepend_before_action hooks so we
   # can actually execute custom controller / hook code like redirects
-  # this is basically a prepended Devise::RegistrationsController#new
+  # this is basically a prepended
+  # Devise::RegistrationsController#new
   #
   def account
     if user_signed_in?
