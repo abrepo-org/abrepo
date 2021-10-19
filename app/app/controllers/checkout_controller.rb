@@ -1,9 +1,6 @@
 class CheckoutController < Devise::RegistrationsController
   include CheckoutHelper
 
-  #sets a controller variable @minimum_password_length
-  prepend_before_action :set_minimum_password_length, only: [:initial]
-
   #
   # need a separate action to avoid prepend_before_action hooks so we
   # can actually execute custom controller / hook code like redirects
