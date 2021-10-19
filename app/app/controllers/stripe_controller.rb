@@ -3,6 +3,9 @@ class StripeController < ApplicationController
 
   def subscribe
 
+    #
+    # if no account, must register account
+    #
     unless user_signed_in?
       redirect_to checkout_account_path(params_lookup_key)
       return
