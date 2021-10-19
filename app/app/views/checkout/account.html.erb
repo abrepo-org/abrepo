@@ -123,7 +123,7 @@
          const price_id = "<%= @price.id %>";
 
          const createCheckoutSession = (user, price_id) => {
-             return fetch("<%= checkout_account_path(params_lookup_key) %>", {
+             return fetch("<%= checkout_user_create_path(params_lookup_key) %>", {
                  method: "POST",
                  headers: {
                      "Content-Type": "application/json",
