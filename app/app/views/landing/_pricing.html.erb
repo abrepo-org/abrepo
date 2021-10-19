@@ -1,58 +1,68 @@
 <div class="container content">
 
-  <h3 class="is-size-3 has-text-centered">Pricing</h3>
+    <h3 class="is-size-3 has-text-centered">Pricing</h3>
+    <div class="is-flex is-justify-content-center" >
+        <%= image_pack_tag "stripe-blurple-600x136-06cf2b6.png", width:"10%" %>
+    </div>
+    <div class="columns mt-5">
+        <div class="column is-offset-2 is-4">
+            <div class="card">
 
-  <div class="columns mt-6">
-    <div class="column is-offset-2 is-4">
-      <div class="card">
+                <div class="card-content has-text-centered" >
+                    <p class="title is-4">Monthly Plan</p>
+                    <span class="currency is-size-5">$</span>
+                    <span class="title is-1">99</span>
+                    <span class="frequency">/ month</p>
+                        <p>Billed Monthly</p>
+                        <hr />
 
-        <div class="card-content has-text-centered" >
-          <p class="title is-4">Monthly Plan</p>
-          <span class="currency is-size-5">$</span>
-          <span class="title is-1">99</span>
-          <span class="frequency">/ month</p>
-          <p>Billed Monthly</p>
-          <hr />
-          <p>Single account useful for individuals and freelancers</p>
+                        <p>Single user monthly subscription.</p>
+                        <p>Unlimited search. No quotas. No caps.</p>
+                        <p>Full access to continually updated repository.</p>
+                        <p>&nbsp;</p>
+                </div>
 
+                <footer class="card-footer">
+                    <p class="card-footer-item">
+                        <%= link_to "Get Started", checkout_account_path(lookup_key: 'basic-monthly'),
+                        class:"button is-fullwidth is-info" %>
+                    </p>
+                </footer>
+            </div>
         </div>
 
-        <footer class="card-footer">
-          <p class="card-footer-item">
-            <%= link_to "Get Started", checkout_account_path(lookup_key: 'basic-monthly'),
-                class:"button is-fullwidth is-info" %>
-          </p>
-        </footer>
-      </div>
-    </div>
+        <div class="column is-4">
+            <div class="card">
 
-    <div class="column is-4">
-      <div class="card">
+                <div class="card-content has-text-centered" >
+                    <p class="title is-4">Annual Plan</p>
+                    <span class="currency is-size-5">$</span>
+                    <span class="title is-1">79</span>
+                    <span class="frequency">/ month</p>
+                        <p>Billed Annually</p>
 
-        <div class="card-content has-text-centered" >
-          <p class="title is-4">Annual Plan</p>
-          <span class="currency is-size-5">$</span>
-          <span class="title is-1">79</span>
-          <span class="frequency">/ month</p>
-          <p>Billed Annually</p>
+                        <hr />
 
-          <hr />
-          <p>20% Upfront Discount</p>
+                        <p>Single user annual subscription.</p>
+                        <p>Unlimited search. No quotas. No caps.</p>
+                        <p>Full access to continually updated repository.</p>
+
+                        <p>20% effective discount</p>
+                </div>
+
+                <footer class="card-footer">
+                    <p class="card-footer-item">
+                        <%= link_to "Get Started", checkout_account_path(lookup_key: 'basic-annual'),
+                        class:"button is-fullwidth is-info" %>
+
+
+                    </p>
+                </footer>
+            </div>
         </div>
 
-        <footer class="card-footer">
-          <p class="card-footer-item">
-            <%= link_to "Get Started", checkout_account_path(lookup_key: 'basic-annual'),
-                class:"button is-fullwidth is-info" %>
 
 
-          </p>
-        </footer>
-      </div>
     </div>
-
-
-
-  </div>
 
 </div>
