@@ -1,88 +1,68 @@
 <div class="container content">
 
-  <h3 class="is-size-3 has-text-centered">Pricing</h3>
-
-  <div class="content has-text-centered">
-    <div class="control">
-      <label class="radio mx-5">
-        <input type="radio" name="answer">
-        <strong class="ml-1 is-size-5">Annual</strong>
-        (2 months free)
-      </label>
-      <label class="radio mx-5">
-        <input type="radio" name="answer" checked>
-        <strong class="ml-1 is-size-5">Monthly</strong>
-      </label>
+    <h3 class="is-size-3 has-text-centered">Pricing</h3>
+    <div class="is-flex is-justify-content-center" >
+        <%= image_pack_tag "stripe-blurple-600x136-06cf2b6.png", width:"10%" %>
     </div>
-  </div>
+    <div class="columns mt-5">
+        <div class="column is-offset-2 is-4">
+            <div class="card">
 
-  <div class="columns">
-    <div class="column is-4">
-      <div class="card">
+                <div class="card-content has-text-centered" >
+                    <p class="title is-4">Monthly Plan</p>
+                    <span class="currency is-size-5">$</span>
+                    <span class="title is-1">99</span>
+                    <span class="frequency">/ month</p>
+                        <p>Billed Monthly</p>
+                        <hr />
 
-        <div class="card-content has-text-centered" >
-          <p class="title is-4">Individual</p>
-          <span class="currency is-size-5">$</span>
-          <span class="title is-1">99</span>
-          <p>Billed Monthly</p>
-          <hr />
-          <p>Single account useful for individuals and freelancers</p>
+                        <p>Single user monthly subscription.</p>
+                        <p>Unlimited search. No quotas. No caps.</p>
+                        <p>Full access to continually updated repository.</p>
+                        <p>&nbsp;</p>
+                </div>
 
+                <footer class="card-footer">
+                    <p class="card-footer-item">
+                        <%= link_to "Get Started", checkout_account_path(lookup_key: 'basic-monthly'),
+                        class:"button is-fullwidth is-info" %>
+                    </p>
+                </footer>
+            </div>
         </div>
 
-        <footer class="card-footer">
-          <p class="card-footer-item">
-            <%= link_to "Get Started", checkout_account_path(lookup_key: 'basic-monthly'),
-                class:"button is-fullwidth is-info" %>
-          </p>
-        </footer>
-      </div>
-    </div>
+        <div class="column is-4">
+            <div class="card">
 
-    <div class="column is-4">
-      <div class="card">
+                <div class="card-content has-text-centered" >
+                    <p class="title is-4">Annual Plan</p>
+                    <span class="currency is-size-5">$</span>
+                    <span class="title is-1">79</span>
+                    <span class="frequency">/ month</p>
+                        <p>Billed Annually</p>
 
-        <div class="card-content has-text-centered" >
-          <p class="title is-4">Team</p>
-          <span class="currency is-size-5">$</span>
-          <span class="title is-1">299</span>
-          <p>Billed Monthly</p>
+                        <hr />
 
-          <hr />
-          <p>Team discount for 5 accounts</p>
+                        <p>Single user annual subscription.</p>
+                        <p>Unlimited search. No quotas. No caps.</p>
+                        <p>Full access to continually updated repository.</p>
+
+                        <p>20% effective discount</p>
+                </div>
+
+                <footer class="card-footer">
+                    <p class="card-footer-item">
+                        <%= link_to "Get Started", checkout_account_path(lookup_key: 'basic-annual'),
+                        class:"button is-fullwidth is-info" %>
+
+
+                    </p>
+                </footer>
+            </div>
         </div>
 
-        <footer class="card-footer">
-          <p class="card-footer-item">
-            <%= link_to "Get Started", checkout_account_path(lookup_key: 'basic-annual'),
-                class:"button is-fullwidth is-info" %>
 
 
-          </p>
-        </footer>
-      </div>
     </div>
-    <div class="column is-4">
-      <div class="card">
-
-        <div class="card-content has-text-centered" >
-
-          <p class="title is-4">Enterprise</p>
-          <span class="title is-3">Contact us</span>
-          <!-- spacers -->
-          <span class="title is-1">&nbsp;</span>
-          <p>&nbsp;</p>
-          <hr />
-          <p>Let us know your particular use case</p>
-        </div>
-
-        <footer class="card-footer">
-          <p class="card-footer-item">
-            <a class="button is-fullwidth is-info">Contact</a>
-          </p>
-        </footer>
-      </div>
-    </div>
-  </div>
 
 </div>
