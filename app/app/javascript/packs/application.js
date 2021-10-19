@@ -19,7 +19,6 @@ import "../js/init.jsx";
 import "../js/layouts/navbar_hamburger.js";
 import "../js/layouts/notification.js";
 import "../js/profiles/variation_show.js";
-import "../js/stripe/manage_account.js";
 import "../js/expvar/varview_handler.js";
 import "../js/expvar/obfuscated_link_handler.js";
 import "../js/users/edit.js";
