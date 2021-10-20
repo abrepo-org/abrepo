@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const $modal = document.querySelector('#subscribe-modal');
 
+    if(!$modal) return;
+
     //close button click
     $modal
         .querySelector('.modal-close')

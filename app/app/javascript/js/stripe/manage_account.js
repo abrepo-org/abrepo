@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const $manageAcct = document.querySelector('#manageAccount');
 
     if (!$manageAcct) return;
+
     $manageAcct.addEventListener('click', function(e) {
         e.preventDefault();
         const token = e.target.getAttribute('token');

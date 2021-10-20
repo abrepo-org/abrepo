@@ -3,6 +3,9 @@ class StripeController < ApplicationController
 
   def subscribe
 
+    #
+    # if no account, must register account
+    #
     unless user_signed_in?
       redirect_to checkout_account_path(params_lookup_key)
       return
@@ -25,10 +28,14 @@ class StripeController < ApplicationController
 
 
   def success
-    # webhook creates actual subscription object; async, client-side
-    # unreliable (could close browser before hitting this route, etc.)
-    # we create subscription on success if webhook is delayed
-    # typically webhook will have already done this
+    # succesful purchase sends user to checkout#success and also
+    # qtriggers webhook; soss there's a race between hitting this endpoint
+    # and webhook to tell us a subscription was enabled
+    #
+    # Since it's async when webhook actually hits our backend to
+    # create a subscription, we create subscription on checkout#success
+    # if webhook is delayed.  typically webhook will have already done
+    # this
     @session_id = params[:session_id]
     if @session_id.nil?
       redirect_to checkout_subscribe_path
@@ -86,10 +93,16 @@ class StripeController < ApplicationController
 
   #
   # Customer Portal URL
+  # "Manage Account" sends POST request, which we relay to Stripe
+  # to get a secure redirect URL for user
   #
   def portal
 
-    return_url = 'http://localhost/users/edit/'
+    # needs to be a full URL
+    return_url = [
+      ENV['APPLICATION_HOST'],
+      edit_user_registration_path
+    ].join
 
     customer_id = current_user.subscriptions.last.stripe_customer_id
     session = Stripe::BillingPortal::Session.create(

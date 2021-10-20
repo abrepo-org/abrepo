@@ -67,8 +67,8 @@
             Subscribe
         </button>
 
-        <div id="powered-by-stripe" class="mt-4 mb-2">
-            <%= image_pack_tag "stripe-blurple-600x136-06cf2b6.png" %>
+        <div class="is-flex is-justify-content-center mt-4 mb-2">
+            <%= image_pack_tag "stripe-blurple-600x136-06cf2b6.png", width: "25%" %>
         </div>
 
         <div class="disclaimers">
@@ -89,39 +89,16 @@
         <script>console.log(<%= raw @price %>)</script>
     <% end %>
 
+    <div id="stripe-data"
+         data-stripe_key="<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>"
+         data-price_key="<%= @price_key %>"
+         data-price_id="<%= @price.id %>"
+         data-url="<%= create_checkout_session_path(params_lookup_key) %>"
+         data-csrf_token="<%= form_authenticity_token %>"
+    >
+    </div>
+
     <script src="https://js.stripe.com/v3/"></script>
-    <script>
+    <%= javascript_pack_tag 'stripe' %>
 
-     (() => {
-
-         const stripe = Stripe('<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>');
-
-         const price_key = "<%= @price_key %>";
-         const price_id = "<%= @price.id %>";
-
-         const createCheckoutSession = (price_id) => {
-             return fetch("<%= create_checkout_session_path %>", {
-                 method: "POST",
-                 headers: {
-                     "Content-Type": "application/json",
-                     "X-CSRF-Token": "<%= form_authenticity_token %>"
-                 },
-                 body: JSON.stringify({ data: { price_id, price_key }})
-             }).then( (result) => result.json() )
-         };
-
-
-         const checkoutHandler = (price_id) => {
-             createCheckoutSession(price_id).then( data => {
-                 console.log("DATA", data)
-                 stripe.redirectToCheckout({ sessionId: data.stripe.sessionId })
-             })
-         };
-
-         document
-             .getElementById("checkout")
-             .addEventListener('click', (e) => checkoutHandler(price_id) );
-
-     })();
-    </script>
 <% end %>
