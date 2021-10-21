@@ -58,6 +58,6 @@ module App
     # used by ApplicationController:obfuscate_num_visits_variation_show
     # session[:num_visits_variation_show]
 
-    config.max_visits_variation_show = 3
+    config.max_visits_variation_show = 7
   end
 end
