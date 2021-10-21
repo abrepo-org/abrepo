@@ -1,39 +1,27 @@
-function obfuscated_click_handler($links) {
+/*
+ * attaches click handlers on obfuscated links to launch modal
+ */
+function attach_modal_to_obfuscated_links($modal, $links) {
 
     $links.forEach( $link => {
 
         $link.addEventListener('click', (e) => {
             e.preventDefault();
-
-            const $modal = document
-                  .querySelector('#subscribe-modal');
-
-            if(!$modal) return;
-
-            $modal.classList
-                .toggle('is-active');
-
-
-            //add ESC
-            const keyPress = (e) => {
-
-                if(e.key === "Escape") {
-                    $modal.classList.toggle('is-active');
-                    document.removeEventListener('keydown', keyPress);
-                }
-            };
-
-            document.addEventListener('keydown', keyPress);
+            $modal.classList.toggle('is-active');
         });
 
     });
-
 }
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
 
     const $links = Array.from( document.querySelectorAll('.obfuscated-link') );
-    
-    obfuscated_click_handler($links);
+    const $modal = document.querySelector('#subscribe-modal');
+
+    if ($links.length && $modal) {
+        attach_modal_to_obfuscated_links($links, $modal);
+    }
 
 });
