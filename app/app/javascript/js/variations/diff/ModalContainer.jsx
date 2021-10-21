@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import ModalContent from './ModalContent.jsx';
 import DiffView from './DiffView.jsx';
@@ -13,6 +13,19 @@ const ModalContainer = (props) => {
 
     console.log("ModalContainer:", props.diff);
     console.log("isOpen", isOpen);
+
+
+    /* attach esc-key to close modal */
+    const escFunction = (e) => {
+        if (e.keyCode === 27) props.modalLaunchHandler(null);
+    };
+
+    useEffect(() => {
+        document.addEventListener("keydown", escFunction, false);
+        return () => {
+            document.removeEventListener("keydown", escFunction, false);
+        };
+    }, []);
 
 
     return(
@@ -40,7 +53,6 @@ const ModalContainer = (props) => {
                  <ModalContent diff={props.diff} />
                  </>
                 }
-
 
             </section>
 
