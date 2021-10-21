@@ -1,5 +1,12 @@
 <body>
+    <!-- NAV -->
     <header>
+        <% if current_page?(checkout_account_path(params[:lookup_key])) ||
+            current_page?(checkout_subscribe_path(params[:lookup_key])) %>
+            <%= render "layouts/navbar_checkout" %>
+        <% else %>
+            <%= render "layouts/navbar" %>
+        <% end %>
     </header>
 
     <main>
@@ -19,12 +26,12 @@
 
 
                             <h2 class="subtitle is-4">
-                              Instantly search and display A/B tests from
-                              leading companies.
+                                Instantly search and display A/B tests from
+                                leading companies.
                             </h2>
 
                             <h2 class="subtitle is-4">
-                              Supercharge your experimentation with abrepo.
+                                Supercharge your experimentation with abrepo.
                             </h2>
 
                             <%= link_to "Get Started", "#pricing",
@@ -34,9 +41,9 @@
                         </div>
 
                         <div class="column is-offset-1 is-11">
-                          <div class="box2" >
-                            <%= image_pack_tag("output.gif") %>
-                          </div>
+                            <div class="box2" >
+                                <%= image_pack_tag("output.gif") %>
+                            </div>
                         </div>
 
                     </div>
