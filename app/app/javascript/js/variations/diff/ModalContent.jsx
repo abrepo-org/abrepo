@@ -12,30 +12,30 @@ const ModalContent = (props) => {
             Details
             </div>
           */}
-        <p>
-            <div className="has-text-grey">Selector</div>
+        <div className="mb-4">
+          <div className="has-text-grey">Selector</div>
             <div>{diff.selectorDisplayName || diff.selector}</div>
-        </p>
+        </div>
 
         {diff.calculated.text &&
-         <p>
+         <div className="mb-4">
              <div className="has-text-grey">Text Diff</div>
              <div>{ RenderDiff(diff.id, diff.calculated.text) }</div>
-         </p>
+         </div>
         }
 
          {diff.calculated.css &&
-          <p>
+          <div className="mb-4">
               <div className="has-text-grey">CSS Diff</div>
               <div>{ RenderDiff(diff.id, diff.calculated.css) }</div>
-          </p>
+          </div>
          }
 
          { diff.calculated.attrJSON &&
-           <p>
+           <div  className="mb-4">
                <div className="has-text-grey">Attr Diff</div>
                <div>{ RenderDiffAttrJSON(diff.id, diff.calculated.attrJSON) }</div>
-           </p>
+           </div>
           }
 
           </>
