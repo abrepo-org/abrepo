@@ -17,6 +17,10 @@ class VariationsController < ApplicationController
     @campaign = @experiment.campaign
     @profile = @experiment.profile
     @actions = @variation.actions
+    @usv = user_signed_in? && current_user
+                                .user_saved_variations
+                                .find_by_variation_id(@variation.id)
+
 
     #Sorted actions
     #sort by highest number of diffs, tie break to null Action

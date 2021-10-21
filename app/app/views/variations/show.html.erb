@@ -172,4 +172,9 @@ commentary = false
  window.abrepo = window.abrepo || {}
  window.abrepo.actions = <%= @actions.map{ |a| a.to_render }.to_json.html_safe %>
  window.abrepo.actionRenderables = <%= @actionRenderables.to_json.html_safe %>
+ <% if user_signed_in? %>
+ window.abrepo.variant_id = <%= @variation.id %>
+ window.abrepo.saved = <%= !!@usv && !@usv.deleted %>
+ window.abrepo.user_signed_in = <%= user_signed_in? %>
+ <% end %>
 </script>
