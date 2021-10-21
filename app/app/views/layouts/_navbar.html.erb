@@ -5,7 +5,8 @@
           ABREPO
         </a>
 
-        <a role="button" class="mt-4 navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
+        <a role="button" class="mt-4 navbar-burger" aria-label="menu" aria-expanded="false"
+           data-target="navbar">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
@@ -22,7 +23,8 @@
         <div class="navbar-end ml-0">
 
             <!-- Menu Mobile -->
-            <%= render partial: "/layouts/menu", locals: { classes: 'ml-2 is-hidden-desktop'} %>
+            <%= render partial: "/layouts/menu",
+                locals: { classes: 'ml-2 is-hidden-desktop'} %>
 
             <!-- Dropdown -->
             <% if user_signed_in? %>
@@ -35,7 +37,8 @@
 
                 <div class="navbar-dropdown is-right">
 
-                    <%= link_to "Settings", edit_user_registration_path, class: "navbar-item" %>
+                  <%= link_to "Settings", edit_user_registration_path,
+                      class: "navbar-item" %>
 
                     <%= link_to "Saved", saved_path, class: "navbar-item" %>
 
@@ -52,11 +55,12 @@
             <div class="navbar-item signup">
                 <div class="buttons">
 
-                    <%= link_to new_user_session_path, id: 'signin', class: 'button is-light' do %>
+                  <%= link_to new_user_session_path, id: 'signin',
+                      class: 'button is-light' do %>
                         Log in
                     <% end %>
 
-                    <%= link_to new_user_registration_path, id: 'signup',
+                    <%= link_to root_path(anchor: "pricing"), id: 'signup',
                     class: 'button is-light is-primary' do %>
                         <strong>Sign up</strong>
                     <% end %>
