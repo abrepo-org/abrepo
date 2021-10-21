@@ -1,9 +1,10 @@
 <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
-  <div class="container is-fluid">
-    <div class="navbar-brand">
-        <a class="navbar-item navbar-logo" href="<%= home_path %>">
-            ABREPO
-        </a>
+    <div class="container is-fluid">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo"
+               href="<%= user_signed_in? && current_user.subscribed? ? home_path : root_path  %>">
+                ABREPO
+            </a>
+        </div>
     </div>
-  </div>
 </nav>
