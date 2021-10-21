@@ -44,6 +44,7 @@ module App
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
+    config.app_title = "ABREPO"
 
     # number of records / elements in a collection fully visible
     # before obfuscation. Records beyond first page are

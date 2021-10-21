@@ -1,5 +1,5 @@
 <% content_for :title do %>
-    ABRepo | <%= resource_name.to_s.humanize %> Settings
+    <%= "#{Rails.application.config.app_title} | #{resource_name.to_s.humanize} Settings" %>
 <% end %>
 
 <div class="columns">
