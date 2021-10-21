@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SelectDropDown from './SelectDropDown.jsx';
+import UserSaveButton from './diff/UserSaveButton.jsx';
 
 export default class ControlsContainer extends React.Component {
 
@@ -36,6 +37,11 @@ export default class ControlsContainer extends React.Component {
                                         </span>
                                     </button>
 
+                                    <UserSaveButton
+                                        id={this.props.data.variant_id}
+                                        saved={this.props.data.saved}
+                                        user_signed_in={this.props.data.user_signed_in}
+                                    />
                                 </p>
 
                             </div>
