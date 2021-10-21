@@ -56,14 +56,4 @@
         mobile: mobile
     } %>
 
-
-    <!-- not sure maybe add pages (page types) -->
-    <% if user_signed_in? %>
-
-        <%= render partial: '/layouts/navlink', locals: {
-            linkurl: saved_path, linkclass:"navbar-item", text: "Saved",
-            icon: "star"
-        } %>
-    <% end %>
-
 </div>
