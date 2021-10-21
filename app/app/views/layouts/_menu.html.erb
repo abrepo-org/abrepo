@@ -30,7 +30,10 @@
 
     <%= render partial: '/layouts/navlink', locals: {
         linkurl: home_path,
-        linkclass:"navbar-item",
+        linkclass: [
+            "navbar-item",
+            mobile ? "" : "ml-5"
+        ].join(" "),
         text: "Home",
         mobile: mobile
     } %>

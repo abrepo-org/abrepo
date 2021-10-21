@@ -12,16 +12,6 @@ tr.expvar-root-border {
   border-top: 1px solid #dbdbdb;
 }
 
-// expvar anchor fragment (h4)
-.anchor-fragment::before {
-  margin-top: -90px;
-  height: 90px;
-  visibility:hidden;
-  content:"";
-  display:block;
-}
-
-
 //expvar table header font
 .variation-row-header th {
   font-weight: 400;

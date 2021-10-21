@@ -44,6 +44,7 @@ module App
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
+    config.app_title = "ABREPO"
 
     # number of records / elements in a collection fully visible
     # before obfuscation. Records beyond first page are
@@ -57,6 +58,6 @@ module App
     # used by ApplicationController:obfuscate_num_visits_variation_show
     # session[:num_visits_variation_show]
 
-    config.max_visits_variation_show = 3
+    config.max_visits_variation_show = 7
   end
 end

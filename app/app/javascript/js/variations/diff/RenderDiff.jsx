@@ -6,12 +6,12 @@ export const RenderDiff = (id, parts) => {
 
     //want to highlight blank spaces as the diff (instead of
     //indistinguishable blanks)
-    const _formatText = (text, textStyle) => {
+    const _formatText = (key, text, textStyle) => {
 
         if(!text) return text;
 
         if( RegExp(/^\s+$/).test(text) ) {
-            return <pre style={textStyle}>"{text}"</pre>;
+            return <pre key={`formatText-i-${text}`} style={textStyle}>"{text}"</pre>;
         }
 
         return text;
@@ -37,11 +37,11 @@ export const RenderDiff = (id, parts) => {
         let renderText = part.value;
 
         if (parts.length == 1) {
-            renderText = _formatText(part.value, textStyle);
+            renderText = _formatText(i, part.value, textStyle);
         }
 
         return (
-            <span key={`${id}-${i}`} style={textStyle}>
+            <span key={`rendertext-${id}-${i}`} style={textStyle}>
               {renderText}
             </span>
         );
@@ -57,14 +57,19 @@ export const RenderDiffAttrJSON = (id, attrJSON)  => {
 
     //render diff-parts as html
     let results = [];
+    let j = 0;
     Object.entries(attrJSON).forEach( ([key, diff], i) =>  {
 
+        const _key = `renderjson-label-${j}-${key}-${i}`
+
         const label =
-        <span>{ i > 0 ? <><br/><br/></> : ''}
+        <span key={`${_key}`}>
+        { i > 0 ? <div className="mt-4"></div> : '' }
         {key}: &nbsp;
         </span>
 
         results.push(label);
+
 
         const result = diff.map( (part, i) => {
             const color = part.added ? 'green' :
@@ -75,13 +80,16 @@ export const RenderDiffAttrJSON = (id, attrJSON)  => {
             };
 
             return (
-                <>
-                  <span key={id+i} style={textStyle}>{part.value}</span>
-                </>
+                <span key={`renderjson-${id}-${i}-${part.added}-${part.removed}-${part.value}`}
+                      style={textStyle}>
+                    {part.value}
+                </span>
             );
         });
 
         results.push(result);
+
+        j++
     });
 
     if (results.length) return results;

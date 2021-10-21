@@ -24,18 +24,25 @@ class StripeController < ApplicationController
 
     out = "Loading: #{@price['lookup_key']}: #{@price.id}, #{@price.nickname}"
     puts "\e[#{31}m#{out}\e[0m"
+
   end
 
 
   def success
-    # succesful purchase sends user to checkout#success and also
-    # qtriggers webhook; soss there's a race between hitting this endpoint
-    # and webhook to tell us a subscription was enabled
+    # successful purchase sends user to checkout#success and also
+    # triggers webhook; this endpoint exists because there's a race
+    # webhook can be delayed,but we want to immediately enabled the
+    # user's subscription
     #
     # Since it's async when webhook actually hits our backend to
-    # create a subscription, we create subscription on checkout#success
-    # if webhook is delayed.  typically webhook will have already done
-    # this
+    # create a subscription, we create subscription from either
+    # checkout#success or webhook. Typically webhook will have already
+    # done this
+    #
+    # see checkout_helper:purchase_stripe
+    #   sets success_url: checkout/success (this endpoint)
+    #   sets cancel_url: checkout/subscribe
+
     @session_id = params[:session_id]
     if @session_id.nil?
       redirect_to checkout_subscribe_path
