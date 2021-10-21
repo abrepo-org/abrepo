@@ -17,6 +17,7 @@
         <div class="container navbar-start">
             <!-- Menu Desktop -->
             <%= render partial: "/layouts/menu", locals: {
+                mobile: false,
                 classes: 'is-inline-flex ml-4 is-hidden-touch'} %>
         </div>
 
@@ -24,7 +25,9 @@
 
             <!-- Menu Mobile -->
             <%= render partial: "/layouts/menu",
-                locals: { classes: 'ml-2 is-hidden-desktop'} %>
+                locals: {
+                mobile: true,
+                classes: 'ml-2 is-hidden-desktop'} %>
 
             <!-- Dropdown -->
             <% if user_signed_in? %>

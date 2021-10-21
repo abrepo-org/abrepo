@@ -29,23 +29,31 @@
     </a>
 
     <%= render partial: '/layouts/navlink', locals: {
-        linkurl: home_path, linkclass:"navbar-item", text: "Home",
-        icon: "home"
+        linkurl: home_path,
+        linkclass:"navbar-item",
+        text: "Home",
+        mobile: mobile
     } %>
 
     <%= render partial: '/layouts/navlink', locals: {
-        linkurl: profiles_path, linkclass:"navbar-item", text: "Companies",
-        icon: "building"
+        linkurl: profiles_path,
+        linkclass:"navbar-item",
+        text: "Companies",
+        mobile: mobile
     } %>
 
     <%= render partial: '/layouts/navlink', locals: {
-        linkurl: tags_path, linkclass:"navbar-item", text: "Tags",
-        icon: "tags"
+        linkurl: tags_path,
+        linkclass:"navbar-item",
+        text: "Tags",
+        mobile: mobile
     } %>
 
     <%= render partial: '/layouts/navlink', locals: {
-        linkurl: industries_path, linkclass:"navbar-item", text: "Industries",
-        icon: "industry"
+        linkurl: industries_path,
+        linkclass:"navbar-item",
+        text: "Industries",
+        mobile: mobile
     } %>
 
 
