@@ -39,15 +39,18 @@ Rails.application.routes.draw do
   #
   # Stripe
   #
-  # checkout purchase subscription
-  # "step 2": created user but unsubscribed state
-  get '/checkout/subscribe(/:lookup_key)', to: 'stripe#subscribe', as: "checkout_subscribe"
-  post '/create-checkout-session/', to: 'stripe#createSession'
-  get '/checkout/success/', to: 'stripe#success'
-  post '/customer-portal/', to: 'stripe#portal'
 
-  # webhook
+  # checkout purchase subscription
+  # where buttons submit to our server to get a valid stripe session
+  post '/create-checkout-session/', to: 'stripe#createSession'
+
+  # post purchase create a Subscription object if not created
+  get '/checkout/success/', to: 'stripe#success'
+
+  # webhook, receives events like subscription
   post '/webhooks/stripe_payments', to: 'webhooks#index'
+
+  post '/customer-portal/', to: 'stripe#portal'
 
   # default landing page
   root to: "landing#index"

@@ -42,8 +42,7 @@
 
             <!-- NAV -->
             <header>
-              <% if current_page?(checkout_account_path(params[:lookup_key])) ||
-                 current_page?(checkout_subscribe_path(params[:lookup_key])) %>
+              <% if current_page?(checkout_account_path(params[:lookup_key])) %>
                     <%= render "layouts/navbar_checkout" %>
                 <% else %>
                     <%= render "layouts/navbar" %>
