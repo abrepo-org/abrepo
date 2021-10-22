@@ -9,7 +9,7 @@ class CheckoutController < Devise::RegistrationsController
   #
   def account
     if user_signed_in?
-      redirect_to checkout_subscribe_path( params_lookup_key )
+      redirect_to root_path(anchor: "pricing")
       return
     end
 
@@ -100,7 +100,6 @@ class CheckoutController < Devise::RegistrationsController
   #
   #
   def after_sign_up_path_for(resource)
-    return checkout_subscribe_path(params[:lookup_key]) unless params[:lookup_key].blank?
     home_path
   end
 

@@ -46,7 +46,15 @@
                     <p class="card-footer-item">
                         <%= link_to "Get Started",
                         checkout_account_path(lookup_key: 'basic-monthly'),
-                        class:"button is-fullwidth is-info" %>
+                        class:"button checkout is-fullwidth is-info",
+                            data: {
+                                stripe_key: ENV['STRIPE_PUBLISHABLE_KEY'],
+                                price_key: @basic_monthly_price["lookup_key"],
+                                price_id: @basic_monthly_price["id"],
+                                url: create_checkout_session_path(@basic_monthly_price["lookup_key"]),
+                                csrf_token: form_authenticity_token
+                            }
+                        %>
                     </p>
                 </footer>
             </div>
@@ -92,8 +100,17 @@
                     <p class="card-footer-item">
                         <%= link_to "Get Started",
                         checkout_account_path(lookup_key: 'basic-annual'),
-                        class:"button is-fullwidth is-info" %>
+                        class:"button checkout is-fullwidth is-info",
+                            data: {
+                                stripe_key: ENV['STRIPE_PUBLISHABLE_KEY'],
+                                price_key: @basic_annual_price["lookup_key"],
+                                price_id: @basic_annual_price["id"],
+                                url: create_checkout_session_path(@basic_annual_price["lookup_key"]),
+                                csrf_token: form_authenticity_token
+                            }
+                        %>
                     </p>
+
                 </footer>
             </div>
         </div>
@@ -101,3 +118,11 @@
     </div>
 
 </div>
+
+
+<% content_for :footer do %>
+    <% if user_signed_in? && !current_user.subscribed? %>
+        <script src="https://js.stripe.com/v3/"></script>
+        <%= javascript_pack_tag "stripe" %>
+    <% end %>
+<% end %>

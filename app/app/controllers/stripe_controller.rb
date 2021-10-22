@@ -1,33 +1,6 @@
 class StripeController < ApplicationController
   include CheckoutHelper
 
-  def subscribe
-
-    #
-    # if no account, must register account
-    #
-    unless user_signed_in?
-      redirect_to checkout_account_path(params_lookup_key)
-      return
-    end
-
-    #
-    # if already have subscription, send to home
-    #
-    if current_user.subscribed?
-      redirect_to home_path
-      return
-    end
-
-    @price_key = params_lookup_key
-    @price = get_stripe_data(@price_key)
-
-    out = "Loading: #{@price['lookup_key']}: #{@price.id}, #{@price.nickname}"
-    puts "\e[#{31}m#{out}\e[0m"
-
-  end
-
-
   def success
     # successful purchase sends user to checkout#success and also
     # triggers webhook; this endpoint exists because there's a race
@@ -41,11 +14,11 @@ class StripeController < ApplicationController
     #
     # see checkout_helper:purchase_stripe
     #   sets success_url: checkout/success (this endpoint)
-    #   sets cancel_url: checkout/subscribe
+    #   sets cancel_url: /#pricing
 
     @session_id = params[:session_id]
     if @session_id.nil?
-      redirect_to checkout_subscribe_path
+      redirect_to root_path(anchor: "pricing")
       return
     end
 
@@ -81,11 +54,13 @@ class StripeController < ApplicationController
 
     @price_key = params_price_key
     @price = get_stripe_data(@price_key)
+
     session = nil
 
     begin
       session = purchase_stripe(@price.id, @price_key)
     rescue => e
+      puts e.inspect
       message = "Payment provider error. Please try again."
       render status: 400, json: { user: {ok: true, errors: false},
                                   stripe: { ok: false, errors: { messages: [ message ] } }}
