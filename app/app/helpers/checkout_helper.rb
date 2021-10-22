@@ -32,7 +32,9 @@ module CheckoutHelper
 
       #NB: urls need to be full url not relative
       success_url: "#{ENV['APPLICATION_HOST']}/checkout/success?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: "#{ENV['APPLICATION_HOST']}/checkout/subscribe/#{price_key}",
+
+      #stripe back button, no purchase
+      cancel_url:  "#{ENV['APPLICATION_HOST']}/#pricing",
 
       payment_method_types: ['card'],
       mode: 'subscription',

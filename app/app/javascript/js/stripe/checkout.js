@@ -20,8 +20,13 @@ const renderErrors = (messages) => {
 
     const list = ['<ul class="mt-0 l-0">', $li, '</ul>'].join('');
     const $errorDiv = document.querySelector('#error_explanation');
-    $errorDiv.className = "notification is-danger is-light";
-    $errorDiv.innerHTML = list;
+    if($errorDiv) {
+        $errorDiv.className = "notification is-danger is-light";
+        $errorDiv.innerHTML = list;
+    } else {
+        console.log(messages);
+    }
+
 };
 
 const _getUser = () => {
@@ -66,11 +71,12 @@ const subscribeClickHandler = (e, $stripedata) => {
 
     e.preventDefault();
 
-    const { stripe_key, price_key, price_id, url, csrf_token } = $stripedata.dataset;
-    const stripe = Stripe(stripe_key);
-    const payload = buildPayload(price_id, price_key);
+    const { stripeKey, priceKey, priceId, url, csrfToken } = {...$stripedata};
 
-    createCheckoutSession(url, csrf_token, payload)
+    const stripe = Stripe(stripeKey);
+    const payload = buildPayload(priceId, priceKey);
+
+    createCheckoutSession(url, csrfToken, payload)
         .then( data => {
 
             if (data.user.ok && data.stripe.ok) {
@@ -93,10 +99,15 @@ const subscribeClickHandler = (e, $stripedata) => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    const $subscribe = document.querySelector('#checkout');
-    const $stripedata = document.querySelector('#stripe-data');
+    const $subscribes = document.querySelectorAll('.checkout');
+    if(!$subscribes.length) return;
 
-    if (!($subscribe || $stripedata)) return;
+    $subscribes.forEach( $subscribe => {
 
-    $subscribe.addEventListener('click', (e) => subscribeClickHandler(e, $stripedata) );
+        const $stripedata = $subscribe.dataset;
+        if (!$stripedata) return;
+
+        $subscribe.addEventListener('click',
+                                    (e) => subscribeClickHandler(e, $stripedata) );
+    });
 });
