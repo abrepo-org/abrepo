@@ -3,13 +3,15 @@
 
     <div class="container">
 
-        <div class="columns content is-justify-content-space-around is-vcentered">
+        <div class="columns content is-vcentered">
 
-            <div class="column is-5">
-                <%= image_pack_tag "role1-sketch.png" %>
+            <div class="column is-7">
+
+              <%= render partial: 'role1' %>
+
             </div>
 
-            <div class="column is-5">
+            <div class="column is-offset-1 is-4">
 
                 <h3 class="is-size-2">
                     Ideation and Content
@@ -37,7 +39,7 @@
 
                     <li>
                         <span class="fa-li has-text-info">
-                            <i class="fas fa-arrow-alt-circle-right"></i>
+                            &check;
                         </span>
                         Leverage patterns from experienced growth
                         teams to increase your conversions and engagement.
