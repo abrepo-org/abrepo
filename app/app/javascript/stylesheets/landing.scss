@@ -38,6 +38,7 @@
 .role {
   position: relative;
   min-height: 400px;
+  background: white;
   //padding: 3rem;
   //box-shadow: rgba(84, 70, 35, 0.15) 0px 2px 8px 0px, rgba(84, 70, 35, 0.15) 0px 1px 3px 0px;
   border-radius: 2px;
@@ -47,6 +48,44 @@
   .button { cursor: auto; }
 }
 
+/* ROLE 2 */
+
+.role-2-title {
+
+  top: 48px;
+  left: 48px;
+
+  h2 {
+    color: white;
+
+    opacity: .8;
+    margin-bottom: 0;
+    text-shadow: 2px 2px black;
+
+    //change mobile
+    font-size: 4rem;
+    padding: 1rem;
+  }
+}
+
+//Diff Summary
+.role-2-diffPanel {
+
+  top: 145px;
+  right: -90px;
+
+  background: white;
+
+
+  //mobile
+  //h2 font size 3rem, remove padding
+  //set columns is-block-mobile
+  //diffPanel remove position:absolute
+}
+
+
+/* ROLE 1 */
+//TODO: refactor this
 .role-1 {
   .button {
     border: none;
