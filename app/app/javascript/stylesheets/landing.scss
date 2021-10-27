@@ -48,6 +48,29 @@
   .button { cursor: auto; }
 }
 
+/* ROLE 3 */
+.role-3 {
+  min-height: 550px;
+  font-family: 'lato';
+  .dropdown .dropdown-menu {
+    width: 20rem;
+  }
+
+  #search-control-tag {
+    width: 20rem;
+    overflow: auto;
+  }
+  .searchFilterInput {
+    border: medium none;
+    box-shadow: none;
+    margin-left: -0.5rem;
+  }
+  .role3-tags {
+    margin-left: 14.5rem;
+  }
+}
+
+
 /* ROLE 2 */
 
 .role-2-title {
