@@ -4,11 +4,12 @@
 </h3>
 
 <div class="is-flex is-justify-content-center" >
-    <%= image_pack_tag "stripe-blurple-600x136-06cf2b6.png", width:"10%" %>
+    <%= image_pack_tag "stripe-blurple-600x136-06cf2b6.png",
+    width: is_modal ? "20%" : "10%" %>
 </div>
 
 <div class="columns mt-5">
-    <div class="column is-offset-2 is-4">
+    <div class="column <%= is_modal ? 'is-6' : 'is-offset-2 is-4' %>">
 
         <div class="card">
             <div class="card-content has-text-centered" >
@@ -59,7 +60,7 @@
         </div>
     </div>
 
-    <div class="column is-4">
+    <div class="column <%= is_modal ? 'is-6' : 'is-4' %>">
 
         <div class="card">
             <div class="card-content has-text-centered" >
