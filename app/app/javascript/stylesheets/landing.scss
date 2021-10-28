@@ -72,6 +72,10 @@
   .role3-tags {
     margin-left: 14.5rem;
   }
+
+  .is-delete {
+    cursor: auto;
+  }
 }
 
 
@@ -92,6 +96,7 @@
 
 
 }
+
 .role-2-title {
 
   top: 1rem;
@@ -123,6 +128,29 @@
   right: -3%;
   background: white;
 }
+
+
+//role2 diffpanel hover
+
+@keyframes BorderOffOn {
+  from {
+    outline: none;
+  }
+  to {
+    outline: 3px dashed hsl(141, 71%, 48%);
+  }
+}
+
+.diff-1, .diff-img-1 {
+  animation: BorderOffOn 6s ease-in-out infinite;
+}
+
+.diff-2, .diff-img-2 {
+  animation: BorderOffOn 6s ease-in-out infinite;
+  animation-delay: 3s;
+}
+
+
 
 
 /* ROLE 1 */
