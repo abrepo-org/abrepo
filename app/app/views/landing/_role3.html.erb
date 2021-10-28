@@ -1,0 +1,56 @@
+<div class="role role-3">
+    <!-- Header -->
+
+    <div class="browser_wrap">
+        <div class="browser_bar">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+
+
+        <div class="columns is-vcentered is-flex-mobile px-6 py-6">
+
+            <div class="column is-12 is-full-mobile">
+
+                <!-- InputTExt -->
+                <div class="field mb-3">
+
+                    <div id="search-control"
+                         class="control has-icons-left">
+
+                        <input type="text"
+                               id="query"
+                               class="input is-small"
+                               value="Subscription discount"
+                               placeholder="Subscription discount" />
+
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-search"></i>
+                        </span>
+
+                    </div>
+                </div>
+
+                <div class="is-flex">
+                    <!-- searcHFilter industry  -->
+                    <div class="field mb-3 role3-industries">
+                        <%= render partial: "role3_industries" %>
+                    </div>
+                    <!-- searchFilter tags  -->
+                    <!-- need mobile is-hidden -->
+                    <div class="field mb-3 role3-tags is-hidden-touch">
+                        <%= render partial: "role3_tags" %>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>

@@ -54,7 +54,9 @@ $border-grey: rgb(227, 232, 238); //#e2e7ee
     margin-right: 0 !important;
   }
 }
-
+.is-absolute {
+  position: absolute;
+}
 .is-fullheight {
   min-height: 100vh;
 }
@@ -68,6 +70,12 @@ $border-grey: rgb(227, 232, 238); //#e2e7ee
 .is-fullwidth-mobile {
   @include until($tablet) {
     width: 100%;
+  }
+}
+
+.is-flex-direction-column-reverse-mobile {
+  @include until($tablet) {
+    flex-direction: column-reverse;
   }
 }
 

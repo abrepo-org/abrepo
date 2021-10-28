@@ -1,0 +1,75 @@
+<div class="dropdown is-active">
+  <div class="dropdown-trigger">
+    <button class="button is-small">
+      <span>Filter by Industries</span>
+      <span class="icon is-small">
+        <i class="fas fa-angle-down" aria-hidden="true"></i>
+      </span>
+    </button>
+  </div>
+
+  <div class="dropdown-menu" role="menu">
+
+    <div class="dropdown-content">
+
+      <div class="dropdown-item">
+
+        <p class="is-flex is-justify-content-space-between">
+          <span>
+            <strong>Filter by Industries</strong>
+          </span>
+          <span>
+            <a href='/industries'>
+              View All Industries
+            </a>
+          </span>
+        </p>
+
+        <!-- SearchInputTextAutoComplete  -->
+        <div class="field mb-3">
+
+          <div id="search-control-tag"
+               class="control input">
+            <span class="tags is-inline-flex is-flex-wrap-nowrap has-addons mb-0 mr-2">
+              <span class="tag is-info mb-0">
+                financial-technology
+              </span>
+              <a class="tag is-delete mb-0"></a>
+            </span>
+
+            <input type="text"
+                   class="input is-small searchFilterInput"/>
+
+          </div>
+
+        </div>
+        <!-- end -->
+
+        <div id="tag-destination">
+
+          <ul class="tags ml-0 is-inline">
+            <li class="tag mt-0">internet</li>
+            <li class="tag mt-0">email-marketing</li>
+            <li class="tag mt-0">software-industry</li>
+            <li class="tag mt-0">web-performance</li>
+            <li class="tag mt-0">computer-hardware</li>
+            <li class="tag mt-0">artificial-intelligence</li>
+            <li class="tag mt-0">cloud-computing</li>
+            <li class="tag mt-0">information-technology-and-services</li>
+            <li class="tag mt-0">fund-raising</li>
+          </ul>
+
+
+          <div className="ml-1 mt-2">
+            <a href='/industries'>
+              See More
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+    </div> <!-- dropdown-content -->
+
+  </div> <!-- dropdown-menu -->
+</div>

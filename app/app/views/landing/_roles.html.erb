@@ -1,15 +1,17 @@
 <!-- Ideation and Content -->
-<section class="section has-background-gradient-white-white-ter roles">
+<section class="section section-landing has-background-gradient-white-white-ter roles">
 
     <div class="container">
 
-        <div class="columns content is-justify-content-space-around is-vcentered">
+        <div class="columns content is-vcentered">
 
-            <div class="column is-5">
-                <%= image_pack_tag "role1-sketch.png" %>
+            <div class="column is-7">
+
+              <%= render partial: 'role1' %>
+
             </div>
 
-            <div class="column is-5">
+            <div class="column is-offset-1 is-4">
 
                 <h3 class="is-size-2">
                     Ideation and Content
@@ -37,7 +39,7 @@
 
                     <li>
                         <span class="fa-li has-text-info">
-                            <i class="fas fa-arrow-alt-circle-right"></i>
+                            &check;
                         </span>
                         Leverage patterns from experienced growth
                         teams to increase your conversions and engagement.
@@ -50,13 +52,13 @@
 </section>
 
 <!-- Competitive Intelligence -->
-<section class="section has-background-white-ter roles">
+<section class="section section-landing has-background-white-ter roles">
 
     <div class="container">
 
         <div class="columns reverse-columns-tablet content  is-justify-content-space-around is-vcentered">
 
-            <div class="column is-5">
+            <div class="column is-4">
 
                 <h3 class="is-size-2">
                     Competitive Intelligence
@@ -69,7 +71,7 @@
                 <ul class="fa-ul is-size-5">
                     <li>
                         <span class="fa-li has-text-info">
-                            <i class="fas fa-arrow-alt-circle-right"></i>
+                            &check;
                         </span>
                         Detect promotions and pricing
                         experiments.
@@ -77,7 +79,7 @@
 
                     <li>
                         <span class="fa-li has-text-info">
-                            <i class="fas fa-arrow-alt-circle-right"></i>
+                            &check;
                         </span>
                         Surface landing pages or redirect experiments
                         signaling regional or new account (ABM) targets.
@@ -85,7 +87,7 @@
 
                     <li>
                         <span class="fa-li has-text-info">
-                            <i class="fas fa-arrow-alt-circle-right"></i>
+                            &check;
                         </span>
                         Track UI/UX variants to discern organizational
                         priorities and strategic direction.
@@ -97,8 +99,8 @@
                 %>
             </div>
 
-            <div class="column is-5">
-                <%= image_pack_tag "role2-sketch.png" %>
+            <div class="column is-7 is-offset-1">
+              <%= render partial: 'role2' %>
             </div>
 
         </div>
@@ -107,17 +109,16 @@
 
 
 <!-- Industry Trends -->
-<section class="section has-background-white-ter roles">
+<section class="section section-landing has-background-white-ter roles">
 
     <div class="container">
         <div class="columns content is-justify-content-space-around is-vcentered">
 
-            <div class="column is-5">
-                <%= image_pack_tag "role3-sketch.png"
-                %>
+            <div class="column is-7">
+                <%= render partial: "role3" %>
             </div>
 
-            <div class="column is-5">
+            <div class="column is-offset-1 is-4">
 
                 <h3 class="is-size-2">
                     Industry Trends
@@ -129,21 +130,21 @@
                 <ul class="fa-ul is-size-5">
                     <li>
                         <span class="fa-li has-text-info">
-                            <i class="fas fa-arrow-alt-circle-right"></i>
+                            &check;
                         </span>
                         Rapidly develop relevant experimentation plans
                         for new client proposals.
                     </li>
                     <li>
                         <span class="fa-li has-text-info">
-                            <i class="fas fa-arrow-alt-circle-right"></i>
+                            &check;
                         </span>
                         Apply frequently used patterns and strategies
                         seen throughout your industry vertical.
                     </li>
                     <li>
                         <span class="fa-li has-text-info">
-                            <i class="fas fa-arrow-alt-circle-right"></i>
+                            &check;
                         </span>
                         Boost your experimentation playbook by
                         referencing the strategies of seasoned growth

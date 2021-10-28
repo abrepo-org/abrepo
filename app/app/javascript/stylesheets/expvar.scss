@@ -7,6 +7,9 @@
   filter: blur(2px);
 }
 
+//override th inherit bold
+span.tags { font-weight: 400; }
+
 //add a tr border for a "group"
 tr.expvar-root-border {
   border-top: 1px solid #dbdbdb;

@@ -1,4 +1,4 @@
-<body>
+<body class="has-navbar-fixed-top">
     <!-- NAV -->
     <header>
         <% if current_page?(checkout_account_path(params[:lookup_key])) %>
@@ -53,24 +53,24 @@
         <%= render partial: "roles" %>
 
         <!-- HOW IT WORKS -->
-        <section class="section how-it-works is-medium has-background-dark-blue">
+        <section class="section section-landing how-it-works is-medium has-background-dark-blue">
             <%= render partial: "how_it_works" %>
         </section>
 
         <!-- PRICING -->
-        <section id="pricing" class="section is-medium has-background-white-ter">
+        <section id="pricing" class="section section-landing is-medium has-background-white-ter">
             <%= render partial: "pricing" %>
         </section>
 
 
         <% if false %>
             <!-- FAQ -->
-            <section class="section is-medium">
+            <section class="section section-landing is-medium">
                 <%= render partial: "faq" %>
             </section>
 
             <!-- PRICING -->
-            <section class="section is-medium has-background-white-ter">
+            <section class="section section-landing is-medium has-background-white-ter">
                 <%= render partial: "pricing" %>
             </section>
         <% end %>
