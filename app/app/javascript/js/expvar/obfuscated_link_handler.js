@@ -1,7 +1,7 @@
 /*
  * attaches click handlers on obfuscated links to launch modal
  */
-function attach_modal_to_obfuscated_links($modal, $links) {
+function attach_modal_to_obfuscated_links($links, $modal) {
 
     $links.forEach( $link => {
 
