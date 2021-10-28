@@ -48,10 +48,14 @@
   .button { cursor: auto; }
 }
 
+
+
 /* ROLE 3 */
 .role-3 {
   min-height: 550px;
   font-family: 'lato';
+  overflow:clip;
+
   .dropdown .dropdown-menu {
     width: 20rem;
   }
@@ -72,11 +76,31 @@
 
 
 /* ROLE 2 */
+.role-2 {
+  .columns {
+    height: 550px;
+    @include until($tablet) {
+      padding: .5rem !important;
+    }
+  }
 
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+
+}
 .role-2-title {
 
-  top: 48px;
-  left: 48px;
+  top: 1rem;
+
+  @include from($tablet) {
+    top: 2rem;
+    left: 2rem;
+  }
+
 
   h2 {
     color: white;
@@ -89,21 +113,15 @@
     font-size: 4rem;
     padding: 1rem;
   }
+
 }
 
 //Diff Summary
 .role-2-diffPanel {
-
-  top: 145px;
-  right: -90px;
-
+  //top: 145px;
+  top: 14rem;
+  right: -3%;
   background: white;
-
-
-  //mobile
-  //h2 font size 3rem, remove padding
-  //set columns is-block-mobile
-  //diffPanel remove position:absolute
 }
 
 
