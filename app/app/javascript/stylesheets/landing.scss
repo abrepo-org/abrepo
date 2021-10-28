@@ -1,5 +1,8 @@
 //.has-background-gray { background: #f6f9fc; }
 ///fefefe
+section.section.section-landing {
+  padding: 6rem 1.5rem;
+}
 
 .hero-title {
   font-size: 4rem;
@@ -142,12 +145,12 @@
 }
 
 .diff-1, .diff-img-1 {
-  animation: BorderOffOn 6s ease-in-out infinite;
+  animation: BorderOffOn 4s ease-in-out infinite;
 }
 
 .diff-2, .diff-img-2 {
-  animation: BorderOffOn 6s ease-in-out infinite;
-  animation-delay: 3s;
+  animation: BorderOffOn 4s ease-in-out infinite;
+  animation-delay: 2s;
 }
 
 
