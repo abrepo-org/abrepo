@@ -15,6 +15,19 @@ tr.expvar-root-border {
   border-top: 1px solid #dbdbdb;
 }
 
+//header anchor spacing adjustment for navbar
+.experiment-header h4 {
+
+  a { color: #363636; }
+
+  &:before {
+    content: "";
+    display: block;
+    height: 6rem;
+    margin-top: -6rem;
+  }
+}
+
 //expvar table header font
 .variation-row-header th {
   font-weight: 400;

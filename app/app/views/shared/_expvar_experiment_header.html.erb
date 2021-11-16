@@ -3,9 +3,11 @@
     <!-- Experiment Name -->
     <div class="experiment-header">
 
-        <h4 id="exp<%=experiment.id%>" class="mb-2">
-            <%= experiment.summary_name || "Experiment Name: Unnamed" %>
-            [Pub: <%= experiment.published? %>]
+        <h4 id="exp<%= experiment.id %>" class="mb-2">
+            <%= link_to "#exp#{experiment.id}" do %>
+                <%= experiment.summary_name || "Experiment Name: Unnamed" %>
+                [Pub: <%= experiment.published? %>]
+            <% end %>
         </h4>
 
         <!-- Targeting -->
