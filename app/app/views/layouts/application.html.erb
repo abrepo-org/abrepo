@@ -92,11 +92,11 @@
                             </div>
                         <%else%>
 
-                            <!-- "list / expvar views" is-7 content, offset-1, is-4 side pane -->
+                            <!-- "list views" 3/4 content, 1/4 side pane -->
                             <div class="container">
                                 <div class="columns">
 
-                                    <div class="column is-full-mobile <%= is_layout_full ? 'is-full' : 'is-7'%>">
+                                    <div class="column is-full-mobile <%= is_layout_full ? 'is-full' : 'is-three-quarters'%>">
                                         <div class="content">
 
                                             <% flash.each do |name, msg| %>
@@ -112,7 +112,7 @@
 
                                     <% unless is_layout_full %>
                                         <!--  wrap below mobile -->
-                                        <div class="column is-full-mobile is-offset-1 is-4">
+                                        <div class="column is-full-mobile is-one-quarter">
                                             <% if content_for?(:sidebar) %>
                                                 <%= yield(:sidebar) %>
                                             <% end %>
