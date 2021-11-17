@@ -98,4 +98,30 @@ class Sidebar
     #   .map{ |tag| { id: tag[:id], name: tag[:name], count: tag['count'] } }
 
   end
+
+  #
+  # same as top tags, but filtered for specific profile
+  #
+  def self.tag_counts_by_profile_id(profile_id)
+
+    sql = %{
+        SELECT totals.id, totals.name, COUNT(totals.id) FROM
+            (SELECT tags.id, variations.vendor_id, tags.name
+             FROM tags
+             INNER JOIN taggings ON taggings.tag_id = tags.id
+             INNER JOIN variations ON taggings.taggable_id = variations.id
+             INNER JOIN experiments ON experiments.id = variations.experiment_id
+             WHERE taggings.taggable_type = 'Variation' AND experiments.profile_id = ?
+             GROUP BY tags.id, variations.vendor_id) as totals
+         GROUP BY totals.id, totals.name
+         ORDER BY count DESC
+         LIMIT 10
+    }
+
+    ActsAsTaggableOn::Tag
+      .find_by_sql([sql, profile_id])
+      .map{ |tag| {id: tag.id, name: tag.name, count: tag['count']} }
+
+  end
+
 end
