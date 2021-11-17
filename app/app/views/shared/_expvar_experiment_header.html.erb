@@ -3,12 +3,21 @@
     <!-- Experiment Name -->
     <div class="experiment-header">
 
-        <h4 id="exp<%= experiment.id %>" class="mb-2">
-            <%= link_to "#exp#{experiment.id}" do %>
-                <%= experiment.summary_name || "Experiment Name: Unnamed" %>
-                [Pub: <%= experiment.published? %>]
-            <% end %>
-        </h4>
+        <div class="experiment-header-title-date is-flex-desktop is-justify-content-space-between">
+            <!-- title -->
+            <h4 id="exp<%= experiment.id %>" class="mb-2">
+                <%= link_to "#exp#{experiment.id}" do %>
+                    <%= experiment.summary_name || "Experiment Name: Unnamed" %>
+                    [Pub: <%= experiment.published? %>]
+                <% end %>
+            </h4>
+
+            <!-- expvar num -->
+            <%= render partial: '/shared/expvar_num_expvar', locals: {
+                expvar_date: experiment.created_at,
+                obfuscated: experiment.obfuscated?
+            } %>
+        </div>
 
         <!-- Targeting -->
         <% unless audience['name'].blank? %>
