@@ -84,7 +84,7 @@ class ProfilesController < ApplicationController
       @experiments = obfuscate_from(@experiments,
                                     num_given_pagination(@experiments.length)) if not subscribed_or_moderator
 
-      @tag_counts = Sidebar.top_tags
+      @tag_counts = Sidebar.tag_counts_by_profile_id(@profile.id)
 
       @featured_experiments = policy_scope(Experiment).calcRank.limit(5)
 
