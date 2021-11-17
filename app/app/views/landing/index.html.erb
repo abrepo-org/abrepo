@@ -37,9 +37,17 @@
                         </div>
 
                         <div class="column is-offset-1 is-11">
-                            <div class="box2" >
-                                <%= image_pack_tag("output.gif") %>
-                            </div>
+                          <div class="box2" >
+                              <video muted autoplay loop playsinline>
+                                  <source src="<%= asset_pack_path('media/images/animated.mp4') %>"
+                                          type="video/mp4">
+                                  <source src="<%= asset_pack_path('media/images/animated.webm') %>"
+                                          type="video/webm">
+                                  <source src="<%= asset_pack_path('media/images/animated.ogv') %>"
+                                          type="video/ogg">
+                                  <%= image_pack_tag("animated.gif") %>
+                              </video>
+                          </div>
                         </div>
 
                     </div>
