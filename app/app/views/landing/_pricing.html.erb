@@ -1,120 +1,125 @@
-<div class="container content">
+<%
+#
+# /shared/subscribe_modal currently also uses these cards
+# and calls to CheckoutHelper to get prices to set
+# @basic_monthly_price, @basic_annual_price variables
+#
+%>
 
-    <h3 class="is-size-3 has-text-centered">
-        Subscribe Now
-    </h3>
+<h3 class="is-size-3 has-text-centered">
+    Subscribe Now
+</h3>
 
-    <div class="is-flex is-justify-content-center" >
-        <%= image_pack_tag "stripe-blurple-600x136-06cf2b6.png", width:"10%" %>
+<div class="is-flex is-justify-content-center" >
+    <%= image_pack_tag "stripe-blurple-600x136-06cf2b6.png",
+    width: is_modal ? "20%" : "10%" %>
+</div>
+
+<div class="columns mt-5">
+    <div class="column <%= is_modal ? 'is-6' : 'is-offset-2 is-4' %>">
+
+        <div class="card">
+            <div class="card-content has-text-centered" >
+                <p class="title is-4">
+                    <%= @basic_monthly_price.nickname %>
+                </p>
+                <span class="currency is-size-5">$</span>
+                <span class="title is-1"><%= @basic_monthly_price.unit_amount / 100 %></span>
+                <span class="frequency">/ month</p>
+                    <p>Billed Monthly</p>
+                    <hr />
+
+                    <div class="has-text-left">
+                        <ul class="features">
+                            <li>
+                                <span class="has-text-success mr-2">&check;</span>
+                                Single user monthly subscription.
+                            </li>
+                            <li>
+                                <span class="has-text-success mr-2">&check;</span>
+                                Unlimited search. No quotas. No caps.
+                            </li>
+                            <li>
+                                <span class="has-text-success mr-2">&check;</span>
+                                Full access to continually updated repository.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <p class="mt-3">&nbsp;</p>
+            </div>
+
+            <footer class="card-footer">
+                <p class="card-footer-item">
+                    <%= link_to "Get Started",
+                    checkout_account_path(lookup_key: 'basic-monthly'),
+                    class:"button checkout is-fullwidth is-info",
+                        data: {
+                            stripe_key: ENV['STRIPE_PUBLISHABLE_KEY'],
+                            price_key: @basic_monthly_price["lookup_key"],
+                            price_id: @basic_monthly_price["id"],
+                            url: create_checkout_session_path(@basic_monthly_price["lookup_key"]),
+                            csrf_token: form_authenticity_token
+                        }
+                    %>
+                </p>
+            </footer>
+        </div>
     </div>
 
-    <div class="columns mt-5">
-        <div class="column is-offset-2 is-4">
+    <div class="column <%= is_modal ? 'is-6' : 'is-4' %>">
 
-            <div class="card">
-                <div class="card-content has-text-centered" >
-                    <p class="title is-4">
-                        <%= @basic_monthly_price.nickname %>
+        <div class="card">
+            <div class="card-content has-text-centered" >
+                <p class="title is-4">
+                    <%= @basic_annual_price.nickname %>
+                </p>
+                <span class="currency is-size-5">$</span>
+                <span class="title is-1"><%= @basic_annual_price.unit_amount / 100 / 12 %></span>
+                <span class="frequency">/ month</p>
+                    <p>Billed Annually</p>
+                    <hr />
+
+                    <div class="has-text-left">
+                        <ul class="features">
+                            <li>
+                                <span class="has-text-success mr-2">&check;</span>
+                                Single user annual subscription.
+                            </li>
+                            <li>
+                                <span class="has-text-success mr-2">&check;</span>
+                                Unlimited search. No quotas. No caps.
+                            </li>
+                            <li>
+                                <span class="has-text-success mr-2">&check;</span>
+                                Full access to continually updated repository.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <p class="mt-3">
+                        <span class="has-text-danger">20%</span>
+                        effective upfront discount
                     </p>
-                    <span class="currency is-size-5">$</span>
-                    <span class="title is-1"><%= @basic_monthly_price.unit_amount / 100 %></span>
-                    <span class="frequency">/ month</p>
-                        <p>Billed Monthly</p>
-                        <hr />
-
-                        <div class="has-text-left">
-                            <ul class="features">
-                                <li>
-                                    <span class="has-text-success mr-2">&check;</span>
-                                    Single user monthly subscription.
-                                </li>
-                                <li>
-                                    <span class="has-text-success mr-2">&check;</span>
-                                    Unlimited search. No quotas. No caps.
-                                </li>
-                                <li>
-                                    <span class="has-text-success mr-2">&check;</span>
-                                    Full access to continually updated repository.
-                                </li>
-                            </ul>
-                        </div>
-
-                        <p class="mt-3">&nbsp;</p>
-                </div>
-
-                <footer class="card-footer">
-                    <p class="card-footer-item">
-                        <%= link_to "Get Started",
-                        checkout_account_path(lookup_key: 'basic-monthly'),
-                        class:"button checkout is-fullwidth is-info",
-                            data: {
-                                stripe_key: ENV['STRIPE_PUBLISHABLE_KEY'],
-                                price_key: @basic_monthly_price["lookup_key"],
-                                price_id: @basic_monthly_price["id"],
-                                url: create_checkout_session_path(@basic_monthly_price["lookup_key"]),
-                                csrf_token: form_authenticity_token
-                            }
-                        %>
-                    </p>
-                </footer>
             </div>
+
+            <footer class="card-footer">
+                <p class="card-footer-item">
+                    <%= link_to "Get Started",
+                    checkout_account_path(lookup_key: 'basic-annual'),
+                    class:"button checkout is-fullwidth is-info",
+                        data: {
+                            stripe_key: ENV['STRIPE_PUBLISHABLE_KEY'],
+                            price_key: @basic_annual_price["lookup_key"],
+                            price_id: @basic_annual_price["id"],
+                            url: create_checkout_session_path(@basic_annual_price["lookup_key"]),
+                            csrf_token: form_authenticity_token
+                        }
+                    %>
+                </p>
+
+            </footer>
         </div>
-
-        <div class="column is-4">
-
-            <div class="card">
-                <div class="card-content has-text-centered" >
-                    <p class="title is-4">
-                        <%= @basic_annual_price.nickname %>
-                    </p>
-                    <span class="currency is-size-5">$</span>
-                    <span class="title is-1"><%= @basic_annual_price.unit_amount / 100 / 12 %></span>
-                    <span class="frequency">/ month</p>
-                        <p>Billed Annually</p>
-                        <hr />
-
-                        <div class="has-text-left">
-                            <ul class="features">
-                                <li>
-                                    <span class="has-text-success mr-2">&check;</span>
-                                    Single user annual subscription.
-                                </li>
-                                <li>
-                                    <span class="has-text-success mr-2">&check;</span>
-                                    Unlimited search. No quotas. No caps.
-                                </li>
-                                <li>
-                                    <span class="has-text-success mr-2">&check;</span>
-                                    Full access to continually updated repository.
-                                </li>
-                            </ul>
-                        </div>
-
-                        <p class="mt-3">
-                            <span class="has-text-danger">20%</span>
-                            effective upfront discount
-                        </p>
-                </div>
-
-                <footer class="card-footer">
-                    <p class="card-footer-item">
-                        <%= link_to "Get Started",
-                        checkout_account_path(lookup_key: 'basic-annual'),
-                        class:"button checkout is-fullwidth is-info",
-                            data: {
-                                stripe_key: ENV['STRIPE_PUBLISHABLE_KEY'],
-                                price_key: @basic_annual_price["lookup_key"],
-                                price_id: @basic_annual_price["id"],
-                                url: create_checkout_session_path(@basic_annual_price["lookup_key"]),
-                                csrf_token: form_authenticity_token
-                            }
-                        %>
-                    </p>
-
-                </footer>
-            </div>
-        </div>
-
     </div>
 
 </div>

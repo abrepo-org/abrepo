@@ -4,6 +4,7 @@ section.section.section-landing {
   padding: 6rem 1.5rem;
 }
 
+
 .hero-title {
   font-size: 4rem;
   font-weight:900;
@@ -21,12 +22,6 @@ section.section.section-landing {
   }
 }
 
-.has-background-gradient-white-white-ter {
-  background: linear-gradient(#fff, hsl(0, 0, 96%));
-}
-.box2 {
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
 
 .roles ul {
   list-style-type: none;
@@ -36,6 +31,14 @@ section.section.section-landing {
   li span {
     padding-top: 1px;
   }
+}
+
+
+.box-box-shadow{
+  box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
+}
+.box2 {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .role {
@@ -49,6 +52,10 @@ section.section.section-landing {
   border: 1px solid rgba(0, 0, 0, 0.1);
   font-family: 'inter';
   .button { cursor: auto; }
+
+  .box { //override
+    padding: 0;
+  }
 }
 
 

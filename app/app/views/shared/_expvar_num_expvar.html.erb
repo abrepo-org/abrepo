@@ -1,6 +1,5 @@
-<div class="is-size-7 has-text-grey has-text-weight-normal has-text-right <%= 'obfuscate' if obfuscated %>">
-    <p>
-        <span title= "Date Detected"></span>
-        <%= format_expvar_date(expvar_date) %>
-    </p>
+<div class="is-size-6 has-text-grey has-text-weight-normal mb-2 <%= 'obfuscate' if obfuscated %>">
+  <span title= "Date Detected">
+    <%= format_expvar_date(expvar_date) %>
+  </span>
 </div>

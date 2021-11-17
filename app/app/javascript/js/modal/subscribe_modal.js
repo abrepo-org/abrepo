@@ -7,7 +7,7 @@ const attach_modal_listeners = ($modal, toggleClass) => {
 
     //close button click
     //no close button, behavior is not to close
-    const $close = $modal.querySelector('.modal-close')
+    const $close = $modal.querySelector('.modal-close');
     if (!$close) return;
 
     $close.addEventListener('click', (e) => {
@@ -16,7 +16,7 @@ const attach_modal_listeners = ($modal, toggleClass) => {
 
     //add ESC handler to close
     const keyPress = (e) => {
-        console.log(e.key)
+
         if(e.key === "Escape" && $modal.classList.contains(toggleClass)) {
             $modal.classList.toggle(toggleClass);
         }
