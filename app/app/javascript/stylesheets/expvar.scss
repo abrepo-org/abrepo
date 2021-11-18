@@ -2,6 +2,16 @@
  * "Expvar" Main Table component
  */
 
+.expvar-table {
+  @include from($tablet) {
+    /* we add this space so anchor links will always */
+    /* direct to immediate top */
+    /* if page is too "short", clicking an anchor link */
+    /* may jump to middle of page, its not entirely clear which experiment */
+    /* was clicked */
+    margin-bottom: 30rem;
+  }
+}
 //"obfuscated" style
 .obfuscate {
   filter: blur(2px);
@@ -14,8 +24,19 @@ span.tags { font-weight: 400; }
 tr.expvar-root-border {
   border-top: 1px solid #dbdbdb;
 }
+
+//need a block element for 'before'
+//anchor adjustment in experiment-header to work
+//(does not work on flex)
+.experiment-anchor-wrap { width: 100%; }
 .experiment-header {
-  width: 100%;
+
+  &::before {
+    content: "";
+    display: block;
+    height: 6rem;
+    margin-top: -6rem;
+  }
 }
 
 //header anchor spacing adjustment for navbar
@@ -23,12 +44,6 @@ tr.expvar-root-border {
 
   a { color: #363636; }
 
-  &:before {
-    content: "";
-    display: block;
-    height: 6rem;
-    margin-top: -6rem;
-  }
 }
 
 //expvar table header font

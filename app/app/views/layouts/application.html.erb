@@ -96,7 +96,7 @@
                             <div class="container">
                                 <div class="columns">
 
-                                    <div class="column is-full-mobile <%= is_layout_full ? 'is-full' : 'is-three-quarters'%>">
+                                    <div class="column is-full-mobile <%= is_layout_full ? 'is-full' : 'is-8'%>">
                                         <div class="content">
 
                                             <% flash.each do |name, msg| %>
@@ -112,7 +112,7 @@
 
                                     <% unless is_layout_full %>
                                         <!--  wrap below mobile -->
-                                        <div class="column is-full-mobile is-one-quarter">
+                                        <div class="column is-full-mobile is-offset-1 is-3">
                                             <% if content_for?(:sidebar) %>
                                                 <%= yield(:sidebar) %>
                                             <% end %>

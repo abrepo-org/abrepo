@@ -9,6 +9,13 @@ module Obfuscatable
   end
 
   module ClassMethods
+
+    #
+    # example when include Obfuscatble
+    # 'obfuscatable attributes: [:summary_name, :domain]'
+    # method obfuscatble, which passes options[:attributes] array
+    #
+
     def obfuscatable(options)
       self.obfuscated_attrs = options[:attributes]
       self.obfuscated_dependent = options[:dependent]

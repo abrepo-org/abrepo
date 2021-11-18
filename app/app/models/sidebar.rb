@@ -8,7 +8,7 @@ class Sidebar
 
     profiles = Profile
                  .joins(:experiments)
-                 .group(:id, :company_name)
+                 .group(:id, :company_name, :updated_at)
                  .order('sum_experiments_calcscore_pow_select_extract_epoch_from_current desc')
                  .limit(5)
                  .sum(%{
@@ -17,7 +17,7 @@ class Sidebar
         (SELECT EXTRACT(EPOCH FROM experiments.created_at)) ) / 3600) + 2, 1.8))
       })
 
-    profiles.map{ |p| {id: p[0][0], name: p[0][1] } }
+    profiles.map{ |p| {id: p[0][0], name: p[0][1], updated_at: p[0][2] } }
 
   end
 
@@ -98,4 +98,30 @@ class Sidebar
     #   .map{ |tag| { id: tag[:id], name: tag[:name], count: tag['count'] } }
 
   end
+
+  #
+  # same as top tags, but filtered for specific profile
+  #
+  def self.tag_counts_by_profile_id(profile_id)
+
+    sql = %{
+        SELECT totals.id, totals.name, COUNT(totals.id) FROM
+            (SELECT tags.id, variations.vendor_id, tags.name
+             FROM tags
+             INNER JOIN taggings ON taggings.tag_id = tags.id
+             INNER JOIN variations ON taggings.taggable_id = variations.id
+             INNER JOIN experiments ON experiments.id = variations.experiment_id
+             WHERE taggings.taggable_type = 'Variation' AND experiments.profile_id = ?
+             GROUP BY tags.id, variations.vendor_id) as totals
+         GROUP BY totals.id, totals.name
+         ORDER BY count DESC
+         LIMIT 10
+    }
+
+    ActsAsTaggableOn::Tag
+      .find_by_sql([sql, profile_id])
+      .map{ |tag| {id: tag.id, name: tag.name, count: tag['count']} }
+
+  end
+
 end

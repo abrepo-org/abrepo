@@ -1,4 +1,6 @@
-/* profile#index */
+/*
+ * profile#index
+ */
 .profile-card .card-content {
   padding: 1.5rem 0;
 }
@@ -6,6 +8,12 @@
 .media figure {
   margin-left: 0rem;
 }
+
+//mobile date
+.profile-updated-at {
+  min-width: 100px;
+}
+
 
 /*
  * profile#show
@@ -16,4 +24,8 @@
   display:inline-block;
   width: 1.25rem; //match is-size-5 font
   vertical-align:middle;
+}
+
+.company-profile span.tag {
+  z-index: 29; //navbar set to 30
 }

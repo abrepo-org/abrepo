@@ -1,6 +1,25 @@
-<li class="is-inline-block has-text-left"
-    style="width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
-    <%= link_to profile_path(top_profile[:id]) do %>
-        <%= top_profile[:name] %>
-    <% end %>
-</li>
+<% if true %>
+
+    <li class="has-text-left" style="width:100%;">
+        <%= link_to profile_path(top_profile[:id]) do %>
+            <%= top_profile[:name] %>
+        <% end %>
+    </li>
+
+<% else %>
+
+    <!-- Table view -->
+    <tr>
+        <td>
+            <%= link_to profile_path(top_profile[:id]) do %>
+                <%= top_profile[:name] %>
+            <% end %>
+        </td>
+
+        <td class="has-text-right is-size-7">
+            <%= format_expvar_date(top_profile[:updated_at]) %>
+        </td>
+
+    </tr>
+
+<% end %>
