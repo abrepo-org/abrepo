@@ -14,8 +14,19 @@ span.tags { font-weight: 400; }
 tr.expvar-root-border {
   border-top: 1px solid #dbdbdb;
 }
+
+//need a block element for 'before'
+//anchor adjustment in experiment-header to work
+//(does not work on flex)
+.experiment-anchor-wrap { width: 100%; }
 .experiment-header {
-  width: 100%;
+
+  &::before {
+    content: "";
+    display: block;
+    height: 6rem;
+    margin-top: -6rem;
+  }
 }
 
 //header anchor spacing adjustment for navbar
@@ -23,12 +34,6 @@ tr.expvar-root-border {
 
   a { color: #363636; }
 
-  &:before {
-    content: "";
-    display: block;
-    height: 6rem;
-    margin-top: -6rem;
-  }
 }
 
 //expvar table header font

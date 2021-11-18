@@ -1,67 +1,69 @@
 <div class="experiment is-flex is-justify-content-space-between <%= 'obfuscate' if experiment.obfuscated? %>">
 
-    <!-- Experiment Name -->
-    <div class="experiment-header">
+    <div class="experiment-anchor-wrap">
 
-        <div class="experiment-header-title-date is-flex-desktop is-justify-content-space-between">
-            <!-- title -->
-            <h4 id="exp<%= experiment.id %>" class="mb-2">
-                <%= link_to "#exp#{experiment.id}" do %>
-                    <%= experiment.summary_name || "Experiment Name: Unnamed" %>
-                    [Pub: <%= experiment.published? %>]
-                <% end %>
-            </h4>
+        <!-- Experiment Name -->
+        <div id="exp<%= experiment.id %>" class="experiment-header">
 
-            <!-- expvar num -->
-            <%= render partial: '/shared/expvar_num_expvar', locals: {
-                expvar_date: experiment.created_at,
-                obfuscated: experiment.obfuscated?
-            } %>
-        </div>
+            <div class="experiment-header-title-date is-flex-desktop is-justify-content-space-between">
+                <!-- title -->
+                <h4 class="mb-2">
+                    <%= link_to "#exp#{experiment.id}" do %>
+                        <%= experiment.summary_name || "Experiment Name: Unnamed" %>
+                        [Pub: <%= experiment.published? %>]
+                    <% end %>
+                </h4>
 
-        <!-- Targeting -->
-        <% unless audience['name'].blank? %>
-            <div class="is-flex is-flex-wrap-wrap mb-2">
-                <span title="Targeting"
-                      class="targeting-value has-text-grey has-text-weight-normal">
-                    <%= audience['name'].split(',').join(", ") %>
-                </span>
+                <!-- expvar num -->
+                <%= render partial: '/shared/expvar_num_expvar', locals: {
+                    expvar_date: experiment.created_at,
+                    obfuscated: experiment.obfuscated?
+                } %>
             </div>
-        <% end %>
 
-
-        <div class="is-flex is-flex-wrap-wrap is-align-items-center">
-
-            <!-- company info -->
-            <div class="mr-4 mb-4">
-                <%= obfuscate_link_to experiment.obfuscated?, profile do %>
-                    <span class="profile_favicon">
-                        <%= image_tag(profile.favicon_url ||
-                                      'https://www.' + profile.domain + '/favicon.ico',
-                                      loading: 'lazy',
-                                      width: '16px') %>
+            <!-- Targeting -->
+            <% unless audience['name'].blank? %>
+                <div class="is-flex is-flex-wrap-wrap mb-2">
+                    <span title="Targeting"
+                          class="targeting-value has-text-grey has-text-weight-normal">
+                        <%= audience['name'].split(',').join(", ") %>
                     </span>
+                </div>
+            <% end %>
 
-                    <span class="profile_domain has-text-grey has-text-weight-normal">
-                        <%= profile.domain %>
-                    </span >
+
+            <div class="is-flex is-flex-wrap-wrap is-align-items-center">
+
+                <!-- company info -->
+                <div class="mr-4 mb-4">
+                    <%= obfuscate_link_to experiment.obfuscated?, profile do %>
+                        <span class="profile_favicon">
+                            <%= image_tag(profile.favicon_url ||
+                                          'https://www.' + profile.domain + '/favicon.ico',
+                                          loading: 'lazy',
+                                          width: '16px') %>
+                        </span>
+
+                        <span class="profile_domain has-text-grey has-text-weight-normal">
+                            <%= profile.domain %>
+                        </span >
+                    <% end %>
+                </div>
+
+
+                <!-- Tags  -->
+                <% unless experiment.tags.empty? %>
+                    <span class="tags mb-2">
+                        <%= render partial: "shared/search_tag_list", locals: {
+                            obfuscated: experiment.obfuscated?,
+                            tag_param: "tags",
+                            tag_list: experiment.tags,
+                            classes: "tag is-info is-light"
+                        }%>
+                    </span>
                 <% end %>
             </div>
 
-
-            <!-- Tags  -->
-            <% unless experiment.tags.empty? %>
-                <span class="tags mb-2">
-                  <%= render partial: "shared/search_tag_list", locals: {
-                      obfuscated: experiment.obfuscated?,
-                      tag_param: "tags",
-                      tag_list: experiment.tags,
-                      classes: "tag is-info is-light"
-                  }%>
-                </span>
-            <% end %>
         </div>
-
     </div>
-
 </div>
