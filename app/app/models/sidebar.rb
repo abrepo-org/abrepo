@@ -8,7 +8,7 @@ class Sidebar
 
     profiles = Profile
                  .joins(:experiments)
-                 .group(:id, :company_name)
+                 .group(:id, :company_name, :updated_at)
                  .order('sum_experiments_calcscore_pow_select_extract_epoch_from_current desc')
                  .limit(5)
                  .sum(%{
@@ -17,7 +17,7 @@ class Sidebar
         (SELECT EXTRACT(EPOCH FROM experiments.created_at)) ) / 3600) + 2, 1.8))
       })
 
-    profiles.map{ |p| {id: p[0][0], name: p[0][1] } }
+    profiles.map{ |p| {id: p[0][0], name: p[0][1], updated_at: p[0][2] } }
 
   end
 

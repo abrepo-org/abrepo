@@ -19,3 +19,10 @@
   }
 
 }
+
+.panel-block {
+  .table.is-borderless td {
+    border: 0;
+    vertical-align: initial;
+  }
+}

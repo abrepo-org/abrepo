@@ -7,12 +7,34 @@
 
     <div class="panel-block has-text-grey">
 
-        <ul style="width:100%;">
+        <% if true %>
+            <!-- toggle partial view false also -->
+            <ul style="width:100%;">
+                <%= render partial: "/shared/sidebar/top_profile",
+                collection: @top_profiles, cached: true %>
+            </ul>
 
-          <%= render partial: "/shared/sidebar/top_profile",
-          collection: @top_profiles, cached: true  %>
+        <% else %>
 
-        </ul>
+            <!-- Table view -->
+            <table class="table is-borderless" style="width: 100%;">
+                <thead>
+                    <tr class="is-size-7">
+                        <th style="font-weight: 400; color: #7a7a7a;">Name</th>
+                        <th class="has-text-right"
+                            style="font-weight: 400; color: #7a7a7a;">
+                            Last Updated
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <%= render partial: "/shared/sidebar/top_profile",
+                    collection: @top_profiles, cached: true  %>
+                </tbody>
+
+            </table>
+        <% end %>
 
     </div>
 </div>
