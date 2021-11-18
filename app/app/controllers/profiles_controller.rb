@@ -86,7 +86,9 @@ class ProfilesController < ApplicationController
 
       @tag_counts = Sidebar.tag_counts_by_profile_id(@profile.id)
 
-      @featured_experiments = policy_scope(Experiment).calcRank.limit(5)
+      @featured_experiments = policy_scope(Experiment)
+                                .calcRank
+                                .limit(5)
 
       @user_saved_variations = user_saved_variations_hash
     end
