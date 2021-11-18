@@ -24,7 +24,7 @@
                       </p>
                   <% end  %>
 
-                  <p>
+                  <p class="mt-1">
                       <%= profile.description.split(".").first if profile.description %>
                   </p>
 
@@ -33,25 +33,14 @@
                                                          profile.industry_tag_list,
                                                          "tag is-info is-light") %>
                   </p>
-
-                  <!--  mobile -->
-                  <div class="mt-1 is-hidden-tablet">
-                      <span class="mr-1 is-size-7 has-text-grey">
-                          Last Update
-                      </span>
-                      <time datetime="<%= profile.updated_at%>">
-                          <%= format_profile_date(profile.updated_at) %>
-                      </time>
-                  </div>
-
               </div>
 
-              <!-- orig -->
-              <div class="is-flex is-flex-direction-column has-text-right is-hidden-mobile">
+              <!-- date -->
+              <div class="profile-updated-at is-flex is-flex-direction-column has-text-right">
                   <time datetime="<%= profile.updated_at%>">
                       <%= format_profile_date(profile.updated_at) %>
                   </time>
-                  <span class="is-size-7 has-text-grey">
+                  <span class="mt-1 is-size-7 has-text-grey">
                       Last Update
                   </span>
 
