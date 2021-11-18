@@ -2,6 +2,16 @@
  * "Expvar" Main Table component
  */
 
+.expvar-table {
+  @include from($tablet) {
+    /* we add this space so anchor links will always */
+    /* direct to immediate top */
+    /* if page is too "short", clicking an anchor link */
+    /* may jump to middle of page, its not entirely clear which experiment */
+    /* was clicked */
+    margin-bottom: 30rem;
+  }
+}
 //"obfuscated" style
 .obfuscate {
   filter: blur(2px);
