@@ -12,10 +12,55 @@ sudo chown -R 1001:1001 /db
 
 ```
 
+Add access to aws ecr credential helper:
+
+1. clone repo git@github.com:awslabs/amazon-ecr-credential-helper
+2. `make docker` builds binary
+3. `sudo mv /bin/docker-credential-ecr-login /usr/local/bin`
+4. copy over `./docker/.config.json`:
+
+```
+# .config.json
+{
+    "auths": {
+	"https://index.docker.io/v1/": {
+	    "auth": "<add this>"
+	}
+    },
+    "HttpHeaders": {
+	"User-Agent": "Docker-Client/18.06.1-ce (linux)"
+    },
+    "credHelpers": {
+	"<my-repo>.dkr.ecr.<my-region>.amazonaws.com": "ecr-login"
+    }
+}
+
+```
+
+
+To pull image:
+
+make sure access to aws ECR to pull image (keys in .env)
+
+
+```
+sudo `< .env` docker-compose pull
+```
+
 To run stack:
 
 ```
 sudo docker-compose up
+```
+
+install gems for local dev run (volume map)
+
+```
+sudo docker-compose run web bash
+
+# run in container to populate /app/bundler locally
+
+bundle install
 ```
 
 If db not initialized: while docker-compose is running, spin up
