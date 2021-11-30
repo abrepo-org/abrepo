@@ -5,6 +5,8 @@ services:
     healthcheck:
       test: ""
     volumes:
+      # NB: this will require gem install, webpacker build, db perms
+      # for dev environment (since it overrides)
       - ./app:/app
     environment:
       - RAILS_ENV=development

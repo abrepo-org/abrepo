@@ -2,17 +2,51 @@
 
 Rails based frontend for abrepo web app
 
-## Quickstart
 
-*Permissions*: For bitnami postgres image, requires chown user
+## Quickstart Initial Dev Setup
+
+Because in dev we bind mount /app directory to local (so we don't have
+to rebuild image to reflect changes via docker) we initially have to
+some additional setup to get gems and webpacker loaded.
+
+1. *Permissions*: For bitnami postgres image, requires chown user
 directory 1001:1001 usually freezes because userid/grp is vergeman.
 
-```
-sudo chown -R 1001:1001 /db
+`sudo chown -R 1001:1001 /db`
+
+2. install gems (e.g. complain ruby concurrency library missing - gems
+   not registered)
+
+3. assets/webpacker issue: missing assets - webpacker not installed:
 
 ```
 
-Add access to aws ecr credential helper:
+`sudo docker-compose run web bash`
+
+# 2. missing gems
+bundle install
+
+# 3. assets/webpacker issue
+bundle exec rails webpacker:install
+```
+
+4. If db not initialized: while docker-compose is running, spin up
+another web (rails container) and run migration.
+
+```
+RAILS_ENV=development rake db:setup
+
+# for importer user
+rake db:seed
+```
+
+Now `sudo docker-compose up` should work
+
+
+## Dev: ECR Pull Image and Build (setup for Docker Push)
+
+
+[Dev] Add access to aws ecr credential helper:
 
 1. clone repo git@github.com:awslabs/amazon-ecr-credential-helper
 2. `make docker` builds binary
@@ -47,6 +81,12 @@ make sure access to aws ECR to pull image (keys in .env)
 sudo `< .env` docker-compose pull
 ```
 
+To build:
+
+```
+sudo docker-compose build
+```
+
 To run stack:
 
 ```
@@ -63,14 +103,6 @@ sudo docker-compose run web bash
 bundle install
 ```
 
-If db not initialized: while docker-compose is running, spin up
-another web (rails container) and run migration.
-
-```
-sudo docker-compose run web bash
-RAILS_ENV=development rake db:setup
-
-```
 
 ---
 
