@@ -38,6 +38,9 @@ services:
     #chown -R 1001:1001 /db
     volumes:
       - ./db/postgres:/bitnami/postgresql
+      # pgbackrest initial config
+      - ./db/archive.conf:/opt/bitnami/postgresql/conf/conf.d/archive.conf
+      - ./db/pgbackrest.conf:/etc/pgbackrest.conf
     #NB: Service level labels
     labels:
       - "traefik.enable=true"
@@ -58,8 +61,6 @@ services:
 
 volumes:
   pg1data:
-    driver: local
-  pg2data:
     driver: local
   portainer_data:
     driver: local

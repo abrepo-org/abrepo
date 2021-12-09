@@ -59,6 +59,10 @@ services:
     volumes:
       - pg1data:/bitnami/postgresql
       - /tmp:/tmpdb #for database backups
+      # pgbackrest initial config
+      - /root/releases/abrepo/db/archive.conf:/opt/bitnami/postgresql/conf/conf.d/archive.conf
+      - /root/releases/abrepo/db/pgbackrest.conf:/etc/pgbackrest.conf
+
     environment:
       - POSTGRESQL_REPLICATION_MODE=master
     deploy:
@@ -68,25 +72,6 @@ services:
         - node.labels.instance == db1
       labels:
         - "traefik.enable=true"
-        - "traefik.tcp.routers.to-db.entrypoints=db"
-        - "traefik.tcp.routers.to-db.rule=HostSNI(`*`)"
-        - "traefik.tcp.routers.to-db.service=primary"
-        - "traefik.tcp.services.primary.loadbalancer.server.port=5432"
-  pg2:
-    image: 'bitnami/postgresql:latest'
-    env_file:
-      - .env.db
-    volumes:
-      - pg2data:/bitnami/postgresql
-    environment:
-      - POSTGRESQL_REPLICATION_MODE=slave
-    deploy:
-      replicas: 1
-      placement:
-        constraints:
-        - node.labels.instance == db2
-      labels:
-        - "traefik.enable=false"
         - "traefik.tcp.routers.to-db.entrypoints=db"
         - "traefik.tcp.routers.to-db.rule=HostSNI(`*`)"
         - "traefik.tcp.routers.to-db.service=primary"
@@ -154,14 +139,5 @@ volumes:
     #driver: rexray/dobs
     #driver_opts:
     #  size: 1
-  pg2data:
-    driver_opts:
-      type: none
-      o: bind
-      device: /mnt/abrepo_pg2data
-#    driver: rexray/dobs
-#    driver_opts:
-#      size: 1
-
   portainer_data:
     driver: local

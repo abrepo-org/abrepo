@@ -3,6 +3,7 @@
 #builds release stack.yml
 DEFAULT_DIR=~/dev/ab/abrepo_ops/releases/abrepo
 mkdir -p $DEFAULT_DIR
+mkdir -p $DEFAULT_DIR/db
 
 #build from app's local Dockerfile
 sudo `< .env` docker-compose build
@@ -24,10 +25,12 @@ sudo docker-compose -f docker-compose.yml config > $DEFAULT_DIR/stack.yml
 # Misc Scripts
 #
 echo "";
-echo "copying database backup.sh to $DEFAULT_DIR/"
+echo "copying database support files to $DEFAULT_DIR/"
 echo "";
 
 sudo cp ./db/db_backup.sh $DEFAULT_DIR/
+sudo cp ./db/archive.conf $DEFAULT_DIR/db/
+sudo cp ./db/pgbackrest.conf $DEFAULT_DIR/db/
 
 #
 # If I want to add a different service configuration, build that into
