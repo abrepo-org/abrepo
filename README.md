@@ -171,9 +171,6 @@ Typical check run via docker-compose. Operates in all env; dev, prod, etc:
 
 ```
 
-#traefik - needs an endpoint setup
-test: "wget -q -O- localhost:8082/ping || exit 1"
-
 #web, nginx
 healthcheck:
   test: ["CMD-SHELL",
