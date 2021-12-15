@@ -53,7 +53,7 @@ echo "";
 echo "copying database support files to $DEFAULT_DIR/"
 echo "";
 
-sudo cp ./db/db_backup.sh $DEFAULT_DIR/
+sudo cp ./db/*.sh $DEFAULT_DIR/      # typically backup scripts
 sudo cp ./db/archive.conf $DEFAULT_DIR/db/
 sudo cp ./db/pgbackrest.conf $DEFAULT_DIR/db/
 
