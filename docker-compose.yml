@@ -12,8 +12,8 @@ services:
       - POSTGRESQL_HOST=pg1  #required env variable for startup
       - POSTGRESQL_DATABASE=prod
       - PGBOUNCER_DATABASE=prod
-      # NB: app connects to database as 'postgres' but what seen is prod (config above)
-      # to expose in app as 'prod', set PGBOUNCER_DATABASE
+      # NB: app connects to database 'postgres' - pgbouncer exposes a "view"
+      # set in PGGBOUNER_DATABSE in app; in this case as 'prod'
     deploy:
       replicas: 1
       placement:
@@ -34,10 +34,9 @@ services:
     volumes:
       - pg1data:/bitnami/postgresql
       - /mnt:/mnt   # pgbackrest backup directory (on instance)
-      - /tmp:/tmpdb # exposed mount for db/work output
+      - /tmp:/tmpdb # exposed mount for scratch db/work output
       - /root/releases/abrepo/db/pgbackrest.conf:/etc/pgbackrest.conf
     environment:
-      - POSTGRESQL_REPLICATION_MODE=master
       - PGBACKREST_REPO1_PATH=/mnt/pgbackrest
       - PGBACKREST_LOG_PATH=/mnt/pgbackrest
       - PGBACKREST_REPO2_S3_BUCKET=abrepo-production-pgbackrest

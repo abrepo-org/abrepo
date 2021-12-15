@@ -2,19 +2,6 @@
 version: '3.4'
 services:
 
-  web:
-    build: ./app
-    healthcheck:
-      test: ""
-    volumes:
-      # NB: this will require gem install, webpacker build, db perms
-      # for dev environment (since it overrides)
-      - ./app:/app
-    environment:
-      - RAILS_ENV=development
-      - APPLICATION_HOST=http://localhost
-      - FILE_HOST=
-
   pgbouncer:
     environment:
       - POSTGRESQL_DATABASE=dev
@@ -30,6 +17,19 @@ services:
       - PGBACKREST_REPO1_PATH=/tmpdb/pgbackrest
       - PGBACKREST_LOG_PATH=/tmpdb/pgbackrest
       - PGBACKREST_REPO2_S3_BUCKET=abrepo-dev-pgbackrest
+
+  web:
+    build: ./app
+    healthcheck:
+      test: ""
+    volumes:
+      # NB: this will require gem install, webpacker build, db perms
+      # for dev environment (since it overrides)
+      - ./app:/app
+    environment:
+      - RAILS_ENV=development
+      - APPLICATION_HOST=http://localhost
+      - FILE_HOST=
 
   nginx:
     build:
