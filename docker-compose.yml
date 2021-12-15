@@ -74,7 +74,6 @@ services:
       - /mnt:/mnt   # pgbackrest backup directory (on instance)
       - /tmp:/tmpdb # exposed mount for db/work output
       # pgbackrest initial config
-      - /root/releases/abrepo/db/managed_db.conf:/opt/bitnami/postgresql/conf/conf.d/managed_db.conf
       - /root/releases/abrepo/db/pgbackrest.conf:/etc/pgbackrest.conf
 
     environment:
