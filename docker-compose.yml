@@ -46,6 +46,19 @@ services:
         - "traefik.http.routers.api.service=api@internal"
         - "traefik.http.services.api.loadbalancer.server.port=8080"
 
+  pgbouncer:
+    image: bitnami/pgbouncer
+    depends_on:
+      - pg1
+    env_file:
+      - .env.db
+    environment:
+      - POSTGRESQL_HOST=pg1  #required env variable for startup
+      - POSTGRESQL_DATABASE=prod
+      - PGBOUNCER_DATABASE=prod
+      # NB: app connects to database as 'postgres' but what seen is prod (config above)
+      # to expose in app as 'prod', set PGBOUNCER_DATABASE
+
   #PRIMARY DB
   pg1:
     image: 'bitnami/postgresql:latest'
@@ -58,13 +71,18 @@ services:
       - .env.db
     volumes:
       - pg1data:/bitnami/postgresql
-      - /tmp:/tmpdb #for database backups
+      - /mnt:/mnt   # pgbackrest backup directory (on instance)
+      - /tmp:/tmpdb # exposed mount for db/work output
       # pgbackrest initial config
-      - /root/releases/abrepo/db/archive.conf:/opt/bitnami/postgresql/conf/conf.d/archive.conf
+      - /root/releases/abrepo/db/managed_db.conf:/opt/bitnami/postgresql/conf/conf.d/managed_db.conf
       - /root/releases/abrepo/db/pgbackrest.conf:/etc/pgbackrest.conf
 
     environment:
       - POSTGRESQL_REPLICATION_MODE=master
+      - PGBACKREST_REPO1_PATH=/mnt/pgbackrest
+      - PGBACKREST_LOG_PATH=/mnt/pgbackrest
+      - PGBACKREST_REPO2_S3_BUCKET=abrepo-production-pgbackrest
+
     deploy:
       replicas: 1
       placement:
@@ -78,7 +96,6 @@ services:
         - "traefik.tcp.services.primary.loadbalancer.server.port=5432"
 
   web:
-    build: ./app
     image: '424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abrepo:latest'
     env_file:
       - .env
@@ -104,9 +121,6 @@ services:
         - "traefik.enable=false"
 
   nginx:
-    build:
-      context: .
-      dockerfile: ./nginx/Dockerfile
     image: '424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abnginx:latest'
     # healthcheck:
     #   test: ["CMD-SHELL",

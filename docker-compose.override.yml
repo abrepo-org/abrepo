@@ -2,6 +2,7 @@
 version: '3.4'
 services:
   web:
+    build: ./app
     healthcheck:
       test: ""
     volumes:
@@ -34,13 +35,23 @@ services:
       - "traefik.http.routers.api.service=api@internal"
       - "traefik.http.services.api.loadbalancer.server.port=8080"
 
+  pgbouncer:
+    environment:
+      - POSTGRESQL_DATABASE=dev
+      - PGBOUNCER_DATABASE=dev
+
   pg1:
     #chown -R 1001:1001 /db
     volumes:
       - ./db/postgres:/bitnami/postgresql
       # pgbackrest initial config
-      - ./db/archive.conf:/opt/bitnami/postgresql/conf/conf.d/archive.conf
       - ./db/pgbackrest.conf:/etc/pgbackrest.conf
+      - ./db/archive.conf:/opt/bitnami/postgresql/conf/conf.d/archive.conf
+    environment:
+      - PGBACKREST_REPO1_PATH=/tmpdb/pgbackrest
+      - PGBACKREST_LOG_PATH=/tmpdb/pgbackrest
+      - PGBACKREST_REPO2_S3_BUCKET=abrepo-dev-pgbackrest
+
     #NB: Service level labels
     labels:
       - "traefik.enable=true"
@@ -50,6 +61,9 @@ services:
       - "traefik.tcp.services.primary.loadbalancer.server.port=5432"
 
   nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
     volumes:
       - ./app/public:/app/public
       - /home/vergeman/dev/ab/screenshots:/app/public/screenshots

@@ -1,0 +1,21 @@
+# staging settings
+# to run locally:
+# sudo docker-compose -f docker-compose.yml -f docker-compose.override.yml -f staging.yml up
+#
+# NB: for deployed staging, env is selected via ansible This is for
+# config specific to staging env. It should mimic production so
+# general idea is to have nothing here.
+#
+# However, this file is necessary as a loop placeholder for ansible
+# when iterating across deploy envs.
+
+version: '3.4'
+services:
+  pg1:
+    #chown -R 1001:1001 /db
+    #volumes:
+      #
+      # KEEP ARCHIVE MODE OFF / DISABLED FOR STAGING
+      # (don't want to backup) allows restore, safeguard inadvertent
+      # back up from staging that overwrites prod s3 bucket.
+      # /root/releases/abrepo/db/archive.conf:/opt/bitnami/postgresql/conf/conf.d/archive.conf

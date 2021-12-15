@@ -1,0 +1,20 @@
+# production ONLY stack settings
+# e.g. where production diverges from staging
+#
+# to verify locally:
+# sudo docker-compose -f docker-compose.yml -f docker-compose.override.yml -f production.yml up
+#
+# NB: on deployed stack, env (prod, staging) is selected via ansible bash
+#
+#
+# docker-compose is production-first, but also serves as config for staging envs.
+# This compose file is for distinct production-only config deploys.
+#
+
+version: '3.4'
+services:
+  pg1:
+    #chown -R 1001:1001 /db
+    volumes:
+      # ENABLE ARCHIVE MODE IN PRODUCTION (class) DEPLOY_ENV
+      - /root/releases/abrepo/db/archive.conf:/opt/bitnami/postgresql/conf/conf.d/archive.conf
