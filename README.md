@@ -106,15 +106,6 @@ bundle install
 
 ---
 
-Piecemeal runs:
-
-```
-sudo docker-compose -f replica-pg2.yml -f docker-compose.yml up
-
-sudo docker stack deploy -c replica-pg2.yml -c docker-compose.yml <stack name>
-
-```
-
 For shell, once off commands
 
 ```
