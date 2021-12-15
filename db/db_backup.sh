@@ -10,15 +10,17 @@ if [ -z ${DEPLOY_ENV} ]; then
     exit 1
 fi
 
+PG_SERVICE_NAME=pg
 PG_DB_NAME=prod
-CONTAINER=$(docker ps --filter name=pg -q)
+CONTAINER=$(docker ps --filter name=$PG_SERVICE_NAME -q)
 DATEFILE=$(date +'%Y%m%d-%H-%M')
+S3_BACKUP_REPO=s3://abrepo-$DEPLOY_ENV-pg1-backups/    # DEPLOY_ENV arg passed by cron
 
 #
 # logical backup
 #
-SQL_FILENAME="abrepo-$DATEFILE.sql.gz"
-docker exec -t $CONTAINER sh -c "pg_dump -h pg1 -U postgres -w -Fp $PG_DB_NAME" | gzip > /tmp/$SQL_FILENAME
+SQL_FILENAME="abrepo-$DATEFILE.pgsql.gz"
+docker exec -t $CONTAINER sh -c "pg_dump -h pg1 -U postgres -w -Fc $PG_DB_NAME" | gzip > /tmp/$SQL_FILENAME
 
 #
 # basebackup
@@ -32,9 +34,9 @@ tar -zcvf /tmp/$BASEBACKUP_FILENAME /tmp/$PG_DB_NAME
 #
 # aws upload to s3
 #
-# aws separate output to DEPLOY_ENV bucket, arg passed by cron
-aws s3 cp /tmp/$SQL_FILENAME s3://ab-db-backups-$DEPLOY_ENV/
-aws s3 cp /tmp/$BASEBACKUP_FILENAME s3://ab-db-backups-$DEPLOY_ENV/
+aws s3 cp /tmp/$SQL_FILENAME $S3_BACKUP_REPO
+aws s3 cp /tmp/$BASEBACKUP_FILENAME $S3_BACKUP_REPO
 
 #cleanup
+rm /tmp/$SQL_FILENAME
 rm /tmp/$BASEBACKUP_FILENAME

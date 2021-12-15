@@ -39,7 +39,7 @@ services:
     environment:
       - PGBACKREST_REPO1_PATH=/mnt/pgbackrest
       - PGBACKREST_LOG_PATH=/mnt/pgbackrest
-      - PGBACKREST_REPO2_S3_BUCKET=abrepo-production-pgbackrest
+      - PGBACKREST_REPO2_S3_BUCKET=abrepo-production-pg1-pgbackrest
     deploy:
       replicas: 1
       placement:
