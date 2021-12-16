@@ -15,9 +15,13 @@ mkdir -p $DEFAULT_DIR
 mkdir -p $DEFAULT_DIR/db
 
 #build from app's local Dockerfile
-sudo `< .env` docker-compose build
+sudo `< .env` \
+     REMOTE_RELEASE_PATH=$REMOTE_RELEASE_PATH \
+     docker-compose build
 
-sudo `< .env` docker-compose push
+sudo `< .env` \
+     REMOTE_RELEASE_PATH=$REMOTE_RELEASE_PATH \
+     docker-compose push
 
 #build step, current artifact is just a stack.yml, but in future could be
 #a tarball, etc.

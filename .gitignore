@@ -2,5 +2,5 @@
 !.env.stub
 !.env.db.stub
 db/*
-!db/backup_pg_dump.sh
-!db/backup_pg_basebackup.sh
+!db/*.sh
+!db/*.conf
