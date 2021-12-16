@@ -35,8 +35,8 @@ services:
       - pg1data:/bitnami/postgresql
       - /mnt:/mnt   # pgbackrest backup directory (on instance)
       - /tmp:/tmpdb # exposed mount for scratch db/work output
-      - /root/releases/abrepo/db/pgbackrest.conf:/etc/pgbackrest.conf
-      - /root/releases/abrepo/db/postgresql_custom.conf:/opt/bitnami/postgresql/conf/conf.d/postgresql_custom.conf
+      - "${REMOTE_RELEASE_PATH}/db/pgbackrest.conf:/etc/pgbackrest.conf"
+      - "${REMOTE_RELEASE_PATH}/db/postgresql_custom.conf:/opt/bitnami/postgresql/conf/conf.d/postgresql_custom.conf"
 
     environment:
       - PGBACKREST_REPO1_PATH=/mnt/pgbackrest
