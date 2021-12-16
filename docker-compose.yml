@@ -36,6 +36,8 @@ services:
       - /mnt:/mnt   # pgbackrest backup directory (on instance)
       - /tmp:/tmpdb # exposed mount for scratch db/work output
       - /root/releases/abrepo/db/pgbackrest.conf:/etc/pgbackrest.conf
+      - /root/releases/abrepo/db/postgresql_custom.conf:/opt/bitnami/postgresql/conf/conf.d/postgresql_custom.conf
+
     environment:
       - PGBACKREST_REPO1_PATH=/mnt/pgbackrest
       - PGBACKREST_LOG_PATH=/mnt/pgbackrest

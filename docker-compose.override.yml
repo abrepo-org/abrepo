@@ -12,6 +12,7 @@ services:
     volumes:
       - ./db/postgres:/bitnami/postgresql
       - ./db/pgbackrest.conf:/etc/pgbackrest.conf
+      - ./db/postgresql_custom.conf:/opt/bitnami/postgresql/conf/conf.d/postgresql_custom.conf
       - ./db/archive.conf:/opt/bitnami/postgresql/conf/conf.d/archive.conf
     environment:
       - PGBACKREST_REPO1_PATH=/tmpdb/pgbackrest

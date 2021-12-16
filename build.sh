@@ -14,9 +14,9 @@ mkdir -p $DEFAULT_DIR
 mkdir -p $DEFAULT_DIR/db
 
 #build from app's local Dockerfile
-#sudo `< .env` docker-compose build
+sudo `< .env` docker-compose build
 
-#sudo `< .env` docker-compose push
+sudo `< .env` docker-compose push
 
 #build step, current artifact is just a stack.yml, but in future could be
 #a tarball, etc.
@@ -54,9 +54,7 @@ echo "copying database support files to $DEFAULT_DIR/"
 echo "";
 
 sudo cp ./db/*.sh $DEFAULT_DIR/      # typically backup scripts
-sudo cp ./db/archive.conf $DEFAULT_DIR/db/
-sudo cp ./db/pgbackrest.conf $DEFAULT_DIR/db/
-
+sudo cp ./db/*.conf $DEFAULT_DIR/db/ # any conf overrides
 #
 # If I want to add a different service configuration, build that into
 # a separate stack.yml, but try to consisently deploying from a single point
