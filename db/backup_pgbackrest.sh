@@ -4,7 +4,7 @@ set -x
 
 echo "pg_backrest backup: $(date)" >> /tmp/cron.txt
 
-PG_DB_NAME=prod
+PG_DB_NAME=abrepo_www_prod
 PG_SERVICE_NAME=pg1
 CONTAINER=$(docker ps --filter name=$PG_SERVICE_NAME -q)
 

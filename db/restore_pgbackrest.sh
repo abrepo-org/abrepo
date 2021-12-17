@@ -2,7 +2,7 @@
 
 echo "pg_backrest restore: $(date)" >> /tmp/cron.txt
 
-PG_DB_NAME=prod
+PG_DB_NAME=abrepo_www_prod
 PG_SERVICE_NAME=pg1
 STANZA='prod_db_stanza'
 

@@ -10,7 +10,7 @@ if [ -z ${DEPLOY_ENV} ]; then
     exit 1
 fi
 
-PG_DB_NAME=prod
+PG_DB_NAME=abrepo_www_prod
 PG_SERVICE_NAME=pg1
 CONTAINER=$(docker ps --filter name=$PG_SERVICE_NAME -q)
 DATEFILE=$(date +'%Y%m%d-%H-%M')

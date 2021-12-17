@@ -10,8 +10,8 @@ services:
       - .env.db
     environment:
       - POSTGRESQL_HOST=pg1  #required env variable for startup
-      - POSTGRESQL_DATABASE=prod
-      - PGBOUNCER_DATABASE=prod
+      - POSTGRESQL_DATABASE=abrepo_www_prod
+      - PGBOUNCER_DATABASE=abrepo_www_prod
       # NB: app connects to database 'postgres' - pgbouncer exposes a "view"
       # set in PGGBOUNER_DATABSE in app; in this case as 'prod'
     deploy:

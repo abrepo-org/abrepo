@@ -4,8 +4,8 @@ services:
 
   pgbouncer:
     environment:
-      - POSTGRESQL_DATABASE=dev
-      - PGBOUNCER_DATABASE=dev
+      - POSTGRESQL_DATABASE=abrepo_www_dev
+      - PGBOUNCER_DATABASE=abrepo_www_dev
 
   pg1:
     #chown -R 1001:1001 /db
