@@ -2,6 +2,7 @@ require_relative 'boot'
 
 #require 'rails/all'
 require "rails"
+require "action_cable/engine"
 
 # This list is here as documentation only - it's not used
 # NB: to enable active_storage: check env files (development.rb)

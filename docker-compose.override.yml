@@ -1,7 +1,26 @@
 #dev settings - stubs for now
 version: '3.4'
 services:
+
+  pgbouncer:
+    environment:
+      - POSTGRESQL_DATABASE=abrepo_www_dev
+      - PGBOUNCER_DATABASE=abrepo_www_dev
+
+  pg1:
+    #chown -R 1001:1001 /db
+    volumes:
+      - ./db/postgres:/bitnami/postgresql
+      - ./db/pgbackrest.conf:/etc/pgbackrest.conf
+      - ./db/postgresql_custom.conf:/opt/bitnami/postgresql/conf/conf.d/postgresql_custom.conf
+      - ./db/archive.conf:/opt/bitnami/postgresql/conf/conf.d/archive.conf
+    environment:
+      - PGBACKREST_REPO1_PATH=/tmpdb/pgbackrest
+      - PGBACKREST_LOG_PATH=/tmpdb/pgbackrest
+      - PGBACKREST_REPO2_S3_BUCKET=abrepo-dev-pg1-pgbackrest
+
   web:
+    build: ./app
     healthcheck:
       test: ""
     volumes:
@@ -12,41 +31,11 @@ services:
       - RAILS_ENV=development
       - APPLICATION_HOST=http://localhost
       - FILE_HOST=
-    labels:
-      - "traefik.enable=false"
-
-  db:
-    command:
-      - --log.level=DEBUG
-      - --api.insecure=true
-      - --api.dashboard=true
-      - --providers.docker=true
-      - --providers.docker.watch=true
-      - --entryPoints.db.address=:5432
-
-      # healthcheck port
-      - --ping.entryPoint=ping
-      - --entryPoints.ping.address=:8082
-
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.api.rule=Host(`traefik.localhost.com`)"
-      - "traefik.http.routers.api.service=api@internal"
-      - "traefik.http.services.api.loadbalancer.server.port=8080"
-
-  pg1:
-    #chown -R 1001:1001 /db
-    volumes:
-      - ./db/postgres:/bitnami/postgresql
-    #NB: Service level labels
-    labels:
-      - "traefik.enable=true"
-      - "traefik.tcp.routers.to-db.entrypoints=db"
-      - "traefik.tcp.routers.to-db.rule=HostSNI(`*`)"
-      - "traefik.tcp.routers.to-db.service=primary"
-      - "traefik.tcp.services.primary.loadbalancer.server.port=5432"
 
   nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
     volumes:
       - ./app/public:/app/public
       - /home/vergeman/dev/ab/screenshots:/app/public/screenshots
@@ -58,8 +47,6 @@ services:
 
 volumes:
   pg1data:
-    driver: local
-  pg2data:
     driver: local
   portainer_data:
     driver: local

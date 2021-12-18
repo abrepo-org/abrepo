@@ -106,15 +106,6 @@ bundle install
 
 ---
 
-Piecemeal runs:
-
-```
-sudo docker-compose -f replica-pg2.yml -f docker-compose.yml up
-
-sudo docker stack deploy -c replica-pg2.yml -c docker-compose.yml <stack name>
-
-```
-
 For shell, once off commands
 
 ```
@@ -170,9 +161,6 @@ mapping to default directory /var/lib/postgresql/data
 Typical check run via docker-compose. Operates in all env; dev, prod, etc:
 
 ```
-
-#traefik - needs an endpoint setup
-test: "wget -q -O- localhost:8082/ping || exit 1"
 
 #web, nginx
 healthcheck:
