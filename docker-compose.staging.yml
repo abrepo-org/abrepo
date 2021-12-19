@@ -19,3 +19,10 @@ services:
       # (don't want to backup) allows restore, safeguard inadvertent
       # back up from staging that overwrites prod s3 bucket.
       # /root/releases/abrepo/db/archive.conf:/opt/bitnami/postgresql/conf/conf.d/archive.conf
+
+  nginx:
+    ports:
+      - published: 80
+        target: 80
+        mode: host
+        # - "80:80"
