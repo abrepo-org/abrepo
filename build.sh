@@ -13,6 +13,8 @@ fi
 # builds release stack.yml
 mkdir -p $DEFAULT_DIR
 mkdir -p $DEFAULT_DIR/db
+mkdir -p $DEFAULT_DIR/nginx
+mkdir -p $DEFAULT_DIR/haproxy
 
 #build from app's local Dockerfile
 sudo `< .env` \
@@ -54,7 +56,7 @@ REMOTE_RELEASE_PATH=$REMOTE_RELEASE_PATH \
                    config > $DEFAULT_DIR/stack.yml
 
 #
-# Misc Scripts
+# Misc Scripts and Config Files
 #
 echo "";
 echo "copying database support files to $DEFAULT_DIR/"
@@ -62,6 +64,9 @@ echo "";
 
 cp ./db/*.sh $DEFAULT_DIR/      # typically backup scripts
 cp ./db/*.conf $DEFAULT_DIR/db/ # any conf overrides
+cp ./nginx/*.template $DEFAULT_DIR/nginx # nginx
+cp ./haproxy/*.cfg $DEFAULT_DIR/haproxy/ # haproxy
+
 #
 # If I want to add a different service configuration, build that into
 # a separate stack.yml, but try to consisently deploying from a single point
@@ -74,4 +79,7 @@ cp ./db/*.conf $DEFAULT_DIR/db/ # any conf overrides
 echo "";
 ls -g $DEFAULT_DIR
 ls -g $DEFAULT_DIR/db
+ls -g $DEFAULT_DIR/nginx
+ls -g $DEFAULT_DIR/haproxy
+
 echo "";
