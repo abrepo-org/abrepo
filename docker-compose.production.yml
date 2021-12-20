@@ -24,4 +24,3 @@ services:
       - published: 80
         target: 80
         mode: host
-      # - "80:80"
