@@ -42,6 +42,56 @@ rake db:seed
 
 Now `sudo docker-compose up` should work
 
+---
+
+## Ports: Haproxy, Nginx, Rails
+
+
+### Haproxy
+
+Haproxy is designed to be single load balancer on its own instance;
+serves as single ingress point to direct requests to `nginx` services.
+
+
+#### Confguration Ports
+
+* Config: `haproxy/haproxy.cfg` and `haproxy/haproxy-dev.cfg`
+* Haproxy **cannot** directly bind to port `80`, so it's bound and set
+  to listen on port `8888`. Effectively haproxy is an internal
+  redirect port forwarding from `frontend` ingress `8888` -> `backend`
+  egress `8080`.
+* **Docker Swarm** config is bound and listens on 80, and targets (out) port 8888
+  (haproxy frontend) -> . . . which sends to 8080 (nginx backend)
+* Backend is directed to `nginx` service; ports vary depending on
+  environment
+
+
+### Nginx
+
+Nginx is our web server; port is dynamically configured (internal
+script) via `NGINX_PORT` environmental variable, which uses `envsubst`
+to rewrite the `nginx.conf.template` and output a populated
+`default.conf` file within the container on startup.
+
+* `nginx/nginx_conf.template`
+* dev env: listens port 8080
+* prod env: listens port 80
+
+**Production**: `nginx` is set to `host` mode and `port 80` (dev is
+set to 8080.)
+
+`host` mode means only one instance of `nginx` container runs per
+node; port reserved solely for nginx. This is done for our dynamic
+scaling configuration:
+
+* Minimal config: DO exposed fixed IP -> nginx:80
+* Scaled config:  DO exposed fixed IP -> Haproxy:80 -> nginx_{1|2|3}:80
+
+We toggle fixed ip to either haproxy or nginx, depending how many app
+servers we want. The world only sees the fixed ip.
+
+
+
 
 ## Dev: ECR Pull Image and Build (setup for Docker Push)
 

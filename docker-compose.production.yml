@@ -18,3 +18,9 @@ services:
     volumes:
       # ENABLE ARCHIVE MODE IN PRODUCTION (class) DEPLOY_ENV
       - "${REMOTE_RELEASE_PATH}/db/archive.conf:/opt/bitnami/postgresql/conf/conf.d/archive.conf"
+
+  nginx:
+    ports:
+      - published: 80
+        target: 80
+        mode: host
