@@ -106,7 +106,7 @@ services:
       - published: 80
         target: 8888
         mode: host
-      # - "80:8888"
+
     volumes:
       - "${REMOTE_RELEASE_PATH}/haproxy/haproxy.cfg:/bitnami/haproxy/conf/haproxy.cfg"
     deploy:
