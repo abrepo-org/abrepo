@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 # NB: need to disable interactive terminal (-i) in docker exec when run by cron
+#
+# This is now incorporated into backup_pgbackrest.sh - will run before
+# each backup
+#
 set -x
 
 echo "pg_backrest create stanza: $(date)" >> /tmp/cron.txt
