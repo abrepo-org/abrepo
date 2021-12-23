@@ -1,4 +1,4 @@
-FROM nginx
+FROM nginx:stable
 COPY --from=424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abrepo:latest /app/public/ /app/public/
 
 # Toggled via environmental variable (image envstub)
