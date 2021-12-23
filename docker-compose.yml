@@ -99,7 +99,7 @@ services:
           #- node.role == manager
 
   haproxy:
-    image: "bitnami/haproxy:1.21.4"
+    image: "bitnami/haproxy:2.5.0"
     depends_on:
       - nginx
     ports:
