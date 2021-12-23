@@ -24,3 +24,15 @@ operations to pull container ids.
   * `./restore_pgbackrest_2.sh`: starts pg container with `run.sh`
     that preserves `recovery.signal`. Cntrl-C out of db.
   * `./restore_pgbackrest)3.sh`: cleans up and restarts service
+
+## Switching Repo
+
+Sometimes want to pull from prod to local dev
+
+1. Comment out `./archive.conf`, `./run.sh`
+2. Restore
+3. mount to `./run.sh` to enable restore
+4. export PGBACKREST_REPO2_S3_BUCKET=abrepo-dev-pg1-pgbackrest
+5. create stanza, then exit
+6. recomment ./run.sh and restart pg1
+7. should be set to fresh backup to -dev bucket
