@@ -2,13 +2,14 @@
 REMOTE_RELEASE_PATH=/root/releases/abrepo/       # host path (for stack.yml mounts)
 DEFAULT_DIR=~/dev/ab/abrepo_ops/releases/abrepo  # local release directory (ansible input)
 
-DEPLOY_ENV="$@"
+DEPLOY_ENV=$1
+GIT_COMMIT=$2
+
 if [ -z ${DEPLOY_ENV} ]; then
     echo "required deploy environment: [staging | production]"
     echo "e.g. './build.sh staging'"
     exit 1;
 fi
-
 
 # builds release stack.yml
 mkdir -p $DEFAULT_DIR
@@ -16,13 +17,33 @@ mkdir -p $DEFAULT_DIR/db
 mkdir -p $DEFAULT_DIR/nginx
 mkdir -p $DEFAULT_DIR/haproxy
 
-#build from app's local Dockerfile
+#
+# DOCKER BUILD
+# build from app's local Dockerfile
+#
+
+# run git cmd below to tag docker images with git commit
+# GIT_COMMIT=$(git log -1 --format=%h)
+if [ -z ${GIT_COMMIT} ]; then
+    GIT_COMMIT="latest"
+else
+    if git checkout $GIT_COMMIT; then
+        echo "checked out $GIT_COMMIT"
+    else
+        echo "exiting: error checking out $GIT_COMMIT"
+        exit 1
+    fi
+fi
+
+
 sudo `< .env` \
      REMOTE_RELEASE_PATH=$REMOTE_RELEASE_PATH \
+     GIT_COMMIT=$GIT_COMMIT \
      docker-compose build
 
 sudo `< .env` \
      REMOTE_RELEASE_PATH=$REMOTE_RELEASE_PATH \
+     GIT_COMMIT=$GIT_COMMIT \
      docker-compose push
 
 #build step, current artifact is just a stack.yml, but in future could be
@@ -52,7 +73,8 @@ touch "$DEFAULT_DIR/.$DEPLOY_ENV"
 # combing docker-compose.staging.yml or docker-compose.production.yml
 #
 REMOTE_RELEASE_PATH=$REMOTE_RELEASE_PATH \
-                   docker-compose -f docker-compose.yml -f docker-compose.$DEPLOY_ENV.yml \
+GIT_COMMIT=$GIT_COMMIT \
+docker-compose -f docker-compose.yml -f docker-compose.$DEPLOY_ENV.yml \
                    config > $DEFAULT_DIR/stack.yml
 
 #

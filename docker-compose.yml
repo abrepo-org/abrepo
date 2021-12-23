@@ -50,7 +50,7 @@ services:
         - node.labels.instance == db1
 
   web:
-    image: '424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abrepo:latest'
+    image: "424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abrepo:${GIT_COMMIT-latest}"
     env_file:
       - .env
     command: bash -c "rm -f tmp/pids/server.pid && rake tmp:cache:clear && bundle exec rails s -p 8081 -b '0.0.0.0'"
@@ -73,7 +73,7 @@ services:
           #- node.role == manager
 
   nginx:
-    image: '424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abnginx:latest'
+    image: '424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abnginx:${GIT_COMMIT-latest}'
     # healthcheck:
     #   test: ["CMD-SHELL",
     #   "curl -o /dev/null -I -f -s -w %{http_code} http://localhost:80/healthcheck || exit 1"]
