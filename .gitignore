@@ -2,5 +2,6 @@
 !.env.stub
 !.env.db.stub
 db/*
+!db/*.md
 !db/*.sh
 !db/*.conf
