@@ -82,7 +82,7 @@ class StripeController < ApplicationController
 
     # needs to be a full URL
     return_url = [
-      ENV['APPLICATION_HOST'],
+      ENV['STRIPE_REDIRECT_HOST'],
       edit_user_registration_path
     ].join
 
