@@ -30,7 +30,7 @@ services:
       - ./app:/app
     environment:
       - RAILS_ENV=development
-      - APPLICATION_HOST=http://localhost
+      - STRIPE_REDIRECT_HOST=http://localhost
       - FILE_HOST=
 
   nginx:
