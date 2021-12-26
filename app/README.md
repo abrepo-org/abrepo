@@ -1,5 +1,23 @@
 # README
 
+## Transaction Email
+
+[Complete AWS SES Gist](https://gist.github.com/vergeman/653c806194c4b2c4ec37bf4a578b30b6)
+
+* `dev` environment app email is `test@abrepo.com`
+* `production` app email is `abrepo@abrepo.com`
+* IAM policies are set in us-east-2 to disallow emails sent by
+  `test@abrepo.com` to anywhere except `test+N@abrepo.com` to preserve
+  reputation / bounce.
+* No restrictions for prod sending (so can poison) - still in sandbox
+  mode, awaiting approval.
+* Devise Action Mailer errors are raises but quietly caught in
+  ApplicationMailer so they don't crash the request (like dev mode setting ->
+  `config.action_mailer.raise_delivery_errors = false`)
+* Basically want to attempt transactional emails, but quietly catch
+  errors to log them vs errors taking down the entire request.
+
+
 
 ## Notes
 
