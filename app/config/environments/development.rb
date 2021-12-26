@@ -30,8 +30,10 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options)
   # config.active_storage.service = :local
 
-  # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+
+  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
+  # Set to false to ignore delivery errors
+  config.action_mailer.raise_delivery_errors = true
 
   config.action_mailer.perform_caching = false
 
@@ -59,5 +61,4 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  config.action_mailer.default_url_options = { host: ENV['APPLICATION_HOST'], port: 80 }
 end

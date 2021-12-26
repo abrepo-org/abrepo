@@ -60,5 +60,20 @@ module App
     # session[:num_visits_variation_show]
 
     config.max_visits_variation_show = 7
+
+    #
+    # MAIL
+    #
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.default_url_options = { host: ENV['STRIPE_REDIRECT_HOST'] }
+    config.action_mailer.smtp_settings = {
+      port: 587,
+      address: ENV['AWS_SMTP_ADDRESS'],
+      user_name: ENV['AWS_SMTP_USERNAME'],
+      password: ENV['AWS_SMTP_PASSWORD'],
+      authentication: :plain,
+      enable_starttls_auto: true
+    }
+
   end
 end
