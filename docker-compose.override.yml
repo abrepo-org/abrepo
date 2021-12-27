@@ -28,11 +28,9 @@ services:
       # NB: this will require gem install, webpacker build, db perms
       # for dev environment (since it overrides)
       - ./app:/app
-    environment:
-      - RAILS_ENV=development
-      - STRIPE_REDIRECT_HOST=http://localhost
-      - SMTP_SENDER_EMAIL=test@abrepo.com
-      - FILE_HOST=
+    env_file:
+      - .env.dev
+
 
   nginx:
     build:
