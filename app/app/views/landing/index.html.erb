@@ -13,6 +13,16 @@
 
             <div class="hero-body">
 
+                <% if !flash.empty? %>
+                    <div id="landing-flash" class="container">
+                        <div class="columns is-mobile">
+                            <div class="column is-full">
+                                <%= render partial: "layouts/flash" %>
+                            </div>
+                        </div>
+                    </div>
+                <% end  %>
+
                 <div class="container">
 
                     <div class="columns reverse-columns-tablet is-vcentered">
