@@ -68,8 +68,9 @@
 
                     <section class="section is-fullheight" >
 
-                        <% if controller.controller_name == "variations" &&
-                            controller.action_name == "show" %>
+                        <% if (controller.controller_name == "variations" &&
+                               controller.action_name == "show") ||
+                               (controller.controller_name == "errors") %>
                             <!-- variation#show 'Diff' App: full width -->
                             <div class="container is-fluid px-1">
                                 <div class="columns is-mobile">
