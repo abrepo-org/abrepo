@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
 
+  # toggle to send all requests except landing to maintenance.html
+  # see #landing#index
+  # get '*path' => redirect('/maintenance.html')
+  #
+
   devise_scope :user do
 
     get "/checkout/account/(:lookup_key)", action: :account, controller: 'checkout',
