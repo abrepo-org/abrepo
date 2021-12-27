@@ -6,7 +6,8 @@ Rails.application.routes.draw do
   #
 
   # exceptions
-  %w( 404 422 ).each do |code|
+  # 500 can't direct to static file since handled by router
+  %w( 404 422 500 ).each do |code|
     get code, action: "show", controller: "errors", :code => code
   end  
 
