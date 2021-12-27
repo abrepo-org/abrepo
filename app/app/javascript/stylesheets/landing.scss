@@ -10,6 +10,17 @@ section.section.section-landing {
   font-weight:900;
 }
 
+#landing-flash {
+  margin-top:-7rem;
+  margin-bottom: 1.5rem;
+
+  //mobile
+  @include until($tablet) {
+    margin-top:0rem;
+    margin-bottom:.5rem;
+  }
+}
+
 //has-background-white-ter good
 .has-background-dark-blue {
   background: #0a2540;
