@@ -45,6 +45,8 @@ module App
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
+    config.exceptions_app = self.routes
+
     config.app_title = "ABREPO"
 
     # number of records / elements in a collection fully visible

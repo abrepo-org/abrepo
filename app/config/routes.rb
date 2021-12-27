@@ -1,5 +1,16 @@
 Rails.application.routes.draw do
 
+  # toggle to send all requests except landing
+  # see #landing#index
+  # get '*path', action: 'maintenance', controller: 'errors'
+  #
+
+  # exceptions
+  # 500 can't direct to static file since handled by router
+  %w( 404 422 500 ).each do |code|
+    get code, action: "show", controller: "errors", :code => code
+  end  
+
   devise_scope :user do
 
     get "/checkout/account/(:lookup_key)", action: :account, controller: 'checkout',
