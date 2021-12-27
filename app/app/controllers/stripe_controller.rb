@@ -41,7 +41,7 @@ class StripeController < ApplicationController
 
     end
 
-    flash[:notice] = "Your subscription is enabled. Thank you!."
+    flash[:notice] = "Your subscription is enabled. Thank you!"
     redirect_to home_path
 
   end
