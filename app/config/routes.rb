@@ -1,9 +1,14 @@
 Rails.application.routes.draw do
 
-  # toggle to send all requests except landing to maintenance.html
+  # toggle to send all requests except landing
   # see #landing#index
-  # get '*path' => redirect('/maintenance.html')
+  # get '*path', action: 'maintenance', controller: 'errors'
   #
+
+  # exceptions
+  %w( 404 422 ).each do |code|
+    get code, action: "show", controller: "errors", :code => code
+  end  
 
   devise_scope :user do
 
