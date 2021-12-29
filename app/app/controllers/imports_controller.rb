@@ -36,8 +36,10 @@ class ImportsController < ApplicationController
     related_companies = group['profile']['related_companies']
     related_companies.each do | related_company |
 
-      related = Profile.find_or_initialize_by(domain: related_company['domain'],
-                                              a_id: related_company['_id'])
+      # TODO: issue is could have same domain for different companies
+      # e.g. 10 years later.
+
+      related = Profile.find_or_initialize_by(domain: related_company['domain'])
       related.company_name = related_company['company_name']
 
       unless related.id
