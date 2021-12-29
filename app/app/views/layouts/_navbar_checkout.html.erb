@@ -3,7 +3,7 @@
         <div class="navbar-brand">
             <a class="navbar-item navbar-logo"
                href="<%= user_signed_in? && current_user.subscribed? ? home_path : root_path  %>">
-                ABREPO
+              <%= Rails.application.config.app_title %>
             </a>
         </div>
     </div>

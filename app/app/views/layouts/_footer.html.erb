@@ -8,7 +8,7 @@
                 <div class="navbar-brand is-fullwidth-mobile is-justify-content-center">
                     <a class="navbar-item navbar-logo has-text-link-light"
                        href="<%= home_path %>">
-                        ABREPO
+                      <%= Rails.application.config.app_title %>
                     </a>
                 </div>
 
@@ -29,7 +29,9 @@
 
 
                 <div style="margin-left:auto; padding-right:.75rem;">
-                    &copy; 2021 <span class="abrepo">ABREPO</span>.
+                    &copy; 2021 <span class="abrepo">
+                    <%= Rails.application.config.app_title %>
+                    </span>.
                 </div>
 
             </div>

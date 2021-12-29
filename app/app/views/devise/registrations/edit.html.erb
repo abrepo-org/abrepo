@@ -144,7 +144,7 @@
                     registration_path(resource_name),
                     class: 'button',
                     form: { "id" => "cancel-account" },
-                    data: { confirm: "Are you sure? This will destroy your ABREPO account!" },
+                    data: { confirm: "Are you sure? This will destroy your #{Rails.application.config.app_title} account!" },
                     method: :delete %>
             </div>
         <% else %>

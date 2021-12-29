@@ -47,7 +47,7 @@ module App
 
     config.exceptions_app = self.routes
 
-    config.app_title = "ABREPO"
+    config.app_title = "ABrepo"
 
     # number of records / elements in a collection fully visible
     # before obfuscation. Records beyond first page are
