@@ -5,7 +5,7 @@
 <p>
     Under the Digital Millennium Copyright Act (17 U.S.C. § 512), you
     have the right to notify us if you believe there is content on
-    ABREPO infringing on your work(s) as
+    <%= Rails.application.config.app_title %> infringing on your work(s) as
     copyright owner. To be effective, the notification of claimed
     infringement must be written. Please include the following
     information:
@@ -62,8 +62,9 @@
         A description of the material that was removed.
     </li>
     <li>
-        A description of where the material appeared in ABREPO
-        products prior to their removal.
+      A description of where the material appeared in
+      <%= Rails.application.config.app_title %> products prior to
+      their removal.
     </li>
     <li>
         Your name and contact information so that we can get back to
@@ -91,5 +92,5 @@
 <h4>Where to Send Notices</h4>
 <p>
     You can notify us of either copyright infringement claims or DCMA
-    counter-notifications through email: <%= mail_to "report@abrepo.com" %>
+    counter-notifications through email: <%= mail_to "dmca@abrepo.com" %>
 </p>
