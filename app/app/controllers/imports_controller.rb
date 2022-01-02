@@ -42,7 +42,7 @@ class ImportsController < ApplicationController
       related = Profile.find_or_initialize_by(domain: related_company['domain'])
       related.company_name = related_company['company_name']
 
-      unless related.id
+      if (!related.id.nil? && !@profile.related_companies.include?(related))
         @profile.related_companies.push(related)
       end
 
@@ -209,7 +209,7 @@ class ImportsController < ApplicationController
     # update Experiment calcscore with avg Diff counts
     score = @experiment.score
     @experiment.update(calcscore: score)
-    
+
     render json: {"success": true, "diffs": diffs}
   end
 
