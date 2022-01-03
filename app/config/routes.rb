@@ -4,12 +4,13 @@ Rails.application.routes.draw do
   # see #landing#index
   # get '*path', action: 'maintenance', controller: 'errors'
   #
+  get '*path', action: 'redirect', controller: 'landing'
 
   # exceptions
   # 500 can't direct to static file since handled by router
   %w( 404 422 500 ).each do |code|
     get code, action: "show", controller: "errors", :code => code
-  end  
+  end
 
   devise_scope :user do
 
