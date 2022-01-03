@@ -84,6 +84,13 @@ tr.expvar-root-border {
   }
 }
 
+.expvar-date {
+  @include from ($desktop) {
+    min-width: 7rem;
+    text-align: right;
+  }
+}
+
 /* ICONS */
 
 /* dropdown name toggle icon min-width (prevent minor size adjust
