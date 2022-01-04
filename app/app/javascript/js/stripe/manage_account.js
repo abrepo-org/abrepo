@@ -1,12 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     const $manageAcct = document.querySelector('#manageAccount');
+    const $err = document.querySelector('#manageAccount-err');
 
     if (!$manageAcct) return;
 
     $manageAcct.addEventListener('click', function(e) {
+
         e.preventDefault();
+
         const token = e.target.getAttribute('token');
+
+        //clear err
+        $err.innerHTML = '';
 
         fetch('/customer-portal', {
             method: 'POST',
@@ -21,6 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
           })
           .catch((error) => {
               console.error('Error:', error);
+
+              //append error message
+              $err.innerHTML = "There was an error loading your account information.";
           });
 
     });

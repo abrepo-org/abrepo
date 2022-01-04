@@ -57,7 +57,7 @@ services:
     healthcheck:
       test: ["CMD-SHELL",
       "curl -o /dev/null -I -f -s -w %{http_code} http://127.0.0.1:8081/healthcheck || exit 1"]
-      interval: 5s
+      interval: 60s
       start_period: 15s
       timeout: 5s
       retries: 10

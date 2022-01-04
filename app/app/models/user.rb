@@ -32,7 +32,7 @@
 #  index_users_on_unlock_token          (unlock_token) UNIQUE
 #
 class User < ApplicationRecord
-  has_many :subscriptions
+  has_many :subscriptions, dependent: :destroy
   has_many :user_saved_variations, dependent: :destroy
   has_many :variations, through: :user_saved_variations
 
