@@ -69,6 +69,11 @@ class ProfilesController < ApplicationController
                                ])
                      .order(created_at: :desc)
 
+    @num_variations  = []
+    @tag_counts = []
+    @featured_experiments = []
+    @user_saved_variations = []
+
     if (@experiments.length > 0)
 
       @num_variations = policy_scope(Variation)
