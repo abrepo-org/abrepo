@@ -94,6 +94,11 @@ new prices on change (so old subscriptions don't suddenly have new pricing.)
 * Make sure to setup Customer Portal (see below) for
   `/users/:id/edit/` to manage account.
 
+When moving Product / Price to live mode; `lookup_key` is **not**
+transferred, and need to be updated with CLI with keys in staging /
+prod environment.
+
+
 #### Checkout
 
 Purchase Flow:
@@ -137,7 +142,9 @@ be changed (id -> price is set) - you need to create a new price
 object (e.g. imagine current users suddenly having their subscription
 changed.), and then transfer lookup key to keep application in sync.
 
-
+* This param doesn't transfer from test - needs to be reset via Stripe
+  CLI. Make sure to look at --live examples below, using a
+  permissioned `api_key`
 
 
 ---
@@ -194,6 +201,30 @@ stripe prices list -d lookup_keys[]="basic-monthly"
 stripe prices update <price_id> \
     -d lookup_key="basic-monthly" \
     -d transfer_lookup_key=true
+
+# LIVE MODE
+# required params
+# --live -p=abrepo --api-key=<key>
+#
+# API KEY needs to have core WRITE permissions enabled to make changes
+# go to api key -> edit, set core to WRITE.
+# might have to try this a few times. Should look active (not disabled)
+#
+# should NOT need to login for live
+# stripe login will result in 'default' project with test keys that don't match
+# project.
+
+# get a price in LIVE mode (default is test)
+# use the --live param
+stripe get <price_id123> --live -p=abrepo
+
+# update lookup_key that don't follow when transferring from test mode
+stripe prices update <price_id> \
+    -d lookup_key="basic-monthly" \
+    -d transfer_lookup_key=true \
+    --live
+    --api-key=<id>
+
 
 ```
 
