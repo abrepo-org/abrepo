@@ -178,3 +178,38 @@ commentary = false
  window.abrepo.user_signed_in = <%= user_signed_in? %>
  <% end %>
 </script>
+
+
+
+<% if user_signed_in? && current_user.moderator? %>
+    <!-- turn off publish -->
+    <hr/>
+    <div style="width:100px;">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ExpVar</th>
+                    <th>Published</th>
+                    <th>Submit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%= form_for @experiment do |f| %>
+                    <tr>
+                        <td>Exp</td>
+                        <td><%= f.check_box :published, class: "mr-4" %></td>
+                        <td><%= f.submit "update", class: "button is-small" %></td>
+                    </tr>
+                <% end  %>
+                <%= form_for @variation do |f| %>
+                    <tr>
+                        <td>Var</td>
+                        <td><%= f.check_box :published, class: "mr-4" %></td>
+                        <td><%= f.submit "update", class: "button is-small" %></td>
+                    </tr>
+                <% end  %>
+            </tbody>
+        </table>
+    </div>
+<% end %>

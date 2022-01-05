@@ -332,6 +332,18 @@ Can cause problems in helpers.
     presence follows renderable)
 
 
+#### Submission
+
+* Visit `/imports` as user `importer` to see queue of submitted
+  ExpVars that require review.
+
+* Update changes, and resubmit from ABAnno as often as needed. Set to overwrite.
+
+* On submit the ExpVar is set to `published:true` and becomes visible
+  to public.
+
+* Note `Experiment` and `Variation` are independently toggled.
+
 
 ### Users
 
