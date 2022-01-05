@@ -1,5 +1,13 @@
 module ExpvarHelper
 
+  # for moderator only, label Pub: true/false if published
+  def is_published?(expvar)
+    if user_signed_in? && current_user.moderator?
+      klass = expvar.published ? "is-size-7" : "is-size-7 has-text-danger"
+      return "<span class='#{klass}'>[Pub: #{expvar.published?}]</span>".html_safe
+    end
+  end
+
   def obfuscate_link_to(obfuscated, path, &block)
     path = "#" if obfuscated
     link_to(path, class: obfuscated ? "obfuscated-link" : "" ) do

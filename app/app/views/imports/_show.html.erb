@@ -20,7 +20,7 @@
             <td width="66%">
                 <h5>
                     <%= experiment.summary_name || "Experiment Name: Unnamed" %>
-                    [Pub: <%= experiment.published? %>]
+                    <%= is_published?(experiment) %>
                 </h5>
             </td>
 
@@ -64,7 +64,7 @@
                         <td width="33%">
                             <%= link_to variation_path(variation) do %>
                                 <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
-                                [Pub: <%= variation.published? %>]
+                                <%= is_published?(variation) %>
                             <% end %>
                         </td>
 
