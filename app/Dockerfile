@@ -3,7 +3,7 @@ FROM ruby:2.7.2
 #stripe CLI
 RUN curl -sL https://github.com/stripe/stripe-cli/releases/download/v1.7.8/stripe_1.7.8_linux_x86_64.tar.gz | tar -xz -C /usr/bin
 
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client sqlite3 libsqlite3-dev
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client sqlite3 libsqlite3-dev nano
 RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash -
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list

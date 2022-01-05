@@ -1,4 +1,5 @@
 FROM nginx:stable
+RUN apt-get update && apt-get install -y nano
 COPY --from=424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abrepo:latest /app/public/ /app/public/
 
 # Toggled via environmental variable (image envstub)
