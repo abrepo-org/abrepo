@@ -1,24 +1,45 @@
-<div class="experiment is-flex is-justify-content-space-between">
-    <div class="experiment-header">
-        <h5>
-            <%= experiment.summary_name || "Experiment Name: Unnamed" %>
-            [Pub: <%= experiment.published? %>]
-        </h5>
-        <div>
-            <span> <%= experiment.profile.domain %>
-        </div>
-    </div>
-    <div>
-        <%= form_for experiment do |f| %>
-            <td>
-                <%= f.check_box :published, class: "mr-4" %>
+<!-- Domain -->
+<strong>
+    <%= experiment.profile.domain %>
+</strong>
+
+
+<table class="is-table is-fullwidth fixed mb-0">
+    <thead class="variation-row-header">
+        <tr>
+            <th>Experiment Name </th>
+            <th>Updated</th>
+            <th>Published</th>
+            <th>Submit</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <!-- Experiment Name -->
+            <td width="66%">
+                <h5>
+                    <%= experiment.summary_name || "Experiment Name: Unnamed" %>
+                    <%= is_published?(experiment) %>
+                </h5>
             </td>
+
             <td>
-                <%= f.submit "update Exp" %>
+                <%= experiment.updated_at.strftime("%b %e, '%y") %>
             </td>
-        <% end  %>
-    </div>
-</div>
+
+            <%= form_for experiment do |f| %>
+                <td>
+                    <%= f.check_box :published, class: "mr-4" %>
+                </td>
+                <td>
+                    <%= f.submit "update", class: "button is-small" %>
+                </td>
+            <% end  %>
+        </tr>
+
+    </tbody>
+</table>
 
 
 <% if experiment.variations.where(published: false).length > 0 %>
@@ -40,15 +61,15 @@
                 <% experiment.variations.where(published: false).each_with_index do |variation, index| %>
                     <tr class="variation-row-data">
                         <!-- Summary Name -->
-                        <td>
+                        <td width="33%">
                             <%= link_to variation_path(variation) do %>
                                 <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
-                                [Pub: <%= variation.published? %>]
+                                <%= is_published?(variation) %>
                             <% end %>
                         </td>
 
                         <!--  URL -->
-                        <td class="is-hidden-mobile">
+                        <td width="33%" class="is-hidden-mobile">
                             <%= variation.renderables.where(control:false).first ?
                             variation.renderables.where(control:false).first.renderedURL : '' %>
                         </td>
@@ -63,7 +84,7 @@
                                 <%= f.check_box :published %>
                             </td>
                             <td>
-                                <%= f.submit "update Var" %>
+                                <%= f.submit "update", class: "button is-small" %>
                             </td>
                         <% end  %>
                     </tr>

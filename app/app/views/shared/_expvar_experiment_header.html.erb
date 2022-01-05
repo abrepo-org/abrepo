@@ -10,7 +10,7 @@
                 <h4 class="mb-2">
                     <%= link_to "#exp#{experiment.id}" do %>
                         <%= experiment.summary_name || "Experiment Name: Unnamed" %>
-                        [Pub: <%= experiment.published? %>]
+                        <%= is_published?(experiment) %>
                     <% end %>
                 </h4>
 
