@@ -116,6 +116,8 @@ services:
     volumes:
       - "${REMOTE_RELEASE_PATH}/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
       - "${REMOTE_RELEASE_PATH}/certbot/:/etc/letsencrypt/live/abrepo.com/"
+    ports:
+      - "8404:8404"
     deploy:
       replicas: 1
       restart_policy:
