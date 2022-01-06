@@ -16,6 +16,7 @@ mkdir -p $DEFAULT_DIR
 mkdir -p $DEFAULT_DIR/db
 mkdir -p $DEFAULT_DIR/nginx
 mkdir -p $DEFAULT_DIR/haproxy
+mkdir -p $DEFAULT_DIR/certbot
 
 #
 # DOCKER BUILD
@@ -88,6 +89,8 @@ cp ./db/*.sh $DEFAULT_DIR/      # typically backup scripts
 cp ./db/*.conf $DEFAULT_DIR/db/ # any conf overrides
 cp ./nginx/*.template $DEFAULT_DIR/nginx # nginx
 cp ./haproxy/*.cfg $DEFAULT_DIR/haproxy/ # haproxy
+sudo cp ./certbot/letsencrypt/live/abrepo.com/fullchain.pem $DEFAULT_DIR/certbot/ #certs
+sudo cp ./certbot/letsencrypt/live/abrepo.com/privkey.pem $DEFAULT_DIR/certbot/ #certs
 
 #
 # If I want to add a different service configuration, build that into
