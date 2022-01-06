@@ -27,3 +27,9 @@ services:
       - published: 443
         target: 443
         mode: host
+
+  haproxy:
+    ports:
+      - published: 443
+        target: 8888
+        mode: host
