@@ -46,46 +46,101 @@ Now `sudo docker-compose up` should work
 
 ## Ports: Haproxy, Nginx, Rails
 
+### General Arch
 
-### Haproxy
-
-Haproxy is designed to be single load balancer on its own instance;
-serves as single ingress point to direct requests to `nginx` services.
+* `www.abrepo.com` -> Cloudflare DNS points to floating ip.
+* Cloudflare handles always-ssl automatic redirect from http -> https.
+* DO has floating ip that we manually toggle between `app1` - nginx
+  only, minimal config, and `lb1` - haproxy instance, when multiple
+  backend nginx nodes needed.
+* Both `nginx` and `haproxy` listen to port 443.
+* Publicly visiting machine ip directly on port 80 is firewalled.
+* `nginx` does expose port 80 internally, to receive haproxy
+  requests. Port 80 is not exposed publicly.
 
 
 #### Confguration Ports
 
-* Config: `haproxy/haproxy.cfg` and `haproxy/haproxy-dev.cfg`
-* Haproxy **cannot** directly bind to port `80`, so it's bound and set
-  to listen on port `8888`. Effectively haproxy is an internal
-  redirect port forwarding from `frontend` ingress `8888` -> `backend`
-  egress `8080`.
-* **Docker Swarm** config is bound and listens on 80, and targets (out) port 8888
-  (haproxy frontend) -> . . . which sends to 8080 (nginx backend)
-* Backend is directed to `nginx` service; ports vary depending on
-  environment
+* Config files: `haproxy/haproxy.cfg` and `haproxy/haproxy-dev.cfg`
+* **Docker Swarm** config listens on 443, and targets (out) port 8888.
+* Haproxy (haproxy frontend) listens on 8888 -> and sends to 8080
+  (nginx backend)
+* Haproxy **cannot** directly bind to port `443` (conflict), so it's
+  bound and set to listen on port `8888`. Effectively haproxy is an
+  internal redirect, terminating ssl and round-robin port-forwarding
+  from `frontend` ingress `8888` -> `backend` egress `8080` to `nginx`.
+* Backend is directed to `nginx` service on port `8080`.
+
+Nginx dev is on port 8080 to keep 80 open for swarm on localhost.
+
+Nginx prod is on port 8080 as expected, swarm bound on 443 https.
+
+#### Dev Ports
+
+no ssl
+
+visit http://localhost:80
+
+| service      | ports     |
+| -------      | ----------|
+| docker swarm | 80:8888   |
+| haproxy      | 8888:8080 |
+| nginx        | 8080:8081 |
+| rails        | 8081      |
+
+
+#### Staging and Production Ports
+
+##### NO Load Balancer: Fixed IP -> NGINX
+
+Visit https://www.abrepo.com
+
+| service      | ports     |
+| -------      | ----------|
+| docker swarm | 443:443   |
+| nginx        | 443:8081 |
+| rails        | 8081      |
+
+##### Load Balancer: Fixed IP -> HAPROXY
+
+Visit https://www.abrepo.com
+
+| service      | ports     |
+| -------      | ----------|
+| docker swarm | 443:8888   |
+| haproxy      | 8888:8080 |
+| nginx        | 8080:8081 |
+| rails        | 8081      |
+
+
+### Haproxy
+
+Haproxy is designed to be single load balancer on its own host
+instance; serves as single ingress point to direct requests to `nginx`
+services.
+
+Needed to round robin once there are multiple app instances. Lives on
+its own instance (lb).
 
 
 ### Nginx
 
 Nginx is our web server; port is dynamically configured (internal
-script) via `NGINX_PORT` environmental variable, which uses `envsubst`
-to rewrite the `nginx.conf.template` and output a populated
+script) via `NGINX_PORT` environmental variable, which internally uses
+`envsubst` to rewrite the `nginx.conf.template` and output a populated
 `default.conf` file within the container on startup.
 
 * `nginx/nginx_conf.template`
-* dev env: listens port 8080
-* prod env: listens port 80
-
-**Production**: `nginx` is set to `host` mode and `port 80` (dev is
-set to 8080.)
+* dev env: listens http port 8080
+* prod env: set to host mode, listens ssl port 443, internal http port
+  8080
 
 `host` mode means only one instance of `nginx` container runs per
 node; port reserved solely for nginx. This is done for our dynamic
-scaling configuration:
+scaling configuration with lb:
 
-* Minimal config: DO exposed fixed IP -> nginx:80
-* Scaled config:  DO exposed fixed IP -> Haproxy:80 -> nginx_{1|2|3}:80
+* Minimal config: DO exposed fixed IP -> 443: 443: nginx -> rails
+* Scaled config:  DO exposed fixed IP -> 443: 8888:Haproxy -> nginx_{1|2|3}:8080
 
 We toggle fixed ip to either haproxy or nginx, depending how many app
 servers we want. The world only sees the fixed ip.

@@ -40,10 +40,6 @@ module ApplicationHelper
 
   def format_profile_date(utcDate)
     output = utcDate.strftime("%b %e, %y")
-
-    if Time.current - 3.days < utcDate
-      output = '<i class="far fa-lightbulb"></i>'.html_safe
-    end
     return output
   end
 end

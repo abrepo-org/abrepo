@@ -20,8 +20,8 @@ services:
       # back up from staging that overwrites prod s3 bucket.
       # /root/releases/abrepo/db/archive.conf:/opt/bitnami/postgresql/conf/conf.d/archive.conf
 
-  nginx:
+  haproxy:
     ports:
-      - published: 80
-        target: 80
+      - published: 443
+        target: 8888
         mode: host

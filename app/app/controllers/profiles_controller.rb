@@ -8,6 +8,7 @@ class ProfilesController < ApplicationController
     @profiles = Profile
                   .includes(:experiments)
                   .where.not(experiments: { profile_id: nil})
+                  .order(updated_at: :desc)
 
     if @query
       @profiles = @profiles.search_company(@query)
