@@ -36,22 +36,21 @@ services:
     build:
       context: .
       dockerfile: ./nginx/Dockerfile
-    environment:
-      - NGINX_PORT=8080
-    ports:
-      - "8080:8080"
     volumes:
       - ./app/public:/app/public
       - /home/vergeman/dev/ab/screenshots:/app/public/screenshots
       - ./app/app/assets:/app/app/assets
-      - ./nginx/nginx.conf.template:/etc/nginx/templates/default.conf.template
+      - ./nginx/nginx.conf.dev.template:/etc/nginx/templates/default.conf.template
+
     #needed for build
     depends_on:
       - web
 
   haproxy:
-   volumes:
-     - ./haproxy/haproxy_dev.cfg:/bitnami/haproxy/conf/haproxy.cfg
+    ports:
+      - "80:8888"
+    volumes:
+      - ./haproxy/haproxy_dev.cfg:/usr/local/etc/haproxy/haproxy.cfg
 
 volumes:
   pg1data:
