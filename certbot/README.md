@@ -36,13 +36,19 @@ sudo docker run \
     -d *.abrepo.com
 
 
-#Certificate is saved at: ./letsencrypt/live/staging.abrepo.com/fullchain.pem
-#Key is saved at:         ./letsencrypt/live/staging.abrepo.com/privkey.pem
+#Certificate is saved at: ./letsencrypt/live/abrepo.com/fullchain.pem
+#Key is saved at:         ./letsencrypt/live/abrepo.com/privkey.pem
 
 ```
 
 ## Build
 
-* `./build.sh` copies cert to release directory, ansible uploads to
-  each app server
-* the docker-compose files bind volume to `/etc/letsencrypt/live/abrepo.com/`
+* `./build.sh` copies certs to release directory, and ansible rsyncs
+  to each server
+* For haproxy there is a required combined key step: `cat
+  fullchain.pem privkey.pem > abrepo.pem` (just how it takes it)
+* Files are bind volume to `/etc/letsencrypt/live/abrepo.com/`, as
+  indicated in docker-compose.yml
+* Both nginx and haproxy use the same cert.
+* Certs are wildcard domain (*.abrepo.com) and serve both
+  www.abrepo.com, staging.abrepo.com

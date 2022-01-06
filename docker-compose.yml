@@ -76,12 +76,22 @@ services:
     image: '424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abnginx:${GIT_COMMIT-latest}'
     # healthcheck:
     #   test: ["CMD-SHELL",
-    #   "curl -o /dev/null -I -f -s -w %{http_code} http://localhost:80/healthcheck || exit 1"]
+    #   "curl -o /dev/null -I -f -s -w %{http_code} http://localhost:8080/healthcheck || exit 1"]
     #   interval: 3s
     #   timeout: 10s
     #   retries: 3
     environment:
-      - NGINX_PORT=80
+      - NGINX_PORT=8080
+    expose:
+       #dev: enable if internal visit nginx needed
+       #prod: serve internally to haproxy
+      - "8080"
+    ports:
+      # open ports, but nginx not listening in dev
+      - published: 443
+        target: 443
+        mode: host
+
     volumes:
       # image internally uses envsubst to generate /etc/nginx/default.conf
       # allows usage of env variables
@@ -128,8 +138,3 @@ volumes:
     #  size: 1
   portainer_data:
     driver: local
-
-
-# one config
-# 80 -> 8081: haproxy : 8080
-# 8080 nginx -> 8081 web

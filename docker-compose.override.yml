@@ -36,10 +36,6 @@ services:
     build:
       context: .
       dockerfile: ./nginx/Dockerfile
-    environment:
-      - NGINX_PORT=8080
-    expose:
-      - "8080"
     volumes:
       - ./app/public:/app/public
       - /home/vergeman/dev/ab/screenshots:/app/public/screenshots
