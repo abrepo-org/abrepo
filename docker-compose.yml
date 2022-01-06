@@ -86,6 +86,7 @@ services:
       # image internally uses envsubst to generate /etc/nginx/default.conf
       # allows usage of env variables
       - "${REMOTE_RELEASE_PATH}/nginx/nginx.conf.template:/etc/nginx/templates/default.conf.template"
+      - "${REMOTE_RELEASE_PATH}/certbot/:/etc/letsencrypt/live/abrepo.com/"
     depends_on:
       - web
     deploy:

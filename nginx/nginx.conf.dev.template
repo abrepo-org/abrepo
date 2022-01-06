@@ -9,9 +9,6 @@
     # define your domain
     server_name abrepo.com;
     listen ${NGINX_PORT};
-    listen 443 ssl;
-    ssl_certificate /etc/letsencrypt/live/abrepo.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/abrepo.com/privkey.pem;
 
     # define the public application root
     root   /app/public;
