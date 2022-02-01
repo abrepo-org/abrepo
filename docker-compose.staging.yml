@@ -11,6 +11,9 @@
 
 version: '3.4'
 services:
+  web:
+    environment:
+      - STRIPE_REDIRECT_HOST=https://staging.abrepo.com
   pg1:
     #chown -R 1001:1001 /db
     #volumes:
