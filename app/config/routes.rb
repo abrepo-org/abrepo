@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   # see #landing#index
   # get '*path', action: 'maintenance', controller: 'errors'
   #
-  get '*path', action: 'redirect', controller: 'landing'
 
   # exceptions
   # 500 can't direct to static file since handled by router
@@ -14,18 +13,16 @@ Rails.application.routes.draw do
 
   devise_scope :user do
 
-    get "/checkout/account/(:lookup_key)", action: :account, controller: 'checkout',
+    get "/checkout/account/(:lookup_key)", action: 'redirect', controller: 'landing',
         as: "checkout_account"
 
-    post "/checkout/account/(:lookup_key)", action: :create, controller: 'checkout',
+    post "/checkout/account/(:lookup_key)", action: 'redirect', controller: 'landing',
          as: "checkout_user_create"
-
   end
 
-  #enable custom 'after_sign_up_path_for'
-  devise_for :users, :controllers => {:registrations => "checkout"}
+  devise_for :users, only: :sessions
 
-  get 'test_models/test'
+  # get 'test_models/test'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   get 'healthcheck', action: :index, controller: 'healthcheck'
 
@@ -54,22 +51,25 @@ Rails.application.routes.draw do
 
   # checkout purchase subscription
   # where buttons submit to our server to get a valid stripe session
-  post '/create-checkout-session/', to: 'stripe#createSession'
+  post '/create-checkout-session/', action: 'redirect', controller: 'landing'
 
   # post purchase create a Subscription object if not created
-  get '/checkout/success/', to: 'stripe#success'
+  get '/checkout/success/', action: 'redirect', controller: 'landing'
 
   # webhook, receives events like subscription
-  post '/webhooks/stripe_payments', to: 'webhooks#index'
+  # post '/webhooks/stripe_payments', to: 'webhooks#index'
 
-  post '/customer-portal/', to: 'stripe#portal'
+  # post '/customer-portal/', to: 'stripe#portal'
+
+  # catch all redirect
+  # get '*path', action: 'redirect', controller: 'landing'
 
   # default landing page
   root to: "landing#index"
 
   #legal
-  get '/privacy-policy', to: 'legal#privacy'
-  get '/terms-of-service', to: 'legal#tos'
-  get '/dmca', to: 'legal#dmca'
+  get '/privacy-policy', action: 'redirect', controller: 'landing'
+  get '/terms-of-service', action: 'redirect', controller: 'landing'
+  get '/dmca', action: 'redirect', controller: 'landing'
 
 end
