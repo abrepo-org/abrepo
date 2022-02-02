@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   include UserSavedVariationsHash
+  before_action :require_moderator
 
   # home page feeed
   # 1. date: sort by "new", add pagination

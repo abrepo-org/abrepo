@@ -1,4 +1,5 @@
 class IndustriesController < ApplicationController
+  before_action :require_moderator
 
   def index
 

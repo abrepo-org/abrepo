@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
      (current_user.subscribed? || current_user.moderator?))
   end
 
+  # active check for imports only user
+  def require_moderator
+    redirect_to root_path unless (user_signed_in? && current_user.moderator?)
+  end
 
   def obfuscate_from(instances, num_start)
     instances.each_with_index do |instance, index|

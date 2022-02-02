@@ -1,5 +1,6 @@
 class VariationsController < ApplicationController
-  before_action :authenticate_user!, only: [:update]
+  before_action :require_moderator
+  before_action :authenticate_user!, only: [:update]  
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   def show

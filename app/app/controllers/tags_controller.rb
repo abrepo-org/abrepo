@@ -1,4 +1,5 @@
 class TagsController < ApplicationController
+  before_action :require_moderator
 
   def index
 

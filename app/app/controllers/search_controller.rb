@@ -1,5 +1,6 @@
 class SearchController < ApplicationController
   include UserSavedVariationsHash
+  before_action :require_moderator
 
   def index
     #TODO: highlight match snippet

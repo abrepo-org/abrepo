@@ -1,5 +1,6 @@
 class ProfilesController < ApplicationController
   include UserSavedVariationsHash
+  before_action :require_moderator
 
   def index
     @query = params[:query].blank? ? nil : params[:query]

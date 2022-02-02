@@ -1,5 +1,6 @@
 class UserSavedVariationsController < ApplicationController
   include UserSavedVariationsHash
+  before_action :require_moderator, only: [:index]
   before_action :authenticate_user!
 
   def create
