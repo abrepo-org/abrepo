@@ -16,8 +16,8 @@ services:
       - ./db/archive.conf:/opt/bitnami/postgresql/conf/conf.d/archive.conf
       #- ./db/run.sh:/opt/bitnami/scripts/postgresql/run.sh
     environment:
-      - PGBACKREST_REPO1_PATH=/tmpdb/pgbackrest
-      - PGBACKREST_LOG_PATH=/tmpdb/pgbackrest
+      - PGBACKREST_REPO1_PATH=/mnt/abrepo/pgbackrest
+      - PGBACKREST_LOG_PATH=/mnt/abrepo/pgbackrest
       - PGBACKREST_REPO2_S3_BUCKET=abrepo-dev-pg1-pgbackrest
 
   web:
