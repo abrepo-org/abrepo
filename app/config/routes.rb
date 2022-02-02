@@ -20,7 +20,7 @@ Rails.application.routes.draw do
          as: "checkout_user_create"
   end
 
-  devise_for :users, only: :sessions
+  devise_for :users, only: [:sessions, :registrations, only: [:edit]]
 
   # get 'test_models/test'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
