@@ -78,11 +78,12 @@ class ImportsController < ApplicationController
 
 
     @audience = Audience
-                  .where(name: experiment['audienceName'],
-                         experiment: @experiment)
+                  .where(experiment_id: @experiment)
                   .order(id: :desc)
+                  .first_or_create
 
-    @audience.first_or_create
+    @audience.update(name: experiment['audienceName']);
+
 
     campaign = group['campaign']
     @campaign = Campaign
