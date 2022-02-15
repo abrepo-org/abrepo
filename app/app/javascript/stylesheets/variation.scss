@@ -31,7 +31,7 @@ button {
   }
 }
 
-.diffPanel .diff-summary-delta {
+.diffPanel .diff-summary-delta:first-letter {
   text-transform: capitalize;
 }
 .diff-summary span:first-letter {
