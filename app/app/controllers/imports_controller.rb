@@ -19,11 +19,18 @@ class ImportsController < ApplicationController
     group = input['group']
 
     profile = group['profile']
+
     @profile = Profile
                  .where(a_id: profile['_id'],
                         domain: profile['domain'])
                  .order(id: :desc)
                  .first_or_create
+
+    logger.error(@profile.errors.full_messages) &&\
+    logger.error("Profile: #{@profile.inspect}") && \
+    logger.error("Profile Input: #{profile['domain']} - a_id: #{profile['_id']}") \
+      unless @profile.valid?
+
 
     @profile.update(company_name: profile['company_name'],
                     industry_tag_list: group['tags']['industry_tag_list'],
