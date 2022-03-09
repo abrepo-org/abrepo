@@ -28,8 +28,8 @@ export default class Variation extends React.Component {
             visibleActions,
             diffs: activeRenderable.sortedDiffs,
 
-            //Render action panel conditions
-            //only show non null Action
+            //Render action panel conditions: only show Actions if
+            //there is a non-null Action
             hasActions: this.props.data.actions
                 .filter( action => !action.type ).length,
 
