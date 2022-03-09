@@ -5,6 +5,7 @@
 #  id                  :bigint           not null, primary key
 #  actionType          :string
 #  crawlId             :string
+#  description         :string
 #  selector            :string
 #  selectorDisplayName :string
 #  url                 :string

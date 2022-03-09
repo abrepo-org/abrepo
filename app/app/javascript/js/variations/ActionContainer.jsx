@@ -48,10 +48,9 @@ export default class ActionContainer extends React.Component {
             <table className="table is-fullwidth variation-action">
                 <thead>
                     <tr>
-                        <th>Show</th>
-                        <th>Action</th>
+                        <th>Display</th>
                         <th>Selector</th>
-                        <th>Diffs</th>
+                        <th>Description</th>
                         <th className="is-hidden-mobile">URL</th>
                     </tr>
                 </thead>
@@ -86,9 +85,10 @@ export default class ActionContainer extends React.Component {
                                          />
                                      </div>
                                  </td>
-                                 <td> { action.actionType || '-'} </td>
+
                                  <td> { action.selectorDisplayName || action.selector || '-' } </td>
-                                 <td> { this.props.diffs.length } </td>
+
+                                 <td> {action.description || ''} </td>
                                  <td className="is-hidden-mobile"> { action.url } </td>
                              </tr>
                          )
