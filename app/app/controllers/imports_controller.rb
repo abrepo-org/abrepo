@@ -139,7 +139,8 @@ class ImportsController < ApplicationController
                 .order(id: :desc)
                 .first_or_create
 
-    @action.update(selectorDisplayName: activeAction['selectorDisplayName'])
+    @action.update(selectorDisplayName: activeAction['selectorDisplayName'],
+                   description: activeAction['description'])
 
     #
     # RENDERABLE
