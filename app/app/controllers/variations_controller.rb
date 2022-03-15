@@ -66,6 +66,14 @@ class VariationsController < ApplicationController
     @renderable = @actionRenderables[ @actions[0].id ][:renderable]
     @variation_index = policy_scope(@experiment.variations).find_index(@variation)
 
+    # moderators: generate abannotate submitPath: url source
+    @submitPath = [
+      ENV['ABANNOTATE_HOSTS'].split(",").first,
+      'examples/profiles', @profile.a_id,
+      'groups', @campaign.vendor_id,
+      'variations', @variation.a_id
+     ].join('/')
+
   end
 
   def update
