@@ -212,4 +212,15 @@ commentary = false
             </tbody>
         </table>
     </div>
+    <p>
+
+        NB: Any publish will <strong>publish all actions</strong> - All or nothing.  If
+        an action was inadvertendly submitted, need to remove the
+        Action + Renderable in db.
+
+    </p>
+
+    <p>
+        <%= link_to @submitPath, @submitPath %>
+    </p>
 <% end %>

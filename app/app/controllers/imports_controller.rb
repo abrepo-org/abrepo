@@ -19,11 +19,18 @@ class ImportsController < ApplicationController
     group = input['group']
 
     profile = group['profile']
+
     @profile = Profile
                  .where(a_id: profile['_id'],
                         domain: profile['domain'])
                  .order(id: :desc)
                  .first_or_create
+
+    logger.error(@profile.errors.full_messages) &&\
+    logger.error("Profile: #{@profile.inspect}") && \
+    logger.error("Profile Input: #{profile['domain']} - a_id: #{profile['_id']}") \
+      unless @profile.valid?
+
 
     @profile.update(company_name: profile['company_name'],
                     industry_tag_list: group['tags']['industry_tag_list'],
@@ -78,11 +85,12 @@ class ImportsController < ApplicationController
 
 
     @audience = Audience
-                  .where(name: experiment['audienceName'],
-                         experiment: @experiment)
+                  .where(experiment_id: @experiment)
                   .order(id: :desc)
+                  .first_or_create
 
-    @audience.first_or_create
+    @audience.update(name: experiment['audienceName']);
+
 
     campaign = group['campaign']
     @campaign = Campaign
@@ -131,7 +139,8 @@ class ImportsController < ApplicationController
                 .order(id: :desc)
                 .first_or_create
 
-    @action.update(selectorDisplayName: activeAction['selectorDisplayName'])
+    @action.update(selectorDisplayName: activeAction['selectorDisplayName'],
+                   description: activeAction['description'])
 
     #
     # RENDERABLE
