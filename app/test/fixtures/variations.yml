@@ -3,6 +3,7 @@
 # Table name: variations
 #
 #  id            :bigint           not null, primary key
+#  audience_name :string
 #  published     :boolean          default(FALSE)
 #  summary_name  :string
 #  url           :string
