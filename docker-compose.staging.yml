@@ -14,6 +14,12 @@ services:
   web:
     environment:
       - STRIPE_REDIRECT_HOST=https://staging.abrepo.com
+
+    depends_on:
+      # counterintuitive, but since it serves copy of static assets
+      # they need to be made available before abrepo (not after - 404 request)
+      - nginx
+
   pg1:
     #chown -R 1001:1001 /db
     #volumes:

@@ -42,7 +42,7 @@ services:
       - ./app/app/assets:/app/app/assets
       - ./nginx/nginx.conf.dev.template:/etc/nginx/templates/default.conf.template
 
-    #needed for build
+    # needed for build
     depends_on:
       - web
 
