@@ -3,7 +3,6 @@
 # Table name: experiments
 #
 #  id               :bigint           not null, primary key
-#  audience_name    :string
 #  calcscore        :float            default(0.0)
 #  crawlId          :string
 #  domain           :string
