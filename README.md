@@ -231,6 +231,33 @@ $ curl -L https://downloads.portainer.io/portainer-agent-stack.yml -o portainer-
 $ docker stack deploy --compose-file=portainer-agent-stack.yml abrepo
 ```
 
+## Build vs Deploy Dependencies
+
+Static Assets are served from nginx
+
+#### Build
+
+`nginx` docker-compose.yml `depends_on` ensures that `web` (abrepo) is
+built first, so that `nginx` can copy the static files from that image
+(they are served from nginx)
+
+#### Deploy
+
+Conversely, `web` depends on `nginx` to start first in
+production. `nginx` image keeps copies of previous deployed static
+assets, so it is backward compatible. If we ran `web` first, it would
+request static assets in the `nginx` service that might not exist
+(pending new update.)
+
+## Rolling Updates
+
+`docker stack deploy` will apply the `deploy.update_config` pattern:
+
+https://docs.docker.com/compose/compose-file/compose-file-v3/#update_config
+
+`update_config.order:start-first` allows new container to load first,
+then replace the running container.
+
 
 ## Install Postgres in Rails + Docker
 

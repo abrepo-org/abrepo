@@ -63,9 +63,21 @@ services:
       retries: 10
 
     deploy:
-      replicas: 1
+      replicas: 2
+      update_config:
+        parallelism: 1
+        order: start-first
+        failure_action: rollback
+        delay: 10s
+      #TODO: upgrade docker-compose v3.7
+      #rollback_config:
+      #  parallelism: 0
+      #  order: stop-first
       restart_policy:
         condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 30s
       placement:
         constraints:
           #- node.role == worker
@@ -73,7 +85,11 @@ services:
           #- node.role == manager
 
   nginx:
-    image: '424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abnginx:${GIT_COMMIT-latest}'
+    image: "424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abnginx:${GIT_COMMIT-latest}"
+    build:
+      context: ./nginx
+      args:
+        - GIT_COMMIT=${GIT_COMMIT-latest}
     # healthcheck:
     #   test: ["CMD-SHELL",
     #   "curl -o /dev/null -I -f -s -w %{http_code} http://localhost:8080/healthcheck || exit 1"]
@@ -97,12 +113,24 @@ services:
       # allows usage of env variables
       - "${REMOTE_RELEASE_PATH}/nginx/nginx.conf.template:/etc/nginx/templates/default.conf.template"
       - "${REMOTE_RELEASE_PATH}/certbot/:/etc/letsencrypt/live/abrepo.com/"
-    depends_on:
-      - web
     deploy:
       replicas: 1
+      update_config:
+        parallelism: 1
+        #start-first runs new container side-by-side then replaces it
+        #allows single replica (host mode) for nginx
+        order: start-first
+        failure_action: rollback
+        delay: 10s
+      #TODO: upgrade docker-compose v3.7
+      #rollback_config:
+      #  parallelism: 0
+      #  order: stop-first
       restart_policy:
         condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 30s
       placement:
         constraints:
           #- node.role == worker

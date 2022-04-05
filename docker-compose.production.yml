@@ -24,3 +24,9 @@ services:
       - published: 443
         target: 8888
         mode: host
+
+  web:
+    depends_on:
+      # counterintuitive, but since it serves copy of static assets
+      # they need to be made available before abrepo (not after - 404 request)
+      - nginx
