@@ -23,18 +23,22 @@ mkdir -p $DEFAULT_DIR/certbot
 # build from app's local Dockerfile
 #
 
-# run git cmd below to tag docker images with git commit
-# GIT_COMMIT=$(git log -1 --format=%h)
-if [ -z ${GIT_COMMIT} ]; then
-    GIT_COMMIT="latest"
-else
-    if git checkout $GIT_COMMIT; then
-        echo "checked out $GIT_COMMIT"
-    else
-        echo "exiting: error checking out $GIT_COMMIT"
-        exit 1
-    fi
-fi
+#
+# tag docker images with git commit
+# currently skip checkout to avoid unnecessary detatched state
+# just use HEAD as tag.
+# But this May change on CI/CD server
+GIT_COMMIT=$(git log -1 --format=%h)
+#if [ -z ${GIT_COMMIT} ]; then
+#     GIT_COMMIT="latest"
+#else
+#     if git checkout $GIT_COMMIT; then
+#         echo "checked out $GIT_COMMIT"
+#     else
+#         echo "exiting: error checking out $GIT_COMMIT"
+#         exit 1
+#     fi
+#fi
 
 
 sudo `< .env` \

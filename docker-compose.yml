@@ -73,7 +73,11 @@ services:
           #- node.role == manager
 
   nginx:
-    image: '424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abnginx:${GIT_COMMIT-latest}'
+    image: "424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abnginx:${GIT_COMMIT-latest}"
+    build:
+      context: ./nginx
+      args:
+        - GIT_COMMIT=${GIT_COMMIT-latest}
     # healthcheck:
     #   test: ["CMD-SHELL",
     #   "curl -o /dev/null -I -f -s -w %{http_code} http://localhost:8080/healthcheck || exit 1"]
