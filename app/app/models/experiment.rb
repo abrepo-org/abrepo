@@ -31,7 +31,7 @@ class Experiment < ApplicationRecord
   include Obfuscatable
   include PgSearch::Model
 
-  multisearchable against: [:summary_name],
+  multisearchable against: [:summary_name, :audience_name],
                   additional_attributes: -> (experiment) { { experiment_id: experiment.id } }
 
   belongs_to :profile
