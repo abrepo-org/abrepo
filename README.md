@@ -271,6 +271,22 @@ https://docs.docker.com/compose/compose-file/compose-file-v3/#update_config
 `update_config.order:start-first` allows new container to load first,
 then replace the running container.
 
+## Migrations
+
+For schema migrations:
+
+* `runtime` ansible group executes `rake db:migrate` on `app1`: `./docker_ansible_<env>.sh runtime`
+* for data migrations, need to ssh, exec into container and run rake task:
+
+```
+
+docker ps  # get abrepo_web container id
+docker exec -it <container id> bash
+rake -T # task list
+rake <abrepo:taskname>
+
+```
+
 
 ## Install Postgres in Rails + Docker
 

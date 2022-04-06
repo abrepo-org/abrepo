@@ -29,13 +29,10 @@ class TestModelsController < ApplicationController
     @experiment = Experiment.create(:name => "Something Experiment Name",
                                     crawlId: crawlId,
                                     domain: domain,
+                                    audience_name: "audience name",
                                     profile: @profile)
 
     @campaign = Campaign.create(:name => "campaign name", :experiment => @experiment)
-
-    @audience = Audience.create(name: "audience name",
-                                description: "some kind of audience description",
-                                experiment: @experiment)
 
     @variation1 = Variation.create(name: "variation name",
                                    url: url,

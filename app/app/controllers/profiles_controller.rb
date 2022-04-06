@@ -66,7 +66,6 @@ class ProfilesController < ApplicationController
 
     @experiments = policy_scope(@profile.experiments)
                      .includes([:source_vendor,
-                                :audience,
                                 variations: [:renderables, :tag, :page_tag]
                                ])
                      .order(created_at: :desc)
