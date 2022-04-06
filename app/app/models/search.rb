@@ -28,7 +28,7 @@ class Search
       exp_ids = (exp_ids + profile_exp_ids).uniq
 
       variations = (variations || variationPolicyModel)
-                     .includes(experiment: [:audience])
+                     .includes(:experiment)
                      .includes(:renderables)
                      .where(experiment_id: exp_ids)
 
@@ -38,7 +38,7 @@ class Search
     unless (filters.empty?)
 
       variations = (variations || variationPolicyModel)
-                     .includes(experiment: [:audience])
+                     .includes(:experiment)
                      .includes(:renderables)
                      .tagged_with(filters)
     end
@@ -54,7 +54,7 @@ class Search
                           .pluck(:id)
 
       variations = (variations || variationPolicyModel)
-                     .includes(experiment: [:audience])
+                     .includes(:experiment)
                      .includes(:renderables)
                      .where(experiment_id: profile_exp_ids)
 
