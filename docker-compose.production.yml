@@ -21,9 +21,8 @@ services:
 
   haproxy:
     ports:
-      - published: 443
-        target: 8888
-        mode: host
+      - "443:8888"
+
 
   web:
     depends_on:
