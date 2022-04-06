@@ -24,14 +24,21 @@ export default class DiffContainer extends React.Component {
                 diffs.push( cDiff );
             }
 
+            // Minor Changes
+            // excluding for now
+            /*
             if(diff.diffPanel === "min") {
-                //text or style
                 if (diff.calculated.text || ["SCRIPT"].includes(diff.selectorDisplayName) ) {
+
+                    //minor content
                     textDiffs.push( cDiff );
                 } else {
+
+                    //minor style
                     minDiffs.push( cDiff );
                 }
-            }
+             }
+            */
         });
 
 
