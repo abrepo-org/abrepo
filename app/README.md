@@ -231,6 +231,12 @@ To rebuild indices:
 * `rake pg_search:multisearch:rebuild[Variation]`
 * `rake pg_search:multisearch:rebuild[Audience]`
 
+To destroy / remove indices:
+
+* need custom rake task to call:
+  `PgSearch::Document.delete_by(searchable_type: "Audience")`
+
+
 #####
 
 * To add `additional_attributes`, need to explicitly state add column
