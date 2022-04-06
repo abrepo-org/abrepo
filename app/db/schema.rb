@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_05_141544) do
+ActiveRecord::Schema.define(version: 2022_04_06_210610) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,14 +26,6 @@ ActiveRecord::Schema.define(version: 2022_04_05_141544) do
     t.string "a_id"
     t.string "selectorDisplayName"
     t.string "description"
-  end
-
-  create_table "audiences", force: :cascade do |t|
-    t.string "name"
-    t.bigint "experiment_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["experiment_id"], name: "index_audiences_on_experiment_id"
   end
 
   create_table "campaigns", force: :cascade do |t|
@@ -230,7 +222,6 @@ ActiveRecord::Schema.define(version: 2022_04_05_141544) do
     t.index ["experiment_id"], name: "index_variations_on_experiment_id"
   end
 
-  add_foreign_key "audiences", "experiments"
   add_foreign_key "campaigns", "experiments"
   add_foreign_key "diffs", "renderables"
   add_foreign_key "experiments", "profiles"
