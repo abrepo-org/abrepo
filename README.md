@@ -50,10 +50,11 @@ Now `sudo docker-compose up` should work
 
 * `www.abrepo.com` -> Cloudflare DNS points to floating ip.
 * Cloudflare handles always-ssl automatic redirect from http -> https.
-* DO has floating ip that we manually toggle between `app1` - nginx
-  only, minimal config, and `lb1` - haproxy instance, when multiple
-  backend nginx nodes needed.
-* Both `nginx` and `haproxy` listen to port 443.
+* DO has floating ip that we manually toggle between `app1`: lb ->
+  nginx only, minimal config, and `lb1` - haproxy instance, when
+  multiple backend nginx nodes needed.
+* swarm listens to 443, which is forwarded to 8888 `haproxy` frontend.
+* `haproxy` frontend proxies to backend `nginx` on 8080.
 * Publicly visiting machine ip directly on port 80 is firewalled.
 * `nginx` does expose port 80 internally, to receive haproxy
   requests. Port 80 is not exposed publicly.
@@ -63,9 +64,9 @@ Now `sudo docker-compose up` should work
 
 * Config files: `haproxy/haproxy.cfg` and `haproxy/haproxy-dev.cfg`
 * **Docker Swarm** config listens on 443, and targets (out) port 8888.
-* Haproxy (haproxy frontend) listens on 8888 -> and sends to 8080
-  (nginx backend)
-* Haproxy **cannot** directly bind to port `443` (conflict), so it's
+* `haproxy` frontend listens on 8888 -> and sends to 8080 (`nginx`
+  backend)
+* NB `haproxy` **cannot** directly bind to port `443` (conflict), so it's
   bound and set to listen on port `8888`. Effectively haproxy is an
   internal redirect, terminating ssl and round-robin port-forwarding
   from `frontend` ingress `8888` -> `backend` egress `8080` to `nginx`.
@@ -81,43 +82,66 @@ no ssl
 
 visit http://localhost:80
 
-| service      | ports     |
-| -------      | ----------|
-| docker swarm | 80:8888   |
-| haproxy      | 8888:8080 |
-| nginx        | 8080:8081 |
-| rails        | 8081      |
+| service                                            | ports     |
+| -------                                            | ----------|
+| docker swarm (via docker-compose.override:haproxy) | 80:8888   |
+| haproxy (haproxy/haproxy-dev.cfg)                  | 8888:8080 |
+| nginx (nginx.conf.dev.template)                    | 8080:8081 |
+| rails (bundle exec rails s -p 8081)                | 8081      |
 
 
 #### Staging and Production Ports
 
-##### NO Load Balancer: Fixed IP -> NGINX
+Current architecture has haproxy listening on 443, and nginx on 8080,
+using ingress networking. Both are deployed as global services on
+`app` and `lb` instance types. The idea is to have a minimal 1-node
+'pod' of haproxy-nginx-app. To scale, these "pods" are duplicated
+node, and are reverse-proxied behind a single `lb` node that runs only
+haproxy. The fixed ip on digital ocean will then be toggled from a
+single "pod" to the lb node.
 
-Visit https://www.abrepo.com
+This means there is an extra deployed haproxy service on each "pod"
+that will be unused when the `lb` node is running. This is acceptable
+because configuration is much easier, and there is redundancy if `lb`
+node dies, can toggle fixed ip to a "pod" instance.
 
-| service      | ports     |
-| -------      | ----------|
-| docker swarm | 443:443   |
-| nginx        | 443:8081 |
-| rails        | 8081      |
 
-##### Load Balancer: Fixed IP -> HAPROXY
+| service                                                                 | ports     |
+| -------                                                                 | ----------|
+| docker swarm (via docker-compose.haproxy)                               | 443:8888  |
+| haproxy (global mode: haproxy/haproxy.cfg)                              | 8888:8080 |
+| nginx   (global mode: docker-compose env port:8080)                     | 8080:8081 |
+| rails   (bundle exec rails s)                                           | 8081      |
 
-Visit https://www.abrepo.com
 
-| service      | ports     |
-| -------      | ----------|
-| docker swarm | 443:8888   |
-| haproxy      | 8888:8080 |
-| nginx        | 8080:8081 |
-| rails        | 8081      |
+##### Previous Architecture Notes and Zero-Downtime Deploy Problem
+
+Previously had nginx and haproxy in docker swarm host mode to "share"
+port 443 across services. Idea was a minimal configuration ssl/static
+served by nginx, and then to scale up with a dedicated `lb` node. Both
+`haproxy and `nginx` would listen to 443 via networking host mode.
+
+However this does not allow zero-downtime deloys: a rolling-update in
+`start-first` order, results in a second container being started per
+service, which in turn results in a port conflict. (Can't have 2 nginx
+or haproxy on same port).
+
+The current "pod" deploy `mode:global` architecture is to allow zero
+downtime deploy via `start-first` order. The tradeoff is extra haproxy
+service on each node, but since they won't be actively used (traffic
+only to `lb` instance), the resource footprint should be minimal.
+
 
 
 ### Haproxy
 
-Haproxy is designed to be single load balancer on its own host
-instance; serves as single ingress point to direct requests to `nginx`
-services.
+Haproxy is a mode:global, single load balancer service deployed to
+each `lb` and `app`.  Serves as the single ingress point to to `nginx`.
+
+Each "pod" has a haproxy instance for redundancy and deployment
+configuration ease. On scale, ideally the "pod" haproxy instances are
+not used. Traffic (via fixed ip) is directed to a single `lb` instance
+which uses swarm mesh to route to nginx services (and rails)
 
 Needed to round robin once there are multiple app instances. Lives on
 its own instance (lb).
@@ -125,26 +149,15 @@ its own instance (lb).
 
 ### Nginx
 
+Nginx also deployed mode:global.
+
 Nginx is our web server; port is dynamically configured (internal
 script) via `NGINX_PORT` environmental variable, which internally uses
 `envsubst` to rewrite the `nginx.conf.template` and output a populated
 `default.conf` file within the container on startup.
 
 * `nginx/nginx_conf.template`
-* dev env: listens http port 8080
-* prod env: set to host mode, listens ssl port 443, internal http port
-  8080
-
-`host` mode means only one instance of `nginx` container runs per
-node; port reserved solely for nginx. This is done for our dynamic
-scaling configuration with lb:
-
-* Minimal config: DO exposed fixed IP -> 443: 443: nginx -> rails
-* Scaled config:  DO exposed fixed IP -> 443: 8888:Haproxy -> nginx_{1|2|3}:8080
-
-We toggle fixed ip to either haproxy or nginx, depending how many app
-servers we want. The world only sees the fixed ip.
-
+* dev and prod env: listens http port 8080
 
 
 
@@ -230,6 +243,33 @@ to running stack:
 $ curl -L https://downloads.portainer.io/portainer-agent-stack.yml -o portainer-agent-stack.yml
 $ docker stack deploy --compose-file=portainer-agent-stack.yml abrepo
 ```
+
+## Build vs Deploy Dependencies
+
+Static Assets are served from nginx
+
+#### Build
+
+`nginx` docker-compose.yml `depends_on` ensures that `web` (abrepo) is
+built first, so that `nginx` can copy the static files from that image
+(they are served from nginx)
+
+#### Deploy
+
+Conversely, `web` depends on `nginx` to start first in
+production. `nginx` image keeps copies of previous deployed static
+assets, so it is backward compatible. If we ran `web` first, it would
+request static assets in the `nginx` service that might not exist
+(pending new update.)
+
+## Rolling Updates
+
+`docker stack deploy` will apply the `deploy.update_config` pattern:
+
+https://docs.docker.com/compose/compose-file/compose-file-v3/#update_config
+
+`update_config.order:start-first` allows new container to load first,
+then replace the running container.
 
 
 ## Install Postgres in Rails + Docker
