@@ -98,15 +98,6 @@ services:
     #   retries: 3
     environment:
       - NGINX_PORT=8080
-    expose:
-       #dev: enable if internal visit nginx needed
-       #prod: serve internally to haproxy
-      - "8080"
-    ports:
-      # open ports, but nginx not listening in dev
-      - published: 443
-        target: 443
-        mode: host
 
     volumes:
       # image internally uses envsubst to generate /etc/nginx/default.conf
@@ -114,7 +105,7 @@ services:
       - "${REMOTE_RELEASE_PATH}/nginx/nginx.conf.template:/etc/nginx/templates/default.conf.template"
       - "${REMOTE_RELEASE_PATH}/certbot/:/etc/letsencrypt/live/abrepo.com/"
     deploy:
-      replicas: 1
+      mode: global
       update_config:
         parallelism: 1
         #start-first runs new container side-by-side then replaces it
@@ -135,6 +126,7 @@ services:
         constraints:
           #- node.role == worker
           - node.labels.app == true
+          #- node.labels.db != true  #app or lb
           #- node.role == manager
 
   haproxy:
@@ -145,15 +137,16 @@ services:
       - "${REMOTE_RELEASE_PATH}/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
       - "${REMOTE_RELEASE_PATH}/certbot/:/etc/letsencrypt/live/abrepo.com/"
     ports:
-      - "8404:8404"
+      - "8404:8404"  # leave possibly open to access haproxy <host:8404>/stats
     deploy:
-      replicas: 1
+      mode: global
       restart_policy:
         condition: on-failure
       placement:
         constraints:
           #- node.role == worker
-          - node.labels.lb == true
+          #- node.labels.lb == true
+          - node.labels.db != true  #app or lb
           #- node.role == manager
 
 volumes:
