@@ -79,18 +79,10 @@ class ImportsController < ApplicationController
     @experiment.update(crawlId: experiment['crawlId'],
                        domain: experiment['domain'],
                        summary_name: experiment['summary_name'],
+                       audience_name: experiment['audienceName'],
                        source_vendor: @sourcevendor,
                        published: experiment['published'] || false,
                        profile: @profile)
-
-
-    @audience = Audience
-                  .where(experiment_id: @experiment)
-                  .order(id: :desc)
-                  .first_or_create
-
-    @audience.update(name: experiment['audienceName']);
-
 
     campaign = group['campaign']
     @campaign = Campaign

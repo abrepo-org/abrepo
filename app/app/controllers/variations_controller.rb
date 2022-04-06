@@ -6,14 +6,13 @@ class VariationsController < ApplicationController
     @variation = policy_scope(Variation)
                    .includes(:actions,
                              :renderables,
-                             experiment: [:profile, :audience, :campaign])
+                             experiment: [:profile, :campaign])
                    .find_by_id( params[:id] )
 
     raise ActionController::RoutingError.new('Not Found') if (@variation.nil?)
 
 
     @experiment = @variation.experiment
-    @audience = @experiment.audience
     @campaign = @experiment.campaign
     @profile = @experiment.profile
     @actions = @variation.actions
@@ -40,7 +39,7 @@ class VariationsController < ApplicationController
 
     if @obfuscate
       # text content
-      [@experiment, @audience, @variation].each{ |e| e.obfuscate }
+      [@experiment, @variation].each{ |e| e.obfuscate }
 
       # TODO:
       # set images on renderable to some subscribe now
