@@ -22,11 +22,11 @@
             </div>
 
             <!-- Targeting -->
-            <% unless audience['name'].blank? %>
+            <% unless audience_name.blank? %>
                 <div class="is-flex is-flex-wrap-wrap mb-2">
                     <span title="Targeting"
                           class="targeting-value has-text-grey has-text-weight-normal">
-                        <%= audience['name'].split(',').join(", ") %>
+                        <%= audience_name.split(',').join(", ") %>
                     </span>
                 </div>
             <% end %>
