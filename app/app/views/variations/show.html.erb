@@ -82,10 +82,10 @@ commentary = false
                     </div>
 
 
-                    <% if @experiment && @experiment.audience_name %>
+                    <% if @variation && @variation.audience_name %>
                         <div class="mr-6">
                             <div class="has-text-grey mt-4 is-size-7">Targeting</div>
-                            <div><%= @experiment.audience_name %></div>
+                            <div><%= @variation.audience_name %></div>
                         </div>
                     <% end %>
 

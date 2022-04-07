@@ -112,9 +112,21 @@ class ImportsController < ApplicationController
                       page_tag_list: variation['tags']['page_tag_list'],
                       published: variation['published'] || false,
                       verified: variation['annotationStatus'] == 'verified',
+                      audience_name: variation['audienceName'],
                       experiment: @experiment)
 
-    #Aciton, Renderable, Diffs - pegged to Variation and crawlId
+    #
+    # AUDIENCE
+    # NB: submit experiment and variations with same audience_name in
+    # event of multiple unique variation audiences, reset experiment
+    # audience to blank (we can't really 'choose' among audiences at
+    # experiment level) for vanilla experiments, audience is typically
+    # singular and same across variations
+    if (@experiment.variations.pluck(:audience_name).uniq.length > 1)
+      @experiment.update(audience_name: nil)
+    end
+
+    #Action, Renderable, Diffs - pegged to Variation and crawlId
     crawlId = variation['crawlId']
 
     #
