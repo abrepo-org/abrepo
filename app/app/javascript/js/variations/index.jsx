@@ -99,11 +99,11 @@ export default class Variation extends React.Component {
     }
 
     //DIFFPANEL diff click
-    diffClickHandler(diffRef, location) {
+    diffClickHandler(diff, diffRef, location) {
         //setState clicked, toggle diff visible
         //ref are set in BoundingBox.jsx, Diff.jsx on componentDidMount
         //key for scrollBy is to aim at viewport midpoint - innerHeight/2
-        console.log("diffClickHandler", diffRef, location);
+        console.log("diffClickHandler", diff, diffRef, location);
 
         if (!location) return;
 
@@ -142,8 +142,17 @@ export default class Variation extends React.Component {
         // y coord of the rect
         if (scaledContentHeight < window.innerHeight) {
 
+            //overscroll scroll
+            //measure height of experiment header that disappears on
+            //scroll on short pages this causes improper scroll
+            //distances //260
+            const $variation = document.querySelector('section.variation');
+
+            const STICKY_HEADER_HEIGHT = $variation ?
+                  $variation.getClientRects()[0].height : 170;
+
             window.scrollTo({
-                top: y,
+                top: Math.min(y, STICKY_HEADER_HEIGHT),
                 left: 0,
                 behavior: 'smooth'
             });
@@ -165,11 +174,18 @@ export default class Variation extends React.Component {
             $bbox.classList.toggle('shake');
         };
 
-        const $newBbox = location.newDim && location.newDim.ref.current;
-        if ($newBbox) addAnimation($newBbox);
+        // wiggle each diff in group
+        const group_diffs = this.state.diffs
+              .filter(d => d.group_id == diff.group_id);
 
-        const $origBbox = location.origDim && location.origDim.ref.current;
-        if ($origBbox) addAnimation($origBbox);
+        group_diffs.forEach( diff => {
+
+            const $newBbox = diff.newDim && diff.newDim.ref.current;
+            if ($newBbox) addAnimation($newBbox);
+
+            const $origBbox = diff.origDim && diff.origDim.ref.current;
+            if ($origBbox) addAnimation($origBbox);
+        });
 
     }
 
@@ -180,20 +196,30 @@ export default class Variation extends React.Component {
         });
     }
 
-    //DIFFBBOX elem: diff or action element (not bbox);
+    //DIFFBBOX elem: diffbbox or action bbox click;
+    //NB: the elem refers to the diff (not the clicked bbox)
+    //diffBboxClickHandler passes the diff as elem
+    //
+    //remember on desktop view, on bbox click we scroll to the diff
+    //so we need the diff's ref and clientRects (the diffPanel's bbox)
     diffBboxClickHandler(elem, rect) {
         console.log("diffBboxClickHandler", elem, rect);
 
-        if(!rect && !elem) return;
-        //modalDisplayElem: on mobile view; elems are hidden so bbox rect is null
+        if(!elem) return;
+
+        //on mobile view; we trigger modal
+        //diffpanel elems are hidden so bbox rect is null
         //for mobile, on bbox click we launch modal
         //otherwise skip modal and just scroll
         if(!rect) {
-            this.setState({ modalElem: elem });
+            this.setState({
+                modalDiff: elem
+            });
             return;
         }
 
-        //ElemPanel desktop view
+        //desktop view
+        //when we click on bbox we just scroll
         const y = rect.y;
 
         this.diffPanelRef.current.scrollBy({left:0,
