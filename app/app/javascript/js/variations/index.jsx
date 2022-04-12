@@ -142,8 +142,17 @@ export default class Variation extends React.Component {
         // y coord of the rect
         if (scaledContentHeight < window.innerHeight) {
 
+            //overscroll scroll
+            //measure height of experiment header that disappears on
+            //scroll on short pages this causes improper scroll
+            //distances //260
+            const $variation = document.querySelector('section.variation');
+
+            const STICKY_HEADER_HEIGHT = $variation ?
+                  $variation.getClientRects()[0].height : 170;
+
             window.scrollTo({
-                top: y,
+                top: Math.min(y, STICKY_HEADER_HEIGHT),
                 left: 0,
                 behavior: 'smooth'
             });
