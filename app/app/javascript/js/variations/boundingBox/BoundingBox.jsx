@@ -58,8 +58,8 @@ export default class BoundingBox extends React.Component {
             <rect id={`svgRect${id}`} style={rectStyle}
                   x={Math.max(lineWidth, coord.x - lineWidth)}
                   y={Math.max(lineWidth, coord.y - lineWidth)}
-                  width={Math.max(coord.width - 2*lineWidth)}
-                  height={coord.height - lineWidth}
+                  width={coord.width + lineWidth}
+                  height={coord.height + lineWidth}
                   stroke={this.props.color} fill={this.props.color} fillOpacity="0.2"
 
                   onClick={() => this.props.bboxClickHandler(this.props.elem) }
