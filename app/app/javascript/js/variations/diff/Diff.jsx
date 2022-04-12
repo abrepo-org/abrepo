@@ -51,8 +51,8 @@ export default class Diff extends React.Component {
         return {
             newDim: this.props.diff.newDim,
             origDim: this.props.diff.origDim,
-            y: rect.y,
-            height: rect.height
+            y: rect && rect.y,
+            height: rect && rect.height
         };
     }
 
