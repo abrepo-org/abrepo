@@ -99,11 +99,11 @@ export default class Variation extends React.Component {
     }
 
     //DIFFPANEL diff click
-    diffClickHandler(diffRef, location) {
+    diffClickHandler(diff, diffRef, location) {
         //setState clicked, toggle diff visible
         //ref are set in BoundingBox.jsx, Diff.jsx on componentDidMount
         //key for scrollBy is to aim at viewport midpoint - innerHeight/2
-        console.log("diffClickHandler", diffRef, location, this.state.diffs);
+        console.log("diffClickHandler", diff, diffRef, location);
 
         if (!location) return;
 
@@ -165,11 +165,18 @@ export default class Variation extends React.Component {
             $bbox.classList.toggle('shake');
         };
 
-        const $newBbox = location.newDim && location.newDim.ref.current;
-        if ($newBbox) addAnimation($newBbox);
+        // wiggle each diff in group
+        const group_diffs = this.state.diffs
+              .filter(d => d.group_id == diff.group_id);
 
-        const $origBbox = location.origDim && location.origDim.ref.current;
-        if ($origBbox) addAnimation($origBbox);
+        group_diffs.forEach( diff => {
+
+            const $newBbox = diff.newDim && diff.newDim.ref.current;
+            if ($newBbox) addAnimation($newBbox);
+
+            const $origBbox = diff.origDim && diff.origDim.ref.current;
+            if ($origBbox) addAnimation($origBbox);
+        });
 
     }
 

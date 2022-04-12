@@ -81,7 +81,7 @@ export default class Diff extends React.Component {
             <div
               className='diff p-3'
               ref={this.ref} style={rectStyle}
-              onClick={() => this.props.diffClickHandler(this.ref, this.getBboxLocation())}
+              onClick={() => this.props.diffClickHandler(this.props.diff, this.ref, this.getBboxLocation())}
               onMouseEnter={ () => this.props.bboxHoverHandler(this.props.diff.group_id || this.props.diff.id)}
               onMouseLeave={ () => this.props.bboxHoverHandler(null)}>
 
