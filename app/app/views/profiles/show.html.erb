@@ -97,8 +97,8 @@
                 locals: {profile: @profile,
                          experiment: experiment,
                          variations: obfuscate_from(policy_scope(experiment.variations
-                                                                 .order(vendor_id: :asc,
-                                                                        verified: :desc,
+                                                                 .order(verified: :desc,
+                                                                        summary_name: :asc,
                                                                         created_at: :desc)), 0),
                          audience_name: experiment.audience,
                          source_vendor: experiment.source_vendor,

@@ -38,18 +38,18 @@ export default class DiffView extends React.Component  {
 
             <div className="diff-summary-wrap">
 
-                <DiffSummary summary={this.props.diff.summary_removed}
-                             diff={this.props.diff}
-                             detail={this.props.detail}
-                             icon="&#65293;"
-                             colorClass='icon-remove'
-                />
-
                 <DiffSummary summary={this.props.diff.summary_added}
                              diff={this.props.diff}
                              detail={this.props.detail}
                              icon="&#65291;"
                              colorClass='icon-add'
+                />
+
+                <DiffSummary summary={this.props.diff.summary_removed}
+                             diff={this.props.diff}
+                             detail={this.props.detail}
+                             icon="&#65293;"
+                             colorClass='icon-remove'
                 />
 
             </div>
