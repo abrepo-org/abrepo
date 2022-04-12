@@ -24,8 +24,8 @@
                         locals: {profile: experiment.profile,
                                  experiment: experiment,
                                  variations: policy_scope(experiment.variations
-                                                          .order(vendor_id: :asc,
-                                                                 verified: :desc,
+                                                          .order(verified: :desc,
+                                                                 summary_name: :asc,
                                                                  created_at: :desc)),
                                  audience_name: experiment.audience,
                                  source_vendor: experiment.source_vendor,
