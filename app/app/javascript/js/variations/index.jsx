@@ -196,20 +196,30 @@ export default class Variation extends React.Component {
         });
     }
 
-    //DIFFBBOX elem: diff or action element (not bbox);
+    //DIFFBBOX elem: diffbbox or action bbox click;
+    //NB: the elem refers to the diff (not the clicked bbox)
+    //diffBboxClickHandler passes the diff as elem
+    //
+    //remember on desktop view, on bbox click we scroll to the diff
+    //so we need the diff's ref and clientRects (the diffPanel's bbox)
     diffBboxClickHandler(elem, rect) {
         console.log("diffBboxClickHandler", elem, rect);
 
-        if(!rect && !elem) return;
-        //modalDisplayElem: on mobile view; elems are hidden so bbox rect is null
+        if(!elem) return;
+
+        //on mobile view; we trigger modal
+        //diffpanel elems are hidden so bbox rect is null
         //for mobile, on bbox click we launch modal
         //otherwise skip modal and just scroll
         if(!rect) {
-            this.setState({ modalElem: elem });
+            this.setState({
+                modalDiff: elem
+            });
             return;
         }
 
-        //ElemPanel desktop view
+        //desktop view
+        //when we click on bbox we just scroll
         const y = rect.y;
 
         this.diffPanelRef.current.scrollBy({left:0,
