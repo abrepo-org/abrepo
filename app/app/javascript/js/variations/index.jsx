@@ -359,21 +359,35 @@ export default class Variation extends React.Component {
 
         const diffs = this.filterDiffsActiveView(this.state.diffs)
                           .sort( (diffA, diffB) => {
-                              //
-                              // sort DiffPanel diffs:
-                              // basing on newDim for now (origDim also exists)
-                              //
-                              const dimA = diffA.newDim
-                              const dimB = diffB.newDim
+                              /*
+                               * sort by "average" y-value of new and orig boundingBox,
+                               * making sure to accommodate non-existent values
+                               */
+                              let a_avg_val = 0;
+                              let b_avg_val = 0;
 
-                              if (!dimA.boundingBox && !dimB.boundingBox) return 0;
-                              if (dimA.boundingBox && !dimB.boundingBox) return -1;
-                              if (!dimA.boundingBox && dimB.boundingBox) return 1;
+                              let a_val_count = { val:0, count:0 };
+                              let b_val_count = { val:0, count:0 };
 
-                              //base return y ascending (small -> big)
-                              return (dimA.boundingBox.rect.y == dimB.boundingBox.rect.y) ? 0 :
-                                     dimA.boundingBox.rect.y > dimB.boundingBox.rect.y ? 1 : -1;
+                              const calcAvgY = (dim, val_count) => {
 
+                                  if(dim && dim.isVisible && dim.boundingBox &&
+                                     dim.boundingBox.rect) {
+                                      val_count.val += dim.boundingBox.rect.y;
+                                      val_count.count++;
+
+                                  }
+                              };
+
+                              calcAvgY(diffA.newDim, a_val_count);
+                              calcAvgY(diffA.origDim, a_val_count);
+                              calcAvgY(diffB.newDim, b_val_count);
+                              calcAvgY(diffB.origDim, b_val_count);
+
+                              a_avg_val = a_val_count.val / Math.max( a_val_count.count, 1 );
+                              b_avg_val = b_val_count.val / Math.max( b_val_count.count, 1 );
+
+                              return a_avg_val - b_avg_val;
                           });
 
         return (
