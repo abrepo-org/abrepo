@@ -37,12 +37,16 @@ export default class Diff extends React.Component {
 
     getBboxLocation() {
 
-        //DiffPanel - no notion of new/orig like Bbox; so we defer to newDim bbox
-        const dim = this.props.diff.newDim || this.props.diff.origDim;
+        const currentRef = (this.props.diff.newDim &&
+                     this.props.diff.newDim.ref &&
+                     this.props.diff.newDim.ref.current) ||
+              (this.props.diff.origDim &&
+               this.props.diff.origDim.ref &&
+               this.props.diff.origDim.ref.current);
 
-        if (!(dim.ref && dim.ref.current)) return null;
+        if (!currentRef) return null;
 
-        const rect = dim.ref.current.getClientRects()[0];
+        const rect = currentRef.getClientRects()[0];
 
         return {
             newDim: this.props.diff.newDim,

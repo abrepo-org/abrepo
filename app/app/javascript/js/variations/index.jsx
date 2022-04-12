@@ -103,7 +103,7 @@ export default class Variation extends React.Component {
         //setState clicked, toggle diff visible
         //ref are set in BoundingBox.jsx, Diff.jsx on componentDidMount
         //key for scrollBy is to aim at viewport midpoint - innerHeight/2
-        console.log("diffClickHandler", diffRef, location);
+        console.log("diffClickHandler", diffRef, location, this.state.diffs);
 
         if (!location) return;
 
