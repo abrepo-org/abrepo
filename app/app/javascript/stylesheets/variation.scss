@@ -38,6 +38,18 @@ button {
   text-transform: capitalize;
 }
 
+.diffPanel .cssbox{
+  display: inline-flex;
+  align-items: center;
+
+  width: .75rem;
+  height: .75rem;
+  border: 1px solid black;
+  padding-bottom: .25rem;
+  margin: 0 .25rem 0 .125rem;
+  border-radius: .125rem;
+}
+
 button.diffDetail {
     height: 20px;
     border: 0px;
