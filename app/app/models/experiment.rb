@@ -42,6 +42,17 @@ class Experiment < ApplicationRecord
   obfuscatable attributes: [:summary_name, :domain, :audience_name]
   validates :crawlId, :domain, :a_id, :profile_id, :vendor_id, presence: true
 
+  def audience
+    multiple_name = "Targeting: Various"
+
+    if self.audience_name.blank?
+      return multiple_name unless self.obfuscated
+      return obfuscate_text(multiple_name)
+    end
+
+    return self.audience_name
+  end
+
   def tags
     self.variations.map{ |v| v.tag + v.page_tag}
       .flatten

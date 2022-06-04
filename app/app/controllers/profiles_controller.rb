@@ -6,8 +6,7 @@ class ProfilesController < ApplicationController
     @query = params[:query].blank? ? nil : params[:query]
     @industries = [* params[:industries] ]
 
-    @profiles = Profile
-                  .includes(:experiments)
+    @profiles = policy_scope(Profile)
                   .where.not(experiments: { profile_id: nil})
                   .order(updated_at: :desc)
 
@@ -61,8 +60,10 @@ class ProfilesController < ApplicationController
 
 
   def show
-    @profile = Profile.includes(:experiments)
+    @profile = policy_scope(Profile)
                  .find_by_id(params[:id])
+
+    raise ActionController::RoutingError.new('Not Found') if (@profile.nil?)
 
     @experiments = policy_scope(@profile.experiments)
                      .includes([:source_vendor,

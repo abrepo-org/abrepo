@@ -35,7 +35,7 @@
 #receive a variation id query for the above.
 
 class Action < ApplicationRecord
-  has_many :renderables
+  has_many :renderables, dependent: :destroy
   has_many :variations, through: :renderables
 
   validates :a_id, :url, presence: true

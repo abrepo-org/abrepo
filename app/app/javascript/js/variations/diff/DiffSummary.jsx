@@ -4,6 +4,38 @@ const DiffSummary = (props) => {
 
     if (!props.summary) return null;
 
+    const cssRegExp = 'rgb\(\s*\d+,\s*\d+,\s*\d+\);?';
+
+    const format_css = (summary) => {
+
+        if (!summary.includes('rgb(')) return summary;
+
+        const s = summary.split(/(rgb\(\s*\d+,\s*\d+,\s*\d+\));?/);
+
+        let flag = false;
+        for (let i = 0; i < s.length; i++) {
+
+            if (s[i].includes('rgb') ) {
+                const rgb = s[i];
+                const style = { backgroundColor: rgb };
+                s[i-1] = <span>{s[i-1]}</span>;
+                s[i] =
+                    <>
+                    <span class='cssbox' title={rgb} style={style}>&nbsp;&nbsp;</span>
+                    <span>{rgb}</span>
+                    <br/>
+                    </>;
+
+                flag = true;
+            }
+
+        }
+
+        if (flag) return s;
+
+        return summary;
+    };
+
     //display only
     //values are taken from summary.results
     const format_truncate = (text, skip)  => {
@@ -85,13 +117,22 @@ const DiffSummary = (props) => {
          */
     }
 
+    let summary = format_truncate( props.summary, !props.detail );
+    try {
+        summary = format_css(summary);
+    } catch(e) {
+        console.error("format_css err");
+    }
+
+
+
     return(
         <div className="diff-summary is-flex is-align-items-baseline pt-2 pb-1">
           <div className={`${props.colorClass}`}>
             {props.icon}
           </div>
           <div className='diff-summary summary-text pl-2'>
-            {format_truncate( props.summary, !props.detail )}
+            {summary}
           </div>
         </div>
     );

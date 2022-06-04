@@ -34,10 +34,7 @@ module Obfuscatable
       self.readonly!
 
       self.obfuscated_attrs.each do |attr|
-        self[attr] = self[attr]
-                       .chars
-                       .map{ |c| c.ord == 32 ? c : (rand(26) + 97).chr  }
-                       .join() unless self[attr].blank?
+        self[attr] = obfuscate_text(self[attr]) unless self[attr].blank?
       end
 
       self[:obfuscated] = true
@@ -46,4 +43,9 @@ module Obfuscatable
     self
   end
 
+  def obfuscate_text(text)
+       text.chars
+         .map{ |c| c.ord == 32 ? c : (rand(26) + 97).chr  }
+         .join()
+  end
 end

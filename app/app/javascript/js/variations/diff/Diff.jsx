@@ -37,18 +37,22 @@ export default class Diff extends React.Component {
 
     getBboxLocation() {
 
-        //DiffPanel - no notion of new/orig like Bbox; so we defer to newDim bbox
-        const dim = this.props.diff.newDim || this.props.diff.origDim;
+        const currentRef = (this.props.diff.newDim &&
+                     this.props.diff.newDim.ref &&
+                     this.props.diff.newDim.ref.current) ||
+              (this.props.diff.origDim &&
+               this.props.diff.origDim.ref &&
+               this.props.diff.origDim.ref.current);
 
-        if (!(dim.ref && dim.ref.current)) return null;
+        if (!currentRef) return null;
 
-        const rect = dim.ref.current.getClientRects()[0];
+        const rect = currentRef.getClientRects()[0];
 
         return {
             newDim: this.props.diff.newDim,
             origDim: this.props.diff.origDim,
-            y: rect.y,
-            height: rect.height
+            y: rect && rect.y,
+            height: rect && rect.height
         };
     }
 
@@ -77,7 +81,7 @@ export default class Diff extends React.Component {
             <div
               className='diff p-3'
               ref={this.ref} style={rectStyle}
-              onClick={() => this.props.diffClickHandler(this.ref, this.getBboxLocation())}
+              onClick={() => this.props.diffClickHandler(this.props.diff, this.ref, this.getBboxLocation())}
               onMouseEnter={ () => this.props.bboxHoverHandler(this.props.diff.group_id || this.props.diff.id)}
               onMouseLeave={ () => this.props.bboxHoverHandler(null)}>
 

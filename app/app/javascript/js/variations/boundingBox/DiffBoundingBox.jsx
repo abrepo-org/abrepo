@@ -13,13 +13,16 @@ const DiffBoundingBox = (props) => {
 
     const color = colors[props.elem.type];
 
-    //index.jsx: diffBboxClickHandler
+    //click wrapper to extract diff's rect before passing it
+    //to prop handler in index.jsx
     const diffBboxClickHandler = (elem) => {
 
         const rect = elem.ref &&
               elem.ref.current &&
               elem.ref.current.getClientRects()[0];
 
+        //this is index.jsx:diffBboxClickHandler
+        //renderableContainer -> index.jsx
         props.bboxClickHandler(elem, rect);
     };
 
