@@ -24,6 +24,16 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
 
         <%
+        # webpack.yml quirk:
+        # in dev extract_css:false so this line is ignored
+        # javascript_pack_tag inserts the css in <style> tag dynamically
+        # in prod extract_css:true so a static css file is generated
+        # and stylesheet_pack_tag is then enabled
+        #
+        %>
+        <%= stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+        <%
           packs = ['application']
           packs = ['application', 'shared-components'] \
           if current_page?(profiles_path) or current_page?(industries_path) or current_page?(tags_path) or current_page?(search_path)

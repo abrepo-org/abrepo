@@ -60,6 +60,13 @@ class Renderable < ApplicationRecord
 
     # NB default sort descending - highest avgY, but we want ordered asc (low to high)
     # diffs are obfuscated here if parent variation is obfuscated as well
+    #
+    # NB: Diffs are "sorted" in front-end as well, but using different criteria
+    # 1. sortedDiffs (this): order of diffs avgY
+    # 2. js/variations/index.jsx:render(): avgY
+    # 3. js/variations/RenderableContainer.jsx: z-index
+    #
+
     diffs = self.diffs
               .sort{ |d| d.avgY }
               .each{ |d|

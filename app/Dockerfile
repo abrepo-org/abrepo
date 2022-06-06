@@ -29,7 +29,10 @@ COPY . /app
 # not sure what happens when draining nodes and if requests might
 # hit non-existent (replaced by new container) asset files
 # RUN bundle exec rails webpacker:clobber
+ENV RAILS_ENV=production
+ENV SECRET_KEY_BASE=dummyprodprecompileonlykey
 RUN bundle exec rake assets:precompile
+
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/

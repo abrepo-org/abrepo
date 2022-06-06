@@ -35,8 +35,9 @@ commentary = false
             </div>
 
 
-            <div class="is-flex-desktop  mb-2">
+            <div class="is-flex-desktop is-justify-content-space-between mb-2">
 
+              <div>
                 <!-- domain -->
                 <div class="is-inline-block mb-3 mr-4">
                     <!-- TODO: add anchor link to experiment -->
@@ -55,7 +56,7 @@ commentary = false
                 <!-- Tags -->
                 <% unless @variation.tag.empty? && @variation.page_tag.empty? %>
 
-                    <div class="tags are-medium">
+                    <div class="tags are-medium is-inline-block">
                         <%= render partial: "shared/search_tag_list",
                         locals: {
                             obfuscated: false,
@@ -67,6 +68,17 @@ commentary = false
                     </div>
 
                 <% end %>
+              </div>
+
+              <div>
+                  <!-- Date -->
+                  <div class="is-hidden-touch">
+                      <span>
+                          <%= format_expvar_date(@variation.created_at) %>
+                      </span>
+                  </div>
+              </div>
+
             </div>
         </div>
 
