@@ -125,9 +125,10 @@ const DiffSummary = (props) => {
     }
 
 
+    const paddingTop = props.nonVisible ? "pt-1" : "pt-2";
 
     return(
-        <div className="diff-summary is-flex is-align-items-baseline pt-2 pb-1">
+        <div className={`diff-summary is-flex is-align-items-baseline ${paddingTop} pb-1`}>
           <div className={`${props.colorClass}`}>
             {props.icon}
           </div>

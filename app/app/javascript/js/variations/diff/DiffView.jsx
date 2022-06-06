@@ -13,13 +13,19 @@ export default class DiffView extends React.Component  {
 
         if (!this.props.diff) return null;
 
+        const notVisible = !this.props.diff.newDim.isVisible &&
+              !this.props.diff.origDim.isVisible;
+
+        const DeltaFontSize = notVisible ? "is-size-6" : "is-size-5";
+        const SummaryWrapFontSize = notVisible ? "is-size-7" : "is-size-6";
+
         return(
             <>
 
             { this.props.diff.summary_delta &&
               <div className="is-flex is-justify-content-space-between is-align-items-center">
 
-                  <div className="diff-summary-delta is-size-5">
+                  <div className={`diff-summary-delta ${DeltaFontSize}`}>
                       {this.props.diff.summary_delta}
                   </div>
 
@@ -29,20 +35,20 @@ export default class DiffView extends React.Component  {
               </div>
             }
 
-            {  !this.props.diff.newDim.isVisible &&
-               !this.props.diff.origDim.isVisible &&
+            {  notVisible &&
                <div className="has-text-grey is-size-7">
                    Not Visible
                </div>
             }
 
-            <div className="diff-summary-wrap">
+            <div className={`diff-summary-wrap ${SummaryWrapFontSize}`}>
 
                 <DiffSummary summary={this.props.diff.summary_added}
                              diff={this.props.diff}
                              detail={this.props.detail}
                              icon="&#65291;"
                              colorClass='icon-add'
+                             notVisible={notVisible}
                 />
 
                 <DiffSummary summary={this.props.diff.summary_removed}
@@ -50,6 +56,7 @@ export default class DiffView extends React.Component  {
                              detail={this.props.detail}
                              icon="&#65293;"
                              colorClass='icon-remove'
+                             notVisible={notVisible}
                 />
 
             </div>

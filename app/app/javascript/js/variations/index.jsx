@@ -350,6 +350,16 @@ export default class Variation extends React.Component {
         });
     }
 
+    //filter out invisible diffs
+    //used to append 'non-visible' changes at end of avgY sort order
+    filterDiffsNotVisible(diffs) {
+        const isNotVisible = (dim) => !dim || !dim.isVisible;
+
+        return diffs.filter( diff => {
+            return isNotVisible(diff.newDim) && isNotVisible(diff.origDim)
+        });
+    }
+
     //filters diffs for BoundingBox-component compatibile object
     //and selecting for control - newDim/origDim accordingly.
     filterRenderableDiffs(diffs, isControl) {
@@ -383,12 +393,17 @@ export default class Variation extends React.Component {
 
         if(!this.state.diffs) return (<div></div>);
 
-        const diffs = this.filterDiffsActiveView(this.state.diffs)
+        //filter to place diffs at end
+        const invisibles = this.filterDiffsNotVisible(this.state.diffs)
+        const visibles = this.state.diffs.filter( diff => !invisibles.includes(diff) )
+
+        const diffs = this.filterDiffsActiveView(visibles)
                           .sort( (diffA, diffB) => {
                               /*
                                * sort by "average" y-value of new and orig boundingBox,
                                * making sure to accommodate non-existent values
                                */
+
                               let a_avg_val = 0;
                               let b_avg_val = 0;
 
@@ -414,7 +429,8 @@ export default class Variation extends React.Component {
                               b_avg_val = b_val_count.val / Math.max( b_val_count.count, 1 );
 
                               return a_avg_val - b_avg_val;
-                          });
+                          })
+                          .concat(this.filterDiffsActiveView(invisibles));
 
         return (
             <>
