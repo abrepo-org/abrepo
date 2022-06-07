@@ -36,7 +36,7 @@
 
                 <!-- company info -->
                 <div class="mr-4 mb-4">
-                    <%= obfuscate_link_to experiment.obfuscated?, profile do %>
+                    <%= obfuscate_link_to experiment.obfuscated?, profile_path_slug(profile) do %>
                         <span class="profile_favicon">
                             <%= image_tag(profile.favicon_url ||
                                           'https://www.' + profile.domain + '/favicon.ico',
