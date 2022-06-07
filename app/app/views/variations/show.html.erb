@@ -41,7 +41,7 @@ commentary = false
                 <!-- domain -->
                 <div class="is-inline-block mb-3 mr-4">
                     <!-- TODO: add anchor link to experiment -->
-                    <%= link_to profile_path(@profile) do %>
+                    <%= link_to profile_path_slug(@profile) do %>
 
                         <span class="profile_favicon">
                             <%= image_tag(@profile.favicon_url ||

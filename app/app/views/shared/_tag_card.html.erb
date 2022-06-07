@@ -25,7 +25,7 @@
                     <% end %>
 
                     <% if controller_name == "industries"  %>
-                        <%= link_to profile_path(example[:id]) do %>
+                        <%= link_to profile_path_slug(example) do %>
                             <%= example[:company_name] %>
                         <% end %>
                     <% end %>

@@ -1,8 +1,8 @@
 <% if true %>
 
     <li class="has-text-left" style="width:100%;">
-        <%= link_to profile_path(top_profile[:id]) do %>
-            <%= top_profile[:name] %>
+        <%= link_to profile_path_slug(top_profile) do %>
+            <%= top_profile[:company_name] %>
         <% end %>
     </li>
 
@@ -11,8 +11,8 @@
     <!-- Table view -->
     <tr>
         <td>
-            <%= link_to profile_path(top_profile[:id]) do %>
-                <%= top_profile[:name] %>
+            <%= link_to profile_path_slug(top_profile) do %>
+                <%= top_profile[:company_name] %>
             <% end %>
         </td>
 
