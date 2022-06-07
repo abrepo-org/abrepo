@@ -17,7 +17,7 @@ class Sidebar
         (SELECT EXTRACT(EPOCH FROM experiments.created_at)) ) / 3600) + 2, 1.8))
       })
 
-    profiles.map{ |p| {id: p[0][0], name: p[0][1], updated_at: p[0][2] } }
+    profiles.map{ |p| {id: p[0][0], company_name: p[0][1], updated_at: p[0][2] } }
 
   end
 
