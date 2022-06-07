@@ -31,11 +31,14 @@ Rails.application.routes.draw do
   get 'imports', action: :index, controller: 'imports'
   post 'imports', action: :create, controller: 'imports'
 
-  #TODO: nest these routes profiles/<domain>/variations/<slugname> for better SEO
+  #SEO slugified routes (redirects in controller)
+  # variations/:id/<summary_name>
+  # profiles/<:id/<company_name>
   get '/profiles/:id/*name', action: :show, controller: 'profiles'
   resources :profiles, only: ['show', 'index']
-
+  get '/variations/:id/*name', action: :show, controller: 'variations'
   resources :variations, only: ['show', 'update']
+
   resources :experiments, only: ['update']
   resources :tags, only: ['index']
   resources :industries, only: ['index']
