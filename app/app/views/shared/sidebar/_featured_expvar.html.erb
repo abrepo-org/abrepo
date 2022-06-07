@@ -1,8 +1,8 @@
 <li class="has-text-left" style="width:100%;">
 
-    <%= link_to profile_path(experiment.profile,
-                             anchor: "exp#{experiment.id}"),
-                             title: experiment.summary_name do %>
+    <%= link_to profile_path_slug(experiment.profile,
+                                  anchor: "exp#{experiment.id}"),
+                                  title: experiment.summary_name do %>
         <%= experiment.summary_name %>
     <% end %>
 

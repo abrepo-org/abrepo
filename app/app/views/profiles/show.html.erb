@@ -38,7 +38,7 @@
                 <% if result[:type] == :active %>
 
                     <span class="tag is-info is-light">
-                        <%= link_to profile_path(result[:company].id), class:'is-flex' do %>
+                        <%= link_to profile_path_slug(result[:company]), class:'is-flex' do %>
                             <%= image_tag(result[:company].favicon_url,
                                           class:"mr-2",
                                           loading: 'lazy',
