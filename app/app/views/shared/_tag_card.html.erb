@@ -19,7 +19,7 @@
                 <li style="height:1.5rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
 
                     <% if controller_name == "tags"  %>
-                        <%= link_to variation_path(example[:id]) do %>
+                        <%= link_to variation_path_slug(example) do %>
                             <%= example[:summary_name] %>
                         <% end %>
                     <% end %>
