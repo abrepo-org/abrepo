@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   # 500 can't direct to static file since handled by router
   %w( 404 422 500 ).each do |code|
     get code, action: "show", controller: "errors", :code => code
-  end  
+  end
 
   devise_scope :user do
 
@@ -32,7 +32,9 @@ Rails.application.routes.draw do
   post 'imports', action: :create, controller: 'imports'
 
   #TODO: nest these routes profiles/<domain>/variations/<slugname> for better SEO
+  get '/profiles/:id/*name', action: :show, controller: 'profiles'
   resources :profiles, only: ['show', 'index']
+
   resources :variations, only: ['show', 'update']
   resources :experiments, only: ['update']
   resources :tags, only: ['index']
