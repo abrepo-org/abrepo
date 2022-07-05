@@ -64,10 +64,14 @@ class Diff < ApplicationRecord
     self.selectorDisplayName = nil
   end
 
+  def isNotVisible()
+    return !(self.newDim['isVisible'] && self.origDim['isVisible'])
+  end
+
   def avgY()
 
     #if not visible change, set to maxY
-    if !(self.newDim['isVisible'] && self.origDim['isVisible'])
+    if self.isNotVisible
       return Float::INFINITY
     end
 

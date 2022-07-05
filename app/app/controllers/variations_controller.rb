@@ -12,6 +12,10 @@ class VariationsController < ApplicationController
 
     raise ActionController::RoutingError.new('Not Found') if (@variation.nil?)
 
+    # redirect; serve only to proper parameterized slug url (/:id/slug)
+    vname = @variation.summary_name.parameterize
+    redirect_to "/variations/#{@variation.id}/#{vname}" unless params[:name] == vname
+
 
     @experiment = @variation.experiment
     @campaign = @experiment.campaign

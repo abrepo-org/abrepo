@@ -10,13 +10,13 @@
         <div class="company-info">
             <h1><%= @profile.company_name %></h1>
             <h4>
-                <%= link_to @profile do %>
+                <%= link_to profile_path_slug(@profile) do %>
 
                     <span class="profile_favicon">
                       <%= image_tag(@profile.favicon_url, loading: 'lazy') if @profile.favicon_url %>
                     </span>
 
-                    <span><%= link_to @profile.domain, @profile %></span>
+                    <span><%= link_to @profile.domain, profile_path_slug(@profile) %></span>
 
                 <% end %>
             </h4>
@@ -38,7 +38,7 @@
                 <% if result[:type] == :active %>
 
                     <span class="tag is-info is-light">
-                        <%= link_to profile_path(result[:company].id), class:'is-flex' do %>
+                        <%= link_to profile_path_slug(result[:company]), class:'is-flex' do %>
                             <%= image_tag(result[:company].favicon_url,
                                           class:"mr-2",
                                           loading: 'lazy',

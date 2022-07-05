@@ -65,7 +65,7 @@
                     <tr class="variation-row-data">
                         <!-- Summary Name -->
                         <td width="33%">
-                            <%= link_to variation_path(variation) do %>
+                            <%= link_to variation_path_slug(variation) do %>
                                 <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
                                 <%= is_published?(variation) %>
                             <% end %>

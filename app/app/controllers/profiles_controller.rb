@@ -60,10 +60,15 @@ class ProfilesController < ApplicationController
 
 
   def show
+
     @profile = policy_scope(Profile)
                  .find_by_id(params[:id])
 
     raise ActionController::RoutingError.new('Not Found') if (@profile.nil?)
+
+    # redirect; serve only to proper parameterized slug url (/:id/slug)
+    pname = @profile.company_name.parameterize
+    redirect_to "/profiles/#{@profile.id}/#{pname}" unless params[:name] == pname
 
     @experiments = policy_scope(@profile.experiments)
                      .includes([:source_vendor,

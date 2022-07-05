@@ -22,7 +22,7 @@ operations to pull container ids.
 2. Run sequence of restore operations
   * `./restore_pgbackrest_1.sh`: pgbackrest pulls from s3
   * `./restore_pgbackrest_2.sh`: starts pg container with `run.sh`
-    that preserves `recovery.signal`. Cntrl-C out of db.
+    that preserves `recovery.signal`. Cntrl-C out of db. <-- THIS IS THE KEY STEP IF DIFFICULTY RESTARTING DB. make sure to run via `run.sh` in this script.
   * `./restore_pgbackrest)3.sh`: cleans up and restarts service
 
 ## Switching Repo
