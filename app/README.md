@@ -313,6 +313,18 @@ Can cause problems in helpers.
 ```
 
 
+#### Cache Busting / Clearing
+
+
+* File system cache: `rake tmp:cache:clear`
+* default "in-memory" cache: `Rails.cache.clear`
+    * This is the current default used for view fragment caches
+
+To clear cache, execute in Rails console live: `bundle exec rails c;
+Rails.cache.clear`. Might need to do this in prod live since cache
+keys are often manually chosen, I inadvertently might forget to
+include a model, etc.
+
 
 ### Imports Controller Logic
 
