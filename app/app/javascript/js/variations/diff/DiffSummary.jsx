@@ -53,8 +53,14 @@ const DiffSummary = (props) => {
         let texts = diff.calculated && diff.calculated.text;
 
 
-        // 1. Remove danging neutral-> should this be in ablabel?
-        if (texts && texts.length) {
+        // 1. Remove danging neutral
+        const trunc = (text !== null) && !(text => /[£$€¥]/.test(text));
+        if (!trunc) {
+            console.log("[format_truncate()] currency detecting,\
+                        skipping dangling neutral truncation");
+        }
+
+        if (trunc && texts && texts.length) {
             const last = texts[texts.length - 1];
             const i = text.lastIndexOf(last.value);
 
@@ -73,7 +79,7 @@ const DiffSummary = (props) => {
         const isTruncable = texts && texts.length && texts.every( diff_text => {
             const isNeutral = !diff_text['added'] && !diff_text['removed'];
             if(isNeutral) {
-                return text.includes(diff_text.value)
+                return text.includes(diff_text.value);
             }
             return true;
         });
