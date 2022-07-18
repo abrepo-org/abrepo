@@ -10,7 +10,18 @@ class HomeController < ApplicationController
   # 5. (quality, visitor, date, affinity): affinity some score of personal preference
 
   def index
-    @experiments = policy_scope( Experiment.calcRank )
+
+    # added 'calcscoreRank' sql alias breaks pagy - pagy assumes the
+    # column exists in database but it's not. (similar with calling
+    # pluck(:id) on result set.
+    # add a hacky roundabout id query for pagination :\
+    experiment_ids = Experiment
+                       .calcRank(Experiment.count)
+                       .map{ |e| e.id }
+
+    @experiments = policy_scope(Experiment)
+                     .where(id: experiment_ids)
+
     @pagy, @experiments = pagy(@experiments)
     @experiments = obfuscate_from(@experiments, 0) if (not subscribed_or_moderator) &&
                                                       (params[:page] && params[:page].to_i > 2)
@@ -24,7 +35,7 @@ class HomeController < ApplicationController
     # choose experiments:
     # 1. featured: true -> defer for now
     # 2. or topN of calcRank
-    @featured_experiments = Experiment.calcRank.limit(5)
+    @featured_experiments = policy_scope(Experiment).calcRank(5)
 
     @user_saved_variations = user_saved_variations_hash
   end

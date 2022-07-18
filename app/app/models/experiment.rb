@@ -74,13 +74,12 @@ class Experiment < ApplicationRecord
 
   end
 
-  def self.calcRank
 
-    Experiment
-      .select("*, experiments.calcscore / (POW(( ( (SELECT EXTRACT(EPOCH FROM CURRENT_TIMESTAMP(0))) - (SELECT EXTRACT(EPOCH FROM experiments.created_at)) ) / 3600) + 2, 1.8)) as calcscoreRank")
-      .from("experiments")
+  def self.calcRank(num)
+
+    select("*, (experiments.calcscore / (POW(( ( (SELECT EXTRACT(EPOCH FROM CURRENT_TIMESTAMP(0))) - (SELECT EXTRACT(EPOCH FROM experiments.created_at)) ) / 3600) + 2, 1.8))) as calcscoreRank")
       .order('calcscoreRank desc')
-
+      .limit(num)
   end
 
 end
