@@ -129,28 +129,32 @@ export default class Variation extends React.Component {
             shiftV, shiftC
         });
 
-        console.log("DIFFBB", this.state.shiftV, this.state.shiftC);
+        console.log("DIFFBB Shift", this.state.shiftV, this.state.shiftC);
 
         const scaledContentHeight = this.getScaledHeight();
 
-        const y = location.y;
+        const currentRef = location.ref;
+        const rect = location.rect;
+        const y = rect.y;
 
         // displayed image can be too short for a scrollbar
         // (compared to window.innerHeight)
         //
         // in this case we scroll the global window down to the
         // y coord of the rect
+        //
+        //overscroll scroll
+        //measure height of experiment header that disappears on
+        //scroll on short pages this causes improper scroll
+        //distances //260
+        const $variation = document.querySelector('section.variation');
+
+        const STICKY_HEADER_HEIGHT = $variation ?
+              $variation.getClientRects()[0].height : 170;
+
+        //for small screens less than display window
         if (scaledContentHeight < window.innerHeight) {
-
-            //overscroll scroll
-            //measure height of experiment header that disappears on
-            //scroll on short pages this causes improper scroll
-            //distances //260
-            const $variation = document.querySelector('section.variation');
-
-            const STICKY_HEADER_HEIGHT = $variation ?
-                  $variation.getClientRects()[0].height : 170;
-
+            //console.log("SMALL",Math.min(y, STICKY_HEADER_HEIGHT));
             window.scrollTo({
                 top: Math.min(y, STICKY_HEADER_HEIGHT),
                 left: 0,
@@ -158,10 +162,43 @@ export default class Variation extends React.Component {
             });
 
         } else {
+            // bbox is below fold
+
+            const $content = this.renderablePanelRef.current.querySelector('.column');
+            const pad = this.renderablePanelRef.current.getClientRects()[0].y;
+            const offset = $content.getClientRects()[0].y - pad;
+
+            // console.log("y", y,
+            //             "offset", offset,
+            //             $pad", pad,
+            //             "y+offset", y+offset,
+            //             "scaledHeight", scaledContentHeight,
+            //             "scaleedHeight - offset", scaledContentHeight + offset);
 
             this.renderablePanelRef.current.scrollBy({left:0,
                                                       top: y - window.innerHeight / 2,
                                                       behavior: "smooth"});
+
+            //y: is bbox rect.y
+            //offset: inner scroll container y - roughly how much has been scrolled
+            //
+            //thought is position of bbox exceeds > image height - px scrolled
+            //then it should be on the 2nd page so trigger a
+            //"pagination" (outer window scroll)
+
+            //NB: offset value turns more negative as scroll deeper
+            //(location 'moves up' (negative y)
+            //
+            //this pagination logic is hacky - trial & error vs
+            //detailed calculation but need to move on.
+            if (y >= scaledContentHeight + offset) {
+
+                window.scrollBy({
+                    top: document.body.offsetHeight,
+                    behavior: 'smooth'
+                });
+            }
+
         }
 
         // Wiggle animation onClick to help identify diff location
