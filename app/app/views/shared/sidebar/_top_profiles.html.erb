@@ -11,7 +11,7 @@
             <!-- toggle partial view false also -->
             <ul style="width:100%;">
                 <%= render partial: "/shared/sidebar/top_profile",
-                collection: @top_profiles, cached: true %>
+                collection: @top_profiles, cached: true, expires_in: 1.day %>
             </ul>
 
         <% else %>

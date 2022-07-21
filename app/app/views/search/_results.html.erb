@@ -51,7 +51,7 @@
                     experiment.obfuscated?,
                     subscribed_or_moderator,
                     calc_usv_cache_key(@user_saved_variations, experiment),
-                    '/expvar_table'] do %>
+                    '/expvar_table'], expires_in: 1.day do %>
 
               <%= render partial: "/shared/expvar_table",
               locals: {
