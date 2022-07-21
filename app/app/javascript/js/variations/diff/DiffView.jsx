@@ -44,6 +44,7 @@ export default class DiffView extends React.Component  {
             <div className={`diff-summary-wrap ${SummaryWrapFontSize}`}>
 
                 <DiffSummary summary={this.props.diff.summary_added}
+                             summary_format={this.props.diff.summary_added_format}
                              diff={this.props.diff}
                              detail={this.props.detail}
                              icon="&#65291;"
@@ -52,6 +53,7 @@ export default class DiffView extends React.Component  {
                 />
 
                 <DiffSummary summary={this.props.diff.summary_removed}
+                             summary_format={this.props.diff.summary_removed_format}
                              diff={this.props.diff}
                              detail={this.props.detail}
                              icon="&#65293;"

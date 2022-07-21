@@ -4,13 +4,28 @@ const DiffSummary = (props) => {
 
     if (!props.summary) return null;
 
-    const cssRegExp = 'rgb\(\s*\d+,\s*\d+,\s*\d+\);?';
+    //TODO: add notes highlighting detection (abanno) and render functions (here)
+    const format_css = (diff, summary_delta, summary, summary_format) => {
 
-    const format_css = (summary) => {
+        if (!summary_format) return summary;
+
+        if (!summary_format.toLocaleLowerCase().includes('css')) return summary;
+
+        summary = summary.split(";").join(';<br/>');
+
+        return summary;
+    };
+
+    /*
+     * replaces css text 'rgb(...' with icon and color
+     */
+    const format_rgb_css = (summary) => {
 
         if (!summary.includes('rgb(')) return summary;
 
-        const s = summary.split(/(rgb\(\s*\d+,\s*\d+,\s*\d+\));?/);
+        const cssRegExp = /(rgb\(\s*\d+,\s*\d+,\s*\d+\));?/;
+
+        const s = summary.split(cssRegExp);
 
         let flag = false;
         for (let i = 0; i < s.length; i++) {
@@ -21,7 +36,8 @@ const DiffSummary = (props) => {
                 s[i-1] = <span>{s[i-1]}</span>;
                 s[i] =
                     <>
-                    <span class='cssbox' title={rgb} style={style}>&nbsp;&nbsp;</span>
+                    <span className='cssbox'
+                          title={rgb} style={style}>&nbsp;&nbsp;</span>
                     <span>{rgb}</span>
                     <br/>
                     </>;
@@ -53,8 +69,14 @@ const DiffSummary = (props) => {
         let texts = diff.calculated && diff.calculated.text;
 
 
-        // 1. Remove danging neutral-> should this be in ablabel?
-        if (texts && texts.length) {
+        // 1. Remove danging neutral
+        const trunc = (text !== null) && !(text => /[£$€¥]/.test(text));
+        if (!trunc) {
+            console.log("[format_truncate()] currency detecting,\
+                        skipping dangling neutral truncation");
+        }
+
+        if (trunc && texts && texts.length) {
             const last = texts[texts.length - 1];
             const i = text.lastIndexOf(last.value);
 
@@ -73,7 +95,7 @@ const DiffSummary = (props) => {
         const isTruncable = texts && texts.length && texts.every( diff_text => {
             const isNeutral = !diff_text['added'] && !diff_text['removed'];
             if(isNeutral) {
-                return text.includes(diff_text.value)
+                return text.includes(diff_text.value);
             }
             return true;
         });
@@ -119,11 +141,29 @@ const DiffSummary = (props) => {
 
     let summary = format_truncate( props.summary, !props.detail );
     try {
-        summary = format_css(summary);
+        summary = format_css(props.diff, props.diff.summary_delta, summary, props.summary_format);
+        summary = format_rgb_css(summary);
     } catch(e) {
         console.error("format_css err");
     }
 
+    const renderSummary =(summary, summary_format) => {
+
+        if ( ["css", "raw"].includes(summary_format) ) {
+            return(
+                <div className='diff-summary summary-text pl-2'
+                     dangerouslySetInnerHTML={{__html: summary}}>
+                </div>
+            );
+        }
+
+        return(
+            <div className='diff-summary summary-text pl-2'>
+              {summary}
+            </div>
+        );
+
+    };
 
     const paddingTop = props.nonVisible ? "pt-1" : "pt-2";
 
@@ -132,9 +172,7 @@ const DiffSummary = (props) => {
           <div className={`${props.colorClass}`}>
             {props.icon}
           </div>
-          <div className='diff-summary summary-text pl-2'>
-            {summary}
-          </div>
+          {renderSummary(summary, props.summary_format)}
         </div>
     );
 };
