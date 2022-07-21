@@ -1,3 +1,3 @@
 <div id="autocomplete-destination" class="profiles-data">
-    <%= render partial: "profile", collection: @profiles, cached: true %>
+    <%= render partial: "profile", collection: @profiles, cached: true, expires_in: 1.day %>
 </div>

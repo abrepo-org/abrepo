@@ -9,7 +9,7 @@
         <ul class="field is-grouped-multiline" style="width:100%;">
 
           <%= render partial: "/shared/sidebar/top_industry",
-          collection: @top_industries, as: :tag, cached: true  %>
+          collection: @top_industries, as: :tag, cached: true, expires_in: 1.day %>
 
         </ul>
 
