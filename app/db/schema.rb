@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_06_210610) do
+ActiveRecord::Schema.define(version: 2022_07_21_031808) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,8 @@ ActiveRecord::Schema.define(version: 2022_04_06_210610) do
     t.string "diffPanel", default: "true"
     t.string "group_id"
     t.string "viewMode"
+    t.string "summary_added_format"
+    t.string "summary_removed_format"
     t.index ["renderable_id"], name: "index_diffs_on_renderable_id"
   end
 
