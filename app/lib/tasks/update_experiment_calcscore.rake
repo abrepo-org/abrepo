@@ -1,7 +1,7 @@
 namespace :abrepo do
   desc "Update all Experiment models with calcscore"
   #NB: ':environment' indicates dependency to allow access to models
-  task :testo => :environment do
+  task :experiment_calcscore => :environment do
     experiments = Experiment.all
     experiments.each do |e|
 

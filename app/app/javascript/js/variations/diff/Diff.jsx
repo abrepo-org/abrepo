@@ -24,7 +24,7 @@ export default class Diff extends React.Component {
     //and then setting it on the diff?
     componentDidMount() {
         const diff = this.state.diff;
-        diff['ref']=this.ref;
+        diff['ref']= this.ref;
 
         this.setState({
             diff
@@ -37,23 +37,29 @@ export default class Diff extends React.Component {
 
     getBboxLocation() {
 
-        const currentRef = (this.props.diff.newDim &&
-                     this.props.diff.newDim.ref &&
-                     this.props.diff.newDim.ref.current) ||
-              (this.props.diff.origDim &&
-               this.props.diff.origDim.ref &&
-               this.props.diff.origDim.ref.current);
+        const currentRef =
+        (this.props.diff.newDim &&
+         this.props.diff.newDim.ref &&
+         this.props.diff.newDim.ref.current) ||
+        (this.props.diff.origDim &&
+         this.props.diff.origDim.ref &&
+         this.props.diff.origDim.ref.current);
 
         if (!currentRef) return null;
 
         const rect = currentRef.getClientRects()[0];
 
+
         return {
-            newDim: this.props.diff.newDim,
-            origDim: this.props.diff.origDim,
-            y: rect && rect.y,
-            height: rect && rect.height
-        };
+            ref: currentRef,
+            rect: {
+                newDim: this.props.diff.newDim,
+                origDim: this.props.diff.origDim,
+                y: rect && rect.y,
+                height: rect && rect.height
+            }
+        }
+
     }
 
     render() {
