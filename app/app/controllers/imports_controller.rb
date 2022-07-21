@@ -208,7 +208,11 @@ class ImportsController < ApplicationController
         diff.origDim = d['origDim']
         diff.summary_delta = d['summary_delta'].blank? ? nil : d['summary_delta']
         diff.summary_added = d['summary_added'].blank? ? nil : d['summary_added']
+        diff.summary_added_format = d['summary_added_format'].blank? ?
+                                      nil : d['summary_added_format']
         diff.summary_removed = d['summary_removed'].blank? ? nil : d['summary_removed']
+        diff.summary_removed_format = d['summary_removed_format'].blank? ?
+                                        nil : d['summary_removed_format']
         diff.selector = d['selector']
         diff.selectorDisplayName = d['selectorDisplayName']
         diff.diffType = d['type']
