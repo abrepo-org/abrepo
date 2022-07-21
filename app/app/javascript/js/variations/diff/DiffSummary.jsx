@@ -149,7 +149,7 @@ const DiffSummary = (props) => {
 
     const renderSummary =(summary, summary_format) => {
 
-        if (summary_format == "css") {
+        if ( ["css", "raw"].includes(summary_format) ) {
             return(
                 <div className='diff-summary summary-text pl-2'
                      dangerouslySetInnerHTML={{__html: summary}}>
