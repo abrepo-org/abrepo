@@ -19,6 +19,12 @@ mkdir -p $DEFAULT_DIR/haproxy
 mkdir -p $DEFAULT_DIR/certbot
 
 #
+# CERT CHECK
+#
+
+./certbot/generate_certs.sh
+
+#
 # DOCKER BUILD
 # build from app's local Dockerfile
 #
