@@ -5,6 +5,32 @@ specific to `abrepo`, which is integrated with devise and user
 creation; found in [DEVISE-STRIPE.md](./DEVISE-STRIPE.md).
 
 
+## Quick Accounts
+
+Stripe Accounts
+
+NB: Stripe has a "test" and "live" mode.
+
+| Accounts     | Status                        | Users  |
+| --------     | -----                         | ------ |
+| ABrepo       | active + sole prop bank       | alan.verga@gmail.com |
+| abrepo dev   | inactive                      | alan.verga@gmail.com |
+| abrepo dev   | inactive                      | test@abrepo.com (developer account) |
+
+
+Accounts - Environment Keys
+
+`abrepo_dev` account/project is no longer active in Rails; keep around
+to bang on.
+
+| Accounts     | Rails Env  |  Stripe Env | Publishable Key Prefix | Webhook    |
+| --------     | ------     |  ----       | ----                   | -----      |
+| ABrepo       | production |  live       | pk_live_51KDJ          | whsec_soC2 |
+| ABrepo       | staging    |  live       | pk_live_51KDJ          | whsec_soC2 |
+| ABrepo       | dev        |  test       | pk_test_51KDJ          | whsec_iIvV |
+| abrepo_dev   | ---        |  test       | pk_test_51IHW          |            |
+
+
 ## Install
 
 1. Create an account on Stripe
