@@ -13,7 +13,8 @@ services:
       - ./db/postgres:/bitnami/postgresql
       - ./db/pgbackrest.conf:/etc/pgbackrest.conf
       - ./db/postgresql_custom.conf:/opt/bitnami/postgresql/conf/conf.d/postgresql_custom.conf
-      - ./db/archive.conf:/opt/bitnami/postgresql/conf/conf.d/archive.conf
+      # Read README.md for explicit restore ops
+      #- ./db/archive.conf:/opt/bitnami/postgresql/conf/conf.d/archive.conf
       #- ./db/run.sh:/opt/bitnami/scripts/postgresql/run.sh
     environment:
       - PGBACKREST_REPO1_PATH=/mnt/abrepo/pgbackrest

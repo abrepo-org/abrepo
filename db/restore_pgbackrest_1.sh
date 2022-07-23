@@ -15,8 +15,8 @@ echo "Grab PGBACKREST env vars"
 CONTAINER=$(docker ps --filter name=$PG_SERVICE_NAME -q)
 docker exec -t $CONTAINER sh -c 'set | grep "PGBACKREST\|POSTGRES"' > .env.pg1
 sed -i -E  "s/'//g" .env.pg1
-cat >> .env.pg1
-ALLOW_EMPTY_PASSWORD=yes
+echo "ALLOW_EMPTY_PASSWORD=yes" >> .env.pg1
+echo "Finished export to .env.pg1"
 
 # 2. shutdown
 echo "shutting down pg1"

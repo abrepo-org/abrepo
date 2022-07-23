@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # NB: need to disable interactive terminal (-i) in docker exec when run by cron
+# ./backup_pgbackrest.sh production prod_db_stanza diff 2
 set -x
 
 PG_DB_NAME=abrepo_www_prod
