@@ -15,15 +15,8 @@ module ApplicationHelper
     return tags_index || industry_index || users
   end
 
-  def format_subscription_date(subscription_id)
-    begin
-      stripe_subscription = Stripe::Subscription.retrieve(subscription_id)
-      time = Time.at(stripe_subscription.current_period_end)
-      puts time
-      return time.to_datetime.strftime('%B %-d')
-    rescue
-      return nil
-    end
+  def format_subscription_date(time)
+    return Time.at(time).to_datetime.strftime('%B %-d, %Y') if time
   end
 
   def format_expvar_date(utcDate)
