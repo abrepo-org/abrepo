@@ -13,7 +13,7 @@ version: '3.4'
 services:
   web:
     environment:
-      - STRIPE_REDIRECT_HOST=https://staging.abrepo.com
+      - MAILER_URL_HOST=https://staging.abrepo.com
 
     depends_on:
       # counterintuitive, but since it serves copy of static assets
