@@ -47,4 +47,14 @@ class User < ApplicationRecord
   def subscribed?
     self.subscriptions.pluck(:active).any?
   end
+
+  def stripe_subscription
+    begin
+      stripe_subscription_id = self.subscriptions.last.stripe_subscription_id
+      stripe_subscription = Stripe::Subscription.retrieve(stripe_subscription_id)
+      return stripe_subscription
+    rescue
+      return nil
+    end
+  end
 end
