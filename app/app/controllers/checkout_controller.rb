@@ -22,6 +22,12 @@ class CheckoutController < Devise::RegistrationsController
     respond_with resource
   end
 
+  # devise: registrations#edit (/users/edit)
+  # override to insert @subscription instance var
+  def edit
+    @subscription = current_user.stripe_subscription
+    super
+  end
   #
   # devise: registrations#create
   # modified last line to render checkout view on error (defaults to :new)

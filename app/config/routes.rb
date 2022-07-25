@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
   devise_scope :user do
 
+    get "/users/edit", action: :edit, controller: 'checkout'
+
     get "/checkout/account/(:lookup_key)", action: :account, controller: 'checkout',
         as: "checkout_account"
 
