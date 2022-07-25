@@ -67,7 +67,7 @@ module App
     # MAIL
     #
     config.action_mailer.delivery_method = :smtp
-    config.action_mailer.default_url_options = { host: ENV['STRIPE_REDIRECT_HOST'] }
+    config.action_mailer.default_url_options = { host: ENV['MAILER_URL_HOST'] }
     config.action_mailer.smtp_settings = {
       port: 587,
       address: ENV['AWS_SMTP_ADDRESS'],
