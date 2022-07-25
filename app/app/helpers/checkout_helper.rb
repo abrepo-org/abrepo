@@ -31,10 +31,10 @@ module CheckoutHelper
       },
 
       #NB: urls need to be full url not relative
-      success_url: "#{ENV['STRIPE_REDIRECT_HOST']}/checkout/success?session_id={CHECKOUT_SESSION_ID}",
+      success_url: "#{stripe_redirect_host}/checkout/success?session_id={CHECKOUT_SESSION_ID}",
 
       #stripe back button, no purchase
-      cancel_url:  "#{ENV['STRIPE_REDIRECT_HOST']}/#pricing",
+      cancel_url:  "#{stripe_redirect_host}/#pricing",
 
       payment_method_types: ['card'],
       mode: 'subscription',
@@ -101,5 +101,9 @@ module CheckoutHelper
   def get_customer_email()
     get_stripe_customer_id().nil? && user_signed_in? ?
       current_user.email : nil
+  end
+
+  def stripe_redirect_host()
+    [request.protocol, request.host_with_port].join
   end
 end
