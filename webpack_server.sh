@@ -4,7 +4,8 @@
 # this runtime takes over from compose and allows *much* faster
 # compilation for hot reloads
 
-echo "do you need to run stripe-cli.sh?"
+echo "do you need to run stripe_cli.sh?"
 
-DEFAULT_CMD=./bin/webpack-dev-server
-sudo docker exec -it abrepo_web_1 $DEFAULT_CMD
+DEV_SERVER_CMD=./bin/webpack-dev-server
+sudo docker exec -it abrepo_web_1 $DEV_SERVER_CMD
+

@@ -5,7 +5,9 @@
 # -forward-to: hostname only (use definitions with -a)
 # --skip-verify: https skip
 
-./docker_run.sh 'stripe listen --skip-verify -a --forward-to localhost:8081'
+STRIPE_CLI_CMD='stripe listen --skip-verify -a --forward-to localhost:8081'
+
+sudo docker exec -it abrepo_web_1 $STRIPE_CLI_CMD
 
 # ./docker_run.sh 'stripe listen --skip-verify -a --forward-to localhost:8081 --log-level debug'
 # ./docker_run.sh 'stripe listen --print-secret'
