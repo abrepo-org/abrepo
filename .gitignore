@@ -1,6 +1,7 @@
 .env*
 !.env.stub
 !.env.db.stub
+!.env.staging.stub
 db/*
 !db/*.md
 !db/*.sh
