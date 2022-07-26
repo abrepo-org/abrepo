@@ -119,8 +119,7 @@ services:
       #  order: stop-first
       restart_policy:
         condition: on-failure
-        delay: 5s
-        max_attempts: 3
+        delay: 10s
         window: 30s
       placement:
         constraints:
