@@ -21,6 +21,8 @@ Rails.application.routes.draw do
     post "/checkout/account/(:lookup_key)", action: :create, controller: 'checkout',
          as: "checkout_user_create"
 
+    # allow override of after_confirmation_path_for in confirmations controller
+    get "/users/confirmation", action: :show, controller: 'confirmations'
   end
 
   #enable custom 'after_sign_up_path_for'
