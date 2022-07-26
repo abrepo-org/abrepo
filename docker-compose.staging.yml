@@ -12,8 +12,8 @@
 version: '3.4'
 services:
   web:
-    environment:
-      - STRIPE_REDIRECT_HOST=https://staging.abrepo.com
+    env_file:
+      - .env.staging
 
     depends_on:
       # counterintuitive, but since it serves copy of static assets

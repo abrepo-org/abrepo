@@ -13,11 +13,17 @@ Rails.application.routes.draw do
 
   devise_scope :user do
 
+    get "/users/edit", action: 'redirect', controller: 'landing'
+
     get "/checkout/account/(:lookup_key)", action: 'redirect', controller: 'landing',
         as: "checkout_account"
 
     post "/checkout/account/(:lookup_key)", action: 'redirect', controller: 'landing',
          as: "checkout_user_create"
+
+    # allow override of after_confirmation_path_for in confirmations controller
+    get "/users/confirmation", action: :show, controller: 'confirmations'
+
   end
 
   devise_for :users, only: [:sessions, :registrations, only: [:edit]]

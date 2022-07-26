@@ -1,7 +1,7 @@
 FROM ruby:2.7.2
 
-#stripe CLI
-RUN curl -sL https://github.com/stripe/stripe-cli/releases/download/v1.7.8/stripe_1.7.8_linux_x86_64.tar.gz | tar -xz -C /usr/bin
+# stripe CLI
+RUN curl -sL https://github.com/stripe/stripe-cli/releases/download/v1.10.3/stripe_1.10.3_linux_x86_64.tar.gz | tar -xz -C /usr/bin
 
 RUN apt-get update -qq && apt-get install -y nodejs postgresql-client sqlite3 libsqlite3-dev nano
 RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash -

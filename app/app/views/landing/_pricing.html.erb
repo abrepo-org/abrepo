@@ -126,6 +126,29 @@
 
 
 <% content_for :footer do %>
+<%
+  # we enable stripe purchases by including the js that enriches the button:
+  # this sends to stripe.com via button data-url (create_checkout_session_path)
+  # versus internal rails route (link_to checkout_acccount_path)
+  #
+  # Goals are to:
+  #
+  # 1. for new users - send user to create account before purchase (user_signed_in?)
+  #    then send to purchase
+  #
+  # 2. If user created, but avoided purchase - user.subscribed? is false. Subsequent
+  #    purchase attempt is enabled (js inserted)
+  #
+  # For the current_user.subscribed? it's a general boolean toggle
+  # that relies on webhook to update status.
+  # Not granular - simply active:true/false.
+  #
+  # Goals:
+  #
+  # 3. avoid a single user purchasing multiple concurrent subscriptions
+  #
+  # 4: but allow users who have canceled to subscribe again.
+%>
     <% if user_signed_in? && !current_user.subscribed? %>
         <script src="https://js.stripe.com/v3/"></script>
         <%= javascript_pack_tag "stripe" %>

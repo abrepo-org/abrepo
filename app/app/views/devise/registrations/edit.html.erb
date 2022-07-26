@@ -88,55 +88,12 @@
 
         <h3> Manage Subscription  </h3>
 
-        <!-- Subscription Status -->
-        <div class="field">
-            <div class="label">Subscription Status</div>
-            <div class="control control-height">
-                <%= current_user.subscribed? ? "Monthly" : "Inactive" %>
-            </div>
-
-        </div>
-
-        <% if current_user.subscribed? %>
-            <div class="field">
-                <div class="label">Next Billing Date</div>
-                <div class="control control-height">
-                    <% subscription_id = current_user.subscriptions.last.stripe_subscription_id %>
-                    <%= subscription_id ? format_subscription_date(subscription_id) : "-" %>
-                </div>
-            </div>
-        <% end %>
-
-        <% if current_user.subscribed? %>
-            <div class="field">
-                <div class="label">Manage Payments</div>
-                <div class="control control-height">
-                    <button id="manageAccount" class="button"
-                            token="<%= form_authenticity_token %>" >
-                        Manage Stripe Payments
-                    </button>
-                </div>
-                <span id="manageAccount-err"
-                      class="help has-text-weight-normal is-inline-block is-danger">
-                </span>
-            </div>
-        <% else %>
-            <div class="field">
-                <div class="label">Enable Subscription</div>
-                <div class="control control-height">
-                    <%= link_to root_path(anchor: "pricing") do %>
-                        <button class="button">
-                            Subscribe Now
-                        </button>
-                    <% end %>
-                </div>
-
-            </div>
-        <% end %>
-
 
         <% # avoid direct cancel for now
             # see users/edit.js for form submit logic %>
+
+        <!-- Subscription Status -->
+        <%= render partial: "devise/registrations/subscription_status/index" %>
 
         <% if false %>
             <hr />

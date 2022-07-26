@@ -1,0 +1,98 @@
+<%
+# Subscription Status Overview
+#
+# 0. Never subscribed (local model current_user.subscribed? -> false)
+# 1. Subscribed - Active: calls stripe via stripe_subscription, status: active
+# 2. Subscribed but Canceling: status: active, but cancel_at_period_end: true
+# 3. Subscription Canceled: status: canceled
+#
+# TODO: refactor out stripe helper call in view,
+# but requires devise controller overload
+%>
+<% if current_user.subscribed? && !@subscription.nil? %>
+
+    <!--Active Subscription -->
+    <% if @subscription.status == "active" %>
+        <div class="field">
+            <div class="label">Subscription Type</div>
+            <div class="control control-height">
+                <%= @subscription.plan.nickname %>
+            </div>
+        </div>
+
+        <% if !@subscription.cancel_at_period_end %>
+        <!-- Active -->
+        <div class="field">
+            <div class="label">Next Billing Date</div>
+            <div class="control control-height">
+                <%= format_subscription_date(@subscription.current_period_end) || "-" %>
+            </div>
+        </div>
+
+        <% elsif @subscription.cancel_at_period_end && @subscription.cancel_at %>
+        <!-- Active but canceling (Ending) -->
+        <div class="field">
+            <div class="label">Subscription Ending</div>
+            <div class="control control-height">
+                <%= format_subscription_date(@subscription.cancel_at) %>
+            </div>
+        </div>
+        <% end %>
+
+
+        <div class="field">
+            <div class="label">Manage Payments</div>
+            <div class="control control-height">
+                <button id="manageAccount" class="button"
+                        token="<%= form_authenticity_token %>" >
+                    Manage Stripe Payments
+                </button>
+            </div>
+            <span id="manageAccount-err"
+                  class="help has-text-weight-normal is-inline-block is-danger">
+            </span>
+        </div>
+
+
+    <% else  %>
+
+        <!-- subscription inactive/canceled -->
+        <div class="field">
+            <div class="label">Subscription Ended</div>
+            <div class="control control-height">
+                <%= format_subscription_date(@subscription.canceled_at) %>
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="label">Payment History</div>
+            <div class="control control-height">
+                <button id="manageAccount" class="button"
+                        token="<%= form_authenticity_token %>" >
+                    View Payment History
+                </button>
+            </div>
+            <span id="manageAccount-err"
+                  class="help has-text-weight-normal is-inline-block is-danger">
+            </span>
+        </div>
+
+    <% end %>
+
+
+
+<% else %>
+
+    <!-- New & Never Subscribed -->
+    <div class="field">
+        <div class="label">Enable Subscription</div>
+        <div class="control control-height">
+            <%= link_to root_path(anchor: "pricing") do %>
+                <button class="button">
+                    Subscribe Now
+                </button>
+            <% end %>
+        </div>
+    </div>
+
+<% end %>
