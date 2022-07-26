@@ -9,34 +9,32 @@
 # TODO: refactor out stripe helper call in view,
 # but requires devise controller overload
 %>
-<% if current_user.subscribed? %>
-
-    <% subscription = current_user.stripe_subscription %>
+<% if current_user.subscribed? && !@subscription.nil? %>
 
     <!--Active Subscription -->
-    <% if subscription.status == "active" %>
+    <% if @subscription.status == "active" %>
         <div class="field">
             <div class="label">Subscription Type</div>
             <div class="control control-height">
-                <%= subscription.plan.nickname %>
+                <%= @subscription.plan.nickname %>
             </div>
         </div>
 
-        <% if !subscription.cancel_at_period_end %>
+        <% if !@subscription.cancel_at_period_end %>
         <!-- Active -->
         <div class="field">
             <div class="label">Next Billing Date</div>
             <div class="control control-height">
-                <%= format_subscription_date(subscription.current_period_end) || "-" %>
+                <%= format_subscription_date(@subscription.current_period_end) || "-" %>
             </div>
         </div>
 
-        <% elsif subscription.cancel_at_period_end && subscription.cancel_at %>
+        <% elsif @subscription.cancel_at_period_end && @subscription.cancel_at %>
         <!-- Active but canceling (Ending) -->
         <div class="field">
             <div class="label">Subscription Ending</div>
             <div class="control control-height">
-                <%= format_subscription_date(subscription.cancel_at) %>
+                <%= format_subscription_date(@subscription.cancel_at) %>
             </div>
         </div>
         <% end %>
@@ -62,7 +60,7 @@
         <div class="field">
             <div class="label">Subscription Ended</div>
             <div class="control control-height">
-                <%= format_subscription_date(subscription.canceled_at) %>
+                <%= format_subscription_date(@subscription.canceled_at) %>
             </div>
         </div>
 
