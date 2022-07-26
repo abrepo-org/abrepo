@@ -1,4 +1,3 @@
-#!/usr/bin/bash
 #
 # Notes:
 # Does not listen to resent events from dashboard, needs newly generated events
