@@ -35,7 +35,7 @@ namespace :abrepo do
 
       if profile.logo_url && profile.logo_url.include?("abrepo-assets")
         logo_uri = profile.logo_url.sub(domain, base64domain)
-        Profile.update(profile.id, logo_url: favicon_uri)
+        Profile.update(profile.id, logo_url: logo_uri)
         puts "#{profile.logo_url} -> #{logo_uri}"
       end
 
