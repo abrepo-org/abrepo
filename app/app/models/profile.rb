@@ -84,6 +84,20 @@ class Profile < ApplicationRecord
     tag_profiles
   end
 
+  def get_related_companies(num)
+
+    results = self.active_related_companies(num).collect do |company|
+      {type: :active, company: company}
+    end
+
+    results += self.inactive_related_companies( num - results.length )
+                 .collect do |company|
+      {type: :inactive, company: company}
+    end
+
+    return results
+  end
+
   def active_related_companies(num)
     self.related_companies.includes(:experiments)
       .where.not(experiments: {profile_id:nil})
