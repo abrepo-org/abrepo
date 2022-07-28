@@ -20,11 +20,28 @@ class ImportsController < ApplicationController
 
     profile = group['profile']
 
-    @profile = Profile
-                 .where(a_id: profile['_id'],
-                        domain: profile['domain'])
-                 .order(id: :desc)
-                 .first_or_create
+    # a_id: intended to lock the source of the submission - ideally,
+    # was submited from prod
+    #
+    # we don't want to ovewrite a prod source record with dev data.
+    #
+    # note a_id isn't intended to be a unique domain identifier - we
+    # assume domain uniqueness for now - when/if that gets violated
+    # see abextract:/lib/models/README.md for migrations/handling
+    # brainstorm
+    #
+
+    @profile = Profile.find_by(a_id: nil, domain: profile['domain'])
+
+    # empty profile doesn't exist, so check if an existing a_id
+    # profile exists - or go ahead and create it
+    if @profile.nil?
+      @profile = Profile
+                   .where(a_id: profile['_id'],
+                          domain: profile['domain'])
+                   .order(id: :desc)
+                   .first_or_create
+    end
 
     logger.error(@profile.errors.full_messages) &&\
     logger.error("Profile: #{@profile.inspect}") && \
@@ -32,30 +49,31 @@ class ImportsController < ApplicationController
       unless @profile.valid?
 
 
-    @profile.update(company_name: profile['company_name'],
+    @profile.update(a_id: profile['_id'],
+                    company_name: profile['company_name'],
                     industry_tag_list: group['tags']['industry_tag_list'],
                     url: profile['url'],
                     description: profile['description'],
                     favicon_url: profile['favicon_url'],
                     logo_url: profile['logo_url'])
 
-    #related companies
+
+    # if one day the same domain represents wholly different companies
+    # look to abextract:/lib/models/README.md
     related_companies = group['profile']['related_companies']
+    relateds = []
     related_companies.each do | related_company |
 
-      # TODO: issue is could have same domain for different companies
-      # e.g. 10 years later.
+      related = Profile.find_or_create_by(domain: related_company['domain'])
+      related.company_name = related_company['company_name'] if related.company_name.nil?
 
-      related = Profile.find_or_initialize_by(domain: related_company['domain'])
-      related.company_name = related_company['company_name']
-
-      if (!related.id.nil? && !@profile.related_companies.include?(related))
-        @profile.related_companies.push(related)
+      if (!@profile.related_companies.include?(related))
+        relateds.push(related)
       end
-
     end
 
-    puts @profile.related_companies.inspect
+    @profile.related_companies = relateds
+
 
     #
     # VENDOR
