@@ -106,6 +106,8 @@ class ProfilesController < ApplicationController
       @featured_experiments = policy_scope(Experiment)
                                 .calcRank(5)
 
+      @related_companies = @profile.get_related_companies(7)
+
       @user_saved_variations = user_saved_variations_hash
     end
   end
