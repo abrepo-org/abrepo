@@ -23,17 +23,20 @@
         </div>
 
     </div>
+
     <!-- - About -->
-    <div class="profile-label has-text-grey mt-3 mb-2">About</div>
-    <p><%= @profile.description %></p>
+    <% unless @profile.description.nil? %>
+        <div class="profile-label has-text-grey mt-3 mb-2">About</div>
+        <p><%= @profile.description %></p>
+    <% end %>
 
     <!-- Related Companies -->
-    <% if @profile.related_companies.length %>
+    <% unless @related_companies.empty? %>
 
         <div class="profile-label has-text-grey mt-3 mb-2">Related Companies</div>
 
         <div class="tags are-medium">
-            <% get_related_companies(@profile, 7).each do |result| %>
+            <% @related_companies.each do |result| %>
 
                 <% if result[:type] == :active %>
 
