@@ -64,7 +64,11 @@ class ProfilesController < ApplicationController
     @profile = policy_scope(Profile)
                  .find_by_id(params[:id])
 
-    raise ActionController::RoutingError.new('Not Found') if (@profile.nil?)
+    raise ActionController::RoutingError.new('Not Found') if @profile.nil?
+    # only allow mod to see empty profiles
+    if (!user_signed_in? or !current_user.moderator?) and @profile.experiments.empty?
+      raise ActionController::RoutingError.new('Not Found')
+    end
 
     # redirect; serve only to proper parameterized slug url (/:id/slug)
     pname = @profile.company_name.parameterize
