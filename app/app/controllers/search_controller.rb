@@ -4,13 +4,36 @@ class SearchController < ApplicationController
   def index
     #TODO: highlight match snippet
 
-    query = params[:query] || nil
-    industries = [* params[:industries] || [] ]
-    tags = [* params[:tags] || [] ]
+    query = []
+    qry_tags = []
+    qry_industries = []
+
+    if params[:query]
+      #split off tags, industries
+      params[:query].split.each do |qry|
+        if qry[0] == "[" && qry[-1] == "]"
+          qry_tags.push(qry[1..-2])
+        elsif  qry[0] == "{" && qry[-1] == "}"
+          qry_industries.push(qry[1..-2])
+        else
+          query.push(qry)
+        end
+      end
+
+    end
+
+    tags = [* params[:tags] || qry_tags || [] ]
+    industries = [* params[:industries] ||qry_industries || [] ]
 
     @query = query
     @tags = tags
     @industries = industries
+
+    @search_input_text = [
+      query.join(" "),
+      @tags.map{ |tag| "[#{tag}]" }.join(" "),
+      @industries.map{ |industry| "{#{industry}}" }.join(" "),
+    ].join(" ").strip
 
     # Currently:
     # just passing params to view layer; no check for query validity
