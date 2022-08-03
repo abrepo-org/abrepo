@@ -18,6 +18,25 @@ export const SearchForm = (props) => {
     //query
     const [query, setQuery] = useState( (searchParams && searchParams.get("query")) || '' );
 
+    //set tags and industry
+    let tags = [];
+    let industries = [];
+
+    if (query) {
+
+        //"[tag1], [tag1]"
+        tags = query.split(" ")
+            .filter(q => q && q.startsWith("[") && q.endsWith("]"))
+            .map(q => q.slice(1, -1));
+
+        //"{industry1}, {industry2}.."
+        industries = query.split(" ")
+            .filter(q => q && q.startsWith("{") && q.endsWith("}"))
+            .map(q => q.slice(1, -1));
+    }
+
+    //working here - build 'base' query for tags, exlcude industrries, for industries exclude
+    //tags, and these get populated in input
     return(
         <form id="search-form"
               className="is-flex"
@@ -25,15 +44,13 @@ export const SearchForm = (props) => {
               acceptCharset="UTF-8"
               method="get">
 
-            <InputText queryField="query"
-                       {...props} />
             {props.tags &&
              <SearchFilter
-                 searchParams={searchParams}
+                 selectedTags={tags}
                  filterOpenState={filterOpenState}
                  setFilterOpenState={setFilterOpenState}
                  id="1"
-                 queryField="tags[]"
+                 queryField="query"
                  name="Tags"
                  placeholder="CTA, home page"
                  baseURL="/tags.json" />
@@ -41,11 +58,11 @@ export const SearchForm = (props) => {
 
             {props.industries &&
              <SearchFilter
-                 searchParams={searchParams}
+                 selectedTags={industries}
                  filterOpenState={filterOpenState}
                  setFilterOpenState={setFilterOpenState}
                  id="2"
-                 queryField="industries[]"
+                 queryField="query"
                  name="Industries"
                  placeholder='Internet, Media'
                  baseURL="/industries.json" />

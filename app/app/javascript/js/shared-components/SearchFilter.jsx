@@ -5,10 +5,9 @@ import { AutoCompleteTag } from './AutoCompleteTag.jsx';
 export const SearchFilter = (props) => {
 
 
-    const [selectedTags, setSelectedTags] = useState((props.searchParams &&
-                                                      props.searchParams
-                                                           .getAll(props.queryField)) || '' )
-
+    //replace with props.parrsedparams
+    const [selectedTags, setSelectedTags] = useState( props.selectedTags )
+    
     const [autocompleteTags, setAutocompleteTags] = useState([]);
     const [autocompleteTotals, setAutocompleteTotals]  = useState(false);
     const [resetTrigger, setResetTrigger] = useState(0);
