@@ -27,8 +27,7 @@ class Variation < ApplicationRecord
   include Obfuscatable
   include PgSearch::Model
 
-  multisearchable against: [:summary_name, :tag_list, :page_tag_list],
-                  #against: [:summary_name],
+  multisearchable against: [:summary_name],
                   additional_attributes: -> (variation) {{ experiment_id: variation.experiment_id }}
 
   pg_search_scope :search_tag,
