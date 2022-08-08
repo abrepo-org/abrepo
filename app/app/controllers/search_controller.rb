@@ -29,11 +29,7 @@ class SearchController < ApplicationController
     @tags = tags
     @industries = industries
 
-    @search_input_text = [
-      query.join(" "),
-      @tags.map{ |tag| "[#{tag}]" }.join(" "),
-      @industries.map{ |industry| "{#{industry}}" }.join(" "),
-    ].join(" ").strip
+    @search_input_text = Search.buildSearchQuery(query, tags, industries)
 
     # Currently:
     # just passing params to view layer; no check for query validity
