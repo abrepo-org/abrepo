@@ -14,37 +14,13 @@ export const SearchForm = (props) => {
         '2': false
     });
 
-    //query
-    let searchParams = new URLSearchParams(window.location.search);
-    //const [query, setQuery] = useState( (searchParams && searchParams.get("query")) || '' );
-    let query = searchParams && searchParams.get("query") || '';
+    //initial url querystring 'query' param
+    const searchParams = new URLSearchParams(window.location.search);
+    const searchParamsQuery = searchParams && searchParams.get("query") || '';
 
-    //set tags and industry
-    let tags = [];
-    let industries = [];
-
-    if (query) {
-
-        //"[tag1], [tag1]"
-        tags = query.split(" ")
-            .filter(q => q && q.startsWith("[") && q.endsWith("]"))
-            .map(q => q.slice(1, -1));
-
-        //"{industry1}, {industry2}.."
-        industries = query.split(" ")
-            .filter(q => q && q.startsWith("{") && q.endsWith("}"))
-            .map(q => q.slice(1, -1));
-
-        //freetext query
-        query = query.split(" ")
-                     .filter(q => q && !q.startsWith("{") && !q.endsWith("}"))
-                     .filter(q => q && !q.startsWith("[") && !q.endsWith("]"));
-    }
-
-    const buildFormQuery = (query, selectedTags, selectedIndustries) => {
-        console.log("BuildForMQuery", query, selectedTags, selectedIndustries)
+    const buildFormQuery = (selectedQuery, selectedTags, selectedIndustries) => {
         return [
-            query,
+            selectedQuery,
             selectedTags.map( tag => `[${tag}]`).join(" "),
             selectedIndustries.map( tag => `{${tag}}`).join(" ")
         ].filter(q => q)
@@ -52,21 +28,43 @@ export const SearchForm = (props) => {
          .trim()
     }
 
-    const [selectedTags, setSelectedTags] = useState( tags );
-    const [selectedIndustries, setSelectedIndustries] = useState( industries );
-    const [formQuery, setFormQuery] = useState( buildFormQuery(query, selectedTags, selectedIndustries) );
+    //extract and set defaults with array of terms (freetext query, tags, industry)
+    const [selectedTags, setSelectedTags] = useState( () => {
+        return searchParamsQuery
+            .split(" ")
+            .filter(q => q && q.startsWith("[") && q.endsWith("]"))
+            .map(q => q.slice(1, -1));
+    })
 
-    console.log("Form tags", selectedTags);
-    console.log("Form industries", selectedIndustries);
-    console.log("Form query", query);
+    const [selectedIndustries, setSelectedIndustries] = useState( () => {
+        return searchParamsQuery
+            .split(" ")
+            .filter(q => q && q.startsWith("{") && q.endsWith("}"))
+            .map(q => q.slice(1, -1));
+    });
 
-    useEffect( () => {
-        console.log("useEffect")
-        setFormQuery(buildFormQuery(query, selectedTags, selectedIndustries));
+    const [selectedQuery, setSelectedQuery] = useState( () => {
+        return searchParamsQuery
+            .split(" ")
+            .filter(q => q && !q.startsWith("{") && !q.endsWith("}"))
+            .filter(q => q && !q.startsWith("[") && !q.endsWith("]"));
+    });
+
+    //query string for form submission
+    const [formQuery, setFormQuery] = useState( () => {
+        return buildFormQuery(selectedQuery, selectedTags, selectedIndustries)
     });
 
 
-    console.log("FORM QUERY", formQuery);
+    /*
+     * hooks n render
+     */
+
+    useEffect( () => {
+        const _formQuery = buildFormQuery(selectedQuery, selectedTags, selectedIndustries);
+        setFormQuery(_formQuery);
+    });
+
 
     return(
         <form id="search-form"
@@ -78,8 +76,9 @@ export const SearchForm = (props) => {
             <input key={`input-query`}
                    type="text"
                    name="query"
-                   value={formQuery}
-                   defaultValue={formQuery} />
+                   hidden={true}
+                   readOnly={true}
+                   value={formQuery} />
 
             <SearchFilter
                 selectedTags={selectedTags}
