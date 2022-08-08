@@ -10,9 +10,7 @@ export const SearchInputTextAutoComplete = (props) => {
     const placeholder = props.placeholder;
     const updateURL = props.updateURL;
     const queryField = props.queryField;
-    //const selectedTags = props.selectedTags;
 
-    let searchParams = new URLSearchParams(window.location.search);
     const [query, setQuery] = useState('');
 
     const debouncedFetchAPI = useCallback(
@@ -25,7 +23,6 @@ export const SearchInputTextAutoComplete = (props) => {
     //autocomplete forms which request html
 
     const fetchAPI = (value) => {
-
 
         return fetch(`${baseURL}?query=${value}&partial=true`)
             .then(res => res.json())
@@ -64,7 +61,7 @@ export const SearchInputTextAutoComplete = (props) => {
      */
     useEffect( () => {
         //console.log("useEffect", props.resetTrigger);
-        setQuery('')
+        setQuery('');
 
         debouncedFetchAPI(query);
 
@@ -80,7 +77,6 @@ export const SearchInputTextAutoComplete = (props) => {
         boxShadow: 'none',
         marginLeft: '-0.5rem'
     };
-
 
     //selected autocomplete tags
     return(
@@ -104,18 +100,7 @@ export const SearchInputTextAutoComplete = (props) => {
                   })
               }
 
-              { /*TODO: refactor to a better place -own .field */
-                  props.selectedTags.map( tag => {
-                      return(
-                          <input key={`input-${tag}`}
-                                 type="text"
-                                 hidden={true}
-                                 name={queryField}
-                                 defaultValue={tag} />
-                      );
-                  })
-              }
-
+              {/* the input field that sends to auto complete */}
               <input style={inputStyle}
                      onChange={(e) => changeHandler(e) }
                      autoComplete="off"

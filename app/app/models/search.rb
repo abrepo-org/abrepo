@@ -1,9 +1,18 @@
 class Search
   include Pundit
+
+  # combines params to create query string (form use, urls)
+  def self.buildSearchQuery(query, tags, industries)
+    return [
+      query.join(" "),
+      tags.map{ |tag| "[#{tag}]" }.join(" "),
+      industries.map{ |industry| "{#{industry}}" }.join(" "),
+    ].filter{ |q| !q.empty? }.join(" ").strip
+  end
+
   #
   # BUILD QUERY
-  # TODO: separate query build from search exeution
-
+  #
   def self.build(query, filters, industries,
                  experimentPolicyModel, variationPolicyModel)
 

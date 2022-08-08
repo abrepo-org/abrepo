@@ -3,23 +3,18 @@ import { SearchInputTextAutoComplete } from './SearchInputTextAutoComplete.jsx';
 import { AutoCompleteTag } from './AutoCompleteTag.jsx';
 
 export const SearchFilter = (props) => {
-
-
-    const [selectedTags, setSelectedTags] = useState((props.searchParams &&
-                                                      props.searchParams
-                                                           .getAll(props.queryField)) || '' )
-
+    
     const [autocompleteTags, setAutocompleteTags] = useState([]);
     const [autocompleteTotals, setAutocompleteTotals]  = useState(false);
     const [resetTrigger, setResetTrigger] = useState(0);
 
     const addTag = (tag) => {
-        setSelectedTags(selectedTags => [...selectedTags, tag])
+        props.setSelectedTags(selectedTags => [...selectedTags, tag])
         setResetTrigger(resetTrigger+1);
     };
 
     const removeTag = (tag) => {
-        setSelectedTags(selectedTags => selectedTags.filter(t => t != tag))
+        props.setSelectedTags(selectedTags => selectedTags.filter(t => t != tag))
         setResetTrigger(resetTrigger+1);
     };
 
@@ -88,7 +83,7 @@ export const SearchFilter = (props) => {
                                 resetTrigger={resetTrigger}
                                 setAutoCompleteResults={setAutocompleteTags}
                                 setAutoCompleteTotals={setAutocompleteTotals}
-                                selectedTags={selectedTags}
+                                selectedTags={props.selectedTags}
                                 removeTag={removeTag}
                                 placeholder={props.placeholder}
                             />
