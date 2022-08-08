@@ -45,10 +45,6 @@ export const SearchInputTextAutoComplete = (props) => {
             });
     };
 
-    const buildQueryField = (query, tags) => {
-
-    };
-
     const changeHandler = (e) => {
 
         setQuery(e.target.value);
@@ -82,7 +78,6 @@ export const SearchInputTextAutoComplete = (props) => {
         marginLeft: '-0.5rem'
     };
 
-
     //selected autocomplete tags
     return(
         <div className="field">
@@ -103,21 +98,6 @@ export const SearchInputTextAutoComplete = (props) => {
                           </span>
                       );
                   })
-              }
-
-        {// woring here: build the long query
-        }
-              { /*TODO: refactor to a better place -own .field
-                  props.selectedTags.map( tag => {
-                      return(
-                          <input key={`input-${tag}`}
-                                 type="text"
-                                 hidden={true}
-                                 name={queryField}
-                                 defaultValue={tag} />
-                      );
-                  })
-                */
               }
 
               {/* the input field that sends to auto complete */}

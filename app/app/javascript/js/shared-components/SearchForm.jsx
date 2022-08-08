@@ -6,6 +6,7 @@ import { SearchFilter } from './SearchFilter.jsx';
 
 export const SearchForm = (props) => {
 
+    //form state
     const [formActionURL, setFormActionURL]  = useState(props.baseURL);
     const [inputBusy, setInputBusy] = useState(false);
     const [filterOpenState, setFilterOpenState] = useState({
@@ -13,10 +14,10 @@ export const SearchForm = (props) => {
         '2': false
     });
 
-    let searchParams = new URLSearchParams(window.location.search);
-
     //query
-    const [query, setQuery] = useState( (searchParams && searchParams.get("query")) || '' );
+    let searchParams = new URLSearchParams(window.location.search);
+    //const [query, setQuery] = useState( (searchParams && searchParams.get("query")) || '' );
+    let query = searchParams && searchParams.get("query") || '';
 
     //set tags and industry
     let tags = [];
@@ -33,10 +34,40 @@ export const SearchForm = (props) => {
         industries = query.split(" ")
             .filter(q => q && q.startsWith("{") && q.endsWith("}"))
             .map(q => q.slice(1, -1));
+
+        //freetext query
+        query = query.split(" ")
+                     .filter(q => q && !q.startsWith("{") && !q.endsWith("}"))
+                     .filter(q => q && !q.startsWith("[") && !q.endsWith("]"));
     }
 
-    //working here - build 'base' query for tags, exlcude industrries, for industries exclude
-    //tags, and these get populated in input
+    const buildFormQuery = (query, selectedTags, selectedIndustries) => {
+        console.log("BuildForMQuery", query, selectedTags, selectedIndustries)
+        return [
+            query,
+            selectedTags.map( tag => `[${tag}]`).join(" "),
+            selectedIndustries.map( tag => `{${tag}}`).join(" ")
+        ].filter(q => q)
+         .join(" ")
+         .trim()
+    }
+
+    const [selectedTags, setSelectedTags] = useState( tags );
+    const [selectedIndustries, setSelectedIndustries] = useState( industries );
+    const [formQuery, setFormQuery] = useState( buildFormQuery(query, selectedTags, selectedIndustries) );
+
+    console.log("Form tags", selectedTags);
+    console.log("Form industries", selectedIndustries);
+    console.log("Form query", query);
+
+    useEffect( () => {
+        console.log("useEffect")
+        setFormQuery(buildFormQuery(query, selectedTags, selectedIndustries));
+    });
+
+
+    console.log("FORM QUERY", formQuery);
+
     return(
         <form id="search-form"
               className="is-flex"
@@ -44,21 +75,27 @@ export const SearchForm = (props) => {
               acceptCharset="UTF-8"
               method="get">
 
-            {props.tags &&
-             <SearchFilter
-                 selectedTags={tags}
-                 filterOpenState={filterOpenState}
-                 setFilterOpenState={setFilterOpenState}
-                 id="1"
-                 queryField="query"
-                 name="Tags"
-                 placeholder="CTA, home page"
-                 baseURL="/tags.json" />
-            }
+            <input key={`input-query`}
+                   type="text"
+                   name="query"
+                   value={formQuery}
+                   defaultValue={formQuery} />
 
-            {props.industries &&
+            <SearchFilter
+                selectedTags={selectedTags}
+                setSelectedTags={setSelectedTags}
+                filterOpenState={filterOpenState}
+                setFilterOpenState={setFilterOpenState}
+                id="1"
+                queryField="query"
+                name="Tags"
+                placeholder="CTA, home page"
+                baseURL="/tags.json" />
+
+
              <SearchFilter
-                 selectedTags={industries}
+                 selectedTags={selectedIndustries}
+                 setSelectedTags={setSelectedIndustries}
                  filterOpenState={filterOpenState}
                  setFilterOpenState={setFilterOpenState}
                  id="2"
@@ -66,7 +103,7 @@ export const SearchForm = (props) => {
                  name="Industries"
                  placeholder='Internet, Media'
                  baseURL="/industries.json" />
-            }
+
 
         </form>
     );
