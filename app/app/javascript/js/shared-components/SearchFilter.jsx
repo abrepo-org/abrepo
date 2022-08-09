@@ -45,7 +45,7 @@ export const SearchFilter = (props) => {
 
     return(
 
-        <div className="field ml-2">
+        <div className="field mr-2">
 
             <div className={`dropdown ${props.filterOpenState[props.id] ? 'is-active' : ''}`}>
                 <div className="dropdown-trigger">
