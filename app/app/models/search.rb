@@ -13,6 +13,17 @@ class Search
   #
   # BUILD QUERY
   #
+  # 1. query with PgSearch across Experiments and Variations
+  #    * store results in DocHash to get pg_search_highlight
+  #
+  # 2. filter result set with tags or industry if provided
+  #
+  # Variations are the intermediate query and filter "result", which is used 
+  # to get the final Experiment (ExpVar) results
+  #
+  # the results are ordered by_search rank (in case of a query),
+  # or default to most recent date order
+  #
   def self.build(query, tags, industries,
                  experimentPolicyModel, variationPolicyModel)
 
@@ -24,7 +35,7 @@ class Search
     profiles = nil
 
     #freetext
-    if (query)
+    unless (query.empty?)
 
       search = PgSearch.multisearch(query)
                  .with_pg_search_rank
@@ -58,6 +69,7 @@ class Search
       #[ [experiment_id, rank], [experiment_id, rank]...]
       exp_order = scores.sort_by{ |id, rank| -rank }
       exp_ids = exp_order.map{ |r| r[0] }
+
       variations = variationPolicyModel
                      .where(experiment_id: exp_ids)
 
@@ -70,9 +82,10 @@ class Search
                      .includes(:experiment)
                      .includes(:renderables)
                      .tagged_with(tags)
+
     end
 
-    #industries
+    #filters: industries
     unless (industries.empty?)
 
       profile_ids = Profile.tagged_with(industries)
@@ -96,26 +109,33 @@ class Search
     # postgres
     #
 
-    if (variations)
+    # no query, no filters - return all, date orderered
+    if (variations.blank? && (industries.empty? && tags.empty? && query.empty?))
+      return [experimentPolicyModel.order(created_at: "DESC"), {}, {}]
+    else
 
       experiments = experimentPolicyModel
                       .where(id: variations.pluck(:experiment_id).uniq )
 
+
       # attach join
       # reorder using exp_ids freetext ordering
+      # otherwise by date
       # reorder('t.ord') crucial or else get mal-ordred pagy results
-      if (exp_ids.length > 0)
+      if (exp_ids.empty?)
+        experiments = experimentPolicyModel
+                        .where(id: variations.pluck(:experiment_id).uniq )
+                        .order(created_at: "DESC")
+      else
         experiments = experiments
                         .joins("JOIN unnest('{#{exp_ids.join(',')}}'::int[]) WITH ORDINALITY t(id, ord) USING (id)")
                         .reorder('t.ord')
 
       end
-
-      return [experiments, experimentsDocHash, variationsDocHash]
     end
 
 
-    return []
+    return [experiments, experimentsDocHash, variationsDocHash]
 
   end
 end
