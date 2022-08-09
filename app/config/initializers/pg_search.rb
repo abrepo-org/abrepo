@@ -7,8 +7,8 @@ PgSearch.multisearch_options = {
       prefix: true,
       dictionary: 'english',
       highlight: {
-        StartSel: '%HIGHLIGHT%',
-        StopSel: '%HIGHLIGHT%',
+        StartSel: '<span class="search-highlight-text">',
+        StopSel: '</span>',
         HighlightAll: true,
       }
     }
