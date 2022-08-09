@@ -11,6 +11,52 @@ class Search
   end
 
   #
+  # query freetext Search with pgSearch + avg rank
+  #
+  def self.querySearch(query, variationPolicyModel)
+
+    search = PgSearch.multisearch(query)
+               .with_pg_search_rank
+               .with_pg_search_highlight
+
+    # NB: only some experiments and/or variations have query highlights
+    # even though we return all parent Experiments to render "ExpVar"
+    experimentsDocHash = search
+                           .where(searchable_type: "Experiment")
+                           .index_by(&:searchable_id)
+
+    variationsDocHash = search
+                          .where(searchable_type: "Variation")
+                          .index_by(&:searchable_id)
+
+    # Currently: calc avg rank across Experiment and Variations this
+    # re-score can change; think its somewhat fair a sum would favor
+    # large experiments with more variations, not necessarily
+    # relevance.
+    scores = {}
+    search
+      .pluck(:experiment_id, :rank)
+      .each do |id, rank|
+      scores[id] ||= 0
+      scores[id] += rank
+      scores[id] = scores[id] / 2
+    end
+
+    #[ [experiment_id, rank], [experiment_id, rank]...]
+    exp_order = scores.sort_by{ |id, rank| -rank }
+
+    # collect to preserve rank order of search query
+    # that gets lost in subsequent queries
+    exp_ids = exp_order.map{ |r| r[0] }
+
+    # we collect relevant variations, and filter with tags below
+    variations = variationPolicyModel
+                   .where(experiment_id: exp_ids)
+
+    return exp_ids, variations
+  end
+
+  #
   # BUILD QUERY
   #
   # 1. query with PgSearch across Experiments and Variations
@@ -37,44 +83,7 @@ class Search
     #freetext
     unless (query.empty?)
 
-      search = PgSearch.multisearch(query)
-                 .with_pg_search_rank
-                 .with_pg_search_highlight
-
-      # NB: only some experiments and/or variations have query highlights
-      # even though we return all parent Experiments to render "ExpVar"
-      experimentsDocHash = search
-                             .where(searchable_type: "Experiment")
-                             .index_by(&:searchable_id)
-
-      variationsDocHash = search
-                            .where(searchable_type: "Variation")
-                            .index_by(&:searchable_id)
-
-
-      # Currently: calc avg rank across Experiment and Variations this
-      # re-score can change; think its somewhat fair a sum would favor
-      # large experiments with more variations, not necessarily
-      # relevance.
-      scores = {}
-      search
-        .pluck(:experiment_id, :rank)
-        .each do |id, rank|
-          scores[id] ||= 0
-          scores[id] += rank
-          scores[id] = scores[id] / 2
-        end
-
-      #[ [experiment_id, rank], [experiment_id, rank]...]
-      exp_order = scores.sort_by{ |id, rank| -rank }
-
-      # collect to preserve rank order of search query
-      # that gets lost in subsequent queries
-      exp_ids = exp_order.map{ |r| r[0] }
-
-      # we collect relevant variations, and filter with tags below
-      variations = variationPolicyModel
-                     .where(experiment_id: exp_ids)
+      exp_ids, variations = self.querySearch(query, variationPolicyModel)
 
     end
 
@@ -91,7 +100,8 @@ class Search
     #filters: industries
     unless (industries.empty?)
 
-      profile_ids = Profile.tagged_with(industries)
+      profile_ids = Profile
+                      .tagged_with(industries)
                       .pluck(:id).uniq
 
       profile_exp_ids = experimentPolicyModel
@@ -105,6 +115,8 @@ class Search
 
     end
 
+    # variations give us experiments
+    # exp_ids give us the ordering
     #
     # NB: chaining queries above loses multisearch rank ordering of
     # the exp_ids. So at the end of all the query / filtering, we use
