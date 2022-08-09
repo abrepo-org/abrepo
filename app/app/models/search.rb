@@ -13,43 +13,63 @@ class Search
   #
   # BUILD QUERY
   #
-  def self.build(query, filters, industries,
+  def self.build(query, tags, industries,
                  experimentPolicyModel, variationPolicyModel)
 
     exp_ids = []
+    experiments = []
+    experimentsDocHash = {}
+    variationsDocHash = {}
     variations = nil
     profiles = nil
 
     #freetext
     if (query)
-      exp_ids = PgSearch.multisearch(query)
-                  .pluck(:experiment_id)
-                  .uniq
 
-      profile_exp_ids = Experiment
-                          #.where(profile_id: Profile.search_industry(query).pluck(:id))
-                          .where(profile_id: Profile.search_industry_and_company(query).pluck(:id))
-                          .pluck(:id)
-      #
-      # updated freetext exp_ids
-      # join with any Profile.search_company experiment matches
-      #
-      exp_ids = (exp_ids + profile_exp_ids).uniq
+      search = PgSearch.multisearch(query)
+                 .with_pg_search_rank
+                 .with_pg_search_highlight
 
-      variations = (variations || variationPolicyModel)
-                     .includes(:experiment)
-                     .includes(:renderables)
+      #issue with Experiments and Variations
+      #only some experiments and variations will have highlighted match
+      #but we're collecting all experiment
+      #so I guess we have to test in the view for pg_search_highlight content
+      experimentsDocHash = search
+                             .where(searchable_type: "Experiment")
+                             .index_by(&:searchable_id)
+
+      variationsDocHash = search
+                            .where(searchable_type: "Variation")
+                            .index_by(&:searchable_id)
+
+      # calc avg rank across Experiment and Variations this re-score
+      # can change; think its somewhat fair a sum would favor large
+      # experiments with more variations, not necessarily relevance.
+
+      scores = {}
+      search
+        .pluck(:experiment_id, :rank)
+        .each do |id, rank|
+          scores[id] ||= 0
+          scores[id] += rank
+          scores[id] = scores[id] / 2
+        end
+
+      #[ [experiment_id, rank], [experiment_id, rank]...]
+      exp_order = scores.sort_by{ |id, rank| -rank }
+      exp_ids = exp_order.map{ |r| r[0] }
+      variations = variationPolicyModel
                      .where(experiment_id: exp_ids)
 
     end
 
     #filters: tag/page_tag
-    unless (filters.empty?)
+    unless (tags.empty?)
 
       variations = (variations || variationPolicyModel)
                      .includes(:experiment)
                      .includes(:renderables)
-                     .tagged_with(filters)
+                     .tagged_with(tags)
     end
 
     #industries
@@ -78,7 +98,8 @@ class Search
 
     if (variations)
 
-      experiments = Experiment.where(id: variations.pluck(:experiment_id).uniq )
+      experiments = experimentPolicyModel
+                      .where(id: variations.pluck(:experiment_id).uniq )
 
       # attach join
       # reorder using exp_ids freetext ordering
@@ -90,7 +111,7 @@ class Search
 
       end
 
-      return experiments
+      return [experiments, experimentsDocHash, variationsDocHash]
     end
 
 
