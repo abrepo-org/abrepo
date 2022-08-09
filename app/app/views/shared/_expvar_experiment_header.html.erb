@@ -9,7 +9,7 @@
                 <!-- title -->
                 <h4 class="mb-2">
                     <%= link_to "#exp#{experiment.id}" do %>
-                        <%= experiment.summary_name || "Experiment Name: Unnamed" %>
+                        <%= sanitize(pg_search_highlight) || experiment.summary_name || "Experiment Name: Unnamed" %>
                         <%= is_published?(experiment) %>
                     <% end %>
                 </h4>
@@ -56,7 +56,7 @@
                     <span class="tags mb-2">
                         <%= render partial: "shared/search_tag_list", locals: {
                             obfuscated: experiment.obfuscated?,
-                            tag_param: "tags",
+                            tag_param: "query",
                             tag_list: experiment.tags,
                             classes: "tag is-info is-light"
                         }%>

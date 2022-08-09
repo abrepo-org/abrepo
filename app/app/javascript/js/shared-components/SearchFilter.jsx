@@ -3,7 +3,7 @@ import { SearchInputTextAutoComplete } from './SearchInputTextAutoComplete.jsx';
 import { AutoCompleteTag } from './AutoCompleteTag.jsx';
 
 export const SearchFilter = (props) => {
-    
+
     const [autocompleteTags, setAutocompleteTags] = useState([]);
     const [autocompleteTotals, setAutocompleteTotals]  = useState(false);
     const [resetTrigger, setResetTrigger] = useState(0);
@@ -45,7 +45,7 @@ export const SearchFilter = (props) => {
 
     return(
 
-        <div className="field ml-2">
+        <div className="field mr-2">
 
             <div className={`dropdown ${props.filterOpenState[props.id] ? 'is-active' : ''}`}>
                 <div className="dropdown-trigger">
@@ -69,11 +69,6 @@ export const SearchFilter = (props) => {
                             <p className="is-flex is-justify-content-space-between">
                                 <span>
                                     <strong>Filter by {props.name}</strong>
-                                </span>
-                                <span>
-                                    <a href={`/${props.name.toLowerCase()}/`}>
-                                       View All {props.name}
-                                    </a>
                                 </span>
                             </p>
 
@@ -108,8 +103,8 @@ export const SearchFilter = (props) => {
                                 {!!autocompleteTotals &&
                                  <div className="ml-1 mt-2">
                                      <a href={`/${props.name.toLowerCase()}/`}>
-                                         See All {autocompleteTotals ?
-                                                    `(${autocompleteTotals})` : '' }
+                                         {`See All ${props.name}`}
+                                         {autocompleteTotals ? ` (${autocompleteTotals})` : '' }
                                      </a>
                                  </div>
                                 }

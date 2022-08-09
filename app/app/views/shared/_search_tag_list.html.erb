@@ -2,7 +2,7 @@
 
     <% tag_list.each do |tag| %>
         <span class="<%= classes %>" >
-            <%= obfuscate_link_to obfuscated, search_path(tag_param.to_sym => [tag.name]) do %>
+            <%= obfuscate_link_to obfuscated, search_path(tag_param.to_sym => "[#{tag.name}]") do %>
                 <%= tag.name %>
             <% end %>
         </span>

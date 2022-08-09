@@ -8,36 +8,40 @@
 }
 %>
 
-<div class="results is-flex is-justify-content-space-between">
-    <div class="tags-container">
+<div class="results">
 
-        <% @industries.each do |tag| %>
-            <span class ="tags is-inline-flex is-flex-wrap-nowrap has-addons mb-0 mr-2">
-                <span class="tag is-info mb-0">
-                    <%= tag %>
+    <% unless @industries.empty? && @tags.empty? %>
+        <div class="tags-container mb-4 mt-2">
+
+            <% @industries.each do |tag| %>
+                <span class ="tags is-inline-flex is-flex-wrap-nowrap has-addons mr-2">
+                    <span class="tag is-info mb-0">
+                        <%= tag %>
+                    </span>
+                    <%= link_to '', tag_link_for(@query, @tags, @industries.excluding(tag)),
+                        class: "tag is-delete mb-0" %>
                 </span>
-                <%= link_to '', tag_link_for(@query, @tags, @industries.excluding(tag)),
-                    class: "tag is-delete mb-0" %>
-            </span>
-        <% end %>
+            <% end %>
 
-        <% @tags.each do |tag| %>
-            <span class ="tags is-inline-flex is-flex-wrap-nowrap has-addons mb-0 mr-2">
-                <span class="tag is-info mb-0">
-                    <%= tag %>
+            <% @tags.each do |tag| %>
+                <span class ="tags is-inline-flex is-flex-wrap-nowrap has-addons mr-2">
+                    <span class="tag is-info mb-0">
+                        <%= tag %>
+                    </span>
+                    <%= link_to '', tag_link_for(@query, @tags.excluding(tag), @industries),
+                        class: "tag is-delete mb-0" %>
                 </span>
-                <%= link_to '', tag_link_for(@query, @tags.excluding(tag), @industries),
-                    class: "tag is-delete mb-0" %>
-            </span>
-        <% end %>
+            <% end %>
 
-    </div>
+        </div>
+    <% end %>
 
-    <div class="num-results-container">
+    <div class="num-results-container mt-2">
         <p>
             <%= pluralize(@pagy ? @pagy.count : @experiments.length, "result") %>
         </p>
     </div>
+
 </div>
 <hr />
 
