@@ -3,7 +3,7 @@ import { SearchInputTextAutoComplete } from './SearchInputTextAutoComplete.jsx';
 import { AutoCompleteTag } from './AutoCompleteTag.jsx';
 
 export const SearchFilter = (props) => {
-    
+
     const [autocompleteTags, setAutocompleteTags] = useState([]);
     const [autocompleteTotals, setAutocompleteTotals]  = useState(false);
     const [resetTrigger, setResetTrigger] = useState(0);
@@ -70,11 +70,6 @@ export const SearchFilter = (props) => {
                                 <span>
                                     <strong>Filter by {props.name}</strong>
                                 </span>
-                                <span>
-                                    <a href={`/${props.name.toLowerCase()}/`}>
-                                       View All {props.name}
-                                    </a>
-                                </span>
                             </p>
 
                             <SearchInputTextAutoComplete
@@ -108,8 +103,8 @@ export const SearchFilter = (props) => {
                                 {!!autocompleteTotals &&
                                  <div className="ml-1 mt-2">
                                      <a href={`/${props.name.toLowerCase()}/`}>
-                                         See All {autocompleteTotals ?
-                                                    `(${autocompleteTotals})` : '' }
+                                         {`See All ${props.name}`}
+                                         {autocompleteTotals ? ` (${autocompleteTotals})` : '' }
                                      </a>
                                  </div>
                                 }
