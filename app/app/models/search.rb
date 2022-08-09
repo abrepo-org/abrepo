@@ -18,7 +18,7 @@ class Search
   #
   # 2. filter result set with tags or industry if provided
   #
-  # Variations are the intermediate query and filter "result", which is used 
+  # Variations are the intermediate query and filter "result", which is used
   # to get the final Experiment (ExpVar) results
   #
   # the results are ordered by_search rank (in case of a query),
@@ -41,10 +41,8 @@ class Search
                  .with_pg_search_rank
                  .with_pg_search_highlight
 
-      #issue with Experiments and Variations
-      #only some experiments and variations will have highlighted match
-      #but we're collecting all experiment
-      #so I guess we have to test in the view for pg_search_highlight content
+      # NB: only some experiments and/or variations have query highlights
+      # even though we return all parent Experiments to render "ExpVar"
       experimentsDocHash = search
                              .where(searchable_type: "Experiment")
                              .index_by(&:searchable_id)
@@ -53,10 +51,11 @@ class Search
                             .where(searchable_type: "Variation")
                             .index_by(&:searchable_id)
 
-      # calc avg rank across Experiment and Variations this re-score
-      # can change; think its somewhat fair a sum would favor large
-      # experiments with more variations, not necessarily relevance.
 
+      # Currently: calc avg rank across Experiment and Variations this
+      # re-score can change; think its somewhat fair a sum would favor
+      # large experiments with more variations, not necessarily
+      # relevance.
       scores = {}
       search
         .pluck(:experiment_id, :rank)
@@ -68,8 +67,12 @@ class Search
 
       #[ [experiment_id, rank], [experiment_id, rank]...]
       exp_order = scores.sort_by{ |id, rank| -rank }
+
+      # collect to preserve rank order of search query
+      # that gets lost in subsequent queries
       exp_ids = exp_order.map{ |r| r[0] }
 
+      # we collect relevant variations, and filter with tags below
       variations = variationPolicyModel
                      .where(experiment_id: exp_ids)
 
@@ -134,8 +137,25 @@ class Search
       end
     end
 
-
     return [experiments, experimentsDocHash, variationsDocHash]
 
   end
 end
+
+#
+# PG_SEARCH Notes Difficulties + Errors with highlighting
+#
+# 1. pg_search_scope: highlighting completely breaks when search scope
+# uses "associated_against" in any form.  example: Profile search
+# scope: assoicated_against industry_tags breaks on run
+# "..with_pg_search_highlight".  Highlighting is unavailable when
+# using pg_search_scope
+#
+# 2. pg_search_scope: highlighted result doesn't differentiate between
+# multiple attributes; e.g the call to pg_search_highlight against
+# [:domain, :name] returns a single line of merged content - the
+# search content has no structure, it's a search of the index.
+#
+#
+# highlight configuration is in config/initializers/pg_search.rb
+#
