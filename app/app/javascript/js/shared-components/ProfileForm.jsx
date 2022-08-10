@@ -27,15 +27,15 @@ export const ProfileForm = (props) => {
             selectedIndustries.map( tag => `{${tag}}`).join(" ")
         ].filter(q => q)
          .join(" ")
-         .trim()
-    }
+         .trim();
+    };
 
     const [selectedTags, setSelectedTags] = useState( () => {
         return searchParamsQuery
             .split(" ")
             .filter(q => q && q.startsWith("[") && q.endsWith("]"))
             .map(q => q.slice(1, -1));
-    })
+    });
 
     const [selectedIndustries, setSelectedIndustries] = useState( () => {
         return searchParamsQuery
@@ -53,8 +53,9 @@ export const ProfileForm = (props) => {
 
     //query string for form submission
     const [formQuery, setFormQuery] = useState( () => {
-        return buildFormQuery(selectedQuery, selectedTags, selectedIndustries)
+        return buildFormQuery(selectedQuery, selectedTags, selectedIndustries);
     });
+
 
     /*
      * hooks n render
@@ -63,11 +64,6 @@ export const ProfileForm = (props) => {
     useEffect( () => {
         const _formQuery = buildFormQuery(selectedQuery, selectedTags, selectedIndustries);
         setFormQuery(_formQuery);
-        //console.log("FORMQRY", formQuery, selectedTags, selectedIndustries, selectedQuery)
-
-        console.log("FORMQRY", formQuery)
-        console.log("FORMQRY VALS", selectedQuery, selectedTags, selectedIndustries)
-        console.log("_FORMQRY built", _formQuery);
     });
 
     return(

@@ -24,14 +24,9 @@ export const ProfileInputTextAutoComplete = (props) => {
     );
 
     const fetchAPI = (value, formQuery) => {
+        //console.log("fetch", formQuery);
 
-        console.log("fetch", formQuery)
-
-        let url = `${baseURL}?query=${value}&partial=true`;
-
-        if (formQuery) {
-            url = `${baseURL}?query=${formQuery}&partial=true`;
-        }
+        const url = `${baseURL}?query=${formQuery}&partial=true`;
 
         return fetch(url)
             .then(res => res.text())
@@ -57,22 +52,23 @@ export const ProfileInputTextAutoComplete = (props) => {
     };
 
     const changeHandler = (e) => {
-        console.log("ChangeHandler", e.target.value)
+        //console.log("ChangeHandler", e.target.value);
         props.setInputBusy && props.setInputBusy(true);
 
         setQuery(e.target.value);
-        props.setSelectedQuery(e.target.value)
+        props.setSelectedQuery(e.target.value);
     };
+
+
+    /*
+     * hooks n render
+     */
 
     useEffect( () => {
         debouncedFetchAPI(query, formQuery);
         setFormQuery(props.formQuery);
-
-        console.log("USEFFECT selectedQuery", props.selectedQuery)
-        console.log("USEFFECT formQuery", formQuery)
         updateURL && updateURL(formQuery);
     });
-
 
 
     return(
