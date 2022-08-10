@@ -10,12 +10,8 @@ module ProfilesHelper
     industries.map { |industry|
 
       new_params = {
-        industries: [industry]
+        query: "{#{industry}}"
       }
-
-      unless params[:query].blank?
-        new_params[:query] = params[:query]
-      end
 
       link_to(industry, url_for(params: new_params), class: classes)
 
