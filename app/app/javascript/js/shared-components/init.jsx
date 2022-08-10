@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { FormTag } from './FormTag.jsx';
+import { TagForm } from './TagForm.jsx';
 import { ProfileForm } from './ProfileForm.jsx';
 import { SearchForm } from './SearchForm.jsx';
 
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const render = ($form, props) => {
         ReactDOM.render(
-            <FormTag {...props} />,
+            <TagForm {...props} />,
             $inputTemp
         );
 

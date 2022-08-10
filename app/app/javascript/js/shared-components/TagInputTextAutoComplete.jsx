@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import debounce from "lodash.debounce";
 
-export const InputTextAutoComplete = (props) => {
+export const TagInputTextAutoComplete = (props) => {
 
     const baseURL = props.baseURL;
     const destinationSelector = props.destinationSelector;
@@ -109,4 +109,4 @@ export const InputTextAutoComplete = (props) => {
 
 };
 
-export default { InputTextAutoComplete };
+export default { TagInputTextAutoComplete };
