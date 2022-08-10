@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-
+/*
+ * DEPRECATED
+ */
 export const InputText = (props) => {
 
     const baseURL = props.baseURL;

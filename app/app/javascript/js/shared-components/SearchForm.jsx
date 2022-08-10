@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { InputText } from './InputText.jsx';
 import { Button } from './Button.jsx';
 
 import { SearchFilter } from './SearchFilter.jsx';
