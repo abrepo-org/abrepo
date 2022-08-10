@@ -2,34 +2,10 @@ class SearchController < ApplicationController
   include UserSavedVariationsHash
 
   def index
-    #TODO: highlight match snippet
 
-    query = []
-    qry_tags = []
-    qry_industries = []
+    @query, @tags, @industries = Search.extractSearchParams(params[:query])
 
-    if params[:query]
-      #split off tags, industries
-      params[:query].split.each do |qry|
-        if qry[0] == "[" && qry[-1] == "]"
-          qry_tags.push(qry[1..-2])
-        elsif  qry[0] == "{" && qry[-1] == "}"
-          qry_industries.push(qry[1..-2])
-        else
-          query.push(qry)
-        end
-      end
-
-    end
-
-    tags = [* params[:tags] || qry_tags || [] ]
-    industries = [* params[:industries] ||qry_industries || [] ]
-
-    @query = query
-    @tags = tags
-    @industries = industries
-
-    @search_input_text = Search.buildSearchQuery(query, tags, industries)
+    @search_input_text = Search.buildSearchQuery(@query, @tags, @industries)
 
     # Currently:
     # just passing params to view layer; no check for query validity
@@ -37,7 +13,7 @@ class SearchController < ApplicationController
     # keep Search model as filter/results search generator
     @experiments,
     @experimentsDocHash,
-    @variationsDocHash = Search.build(query, tags, industries,
+    @variationsDocHash = Search.build(@query, @tags, @industries,
                                       policy_scope(Experiment),
                                       policy_scope(Variation))
 
