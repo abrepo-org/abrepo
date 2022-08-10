@@ -2,15 +2,15 @@ class ProfilesController < ApplicationController
   include UserSavedVariationsHash
 
   def index
-    @query = params[:query].blank? ? nil : params[:query]
-    @industries = [* params[:industries] ]
+    
+    @query, @tags, @industries = Search.extractSearchParams(params[:query])
 
     @profiles = policy_scope(Profile)
                   .where.not(experiments: { profile_id: nil})
                   .order(updated_at: :desc)
 
-    if @query
-      @profiles = @profiles.search_company(@query)
+    unless @query.empty?
+      @profiles = @profiles.search_company(@query.join(" "))
     end
 
     unless @industries.empty?

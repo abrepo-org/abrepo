@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { FormTag } from './FormTag.jsx';
+import { ProfileForm } from './ProfileForm.jsx';
 import { SearchForm } from './SearchForm.jsx';
 
 /*
@@ -51,10 +52,16 @@ document.addEventListener('DOMContentLoaded', () => {
             baseURL: '/profiles',
             destinationSelector: '#autocomplete-destination',
             placeholder: "Filter Companies",
+            filters: true,
             industriesParam: params.get("industries[]") ? params.get("industries[]") : null
         };
 
-        render($profileForm, props);
+        ReactDOM.render(
+            <ProfileForm {...props} />,
+            $inputTemp
+        );
+
+        $profileForm.replaceWith($inputTemp);
     }
 
     if ($searchForm) {
