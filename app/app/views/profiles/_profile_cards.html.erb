@@ -1,4 +1,9 @@
 <div id="autocomplete-destination" class="profiles-data">
+
+    <% if @profiles.empty? %>
+        <p> No results </p>
+    <% end %>
+
     <% @profiles.each do |profile| %>
         <% cache [profile, @query.join(" ")], expires_in: 1.day do %>
 
