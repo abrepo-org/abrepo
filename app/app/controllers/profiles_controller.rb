@@ -2,34 +2,27 @@ class ProfilesController < ApplicationController
   include UserSavedVariationsHash
 
   def index
-    
+
     @query, @tags, @industries = Search.extractSearchParams(params[:query])
 
-    @profiles = policy_scope(Profile)
-                  .where.not(experiments: { profile_id: nil})
-                  .order(updated_at: :desc)
+    @profiles = []
+    @names_map = {}
+    @domains_map = {}
+    @descriptions_map = {}
 
     unless @query.empty?
-      @profiles = @profiles.search_company(@query.join(" "))
-    end
+      #profile_ids,
+      @profiles,
+      @names_map,
+      @domains_map,
+      @descriptions_map = Profile
+                            .search_company(@query.join(" "),
+                                            policy_scope(Profile))
+    else
 
-    unless @industries.empty?
-
-      profile_ids = @profiles.pluck(:id).uniq
-
-      @profiles = @profiles
-                    .tagged_with(@industries)
-
-
-      # ISSUE: ordering of results
-      # query sets a ranking
-      # if there is no query we have no idea what the "order" should be
-      # even if we have a way to order results, we don't know what that order should be
-      # when there's no query
-      # so back and forth things can move around
-      #
-      #.joins("JOIN unnest('{#{profile_ids.join(',')}}'::int[]) WITH ORDINALITY t(profile_id, ord) USING (profile_id)")
-      #.reorder('t.ord')
+      @profiles = policy_scope(Profile)
+                    .where.not(experiments: { profile_id: nil})
+                    .order(updated_at: :desc)
 
     end
 
@@ -47,7 +40,7 @@ class ProfilesController < ApplicationController
     # choose experiments:
     # 1. featured: true -> defer for now
     # 2. or topN of calcRank
-    @featured_experiments = policy_scope(Experiment)
+    @featured_experiments = Experiment
                               .calcRank(5)
 
 

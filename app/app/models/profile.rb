@@ -46,7 +46,7 @@ class Profile < ApplicationRecord
   # combo search
   # do this so we can get pg_search_highlight attributes
   #
-  def self.search_company(query)
+  def self.search_company(query, profilePolicyScope)
 
     # build id -> pg_search_highlight maps id => {name, description, domain)
     search_names = self.search_company_name(query)
@@ -76,12 +76,22 @@ class Profile < ApplicationRecord
       scores[id] += rank
     end
     profile_order = scores.sort_by{ |id, rank| -rank }
-    profile_ids = profile_order.map{ |r| r[0] }
+    profile_order_ids = profile_order.map{ |r| r[0] }
 
-    # query result profiles (in order)
-    profiles = self.where(id: profile_ids)
-                 .joins("JOIN unnest('{#{profile_ids.join(',')}}'::int[]) WITH ORDINALITY t(id, ord) USING (id)")
+    # filter and then re-order
+    #
+    # ordinal query breaks when chained on policyScope, so we filter
+    # first using scope to get ids, then requery based on policy filtered
+    # ids and which can be re-ordered
+    #
+    profile_ids = profilePolicyScope.where(id: profile_order_ids).pluck(:id).uniq
+
+    #query result profiles (in order)
+    profiles = self
+                 .where(id: profile_ids)
+                 .joins("JOIN unnest('{#{profile_order_ids.join(',')}}'::int[]) WITH ORDINALITY t(id, ord) USING (id)")
                  .reorder('t.ord')
+
 
     return profiles, names_map, domains_map, descriptions_map
   end
