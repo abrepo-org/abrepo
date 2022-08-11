@@ -51,10 +51,16 @@
 
       <% @experiments.each do |experiment| %>
 
+          <%
+          # NB: add query to cache key because pg_search_highlight output
+          # will change depending on query
+          %>
+
           <% cache [experiment,
                     experiment.obfuscated?,
                     subscribed_or_moderator,
                     calc_usv_cache_key(@user_saved_variations, experiment),
+                    @search_input_text,
                     '/expvar_table'], expires_in: 1.day do %>
 
               <%= render partial: "/shared/expvar_table",

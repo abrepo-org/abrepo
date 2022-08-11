@@ -4,6 +4,11 @@
         <p> No results </p>
     <% end %>
 
+    <%
+    # NB: add query to cache key because pg_search_highlight output
+    # will change depending on query
+    %>
+
     <% @profiles.each do |profile| %>
         <% cache [profile, @query.join(" ")], expires_in: 1.day do %>
 
