@@ -61,7 +61,10 @@ export const SearchInputTextAutoComplete = (props) => {
      */
     useEffect( () => {
         //console.log("useEffect", props.resetTrigger);
-        setQuery('');
+
+        //seems like we don't want to clear the autocomplete query on
+        //click
+        //setQuery('');
 
         debouncedFetchAPI(query);
 
