@@ -26,6 +26,15 @@ class ProfilesController < ApplicationController
 
     end
 
+    # filters tags + industries
+    unless @tags.empty?
+      @profiles = @profiles.tagged_with(@tags)
+    end
+
+    unless @industries.empty?
+      @profiles = @profiles.tagged_with(@industries)
+    end
+
     if (@profiles.length > 0)
       @pagy, @profiles = pagy(@profiles, items: 20)
     end
