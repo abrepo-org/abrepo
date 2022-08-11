@@ -1,3 +1,14 @@
 <div id="autocomplete-destination" class="profiles-data">
-    <%= render partial: "profile", collection: @profiles, cached: true, expires_in: 1.day %>
+
+    <% if @profiles.empty? %>
+        <p> No results </p>
+    <% end %>
+
+    <% @profiles.each do |profile| %>
+        <% cache [profile, @query.join(" ")], expires_in: 1.day do %>
+
+            <%= render partial: "profile", locals: { profile: profile } %>
+
+        <% end  %>
+  <% end %>
 </div>

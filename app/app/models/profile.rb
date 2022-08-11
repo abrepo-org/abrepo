@@ -19,30 +19,16 @@ class Profile < ApplicationRecord
 
   acts_as_taggable_on :industry_tag  # profile.industry_tag_list
 
-  pg_search_scope :search_industry_tag,
-                  associated_against: { industry_tag: [:name] },
+  pg_search_scope :search_company_name,
+                  against: [:company_name],
                   using: { tsearch: { prefix: true, dictionary: 'english' } }
 
-  pg_search_scope :search_company,
-                  against: [
-                    [:company_name, 'A'],
-                    [:domain, 'B'],
-                    [:description, 'C']
-                  ],
+  pg_search_scope :search_domain,
+                  against: [:domain],
                   using: { tsearch: { prefix: true, dictionary: 'english' } }
 
-  pg_search_scope :search_industry_and_company,
-                  associated_against: {
-                    industry_tag: [:name],
-                  },
-                  against: [
-                    [:company_name, 'A'],
-                    # ignore description now until we can show query
-                    # in description snippet - otherwise can't show relevance
-                    # in search results to user
-                    # [:description, 'B'],
-                    [:domain, 'B']
-                  ],
+  pg_search_scope :search_description,
+                  against: [:description],
                   using: { tsearch: { prefix: true, dictionary: 'english' } }
 
   has_many :experiments
@@ -55,6 +41,60 @@ class Profile < ApplicationRecord
 
   validates :domain, presence: true, uniqueness: true
 
+
+  #
+  # combo search
+  # do this so we can get pg_search_highlight attributes
+  #
+  def self.search_company(query, profilePolicyScope)
+
+    # build id -> pg_search_highlight maps id => {name, description, domain)
+    search_names = self.search_company_name(query)
+                     .with_pg_search_rank
+                     .with_pg_search_highlight
+
+    search_domains = self.search_domain(query)
+                       .with_pg_search_rank
+                       .with_pg_search_highlight
+
+    search_descriptions = self.search_description(query)
+                            .with_pg_search_rank
+                            .with_pg_search_highlight
+
+    names_map = search_names.index_by(&:id)
+    domains_map = search_domains.index_by(&:id)
+    descriptions_map = search_descriptions.index_by(&:id)
+
+    # get ids, aggregate score, sort
+    scores = {}
+    search_collect = [
+      search_names.pluck(:id, :rank),
+      search_domains.pluck(:id, :rank),
+      search_descriptions.pluck(:id, :rank)
+    ].flatten(1).each do |id, rank|
+      scores[id] ||= 0
+      scores[id] += rank
+    end
+    profile_order = scores.sort_by{ |id, rank| -rank }
+    profile_order_ids = profile_order.map{ |r| r[0] }
+
+    # filter and then re-order
+    #
+    # ordinal query breaks when chained on policyScope, so we filter
+    # first using scope to get ids, then requery based on policy filtered
+    # ids and which can be re-ordered
+    #
+    profile_ids = profilePolicyScope.where(id: profile_order_ids).pluck(:id).uniq
+
+    #query result profiles (in order)
+    profiles = self
+                 .where(id: profile_ids)
+                 .joins("JOIN unnest('{#{profile_order_ids.join(',')}}'::int[]) WITH ORDINALITY t(id, ord) USING (id)")
+                 .reorder('t.ord')
+
+
+    return profiles, names_map, domains_map, descriptions_map
+  end
 
   def self.build_tag_examples(user, scopedExperiment, tags)
 

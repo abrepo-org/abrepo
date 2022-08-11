@@ -1,6 +1,27 @@
 class Search
   include Pundit
 
+  def self.extractSearchParams(queryParam)
+
+    query = []
+    tags = []
+    industries = []
+
+    if queryParam
+      queryParam.split.each do |qry|
+        if qry[0] == "[" && qry[-1] == "]"
+          tags.push(qry[1..-2])
+        elsif  qry[0] == "{" && qry[-1] == "}"
+          industries.push(qry[1..-2])
+        else
+          query.push(qry)
+        end
+      end
+    end
+
+    return query, tags, industries
+  end
+
   # combines params to create query string (form use, urls)
   def self.buildSearchQuery(query, tags, industries)
     return [

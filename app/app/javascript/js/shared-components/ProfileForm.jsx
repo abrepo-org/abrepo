@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { ProfileInputTextAutoComplete } from './ProfileInputTextAutoComplete.jsx';
 import { Button } from './Button.jsx';
+import { updateURL } from './URLUpdater.js';
 
 import { SearchFilter } from './SearchFilter.jsx';
 
-export const SearchForm = (props) => {
+export const ProfileForm = (props) => {
 
     //form state
     const [formActionURL, setFormActionURL]  = useState(props.baseURL);
@@ -18,22 +20,22 @@ export const SearchForm = (props) => {
     const searchParamsQuery = searchParams && searchParams.get("query") || '';
 
     const buildFormQuery = (selectedQuery, selectedTags, selectedIndustries) => {
+
         return [
             selectedQuery,
             selectedTags.map( tag => `[${tag}]`).join(" "),
             selectedIndustries.map( tag => `{${tag}}`).join(" ")
         ].filter(q => q)
          .join(" ")
-         .trim()
-    }
+         .trim();
+    };
 
-    //extract and set defaults with array of terms (freetext query, tags, industry)
     const [selectedTags, setSelectedTags] = useState( () => {
         return searchParamsQuery
             .split(" ")
             .filter(q => q && q.startsWith("[") && q.endsWith("]"))
             .map(q => q.slice(1, -1));
-    })
+    });
 
     const [selectedIndustries, setSelectedIndustries] = useState( () => {
         return searchParamsQuery
@@ -51,7 +53,7 @@ export const SearchForm = (props) => {
 
     //query string for form submission
     const [formQuery, setFormQuery] = useState( () => {
-        return buildFormQuery(selectedQuery, selectedTags, selectedIndustries)
+        return buildFormQuery(selectedQuery, selectedTags, selectedIndustries);
     });
 
 
@@ -64,32 +66,46 @@ export const SearchForm = (props) => {
         setFormQuery(_formQuery);
     });
 
-
     return(
-        <form id="search-form"
+        <form id="tag-filter"
               className="is-flex"
-              action={formActionURL}
+              action={props.baseURL}
               acceptCharset="UTF-8"
               method="get">
 
-            <input key={`input-query`}
-                   type="text"
-                   name="query"
-                   hidden={true}
-                   readOnly={true}
-                   value={formQuery} />
+            {
+                /*
+                 * NB: we stick setSelectedQuery to get auto
+                 * complete value but build the formQuery here (w/ tags)
+                 */
+            }
 
-            <SearchFilter
-                selectedTags={selectedTags}
-                setSelectedTags={setSelectedTags}
-                filterOpenState={filterOpenState}
-                setFilterOpenState={setFilterOpenState}
-                id="1"
-                queryField="query"
-                name="Tags"
-                placeholder="CTA, home page"
-                baseURL="/tags.json" />
+            <ProfileInputTextAutoComplete updateURL={updateURL}
+                                          setInputBusy={setInputBusy}
+                                          setSelectedQuery={setSelectedQuery}
+                                          selectedQuery={selectedQuery}
+                                          selectedTags={selectedTags}
+                                          selectedIndustries={selectedIndustries}
+                                          buildFormQuery={buildFormQuery}
+                                          formQuery={formQuery}
+                                          { ...props } />
 
+            <Button disabled={inputBusy} />
+
+            <div class="ml-4"></div>
+
+            {props.filters &&
+             <>
+             <SearchFilter
+                 selectedTags={selectedTags}
+                 setSelectedTags={setSelectedTags}
+                 filterOpenState={filterOpenState}
+                 setFilterOpenState={setFilterOpenState}
+                 id="1"
+                 queryField="query"
+                 name="Tags"
+                 placeholder="CTA, home page"
+                 baseURL="/tags.json" />
 
              <SearchFilter
                  selectedTags={selectedIndustries}
@@ -102,9 +118,12 @@ export const SearchForm = (props) => {
                  placeholder='Internet, Media'
                  baseURL="/industries.json" />
 
+             </>
+            }
 
         </form>
     );
+
 };
 
-export default SearchForm;
+export default { ProfileForm };
