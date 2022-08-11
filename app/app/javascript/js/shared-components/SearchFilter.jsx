@@ -18,8 +18,10 @@ export const SearchFilter = (props) => {
         setResetTrigger(resetTrigger+1);
     };
 
-    const clearSelected = () => {
-        setAutocompleteTags([])           //clear auto complete list
+    const clearSelected = (selectedTag) => {
+
+        //filter auto complete list
+        setAutocompleteTags(autocompleteTags.filter( tag => tag != selectedTag))
         setResetTrigger(resetTrigger+1)   //trigger useEffect hook to clear input value
     };
 
@@ -72,6 +74,9 @@ export const SearchFilter = (props) => {
                                 </span>
                             </p>
 
+                            {
+                                /* list of selected tags */
+                            }
                             <SearchInputTextAutoComplete
                                 baseURL={props.baseURL}
                                 queryField={props.queryField}
@@ -83,6 +88,9 @@ export const SearchFilter = (props) => {
                                 placeholder={props.placeholder}
                             />
 
+                            {
+                                /* tag list - possible tags (not selected) */
+                            }
                             <div id="tag-destination">
 
                                 <ul className="tags ml-0 is-inline">
@@ -92,6 +100,7 @@ export const SearchFilter = (props) => {
                                             return (<AutoCompleteTag key={tag}
                                                                      tag={tag}
                                                                      i={i}
+
                                                                      clearSelected={clearSelected}
                                                                      addTag={addTag} />);
                                         })
