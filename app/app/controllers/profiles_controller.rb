@@ -11,7 +11,7 @@ class ProfilesController < ApplicationController
     @descriptions_map = {}
 
     unless @query.empty?
-      #profile_ids,
+
       @profiles,
       @names_map,
       @domains_map,
@@ -26,9 +26,18 @@ class ProfilesController < ApplicationController
 
     end
 
+
     # filters tags + industries
     unless @tags.empty?
-      @profiles = @profiles.tagged_with(@tags)
+
+      profile_tag_ids = Variation
+        .joins(experiment: :profile)
+        .tagged_with(@tags)
+        .group("profiles.id")
+        .count.map{ |profile_id, count| profile_id}
+        .uniq
+
+      @profiles = @profiles.where(id: profile_tag_ids)
     end
 
     unless @industries.empty?
