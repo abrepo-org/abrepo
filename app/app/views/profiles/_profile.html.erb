@@ -20,12 +20,12 @@
               <div style="width:85%;">
                   <%= link_to profile_path_slug(profile) do %>
                       <p class="title is-5">
-                          <%= profile.company_name || profile.domain %>
+                          <%= profile_company_name(profile) %>
                       </p>
                   <% end  %>
 
                   <p class="mt-1">
-                      <%= profile.description.split(".").first + "." if profile.description %>
+                      <%= profile_description(profile) %>
                   </p>
 
                   <p class="tags mb-0">
