@@ -45,7 +45,11 @@ class ProfilesController < ApplicationController
     end
 
     if (@profiles.length > 0)
-      @pagy, @profiles = pagy(@profiles, items: 20)
+      @pagy, @profiles = pagy(@profiles, items: 20,
+                              params: ->(params) {
+                                return params.except(:query, :partial) if params[:query].blank?
+                                return params.except(:partial)
+                              })
     end
 
 
@@ -66,6 +70,7 @@ class ProfilesController < ApplicationController
       respond_to do |format|
         format.html { render partial: 'profile_cards' }
       end
+
     end
   end
 
