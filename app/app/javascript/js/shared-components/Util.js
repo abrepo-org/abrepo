@@ -1,4 +1,5 @@
-export const updateURL = (value) => {
+
+const updateURL = (value) => {
 
     if (window.history.pushState) {
         let searchParams = new URLSearchParams(window.location.search);
@@ -16,5 +17,16 @@ export const updateURL = (value) => {
 
 };
 
+const buildFormQuery = (selectedQuery, selectedTags, selectedIndustries) => {
 
-export default { updateURL };
+    return [
+        selectedQuery,
+        selectedTags.map( tag => `[${tag}]`).join(" "),
+        selectedIndustries.map( tag => `{${tag}}`).join(" ")
+    ].filter(q => q)
+        .join(" ")
+        .trim();
+};
+
+
+export { updateURL, buildFormQuery };

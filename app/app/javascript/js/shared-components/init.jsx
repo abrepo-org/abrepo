@@ -51,9 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const props = {
             baseURL: '/profiles',
             destinationSelector: '#autocomplete-destination',
-            placeholder: "Filter Companies",
-            filters: true,
-            industriesParam: params.get("industries[]") ? params.get("industries[]") : null
+            placeholder: "Filter Companies"
         };
 
         ReactDOM.render(

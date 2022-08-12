@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from './Button.jsx';
-
 import { SearchFilter } from './SearchFilter.jsx';
+import { buildFormQuery } from './Util.js';
+
 
 export const SearchForm = (props) => {
 
@@ -16,16 +17,6 @@ export const SearchForm = (props) => {
     //initial url querystring 'query' param
     const searchParams = new URLSearchParams(window.location.search);
     const searchParamsQuery = searchParams && searchParams.get("query") || '';
-
-    const buildFormQuery = (selectedQuery, selectedTags, selectedIndustries) => {
-        return [
-            selectedQuery,
-            selectedTags.map( tag => `[${tag}]`).join(" "),
-            selectedIndustries.map( tag => `{${tag}}`).join(" ")
-        ].filter(q => q)
-         .join(" ")
-         .trim()
-    }
 
     //extract and set defaults with array of terms (freetext query, tags, industry)
     const [selectedTags, setSelectedTags] = useState( () => {
