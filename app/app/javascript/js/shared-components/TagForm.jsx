@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TagInputTextAutoComplete } from './TagInputTextAutoComplete.jsx';
 import { Button } from './Button.jsx';
-import { updateURL } from './URLUpdater.js';
+import { updateURL } from './Util.js';
 
 export const TagForm = (props) => {
 

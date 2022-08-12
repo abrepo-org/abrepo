@@ -14,7 +14,7 @@ export const SearchInputTextAutoComplete = (props) => {
     const [query, setQuery] = useState('');
 
     const debouncedFetchAPI = useCallback(
-        debounce(value => fetchAPI(value), 500),
+        debounce(value => fetchAPI(value), 200),
 	[props.resetTrigger]
     );
 
@@ -60,8 +60,11 @@ export const SearchInputTextAutoComplete = (props) => {
      * resetTrigger provides change condition to run useEffect;
      */
     useEffect( () => {
-        //console.log("useEffect", props.resetTrigger);
-        setQuery('');
+        console.log("[SearchInputTextAutoComplete] useEffect", props.resetTrigger);
+
+        //seems like we don't want to clear the autocomplete query on
+        //click
+        //setQuery('');
 
         debouncedFetchAPI(query);
 

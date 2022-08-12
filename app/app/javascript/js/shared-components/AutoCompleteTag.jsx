@@ -8,7 +8,7 @@ export const AutoCompleteTag = (props) => {
         props.addTag(props.tag);
 
         //clear
-        props.clearSelected();
+        props.clearSelected(props.tag);
     };
 
     const styleLi = {
@@ -19,7 +19,7 @@ export const AutoCompleteTag = (props) => {
         <li className="tag"
             style={styleLi}
             onClick={(e) => clickHandler(e)}>
-          {props.tag}
+            {props.tag}
         </li>
     );
 };
