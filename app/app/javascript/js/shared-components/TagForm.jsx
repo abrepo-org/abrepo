@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TagInputTextAutoComplete } from './TagInputTextAutoComplete.jsx';
 import { Button } from './Button.jsx';
-import { updateURL } from './Util.js';
 
 export const TagForm = (props) => {
 
@@ -14,8 +13,7 @@ export const TagForm = (props) => {
               acceptCharset="UTF-8"
               method="get">
 
-            <TagInputTextAutoComplete updateURL={updateURL}
-                                      setInputBusy={setInputBusy}
+            <TagInputTextAutoComplete setInputBusy={setInputBusy}
                                       { ...props } />
 
             <Button disabled={inputBusy} />
