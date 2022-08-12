@@ -20,6 +20,7 @@ export const ProfileForm = (props) => {
     const searchParams = new URLSearchParams(window.location.search);
     const searchParamsQuery = searchParams && searchParams.get("query") || '';
 
+    const [isInit, setIsInit] = useState(true);
     const [selectedTags, setSelectedTags] = useState( () => {
         return searchParamsQuery
             .split(" ")
@@ -83,6 +84,7 @@ export const ProfileForm = (props) => {
         //ProfileInputTextAutoComplete component changes
         setInitTags(selectedTags);
         setInitIndustries(selectedIndustries);
+        setIsInit(false);
     }, []);
 
     useEffect( () => {
@@ -96,7 +98,12 @@ export const ProfileForm = (props) => {
                                           selectedTags,
                                           selectedIndustries);
         setFormQuery(_formQuery);
-        debouncedFetchAPI(_formQuery);
+
+        if (!isInit) {
+            //avoid ovewriting url params on initial load
+            //with "empty" autocomplete query
+            debouncedFetchAPI(_formQuery);
+        }
 
     }, [selectedQuery]);
 
