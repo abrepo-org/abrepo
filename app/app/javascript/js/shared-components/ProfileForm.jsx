@@ -20,6 +20,7 @@ export const ProfileForm = (props) => {
     const searchParams = new URLSearchParams(window.location.search);
     const searchParamsQuery = searchParams && searchParams.get("query") || '';
 
+    const [isInit, setIsInit] = useState(true);
     const [selectedTags, setSelectedTags] = useState( () => {
         return searchParamsQuery
             .split(" ")
@@ -50,11 +51,11 @@ export const ProfileForm = (props) => {
 
 
     const debouncedFetchAPI = useCallback(
-        debounce( (formQuery) => fetchAPI(formQuery), 250),
+        debounce( (selectedQuery, formQuery) => fetchAPI(selectedQuery, formQuery), 250),
 	[]
     );
 
-    const fetchAPI = (formQuery) => {
+    const fetchAPI = (selectedQuery, formQuery) => {
         console.log("fetch", formQuery);
 
         const url = `${props.baseURL}?query=${formQuery}&partial=true`;
@@ -69,6 +70,19 @@ export const ProfileForm = (props) => {
                 }
 
                 updateURL && updateURL(formQuery);
+
+
+                //remove pagination from an autocomplete result
+                const $pagination = document.querySelector('nav.pagination')
+                $pagination.remove();
+
+                //adds pagination back if its returned in result
+                const $content = document.querySelector('main .content');
+                if ($content && selectedQuery.length == 0) {
+                    $content.insertAdjacentElement("afterend", $pagination);
+                }
+
+
                 setInputBusy && setInputBusy(false);
             });
     };
@@ -83,6 +97,7 @@ export const ProfileForm = (props) => {
         //ProfileInputTextAutoComplete component changes
         setInitTags(selectedTags);
         setInitIndustries(selectedIndustries);
+        setIsInit(false);
     }, []);
 
     useEffect( () => {
@@ -96,7 +111,13 @@ export const ProfileForm = (props) => {
                                           selectedTags,
                                           selectedIndustries);
         setFormQuery(_formQuery);
-        debouncedFetchAPI(_formQuery);
+
+        if (!isInit) {
+            //avoid ovewriting url params on initial load
+            //with "empty" autocomplete query
+            debouncedFetchAPI(selectedQuery, _formQuery);
+
+        }
 
     }, [selectedQuery]);
 

@@ -15,5 +15,8 @@
             <%= render partial: "profile", locals: { profile: profile } %>
 
         <% end  %>
-  <% end %>
+    <% end %>
+
 </div>
+
+<%== pagy_bulma_nav(@pagy) if @pagy && (@pagy.pages > 1) if params[:partial] %>
