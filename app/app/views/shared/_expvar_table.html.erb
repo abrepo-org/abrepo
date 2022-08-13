@@ -24,6 +24,7 @@
 <% variations.each_with_index do |variation, index| %>
     <% cache [variation, variation.obfuscated?,
               @user_saved_variations[variation.id],
+              @search_input_text,
               "/expvar_variation"], expires_in: 1.day do %>
 
         <%= render partial: '/shared/expvar_variation',
