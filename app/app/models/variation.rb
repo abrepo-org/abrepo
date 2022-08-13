@@ -30,15 +30,6 @@ class Variation < ApplicationRecord
   multisearchable against: [:summary_name],
                   additional_attributes: -> (variation) {{ experiment_id: variation.experiment_id }}
 
-  pg_search_scope :search_tag,
-                  associated_against: {
-                    tag: [:name],
-                    page_tag: [:name]
-                  },
-                  using: {
-                    tsearch: { prefix: true, dictionary: 'english' }
-                  }
-
   belongs_to :experiment, touch: true # expvar cache update
   has_many :renderables, dependent: :destroy
   has_many :actions, -> { distinct }, through: :renderables
