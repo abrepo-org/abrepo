@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const $profileForm = document.querySelector('form#profile-form');
 
     const $inputTemp = document.createElement('div');
+    $inputTemp.style.cssText="margin-bottom:2.25rem;";
 
     const render = ($form, props) => {
         ReactDOM.render(

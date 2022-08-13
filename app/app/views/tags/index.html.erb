@@ -1,10 +1,12 @@
 <% content_for :title, "#{Rails.application.config.app_title} | Tags" %>
-<h1>Tags</h1>
+<div class="header">
+  <h1>Tags</h1>
+</div>
 
-<!-- Filter -->
 <form id="tag-filter">
   <!-- JS -->
 </form>
 
+<hr />
 <!-- Results -->
 <%= render partial: 'tags' %>
