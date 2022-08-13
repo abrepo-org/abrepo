@@ -16,6 +16,10 @@ export const ProfileTags = (props) => {
                                      otherTags.filter(t => props.selectedIndustries.includes(t)))
                      .replaceAll(" ", "+");
 
+                const href = _formQuery ?
+                             `${props.baseURL}?query=${_formQuery}` :
+                             props.baseURL
+
                  return (
                      <span key={selectedTag}
                            className="tags is-inline-flex is-flex-wrap-nowrap has-addons mb-0 mr-2">
@@ -23,7 +27,7 @@ export const ProfileTags = (props) => {
                              {selectedTag}
                          </span>
                          <a className="tag is-delete mb-0"
-                            href={`${props.baseURL}?query=${_formQuery}`}></a>
+                            href={href}></a>
                      </span>
                  );
              })
