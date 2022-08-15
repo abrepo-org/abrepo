@@ -20,12 +20,12 @@
               <div style="width:85%;">
                   <%= link_to profile_path_slug(profile) do %>
                       <p class="title is-5">
-                          <%= profile_company_name(profile) %>
+                        <%= profile_company_name(profile, @names_map, @domain_names_map) %>
                       </p>
                   <% end  %>
 
                   <p class="mt-1">
-                      <%= profile_description(profile) %>
+                      <%= profile_description(profile, @descriptions_map) %>
                   </p>
 
                   <p class="tags mb-0">

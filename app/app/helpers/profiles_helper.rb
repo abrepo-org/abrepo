@@ -1,32 +1,32 @@
 module ProfilesHelper
 
-  def profile_company_name(profile)
-    if @names_map && @names_map[profile.id]
-      return sanitize @names_map[profile.id].pg_search_highlight
+  def profile_company_name(profile, names_map, domains_map)
+    if names_map && names_map[profile.id]
+      return sanitize names_map[profile.id].pg_search_highlight
     end
 
     if profile.company_name
       return profile.company_name
     end
 
-    if @domains_map && @domains_map[profile.id]
-      return sanitize @domains_map[profile.id].pg_search_highlight
+    if domains_map && domains_map[profile.id]
+      return sanitize domains_map[profile.id].pg_search_highlight
     end
 
     return profile.domain
   end
 
 
-  def profile_description(profile)
-    if @descriptions_map && @descriptions_map[profile.id]
-      return sanitize @descriptions_map[profile.id]
+  def profile_description(profile, descriptions_map)
+    if descriptions_map && descriptions_map[profile.id]
+      return sanitize descriptions_map[profile.id]
                .pg_search_highlight
                .split(".")
                .first + "."
     end
 
     #TODO: change to fixed char length
-    return profile.description.split(".").first + "." if profile.description
+    return sanitize profile.description if profile.description
   end
 
   def profile_path_slug(profile, options = {})

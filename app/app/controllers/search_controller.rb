@@ -7,16 +7,19 @@ class SearchController < ApplicationController
 
     @search_input_text = Search.buildSearchQuery(@query, @tags, @industries)
 
-    # Currently:
-    # just passing params to view layer; no check for query validity
-    # show params in query even if not valid tags
-    # keep Search model as filter/results search generator
     @experiments,
     @experimentsDocHash,
     @variationsDocHash = Search.build(@query, @tags, @industries,
                                       policy_scope(Experiment),
                                       policy_scope(Variation))
 
+
+    @profiles,
+    @profiles_names_map,
+    @profiles_domains_map,
+    @profiles_descriptions_map = Profile.search_company(@query, policy_scope(Profile))
+
+    # TODO: filter profiles by (tags, industries0
 
     if (@experiments.length > 0)
       @pagy, @experiments = pagy(@experiments)
