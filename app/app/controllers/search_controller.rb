@@ -18,8 +18,7 @@ class SearchController < ApplicationController
     @profiles_names_map,
     @profiles_domains_map,
     @profiles_descriptions_map = Profile.search_company(@query, policy_scope(Profile))
-
-    # TODO: filter profiles by (tags, industries0
+    # TODO: filter profiles by (tags, industries)
 
     if (@experiments.length > 0)
       @pagy, @experiments = pagy(@experiments)
