@@ -74,7 +74,7 @@ class Search
     variations = variationPolicyModel
                    .where(experiment_id: exp_ids)
 
-    return exp_ids, variations
+    return exp_ids, variations, variationsDocHash, experimentsDocHash
   end
 
   #
@@ -104,7 +104,10 @@ class Search
     #freetext
     unless (query.empty?)
 
-      exp_ids, variations = self.querySearch(query, variationPolicyModel)
+      exp_ids,
+      variations,
+      variationsDocHash,
+      experimentsDocHash = self.querySearch(query, variationPolicyModel)
 
     end
 

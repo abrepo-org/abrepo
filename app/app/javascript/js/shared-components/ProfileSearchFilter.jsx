@@ -45,11 +45,6 @@ export const ProfileSearchFilter = (props) => {
         props.setSelectedTags(selectedTags)
     };
 
-    const cancelStyle = {
-        padding: 'calc(0.5em - 2px) 1em calc(0.5em - 1px) 1em',
-        display: 'inline-flex'
-    };
-
     return(
 
         <div className="field mr-2">
@@ -77,6 +72,11 @@ export const ProfileSearchFilter = (props) => {
                                 <span>
                                     <strong>Filter by {props.name}</strong>
                                 </span>
+                                <a href="#"
+                                   class="delete"
+                                   onClick={(e) => openCloseClickHandler(e)}>
+                                </a>
+
                             </p>
 
                             {
@@ -133,10 +133,6 @@ export const ProfileSearchFilter = (props) => {
                                 className="button is-small">
                                 Apply Filters
                             </button>
-                            <a href="#" style={cancelStyle}
-                               onClick={(e) => openCloseClickHandler(e)}>
-                                Cancel
-                            </a>
                         </div>
 
                     </div>

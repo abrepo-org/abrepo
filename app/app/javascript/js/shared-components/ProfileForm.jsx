@@ -139,42 +139,45 @@ export const ProfileForm = (props) => {
                        value={formQuery}
                 />
 
-                <ProfileInputTextAutoComplete setInputBusy={setInputBusy}
-                                              setSelectedQuery={setSelectedQuery}
-                                              selectedQuery={selectedQuery}
-                                              selectedTags={selectedTags}
-                                              selectedIndustries={selectedIndustries}
-                                              { ...props } />
+                <div className="is-flex is-flex-direction-column profile-input-autocomplete">
+                    <div className="is-flex">
+                        <ProfileInputTextAutoComplete setInputBusy={setInputBusy}
+                                                      setSelectedQuery={setSelectedQuery}
+                                                      selectedQuery={selectedQuery}
+                                                      selectedTags={selectedTags}
+                                                      selectedIndustries={selectedIndustries}
+                                                      { ...props } />
 
 
-                <Button disabled={inputBusy} />
+                        <Button disabled={inputBusy} />
+                    </div>
 
-                <div className="ml-4"></div>
+                    <div className="is-flex">
 
-                <ProfileSearchFilter
-                    selectedTags={selectedTags}
-                    setSelectedTags={setSelectedTags}
-                    filterOpenState={filterOpenState}
-                    setFilterOpenState={setFilterOpenState}
-                    id="1"
-                    queryField="query"
-                    name="Tags"
-                    placeholder="CTA, home page"
-                    baseURL="/tags.json" />
+                        <ProfileSearchFilter
+                            selectedTags={selectedTags}
+                            setSelectedTags={setSelectedTags}
+                            filterOpenState={filterOpenState}
+                            setFilterOpenState={setFilterOpenState}
+                            id="1"
+                            queryField="query"
+                            name="Tags"
+                            placeholder="CTA, home page"
+                            baseURL="/tags.json" />
 
-                <ProfileSearchFilter
-                    selectedTags={selectedIndustries}
-                    setSelectedTags={setSelectedIndustries}
-                    filterOpenState={filterOpenState}
-                    setFilterOpenState={setFilterOpenState}
-                    id="2"
-                    queryField="query"
-                    name="Industries"
-                    placeholder='Internet, Media'
-                    baseURL="/industries.json" />
+                        <ProfileSearchFilter
+                            selectedTags={selectedIndustries}
+                            setSelectedTags={setSelectedIndustries}
+                            filterOpenState={filterOpenState}
+                            setFilterOpenState={setFilterOpenState}
+                            id="2"
+                            queryField="query"
+                            name="Industries"
+                            placeholder='Internet, Media'
+                            baseURL="/industries.json" />
 
-
-
+                    </div>
+                </div>
             </form>
 
             <div className="field">

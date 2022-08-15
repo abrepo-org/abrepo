@@ -21,15 +21,15 @@ class Profile < ApplicationRecord
 
   pg_search_scope :search_company_name,
                   against: [:company_name],
-                  using: { tsearch: { prefix: true, dictionary: 'english' } }
+                  using: PgSearch.multisearch_options[:using]
 
   pg_search_scope :search_domain,
                   against: [:domain],
-                  using: { tsearch: { prefix: true, dictionary: 'english' } }
+                  using: PgSearch.multisearch_options[:using]
 
   pg_search_scope :search_description,
                   against: [:description],
-                  using: { tsearch: { prefix: true, dictionary: 'english' } }
+                  using: PgSearch.multisearch_options[:using]
 
   has_many :experiments
 

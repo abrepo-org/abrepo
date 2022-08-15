@@ -11,7 +11,7 @@
 <div class="results">
 
     <% unless @industries.empty? && @tags.empty? %>
-        <div class="tags-container mb-4 mt-2">
+        <div class="tags-container mb-4">
 
             <% @industries.each do |tag| %>
                 <span class ="tags is-inline-flex is-flex-wrap-nowrap has-addons mr-2">
@@ -40,14 +40,68 @@
         <p>
             <%= pluralize(@pagy ? @pagy.count : @experiments.length, "result") %>
         </p>
+
     </div>
 
 </div>
 <hr />
 
+<% if @profiles.length > 0 || (@pagy && @pagy.page == 1) %>
+
+    <h3>Companies</h3>
+    <!-- profiles loop -->
+
+    <table class="table">
+        <tbody>
+            <% @profiles[0,3].each do |profile| %>
+                <tr>
+
+                    <td class="profile-search-name is-block-touch">
+                        <span class="profile_favicon">
+                            <%= image_tag(profile.favicon_url ||
+                                          'https://www.' + profile.domain + '/favicon.ico',
+                                          loading: 'lazy',
+                                          width: '16px') %>
+                        </span>
+
+                        <span class="is-size-5-5">
+                            <strong>
+                                <%= profile_company_name(profile,
+                                                         @profiles_names_map,
+                                                         @profiles_domain_names_map) %>
+                            </strong>
+
+
+                        </span>
+</div>
+                    </td>
+                    <td class="profile-search-description is-block-touch">
+                        <%= profile_description(profile, @profiles_descriptions_map) %>
+                    </td>
+
+                </tr>
+
+            <% end %>
+        </tbody>
+    </table>
+
+    <% if @profiles.length > 3 %>
+        <%= link_to profiles_path(query: @search_input_text) do %>
+            See More Company Search Results
+        <% end %>
+    <% end %>
+
+
+    <% if @profiles.length > 0 %>
+        <hr />
+    <% end %>
+<% end %>
+
 <!-- experiments loop -->
+<h3> Experiments </h3>
+
 <table class="table expvar-table">
-  <tbody>
+    <tbody>
 
       <% @experiments.each do |experiment| %>
 

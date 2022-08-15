@@ -15,26 +15,26 @@ export const ProfileInputTextAutoComplete = (props) => {
     console.log("[ProfileInputTextAutoComplete] Render");
 
     return(
-        <div>
-            <div className="field">
-                <div id="search-control" className="control has-icons-left">
 
-                     <input onChange={(e) => changeHandler(e) }
-                            autoComplete="off"
-                            className="input is-small"
-                            placeholder={props.placeholder}
-                            type="text"
-                            id="query"
-                            value={props.selectedQuery}
-                     />
+        <div className="field search-control-field">
+          <div id="search-control" className="control has-icons-left">
 
-                     <span className="icon is-small is-left">
-                         <i className="fas fa-search"></i>
-                     </span>
-                </div>
-            </div>
+            <input onChange={(e) => changeHandler(e) }
+              autoComplete="off"
+              className="input is-small"
+              placeholder={props.placeholder}
+              type="text"
+              id="query"
+              value={props.selectedQuery}
+              />
 
+              <span className="icon is-small is-left">
+                <i className="fas fa-search"></i>
+              </span>
+          </div>
         </div>
+
+
     );
 
 };

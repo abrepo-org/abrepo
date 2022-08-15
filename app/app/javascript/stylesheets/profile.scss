@@ -1,6 +1,16 @@
 /*
  * profile#index
  */
+
+/* search */
+@include until($touch) {
+  .profile-input-autocomplete, #search-control, .search-control-field {
+    width:100%;
+  }
+}
+
+
+/* card */
 .profile-card .card-content {
   padding: 1.5rem 0;
 }

@@ -10,6 +10,7 @@ PgSearch.multisearch_options = {
         StartSel: '<span class="search-highlight-text">',
         StopSel: '</span>',
         HighlightAll: true,
+        MaxFragments: 1
       }
     }
   }
