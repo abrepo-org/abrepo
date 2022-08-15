@@ -11,7 +11,7 @@
 <div class="results">
 
     <% unless @industries.empty? && @tags.empty? %>
-        <div class="tags-container mb-4 mt-2">
+        <div class="tags-container mb-4">
 
             <% @industries.each do |tag| %>
                 <span class ="tags is-inline-flex is-flex-wrap-nowrap has-addons mr-2">
@@ -41,7 +41,6 @@
             <%= pluralize(@pagy ? @pagy.count : @experiments.length, "result") %>
         </p>
 
-        <p><%= @profiles.map{ |p| p.domain }.to_json %> </p>
     </div>
 
 </div>
