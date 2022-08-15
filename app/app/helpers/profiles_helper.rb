@@ -1,5 +1,7 @@
 module ProfilesHelper
 
+  MAX_LEN = 200
+
   def profile_company_name(profile, names_map, domains_map)
     if names_map && names_map[profile.id]
       return sanitize names_map[profile.id].pg_search_highlight
@@ -18,15 +20,30 @@ module ProfilesHelper
 
 
   def profile_description(profile, descriptions_map)
+
+    # search/filter: return highlighted results
     if descriptions_map && descriptions_map[profile.id]
       return sanitize descriptions_map[profile.id]
                .pg_search_highlight
-               .split(".")
-               .first + "."
+
     end
 
-    #TODO: change to fixed char length
-    return sanitize profile.description if profile.description
+    # empty
+    return nil unless profile.description?
+
+    # find nearest sentence to MAX_LEN chars
+    # used on profiles#index
+    # 1. find positions of 'period' in description
+    # 2. find position nearest to MAX_LEN (shortest distance)
+    # 3. return substring from 0 to that position + 1 (for period)
+    res = profile.description.enum_for(:scan, /(?=\.)/).map do
+      Regexp.last_match.offset(0).first
+    end
+
+    index = res[ res.map { |r| (r - MAX_LEN).abs }.each_with_index.min[1] ]
+    return profile.description[0, index + 1]
+
+
   end
 
   def profile_path_slug(profile, options = {})
