@@ -17,7 +17,9 @@ class SearchController < ApplicationController
     @profiles,
     @profiles_names_map,
     @profiles_domains_map,
-    @profiles_descriptions_map = Profile.search_company(@query, policy_scope(Profile))
+    @profiles_descriptions_map = Profile.search_company(@query,
+                                                        policy_scope(Profile)
+                                                          .includes(:industry_tag))
     # TODO: filter profiles by (tags, industries)
 
     if (@experiments.length > 0)

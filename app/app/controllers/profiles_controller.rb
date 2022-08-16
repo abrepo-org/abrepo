@@ -21,6 +21,7 @@ class ProfilesController < ApplicationController
     else
 
       @profiles = policy_scope(Profile)
+                    .includes(:industry_tag)
                     .where.not(experiments: { profile_id: nil})
                     .order(updated_at: :desc)
 

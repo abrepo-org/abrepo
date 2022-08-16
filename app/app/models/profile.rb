@@ -96,30 +96,37 @@ class Profile < ApplicationRecord
     return profiles, names_map, domains_map, descriptions_map
   end
 
-  def self.build_tag_examples(user, scopedExperiment, tags)
+  def self.build_tag_examples(user, scopedProfile, tags)
 
     tag_profiles = {}
 
+    tag_group =
+      ActsAsTaggableOn::Tagging
+        .includes(:tag, :taggable)
+        .where(taggable_type: "Profile", taggable_id: scopedProfile.all)
+        .group_by{ |tagging| tagging.tag_id }
+
+
     tags.each do |tag|
-      val = Rails.cache
-              .fetch(
-                ["#{tag.cache_key_with_version}-#{user && user.moderator?}",
-                 "/profile_build_tag_examples"].join(),
-                expires_in: 1.day) do
-
-        profiles = self.tagged_with(tag.name)
-                     .select('DISTINCT ON (company_name) profiles.company_name')
-                     .select(:id, :company_name)
-                     .includes(:experiments)
-                     .where.not(experiments: {profile_id: nil}) #ignore empty profiles
-                     .where(experiments: scopedExperiment.all)  #experiments must be authorized
-                     .limit(3)
-
-        profiles.map{ |v| {id: v.id, company_name: v.company_name } }
+      if tag_group.key?(tag.id)
+        tag_profiles[tag.id] = tag_group[tag.id]
+                                 .map{ |tag| tag.taggable }
+                                 .uniq{|taggable| taggable[:company_name] }[0,3]
+      else
+        tag_profiles[tag.id] = []
       end
-
-      tag_profiles[tag.id] = val
     end
+
+    # Possible cache approach, but query above is actually fast enough
+    # where cache overhead might penalize
+    #
+    # val = Rails.cache
+    #           .fetch(
+    #             ["#{tag.cache_key_with_version}-#{user && user.moderator?}",
+    #              "/profile_build_tag_examples"].join(),
+    #             expires_in: 1.day) do
+    #  tag_profiles[tag.id] = val
+    # end
 
     tag_profiles
   end
