@@ -38,7 +38,8 @@ class TagsController < ApplicationController
     #variations -> {tag_id: [variations]}
     @variation_hash_by_id = Variation.build_tag_examples(current_user,
                                                          policy_scope(Variation),
-                                                         @tags)
+                                                         @tags) unless request.format == "application/json"
+
 
 
     if params[:partial]
