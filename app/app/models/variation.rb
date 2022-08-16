@@ -52,28 +52,33 @@ class Variation < ApplicationRecord
 
     tag_variations = {}
 
-    # TODO: improve this - N+1 on each variation query
-    # but can't seem to eager_load variations - taggable - on query
-    #
+    tag_group =
+      ActsAsTaggableOn::Tagging
+      .includes(:tag, :taggable)
+      .where(taggable_type: "Variation", taggable_id: scopedVariation.all)
+      .group_by{ |tagging| tagging.tag_id }
+
+
     tags.each do |tag|
-      val = Rails.cache
-              .fetch(
-                ["#{tag.cache_key_with_version}-#{user && user.moderator?}",
-                 "/variation_build_tag_examples"
-                ].join(),
-                expires_in: 1.day) do
-
-        variations = scopedVariation
-                       .tagged_with(tag.name)
-                       .select('DISTINCT ON (summary_name) variations.summary_name')
-                       .select(:id, :summary_name)
-                       .limit(3)
-
-        # variations.map{ |v| {id: v.id, summary_name: v.summary_name } }
+      if tag_group.key?(tag.id)
+        tag_variations[tag.id] = tag_group[tag.id]
+                                   .map{ |tag| tag.taggable }
+                                   .uniq{|taggable| taggable[:summary_name] }[0,3]
+      else
+        tag_variations[tag.id] = []
       end
-
-      tag_variations[tag.id] = val
     end
+
+    # Possible cache approach, but query above is actually fast enough
+    # where cache overhead might penalize
+    #
+    # val = Rails.cache
+    #            .fetch(
+    #             ["#{tag.cache_key_with_version}-#{user && user.moderator?}",
+    #              "/variation_build_tag_examples"
+    #             ].join(),
+    #             expires_in: 1.day) do
+    # tag_variations[tag.id] = val
 
     tag_variations
   end
