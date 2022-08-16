@@ -52,10 +52,17 @@ module ExpvarHelper
   end
 
   def pageURLHelper(variation)
-    variation.renderables.where(control:false).first ?
-      variation.renderables.where(control:false).first
-        .obfuscate
-        .renderedURL.sub(/https?\:\/\//, '') :
-      ''
+    if(variation.renderables.where(control:false).first)
+
+      renderedURL = variation.renderables.where(control:false).first
+                      .obfuscate.renderedURL
+
+      renderedURL = URI.parse(renderedURL)
+      return [renderedURL.path, renderedURL.query].join
+
+    end
+
+    return ''
+
   end
 end

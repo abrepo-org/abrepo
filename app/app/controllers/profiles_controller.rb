@@ -63,8 +63,7 @@ class ProfilesController < ApplicationController
     # choose experiments:
     # 1. featured: true -> defer for now
     # 2. or topN of calcRank
-    @featured_experiments = Experiment
-                              .calcRank(5)
+    @featured_experiments = policy_scope(Experiment).calcRank(5)
 
 
     if params[:partial]
@@ -119,8 +118,7 @@ class ProfilesController < ApplicationController
 
       @tag_counts = Sidebar.tag_counts_by_profile_id(@profile.id)
 
-      @featured_experiments = policy_scope(Experiment)
-                                .calcRank(5)
+      @featured_experiments = policy_scope(Experiment).calcRank(5)
 
       @related_companies = @profile.get_related_companies(7)
 

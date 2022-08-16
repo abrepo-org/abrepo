@@ -46,6 +46,10 @@ tr.expvar-root-border {
 
 }
 
+.experiment-header-title-date a {
+  cursor: text;
+}
+
 //expvar table header font
 .variation-row-header th {
   font-weight: 400;
@@ -79,6 +83,8 @@ tr.expvar-root-border {
 //expvar table 'page' column demote visually
 .variation-row-data td.table-col-page {
   word-wrap: anywhere;
+  font-size: .85rem;
+  vertical-align: middle;
   @include from ($tablet) {
     max-width: 25vw;
   }

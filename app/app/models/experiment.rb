@@ -79,6 +79,7 @@ class Experiment < ApplicationRecord
   end
 
 
+  # NB: 'calcscoreRank' sql alias can break pagy
   def self.calcRank(num)
 
     select("*, (experiments.calcscore / (POW(( ( (SELECT EXTRACT(EPOCH FROM CURRENT_TIMESTAMP(0))) - (SELECT EXTRACT(EPOCH FROM experiments.created_at)) ) / 3600) + 2, 1.8))) as calcscoreRank")
