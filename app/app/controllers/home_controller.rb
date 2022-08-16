@@ -1,26 +1,26 @@
 class HomeController < ApplicationController
   include UserSavedVariationsHash
 
-  # home page feeed
-  # 1. date: sort by "new", add pagination
-  # 2. quality + date: initially calculate a quality score vs recency - have a fixed list (top 100), then link to sort by new - how Stack overflow does it
-
-  # 3. (quality, visitor, date): add visits/clicks score input; promote? wouldn't we want more popular tests? demote personal, promote global?
-  # 4. quality score is combination of commentary exists, summaries, tags - the more "informative" and complete an experiment is, the higher score it gets.
-  # 5. (quality, visitor, date, affinity): affinity some score of personal preference
+  # home page feed plan
+  # 1. initial step: date: sort by "new", add pagination
+  #
+  # 2. quality + date: calculate a quality score vs recency: Experiment.calcRank
+  #
+  # 3. (quality, visitor, date): add visits/clicks score input;
+  # promote? wouldn't we want more popular tests? demote personal,
+  # promote global?
+  #
+  # 4. quality score is combination of commentary exists, summaries,
+  # tags - the more "informative" and complete an experiment is, the
+  # higher score it gets.
+  #
+  # 5. (quality, visitor, date, affinity): affinity some score of
+  # personal preference
 
   def index
 
-    # added 'calcscoreRank' sql alias breaks pagy - pagy assumes the
-    # column exists in database but it's not. (similar with calling
-    # pluck(:id) on result set.
-    # add a hacky roundabout id query for pagination :\
-    experiment_ids = Experiment
-                       .calcRank(Experiment.count)
-                       .map{ |e| e.id }
-
     @experiments = policy_scope(Experiment)
-                     .where(id: experiment_ids)
+                     .order("created_at desc")
 
     @pagy, @experiments = pagy(@experiments)
     @experiments = obfuscate_from(@experiments, 0) if (not subscribed_or_moderator) &&
