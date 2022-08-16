@@ -52,6 +52,9 @@ class Variation < ApplicationRecord
 
     tag_variations = {}
 
+    # TODO: improve this - N+1 on each variation query
+    # but can't seem to eager_load variations - taggable - on query
+    #
     tags.each do |tag|
       val = Rails.cache
               .fetch(
@@ -60,12 +63,13 @@ class Variation < ApplicationRecord
                 ].join(),
                 expires_in: 1.day) do
 
-        variations = scopedVariation.tagged_with(tag.name)
+        variations = scopedVariation
+                       .tagged_with(tag.name)
                        .select('DISTINCT ON (summary_name) variations.summary_name')
                        .select(:id, :summary_name)
                        .limit(3)
 
-        variations.map{ |v| {id: v.id, summary_name: v.summary_name } }
+        # variations.map{ |v| {id: v.id, summary_name: v.summary_name } }
       end
 
       tag_variations[tag.id] = val
