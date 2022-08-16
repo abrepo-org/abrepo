@@ -54,8 +54,12 @@ class Experiment < ApplicationRecord
   end
 
   def tags
-    self.variations.map{ |v| v.tag + v.page_tag}
-      .flatten
+    ActsAsTaggableOn::Tagging
+      .includes(:tag)
+      .joins(:tag)
+      .where(taggable_type: "Variation",
+             taggable_id: self.variations.pluck(:id))
+      .map(&:tag)
       .uniq
       .sort
   end
