@@ -1,13 +1,10 @@
 <li class="control is-block has-text-left">
     <div class="tags are-medium is-block">
-
-        <%= link_to search_path(industries: [ tag[:name] ]) do %>
-            <div class="tag is-info is-light is-inline-block is-size-6-5 pt-1"
-                 title=<%= tag[:name] %>
-                 style="overflow:hidden; text-overflow:ellipsis; max-width:100%;">
-                <%= tag[:name] %>
-            </div>
-        <% end %>
-
+      <%= link_to profiles_path(query: "{#{tag[:name]}}"),
+          title: tag[:name],
+          style: "overflow:hidden; text-overflow:ellipsis; max-width:100%;",
+          class: "is-inline-block pt-1" do %>
+          <%= tag[:name].capitalize %>
+      <% end %>
     </div>
 </li>

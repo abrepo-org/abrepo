@@ -86,6 +86,7 @@ export const SearchFilter = (props) => {
                                 selectedTags={props.selectedTags}
                                 removeTag={removeTag}
                                 placeholder={props.placeholder}
+                                name={props.name}
                             />
 
                             {

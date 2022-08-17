@@ -19,7 +19,7 @@
                 <li style="height:1.5rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; <%= example.published? ? "" : "color:grey;"%> ">
 
                     <% if controller_name == "tags" %>
-                        <% if user_signed_in? && current_user.subscribed? && example.published? %>
+                        <% if (user_signed_in? && current_user.subscribed? && example.published?) || (user_signed_in? && current_user.moderator?) %>
                             <%= link_to variation_path_slug(example) do %>
                                 <%= example[:summary_name] %>
                             <% end %>
@@ -31,7 +31,7 @@
                     <% end %>
 
                     <% if controller_name == "industries"  %>
-                        <% if user_signed_in? && current_user.subscribed? && example.published? %>
+                        <% if example.published? %>
                             <%= link_to profile_path_slug(example) do %>
                                 <%= example[:company_name] %>
                             <% end %>

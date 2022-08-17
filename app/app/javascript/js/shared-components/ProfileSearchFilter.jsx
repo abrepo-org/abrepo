@@ -91,6 +91,7 @@ export const ProfileSearchFilter = (props) => {
                                 selectedTags={selectedTags}
                                 removeTag={removeTag}
                                 placeholder={props.placeholder}
+                                name={props.name}
                             />
 
                             {
