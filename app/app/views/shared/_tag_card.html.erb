@@ -19,22 +19,26 @@
                 <li style="height:1.5rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; <%= example.published? ? "" : "color:grey;"%> ">
 
                     <% if controller_name == "tags" %>
-                        <% if example.published? %>
+                        <% if user_signed_in? && current_user.subscribed? && example.published? %>
                             <%= link_to variation_path_slug(example) do %>
                                 <%= example[:summary_name] %>
                             <% end %>
                         <% else %>
-                            <%= example[:summary_name] %>
+                            <%= link_to "#", class: "obfuscated-link" do %>
+                                <%= example[:summary_name] %>
+                            <% end %>
                         <% end %>
                     <% end %>
 
                     <% if controller_name == "industries"  %>
-                        <% if example.published? %>
+                        <% if user_signed_in? && current_user.subscribed? && example.published? %>
                             <%= link_to profile_path_slug(example) do %>
                                 <%= example[:company_name] %>
                             <% end %>
                         <% else %>
-                            <%= example[:company_name] %>
+                            <%= link_to "#", class: "obfuscated-link" do %>
+                                <%= example[:company_name] %>
+                            <% end %>
                         <% end %>
                     <% end %>
 
