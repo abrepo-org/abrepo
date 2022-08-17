@@ -3,8 +3,8 @@
       <%= link_to profiles_path(query: "{#{tag[:name]}}"),
           title: tag[:name],
           style: "overflow:hidden; text-overflow:ellipsis; max-width:100%;",
-          class: "tag is-info is-light is-inline-block is-size-6-5 pt-1" do %>
-          <%= tag[:name] %>
+          class: "is-inline-block pt-1" do %>
+          <%= tag[:name].capitalize %>
       <% end %>
     </div>
 </li>
