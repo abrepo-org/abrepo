@@ -40,18 +40,16 @@
 
                 <% if result[:type] == :active %>
 
-                    <span class="tag is-info is-light">
-                        <%= link_to profile_path_slug(result[:company]), class:'is-flex' do %>
+                    <%= link_to profile_path_slug(result[:company]),
+                        class:'is-flex tag is-success is-light' do %>
+                        <% if result[:company].favicon_url %>
                             <%= image_tag(result[:company].favicon_url,
                                           class:"mr-2",
                                           loading: 'lazy',
-                                          width: '24px', height: '24px') if result[:company].favicon_url%>
-
-                            <span>
-                                <%= result[:company].company_name %>
-                            </span>
+                                          width: '24px', height: '24px') %>
                         <% end %>
-                    </span>
+                        <%= result[:company].company_name %>
+                    <% end %>
 
                 <% else %>
 
