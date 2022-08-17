@@ -69,7 +69,7 @@
     <% unless @profile.industry_tag.empty? %>
         <div class="profile-label has-text-grey mt-3 mb-2">Industries</div>
         <div class="tags are-medium mt-1">
-            <%= render partial: "shared/search_tag_list", locals: {
+            <%= render partial: "shared/tag_list", locals: {
                 obfuscated: false,
                 tag_param: "industries",
                 tag_list: @profile.industry_tag,

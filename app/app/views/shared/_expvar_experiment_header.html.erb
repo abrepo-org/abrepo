@@ -59,7 +59,7 @@
                 <!-- Tags  -->
                 <% unless experiment.tags.empty? %>
                     <span class="tags mb-2">
-                        <%= render partial: "shared/search_tag_list", locals: {
+                        <%= render partial: "shared/tag_list", locals: {
                             obfuscated: experiment.obfuscated?,
                             tag_param: "query",
                             tag_list: experiment.tags,

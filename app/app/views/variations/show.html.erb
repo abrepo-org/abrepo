@@ -57,7 +57,7 @@ commentary = false
                 <% unless @variation.tag.empty? && @variation.page_tag.empty? %>
 
                     <div class="tags are-medium is-inline-block">
-                        <%= render partial: "shared/search_tag_list",
+                        <%= render partial: "shared/tag_list",
                         locals: {
                             obfuscated: false,
                             tag_param: "tags",
