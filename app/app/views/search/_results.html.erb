@@ -15,7 +15,7 @@
 
             <% @industries.each do |tag| %>
                 <span class ="tags is-inline-flex is-flex-wrap-nowrap has-addons mr-2">
-                    <span class="tag is-info mb-0">
+                    <span class="tag is-warning mb-0">
                         <%= tag %>
                     </span>
                     <%= link_to '', tag_link_for(@query, @tags, @industries.excluding(tag)),

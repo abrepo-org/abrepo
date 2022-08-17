@@ -81,6 +81,9 @@ export const SearchInputTextAutoComplete = (props) => {
         marginLeft: '-0.5rem'
     };
 
+    const tag_color_class = props.name == "Industries" ?
+                            "is-warning" : "is-info";
+
     //selected autocomplete tags
     return(
         <div className="field">
@@ -93,7 +96,7 @@ export const SearchInputTextAutoComplete = (props) => {
                       return(
                           <span key={tag}
                                 className="tags is-inline-flex is-flex-wrap-nowrap has-addons mb-0 mr-2">
-                              <span className="tag is-info mb-0">
+                              <span className={`tag ${tag_color_class} mb-0`}>
                                   {tag}
                               </span>
                               <a className="tag is-delete mb-0"

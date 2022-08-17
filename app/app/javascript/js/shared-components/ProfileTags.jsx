@@ -16,14 +16,17 @@ export const ProfileTags = (props) => {
                                      otherTags.filter(t => props.selectedIndustries.includes(t)))
                      .replaceAll(" ", "+");
 
-                const href = _formQuery ?
-                             `${props.baseURL}?query=${_formQuery}` :
-                             props.baseURL
+                 const tagClass = props.selectedTags.includes(selectedTag) ?
+                                  'is-info' : 'is-warning';
+
+                 const href = _formQuery ?
+                              `${props.baseURL}?query=${_formQuery}` :
+                              props.baseURL;
 
                  return (
                      <span key={selectedTag}
                            className="tags is-inline-flex is-flex-wrap-nowrap has-addons mb-0 mr-2">
-                         <span className="tag is-info mb-0">
+                         <span className={`tag ${tagClass} mb-0`}>
                              {selectedTag}
                          </span>
                          <a className="tag is-delete mb-0"
