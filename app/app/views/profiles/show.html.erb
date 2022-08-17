@@ -9,10 +9,10 @@
 
         <div class="company-info">
             <h1><%= @profile.company_name %></h1>
-            <h4>
+            <h4 class="is-flex is-align-items-end">
                 <%= link_to profile_path_slug(@profile) do %>
 
-                    <span class="profile_favicon">
+                    <span class="profile_favicon mr-2">
                       <%= image_tag(@profile.favicon_url, loading: 'lazy') if @profile.favicon_url %>
                     </span>
 
