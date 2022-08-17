@@ -73,7 +73,7 @@ export default class ActionContainer extends React.Component {
 
                          return(
                              <tr key={action.id} style={isHover ? hoverStyle : {}}>
-                                 <td>
+                                 <td className="has-text-centered">
                                      <div className="control">
                                          <input type="radio"
                                                 name="action"
@@ -85,9 +85,13 @@ export default class ActionContainer extends React.Component {
                                      </div>
                                  </td>
 
-                                 <td> { action.selectorDisplayName || action.selector || '-' } </td>
+                                 <td>
+                                     { action.selectorDisplayName || action.selector || '-' }
+                                 </td>
 
-                                 <td> {action.description || ''} </td>
+                                 <td>
+                                     {action.description || ''}
+                                 </td>
                              </tr>
                          )
                      })
