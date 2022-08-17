@@ -63,6 +63,7 @@ class Variation < ApplicationRecord
       if tag_group.key?(tag.id)
         tag_variations[tag.id] = tag_group[tag.id]
                                    .map{ |tag| tag.taggable }
+                                   .filter{ |taggable| !taggable[:summary_name].blank? }
                                    .uniq{|taggable| taggable[:summary_name] }[0,3]
       else
         tag_variations[tag.id] = []

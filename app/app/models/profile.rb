@@ -42,6 +42,11 @@ class Profile < ApplicationRecord
   validates :domain, presence: true, uniqueness: true
 
 
+  # stub to reuse same views as variations
+  def published?
+    return true
+  end
+
   #
   # combo search
   # do this so we can get pg_search_highlight attributes
