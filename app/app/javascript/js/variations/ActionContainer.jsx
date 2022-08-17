@@ -85,7 +85,6 @@ export default class ActionContainer extends React.Component {
                                          <input type="radio"
                                                 name="action"
                                                 value={action.id}
-                                                checked={isChecked}
                                                 defaultChecked={isChecked}
                                                 onChange={(e) => this.props.actionSelectHandler(e)}
                                          />
