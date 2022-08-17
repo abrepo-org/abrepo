@@ -57,24 +57,26 @@
                 <tr>
 
                     <td class="profile-search-name is-block-touch">
-                        <span class="profile_favicon">
-                            <%= image_tag(profile.favicon_url ||
-                                          'https://www.' + profile.domain + '/favicon.ico',
-                                          loading: 'lazy',
-                                          width: '16px') %>
-                        </span>
+                        <%= link_to profile_path(profile) do %>
+                            <span class="profile_favicon">
+                                <%= image_tag(profile.favicon_url ||
+                                              'https://www.' + profile.domain + '/favicon.ico',
+                                              loading: 'lazy',
+                                              width: '16px') %>
+                            </span>
 
-                        <span class="is-size-5-5">
-                            <strong>
-                                <%= profile_company_name(profile,
-                                                         @profiles_names_map,
-                                                         @profiles_domain_names_map) %>
-                            </strong>
+                            <span class="is-size-5-5">
+                                <strong>
+                                    <%= profile_company_name(profile,
+                                                             @profiles_names_map,
+                                                             @profiles_domain_names_map) %>
+                                </strong>
 
 
-                        </span>
-</div>
+                            </span>
+                        <% end %>
                     </td>
+
                     <td class="profile-search-description is-block-touch">
                         <%= profile_description(profile, @profiles_descriptions_map) %>
                     </td>
