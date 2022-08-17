@@ -16,16 +16,24 @@
 
         <ul class="mt-1 ml-0" style="height:80px;">
             <% examples.each do |example| %>
-                <li style="height:1.5rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                <li style="height:1.5rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; <%= example.published? ? "" : "color:grey;"%> ">
 
-                    <% if controller_name == "tags"  %>
-                        <%= link_to variation_path_slug(example) do %>
+                    <% if controller_name == "tags" %>
+                        <% if example.published? %>
+                            <%= link_to variation_path_slug(example) do %>
+                                <%= example[:summary_name] %>
+                            <% end %>
+                        <% else %>
                             <%= example[:summary_name] %>
                         <% end %>
                     <% end %>
 
                     <% if controller_name == "industries"  %>
-                        <%= link_to profile_path_slug(example) do %>
+                        <% if example.published? %>
+                            <%= link_to profile_path_slug(example) do %>
+                                <%= example[:company_name] %>
+                            <% end %>
+                        <% else %>
                             <%= example[:company_name] %>
                         <% end %>
                     <% end %>
