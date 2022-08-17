@@ -41,7 +41,14 @@ export default class ActionContainer extends React.Component {
 
      */
 
+
+
     render() {
+
+        const isOnlyNullAction = this.props.data.actions
+                                     .every( action => action.actionType == null);
+
+        if (isOnlyNullAction) return null;
 
         return(
 
@@ -90,7 +97,10 @@ export default class ActionContainer extends React.Component {
                                  </td>
 
                                  <td>
-                                     {action.description || ''}
+                                     {
+                                         action.description ||
+                                         (action.actionType == null ? 'Original Page' : '')
+                                     }
                                  </td>
                              </tr>
                          )
