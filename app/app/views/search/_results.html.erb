@@ -46,7 +46,7 @@
 </div>
 <hr />
 
-<% if @profiles.length > 0 || (@pagy && @pagy.page == 1) %>
+<% if (@profiles.length > 0) && (@pagy && @pagy.page == 1) %>
 
     <h3>Companies</h3>
     <!-- profiles loop -->
