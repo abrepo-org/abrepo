@@ -25,46 +25,87 @@
 
                 <div class="container">
 
-                    <div class="columns reverse-columns-tablet is-vcentered">
+                    <div class="columns has-text-centered is-vcentered">
 
-                        <div class="column is-4">
+                        <div class="column is-12">
 
                             <h1 class="title hero-title mb-6">
-                                Find Your Best <br/>A/B Test
+                                Find Your Best
+                                <br/>
+                                A/B Test
                             </h1>
 
 
                             <h2 class="subtitle is-3">
-                                Instantly search and display A/B tests from
-                                leading companies.
+                                Search and display A/B tests from leading companies.
                             </h2>
+                        </div>
+                    </div>
 
-                            <%= link_to "Get Started", "#pricing",
-                            class:"button is-large is-info mt-4 is-fullwidth-mobile"
-                            %>
+                    <div class="columns is-vcentered">
+                        <div class="column is-offset-3 is-6">
+
+                            <!-- is-active -->
+                            <div class="dropdown is-block ">
+
+                                <div class="dropdown-trigger">
+                                    <form id="landing-form">
+
+                                        <div class="field">
+                                            <div class="control is-expanded has-icons-right">
+                                                <input class="input is-large" type="input" placeholder="Search..."/>
+                                                <span class="icon is-small is-right">
+                                                    <i class="fas fa-search"></i>
+                                                </span>
+
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                    <div class="dropdown-content">
+                                        <a href="#" class="dropdown-item">Dropdown item</a>
+                                        <a href="#" class="dropdown-item">Other dropdown item</a>
+                                        <hr class="dropdown-divider">
+                                        <a href="#" class="dropdown-item">With a divider</a>
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
+                    </div>
 
-                        <div class="column is-offset-1 is-11">
-                          <div class="box2" >
-                              <video muted autoplay loop playsinline>
-                                  <source src="<%= asset_pack_path('media/images/animated.mp4') %>"
-                                          type="video/mp4">
-                                  <source src="<%= asset_pack_path('media/images/animated.webm') %>"
-                                          type="video/webm">
-                                  <source src="<%= asset_pack_path('media/images/animated.ogv') %>"
-                                          type="video/ogg">
-                                  <%= image_pack_tag("animated.gif") %>
-                              </video>
-                          </div>
+
+                    <div class="columns mt-6">
+                        <div class="column is-12 has-text-centered">
+                            <h4 class="subtitle is-4 mb-0">
+                                View Experimentation by Companies
+                            </h4>
+                            <%= render partial: "hero_companies" %>
                         </div>
+                    <!--
 
+                         icon list of popular companies  - logos + name captioned below
+
+                         "A/B Tests by Industry and Category"
+                         list of tags (inudstry + tag) - icons + tag name captioned below
+
+                       -->
+                    </div>
+                    <div class="columns mt-6">
+                        <div class="column is-12 has-text-centered">
+                            <h4 class="subtitle is-4 mb-0">
+                                A/B Tests By Industry and Category
+                            </h4>
+                            <%= render partial: "hero_tags" %>
+                        </div>
                     </div>
                 </div>
             </div>
 
         </section>
-
+        <hr/>
 
         <!-- ROLES & USE CASES -->
         <%= render partial: "roles" %>
