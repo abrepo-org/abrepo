@@ -69,35 +69,7 @@ section.section.section-landing {
   }
 }
 
-
-
-/* ROLE 3 */
-.role-3 {
-  min-height: 550px;
-  font-family: 'lato';
-  overflow:clip;
-
-  .dropdown .dropdown-menu {
-    width: 20rem;
-  }
-
-  #search-control-tag {
-    width: 20rem;
-    overflow: auto;
-  }
-  .searchFilterInput {
-    border: medium none;
-    box-shadow: none;
-    margin-left: -0.5rem;
-  }
-  .role3-tags {
-    margin-left: 14.5rem;
-  }
-
-  .is-delete {
-    cursor: auto;
-  }
-}
+@import "landing-role-filter.scss";
 
 
 /*
@@ -255,7 +227,6 @@ section.section.section-landing {
   max-width: 100%;
 }
 
-
 @keyframes FadeOutIn {
   /* from { opacity: 1;} */
   /* to {opacity: 0;} */
@@ -287,12 +258,12 @@ section.section.section-landing {
 }
 
 .role-1-a {
-  animation: FadeOutIn 8s ease-in-out infinite;
+  animation: FadeOutIn 4s ease-in-out infinite;
   //animation-delay: 1s;
 }
 
 .role-1-b {
-  animation: FadeInOut 8s ease-in-out infinite;
+  animation: FadeInOut 4s ease-in-out infinite;
   //animation-delay: 1s;
 }
 
