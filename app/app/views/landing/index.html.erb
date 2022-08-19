@@ -42,6 +42,7 @@
                         </div>
                     </div>
 
+                    <!-- search -->
                     <div class="columns is-vcentered">
                         <div class="column is-offset-3 is-6">
 
@@ -77,22 +78,19 @@
                     </div>
 
 
-                    <div class="columns mt-6">
-                        <div class="column is-12 has-text-centered">
-                            <h4 class="subtitle is-4 mb-0">
-                                View Experimentation by Companies
-                            </h4>
-                            <%= render partial: "hero_companies" %>
+                    <!-- Companies -->
+                    <% if @profiles.length > 0 %>
+                        <div class="columns mt-6">
+                            <div class="column is-12 has-text-centered">
+                                <h4 class="subtitle is-4 mb-0">
+                                    View Experimentation by Companies
+                                </h4>
+                                <%= render partial: "hero_companies" %>
+                            </div>
                         </div>
-                    <!--
+                    <% end %>
 
-                         icon list of popular companies  - logos + name captioned below
-
-                         "A/B Tests by Industry and Category"
-                         list of tags (inudstry + tag) - icons + tag name captioned below
-
-                       -->
-                    </div>
+                    <!-- Tags -->
                     <div class="columns mt-6">
                         <div class="column is-12 has-text-centered">
                             <h4 class="subtitle is-4 mb-0">

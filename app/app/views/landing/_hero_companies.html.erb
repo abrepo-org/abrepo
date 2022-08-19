@@ -1,29 +1,14 @@
-<ul class="column is-offset-3 is-6 is-flex is-flex-direction-row is-justify-content-space-evenly">
+<ul class="column is-12 is-flex is-flex-direction-row is-justify-content-space-evenly">
 
-    <%= render partial: "hero_company",
-    locals: {
-        href: "/profiles/547/zillow",
-        img_src: "https://abrepo-assets.s3.us-east-2.amazonaws.com/emlsbG93LmNvbQ/logo.svg",
-        caption: "C1",
-        classes: ''
-    }
-    %>
+    <% @profiles.each_with_index do |profile, i| %>
+        <%= render partial: "hero_company",
+        locals: {
+            href: profile_path(profile),
+            img_src: profile.logo_url,
+            caption: "C1",
+            classes: i > 2 ? 'is-hidden-mobile' : ''
+        }
+        %>
+    <% end %>
 
-    <%= render partial: "hero_company",
-    locals: {
-        href: "/profiles/547/zillow",
-        img_src: "https://abrepo-assets.s3.us-east-2.amazonaws.com/emlsbG93LmNvbQ/logo.svg",
-        caption: "C2",
-        classes: ''
-    }
-    %>
-
-    <%= render partial: "hero_company",
-    locals: {
-        href: "/profiles/547/zillow",
-        img_src: "https://abrepo-assets.s3.us-east-2.amazonaws.com/emlsbG93LmNvbQ/logo.svg",
-        caption: "C3",
-        classes: ''
-    }
-    %>
 </ul>
