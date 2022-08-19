@@ -47,7 +47,7 @@
                         <div class="column is-offset-3 is-6">
 
                             <!-- is-active -->
-                            <div class="dropdown is-block ">
+                            <div id="search-dropdown" class="dropdown is-block ">
 
                                 <div class="dropdown-trigger">
                                     <%= form_with(url: search_path,
@@ -58,6 +58,7 @@
                                         <div class="field">
                                             <div class="control is-expanded has-icons-right">
                                                 <%= f.text_field :query,
+                                                autocomplete: "off",
                                                 placeholder: "Search . . .",
                                                 class: "input is-large"
                                                 %>
@@ -74,10 +75,12 @@
 
                                 <div class="dropdown-menu" id="dropdown-menu" role="menu">
                                     <div class="dropdown-content">
-                                        <a href="#" class="dropdown-item">Dropdown item</a>
-                                        <a href="#" class="dropdown-item">Other dropdown item</a>
+                                        <a href="/search?query=1"
+                                           class="dropdown-item">Dropdown item</a>
+                                        <a href="/search?query=2"
+                                           class="dropdown-item">Other dropdown item</a>
                                         <hr class="dropdown-divider">
-                                        <a href="#" class="dropdown-item">With a divider</a>
+                                        <a href="/search?query=3" class="dropdown-item">With a divider</a>
                                     </div>
                                 </div>
                             </div>
@@ -137,6 +140,28 @@
         <% end %>
 
     </main>
+
+
+    <%= content_for :footer do %>
+        <%# landing page only, javascript click handler toggle %>
+        <script id="dropdownHelper" text="text/javascript">
+         document.addEventListener('click', (e) => {
+
+             const $input = document.querySelector('#landing-form input');
+
+             if (!$input) return null;
+
+             const $dropdown = document.querySelector('#search-dropdown');
+
+             if (e.target.isEqualNode($input) ) {
+                 $dropdown.classList.add('is-active');
+             } else {
+                 $dropdown.classList.remove('is-active');
+             }
+         });
+
+        </script>
+    <% end %>
 
     <%= render "/layouts/footer" %>
 </body>
