@@ -25,6 +25,11 @@ section.section.section-landing {
   width: 100%;
 }
 
+.hero-tags a {
+  color: hsl(0, 0%, 48%);
+  &:hover { color: #363636; }
+}
+
 //has-background-white-ter good
 .has-background-dark-blue {
   background: #0a2540;

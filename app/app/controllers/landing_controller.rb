@@ -8,9 +8,12 @@ class LandingController < ApplicationController
     #
 
     @profiles = []
-    @tags = []
 
     # TODO: change to query Profiles with Experiments > 3 + logo?
+    # Tags are hardcoded in /landing/_hero_tags.html.erb (expensive
+    # queries to discern taggable_type - industry/variation to build
+    # query url)
+
     domains = [
       'showtime.com', 'bigcommerce.com', 'aspca.org', 'hostgator.com', 'elastic.com', 'freshdesk.com', 'sofi.com', 'mongodb.com'
     ]
@@ -21,7 +24,7 @@ class LandingController < ApplicationController
     end
 
     @profiles = Profile.where(domain: domains)
-    @tags =[]
+
 
     #NB: helper currently returns 'basic-monthly', 'basic-annual' lookup keys
     @basic_monthly_price, @basic_annual_price = get_all_stripe_data

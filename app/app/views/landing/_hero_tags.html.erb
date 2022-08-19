@@ -1,50 +1,64 @@
-<ul class="column is-offset-3 is-6 mt-5 is-flex is-flex-direction-row is-justify-content-space-evenly">
+<ul class="hero-tags column is-12 mt-5 is-flex is-flex-direction-row is-justify-content-space-evenly">
     <%= render partial: "hero_tag",
     locals: {
-        href: "/profiles/547/zillow",
-        icon_class: "fas fa-2x fa-search",
-        caption: "Tag Name",
+        href: "/search?query={internet}",
+        icon_class: "fas fa-2x fa-network-wired",
+        caption: "Internet",
         classes: ''
     }
     %>
+
     <%= render partial: "hero_tag",
     locals: {
-        href: "/profiles/547/zillow",
-        icon_class: "fas fa-2x fa-search",
-        caption: "Tag Name",
-        classes: ''
-    }
-    %>
-    <%= render partial: "hero_tag",
-    locals: {
-        href: "/profiles/547/zillow",
-        icon_class: "fas fa-2x fa-search",
-        caption: "Tag Name",
-        classes: ''
-    }
-    %>
-    <%= render partial: "hero_tag",
-    locals: {
-        href: "/profiles/547/zillow",
-        icon_class: "fas fa-2x fa-search",
-        caption: "Tag Name",
-        classes: ''
-    }
-    %>
-    <%= render partial: "hero_tag",
-    locals: {
-        href: "/profiles/547/zillow",
-        icon_class: "fas fa-2x fa-search",
-        caption: "Tag Name",
+        href: "/search?query=[cta]",
+        icon_class: "fas fa-2x fa-mouse-pointer",
+        caption: "CTA",
         classes: 'is-hidden-mobile'
     }
     %>
+
     <%= render partial: "hero_tag",
     locals: {
-        href: "/profiles/547/zillow",
-        icon_class: "fas fa-2x fa-search",
-        caption: "Tag Name",
+        href: "/search?query={financial-services}",
+        icon_class: "fas fa-2x fa-money-check-alt",
+        caption: "Financial Services",
+        classes: ''
+    }
+    %>
+
+    <%= render partial: "hero_tag",
+    locals: {
+        href: "/search?query=[social-proof]",
+        icon_class: "fas fa-2x fa-hashtag",
+        caption: "Social Proof",
         classes: 'is-hidden-mobile'
+    }
+    %>
+
+    <%= render partial: "hero_tag",
+    locals: {
+        href: "/search?query={higher-education}",
+        icon_class: "fas fa-2x fa-graduation-cap",
+        caption: "Higher Education",
+        classes: ''
+    }
+    %>
+
+    <%= render partial: "hero_tag",
+    locals: {
+        href: "/search?query=[discount]",
+        icon_class: "fas fa-2x fa-percent",
+        caption: "Discount",
+        classes: 'is-hidden-mobile'
+    }
+    %>
+
+    <%= render partial: "hero_tag",
+    locals: {
+        href: "/search?query={publishing}",
+        icon_class: "fas fa-2x fa-book",
+        caption: "Publishing",
+        classes: ''
     }
     %>
 
