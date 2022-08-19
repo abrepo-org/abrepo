@@ -42,7 +42,7 @@
                         </div>
                     </div>
 
-                    <!-- search -->
+                    <!-- Search -->
                     <div class="columns is-vcentered">
                         <div class="column is-offset-3 is-6">
 
@@ -50,18 +50,26 @@
                             <div class="dropdown is-block ">
 
                                 <div class="dropdown-trigger">
-                                    <form id="landing-form">
+                                    <%= form_with(url: search_path,
+                                                  method: :get,
+                                                  skip_enforcing_utf8: true,
+                                                  id: "landing-form") do |f| %>
 
                                         <div class="field">
                                             <div class="control is-expanded has-icons-right">
-                                                <input class="input is-large" type="input" placeholder="Search..."/>
+                                                <%= f.text_field :query,
+                                                placeholder: "Search . . .",
+                                                class: "input is-large"
+                                                %>
+
                                                 <span class="icon is-small is-right">
                                                     <i class="fas fa-search"></i>
                                                 </span>
 
                                             </div>
                                         </div>
-                                    </form>
+
+                                    <% end %>
                                 </div>
 
                                 <div class="dropdown-menu" id="dropdown-menu" role="menu">
