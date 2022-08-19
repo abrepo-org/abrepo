@@ -101,7 +101,7 @@ section.section.section-landing {
 
 
 /*
- *  ROLE 2
+ *  ROLE 2 (eiffel tower)
  */
 .role-2 {
   .columns {
@@ -227,6 +227,32 @@ section.section.section-landing {
     color: #6b006a;
     border: 1px solid #6b006a;
   }
+}
+
+
+//Expvar Panel (Role 1 dog)
+.landing-role-1 {
+  opacity: .5;
+}
+
+.expvar-panel {
+
+  bottom: -4rem;
+  left: -4rem;
+  background: white;
+  padding: 1rem;
+
+  @include until($tablet) {
+    bottom: -10rem;
+    left: 0;
+    width:100%;
+  }
+
+}
+
+.landing-experiment-header {
+  width: 700px; //issue
+  max-width: 100%;
 }
 
 
