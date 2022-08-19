@@ -1,4 +1,6 @@
-<div class="role role-2 box-box-shadow">
+<div class="role role-1 box-box-shadow">
+    <div class="ribbon ribbon-top-right role-1-a"><span>ORIGINAL</span></div>
+    <div class="ribbon ribbon-top-right role-1-b"><span>VARIATION</span></div>
     <!-- Header -->
 
     <div class="browser_wrap">
@@ -9,144 +11,57 @@
         </div>
 
 
-    <div class="columns is-flex px-5 py-5">
+        <div class="columns is-vcentered is-flex is-flex-direction-column-reverse-mobile px-6 py-6">
 
-      <div class="column is-12 is-full-mobile is-flex">
+            <div class="column is-6">
 
-        <!-- Img 1 -->
-        <div class="img-1 diff-img-2" style="background-image: url('<%= asset_pack_path 'media/images/pexels-pierre-blaché-3073668-25.jpg' %>')">
+                <div class="is-relative">
+                    <span class="role-1-a is-absolute">NUTRITION</span>
+                    <span class="role-1-b ">LIFESTYLE</span>
+                </div>
 
-          <!-- Title / Price 1 -->
-          <div class="is-absolute role-2-title-1 has-text-centered diff-img-1">
-              <h4>Paris,
-                <br/>
-                Je T'aime
+                <div class="is-relative">
+                    <h1 class="is-absolute role-1-a">Complete and Balanced</h1>
+                    <h1 class="role-1-b">Active and Healthy Nutrition</h1>
+                </div>
+
                 <br />
-                $699
-              </h4>
-          </div>
-        </div>
 
-        <!-- Img 2 -->
-        <div class="img-2 diff-img-2 is-hidden-touch" style="background-image: url('<%= asset_pack_path 'media/images/chris-karidis-nnzkZNYWHaU-unsplash-25.jpg' %>')">
-          <!-- Title / Price 2 -->
-          <div class="is-absolute role-2-title-2 has-text-centered diff-img-1">
-            <h4>Visit Paris
-              <br/>
-              $799
-            </h4>
+                <div class="is-relative mb-5">
 
-          </div>
-        </div>
-      </div>
+                    <p class="is-absolute role-1-a">
+                        No artificial flavors, high-fructose corn syrup,
+                        or added sugars. Our omega-6 fatty acids nourish your
+                        pet's coat.
+                    </p>
 
+                    <p class="role-1-b">
+                        Optimal nutrition to energize your pet's active
+                        lifestyle. Packed with glucosamine and protein to
+                        support agile joints and muscle build.</p>
+                </div>
 
+                <br/>
 
-      <!-- Diff Panel -->
-
-      <div class="is-absolute role-2-diffPanel diffPanel box2 pl-0">
-
-        <h4 class="pt-2">Diffs</h4>
-
-        <!-- <Diff> -->
-        <div class="diff diff-1 p-3">
-          <!-- <DiffView> -->
-
-          <!-- Delta -->
-          <div class="diff-summary-delta is-size-5">
-            <!-- delta content -->
-            Hero Header
-          </div>
-
-          <!-- DiffView -->
-          <div class="diff-summary-wrap is-flex is-flex-direction-column is-align-items-baseline">
-
-            <!-- Diff Summary -->
-            <div class="diff-summary is-flex is-align-items-baseline pt-2 pb-1">
-              <div class="colorClass">
-                <!-- icon -->
-                <div class="icon-add">&#65291;</div>
-
-              </div>
-              <div class="diff-summary summary-text pl-2"">
-                                                          <!-- - Summary Text -->
-                                                          Paris, Je T'aime $699
-                   </div>
-
-                   </div>
-
-                   <div class="diff-summary is-flex is-align-items-baseline pt-2 pb-1">
-                     <div class="colorClass">
-                       <!-- icon -->
-                       <div class="icon-remove">&#65293;</div>
-                     </div>
-                     <div class="diff-summary summary-text pl-2"">
-                <!-- - Summary Text -->
-                Visit Paris $799
-              </div>
+                <div class="is-relative">
+                    <div class="button is-absolute role-1-a">
+                        LEARN MORE
+                    </div>
+                    <div class="button button-secondary role-1-b">
+                        BUY NOW
+                    </div>
+                </div>
             </div>
 
-          </div>
 
-        </div> <!-- Diff -->
-
-        <!-- <Diff> -->
-        <div class="diff diff-2 p-3">
-
-          <div class="diff-summary-delta is-size-5">
-            Background Image
-          </div>
-
-
-          <div class="diff-summary-wrap is-flex is-flex-direction-column is-align-items-baseline">
-
-            <div class="diff-summary is-flex is-align-items-baseline pt-2 pb-1">
-              <div class="colorClass">
-                <div class="icon-add">&#65291;</div>
-              </div>
-              <div class="diff-summary summary-text pl-2"">
-                       Sacre-Coeur.jpg
-                     </div>
-                   </div>
-
-                   <div class="diff-summary is-flex is-align-items-baseline pt-2 pb-1">
-                     <div class="colorClass">
-                       <div class="icon-remove">&#65293;</div>
-                     </div>
-                     <div class="diff-summary summary-text pl-2"">
-                Eiffel-Tower-Seine.jpg
-              </div>
+            <div class="column is-offset-1 is-5">
+                <div class="is-relative">
+                    <%= image_pack_tag 'role_1_a.jpg', class:"is-absolute role-1-a" %>
+                    <%= image_pack_tag 'role_1_b.jpg', class:"role-1-b" %>
+                </div>
             </div>
-          </div>
-
-        </div> <!-- Diff -->
-
-        <!-- <Diff> -->
-        <div class="diff p-3 is-hidden-touch">
-
-          <div class="diff-summary-delta is-size-5">
-            Audience
-          </div>
-
-
-          <div class="diff-summary-wrap is-flex is-flex-direction-column is-align-items-baseline">
-
-            <div class="diff-summary is-flex is-align-items-baseline pt-2 pb-1">
-              <div class="colorClass">
-                <div class="icon-add">&#65291;</div>
-              </div>
-              <div class="diff-summary summary-text pl-2"">
-                       State: New York
-                     </div>
-                   </div>
-
-          </div>
-
-        </div> <!-- Diff -->
-
-      </div> <!--  end diffPanel -->
+        </div>
 
     </div>
 
-    </div><!--end browser_wrap-->
 </div>
