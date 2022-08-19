@@ -1,7 +1,7 @@
 /*
- *  ROLE 2 (eiffel tower)
+ *  Role Parallel (eiffel tower, sacre coeur)
  */
-.role-2 {
+.role-parallel {
   .columns {
     height: 550px;
     @include until($tablet) {
@@ -31,7 +31,7 @@
 
 }
 
-.role-2-title-1 {
+.role-parallel-title-1 {
 
   top: 3rem;
 
@@ -52,7 +52,7 @@
   }
 
 }
-.role-2-title-2 {
+.role-parallel-title-2 {
 
   top: 3rem;
 
@@ -75,7 +75,7 @@
 }
 
 //Diff Summary
-.role-2-diffPanel {
+.role-parallel-diffPanel {
   top: 17rem;
   right: 0;
   background: white;
