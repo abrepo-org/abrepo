@@ -25,54 +25,138 @@
 
                 <div class="container">
 
-                    <div class="columns reverse-columns-tablet is-vcentered">
+                    <div class="columns has-text-centered is-vcentered">
 
-                        <div class="column is-4">
+                        <div class="column is-12">
 
                             <h1 class="title hero-title mb-6">
-                                Find Your Best <br/>A/B Test
+                                Find Your Best
+                                <br/>
+                                A/B Test
                             </h1>
 
 
                             <h2 class="subtitle is-3">
-                                Instantly search and display A/B tests from
-                                leading companies.
+                                Search and display A/B tests from leading companies.
                             </h2>
+                        </div>
+                    </div>
 
-                            <%= link_to "Get Started", "#pricing",
-                            class:"button is-large is-info mt-4 is-fullwidth-mobile"
-                            %>
+                    <!-- Search -->
+                    <div class="columns is-vcentered">
+                        <div class="column is-offset-3 is-6">
+
+                            <!-- is-active -->
+                            <div id="search-dropdown" class="dropdown is-block ">
+
+                                <div class="dropdown-trigger">
+                                    <%= form_with(url: search_path,
+                                                  method: :get,
+                                                  skip_enforcing_utf8: true,
+                                                  id: "landing-form") do |f| %>
+
+                                        <div class="field">
+                                            <div class="control is-expanded has-icons-right">
+                                                <%= f.text_field :query,
+                                                autocomplete: "off",
+                                                placeholder: "Search . . .",
+                                                class: "input is-large"
+                                                %>
+
+                                                <span class="icon is-small is-right">
+                                                    <i class="fas fa-search"></i>
+                                                </span>
+
+                                            </div>
+                                        </div>
+
+                                    <% end %>
+                                </div>
+
+                                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                    <div class="dropdown-content">
+                                        <strong class="pl-2">
+                                            Example Queries
+                                        </strong>
+
+                                        <% @search_queries.each do |query, description| %>
+
+                                            <%= link_to search_path(query: query),
+                                            class: "dropdown-item" do
+                                            %>
+                                                <div class="is-flex is-justify-content-space-between">
+                                                <span><%= query %></span>
+
+                                                <span class="is-hidden-touch"
+                                                      style="color: hsl(0, 0%, 61%);">
+                                                    <%= description %>
+                                                </span>
+                                                </div>
+                                            <% end %>
+                                        <% end %>
+
+                                        <hr class="dropdown-divider">
+                                        <span class="dropdown-item">
+                                            <div class="is-flex is-justify-content-space-between">
+                                                <span class="is-family-monospace">[tag]</span>
+                                                <span style="color: hsl(0, 0%, 61%);">
+                                                    Filter experiments with specified tag
+                                                </span>
+                                            </div>
+                                        </span>
+                                        <span class="dropdown-item">
+                                            <div class="is-flex is-justify-content-space-between">
+                                                <span class="is-family-monospace">{industry}</span>
+                                                <span style="color: hsl(0, 0%, 61%);">
+                                                    Filter experiments within specified industry
+                                                </span>
+                                            </div>
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
+                    </div>
 
-                        <div class="column is-offset-1 is-11">
-                          <div class="box2" >
-                              <video muted autoplay loop playsinline>
-                                  <source src="<%= asset_pack_path('media/images/animated.mp4') %>"
-                                          type="video/mp4">
-                                  <source src="<%= asset_pack_path('media/images/animated.webm') %>"
-                                          type="video/webm">
-                                  <source src="<%= asset_pack_path('media/images/animated.ogv') %>"
-                                          type="video/ogg">
-                                  <%= image_pack_tag("animated.gif") %>
-                              </video>
-                          </div>
+
+                    <!-- Companies -->
+                    <% if @profiles.length > 0 %>
+                        <div class="columns mt-6">
+                            <div class="column is-12 has-text-centered">
+                                <h4 class="subtitle is-4 mb-0">
+                                    Experimentation by Companies
+                                </h4>
+                                <%= render partial: "hero_companies" %>
+                            </div>
                         </div>
+                    <% end %>
 
+                    <!-- Tags -->
+                    <div class="columns mt-6">
+                        <div class="column is-12 has-text-centered">
+                            <h4 class="subtitle is-4 mb-0">
+                                A/B Tests By Industry and Category
+                            </h4>
+                            <%= render partial: "hero_tags" %>
+                        </div>
                     </div>
                 </div>
             </div>
 
         </section>
-
+        <hr/>
 
         <!-- ROLES & USE CASES -->
         <%= render partial: "roles" %>
+
 
         <!-- HOW IT WORKS -->
         <section class="section section-landing how-it-works is-medium has-background-dark-blue">
             <%= render partial: "how_it_works" %>
         </section>
+
 
         <!-- PRICING -->
         <section id="pricing" class="section section-landing is-medium has-background-white">
@@ -90,6 +174,28 @@
         <% end %>
 
     </main>
+
+
+    <%= content_for :footer do %>
+        <%# landing page only, javascript click handler toggle %>
+        <script id="dropdownHelper" text="text/javascript">
+         document.addEventListener('click', (e) => {
+
+             const $input = document.querySelector('#landing-form input');
+
+             if (!$input) return null;
+
+             const $dropdown = document.querySelector('#search-dropdown');
+
+             if (e.target.isEqualNode($input) ) {
+                 $dropdown.classList.add('is-active');
+             } else {
+                 $dropdown.classList.remove('is-active');
+             }
+         });
+
+        </script>
+    <% end %>
 
     <%= render "/layouts/footer" %>
 </body>

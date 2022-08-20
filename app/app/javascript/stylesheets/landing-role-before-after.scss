@@ -1,0 +1,89 @@
+/* Before & After */
+
+.role-before-after {
+  .button {
+    border: none;
+    background: #6b006a;
+    color: white;
+  }
+
+  .button.button-secondary {
+    background: white;
+    color: #6b006a;
+    border: 1px solid #6b006a;
+  }
+}
+
+
+//Expvar Panel (Role 1 dog)
+.landing-role-before-after {
+  opacity: .5;
+}
+
+
+$expvar-bottom-shift: 10rem;
+
+
+.expvar-panel {
+  background: white;
+  padding: 1rem;
+  width: 100%;
+
+  position: relative;
+  bottom: $expvar-bottom-shift;
+  left: -1rem;
+  width: calc(100% + 2rem);
+}
+
+/*
+ * accommodate shifted .expvar-panel:
+ * 1. button break margin-top -10rem
+ * 2. second column rightside text
+ */
+.mt--10 {
+  margin-top: -$expvar-bottom-shift;
+}
+
+.mt--10-touch {
+  @include from($tablet) {
+    margin-top: -$expvar-bottom-shift;
+  }
+}
+
+@keyframes FadeOutIn {
+  /* from { opacity: 1;} */
+  /* to {opacity: 0;} */
+
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes FadeInOut {
+  /* from { opacity: 0;} */
+  /* to {opacity: 1;} */
+
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.role-before-after-a {
+  animation: FadeOutIn 4s ease-in-out infinite;
+}
+
+.role-before-after-b {
+  animation: FadeInOut 4s ease-in-out infinite;
+}
