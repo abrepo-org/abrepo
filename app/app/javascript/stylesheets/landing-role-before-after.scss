@@ -20,29 +20,35 @@
   opacity: .5;
 }
 
+
+$expvar-bottom-shift: 10rem;
+
+
 .expvar-panel {
   background: white;
   padding: 1rem;
   width: 100%;
-  /*
-  bottom: -4rem;
-  left: -4rem;
 
-  @include until($tablet) {
-    bottom: -10rem;
-    left: 0;
-    width:100%;
-  }
-*/
+  position: relative;
+  bottom: $expvar-bottom-shift;
+  left: -1rem;
+  width: calc(100% + 2rem);
 }
+
 /*
-.landing-experiment-header {
-  max-width: 100%;
-  @include from($desktop) {
-    width: 700px; //issue
+ * accommodate shifted .expvar-panel:
+ * 1. button break margin-top -10rem
+ * 2. second column rightside text
+ */
+.mt--10 {
+  margin-top: -$expvar-bottom-shift;
+}
+
+.mt--10-touch {
+  @include from($tablet) {
+    margin-top: -$expvar-bottom-shift;
   }
 }
-*/
 
 @keyframes FadeOutIn {
   /* from { opacity: 1;} */
