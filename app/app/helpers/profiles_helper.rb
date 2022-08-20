@@ -49,7 +49,8 @@ module ProfilesHelper
   def profile_path_slug(profile, options = {})
     anchor = options[:anchor] ? "##{options[:anchor]}" : ''
     slug = profile[:company_name].parameterize
-    return "/profiles/#{profile[:id]}/#{slug}#{anchor}"
+    return "#{profile_path(profile)}/#{slug}#{anchor}"
+    #return "/profiles/#{profile[:id]}/#{slug}#{anchor}"
   end
 
   def profile_industry_filter_links(params, industries, classes)

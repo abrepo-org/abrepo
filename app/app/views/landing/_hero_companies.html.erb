@@ -3,7 +3,7 @@
     <% @profiles.each_with_index do |profile, i| %>
         <%= render partial: "hero_company",
         locals: {
-            href: profile_path(profile),
+            href: profile_path_slug(profile),
             img_src: profile.logo_url,
             caption: "C1",
             classes: i > 2 ? 'is-hidden-mobile' : ''
