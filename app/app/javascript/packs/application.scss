@@ -76,12 +76,6 @@ $border-grey: rgb(227, 232, 238); //#e2e7ee
   }
 }
 
-.is-flex-direction-column-reverse-mobile {
-  @include until($tablet) {
-    flex-direction: column-reverse;
-  }
-}
-
 .is-size-6-5 {
   font-size: .875rem !important;
 }

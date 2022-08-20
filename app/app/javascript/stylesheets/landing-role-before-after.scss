@@ -21,24 +21,28 @@
 }
 
 .expvar-panel {
-
-  bottom: -4rem;
-  left: -4rem;
   background: white;
   padding: 1rem;
+  width: 100%;
+  /*
+  bottom: -4rem;
+  left: -4rem;
 
   @include until($tablet) {
     bottom: -10rem;
     left: 0;
     width:100%;
   }
-
+*/
 }
-
+/*
 .landing-experiment-header {
-  width: 700px; //issue
   max-width: 100%;
+  @include from($desktop) {
+    width: 700px; //issue
+  }
 }
+*/
 
 @keyframes FadeOutIn {
   /* from { opacity: 1;} */

@@ -1,0 +1,147 @@
+<table class="table expvar-table">
+  <tbody>
+    <tr>
+      <th colspan="4" >
+        <div class="experiment is-flex is-justify-content-space-between">
+
+          <div class="experiment-anchor-wrap">
+
+            <!-- Experiment Name -->
+            <div class="landing-experiment-header">
+
+              <div class="experiment-header-title-date is-flex-desktop is-justify-content-space-between">
+                <!-- title -->
+
+                <% # NB: Disable clicks on anchor link for now, but
+                   # still allow input # into url bar
+                   %>
+                <h4 class="mb-2">
+                  Header Copy and Image: Lifestyle vs Nutrition
+                </h4>
+
+                <!-- expvar num -->
+                <div class="is-size-6 has-text-grey has-text-weight-normal mb-2 expvar-date">
+                  <span title="Date Detected">
+                    <%= format_expvar_date(Date.today) %>
+                  </span>
+                </div>
+
+              </div>
+
+              <!-- Targeting -->
+              <div class="is-flex is-flex-wrap-wrap mb-2">
+                <span title="Targeting"
+                      class="targeting-value has-text-grey has-text-weight-normal">
+                  Previous Visitor
+                </span>
+              </div>
+
+
+              <div class="is-flex is-flex-wrap-wrap is-align-items-center">
+
+                <!-- company info -->
+                <div class="mr-4 mb-4">
+
+                  <span class="profile_favicon">
+                    <%= image_tag( asset_pack_path('media/images/paws-icon.png'))%>
+                  </span>
+
+                  <span class="profile_domain has-text-grey has-text-weight-normal">
+                    &nbsp;petnoms.com
+                  </span >
+
+                </div>
+
+
+                <!-- Tags  -->
+                <span class="tags mb-2">
+                  <span class="tag is-info is-light">
+                    hero
+                  </span>
+
+                  <span class="tag is-info is-light">
+                    header
+                  </span>
+
+                  <span class="tag is-info is-light">
+                    copy
+                  </span>
+
+                </span>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </th>
+    </tr>
+
+    <tr class="variation-row-header is-size-7">
+      <th>Variations</th>
+      <th class="is-hidden-mobile">Page</th>
+      <th class="is-hidden-touch" align="right">Verified</th>
+      <th class="is-hidden-touch" align="right">Watch</th>
+    </tr>
+
+    <!-- variation header -->
+
+    <tr class="variation-row-data expvar-root-border is-root role-before-after-a">
+
+      <!-- Summary Name -->
+      <td class="summary_name">
+        Complete and Balanced Nutrition
+      </td>
+
+      <!--  Page(s) -->
+      <td class="table-col-page is-hidden-mobile">
+        /sales/dog-food/nutribest
+      </td>
+
+      <td class="is-hidden-mobile" align="right"></td>
+      <td class="is-hidden-mobile" align="right">
+        <span class="icon-text">
+          <span class="icon">
+            <i class="far fa-star"></i>
+          </span>
+        </span>
+      </td>
+    </tr>
+
+    <tr class="variation-row-data expvar-root-border is-root role-before-after-b">
+
+      <!-- Summary Name -->
+      <td class="summary_name">
+        Active and Healthy Lifestyle
+      </td>
+
+      <!--  Page(s) -->
+      <td class="table-col-page is-hidden-mobile">
+        /sales/dog-food/nutribest
+      </td>
+
+      <td class="is-hidden-touch" align="right">
+        <span class="icon-text">
+          <div class="verified">
+            <span class="tag" >
+              <span class="icon">
+                <i class="fas fa-check"></i>
+              </span>
+            </span>
+          </div>
+        </span>
+      </td>
+
+      <td class="is-hidden-touch" align="right">
+        <span class="icon-text">
+          <span class="icon">
+            <i class="far fa-star"></i>
+          </span>
+        </span>
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
