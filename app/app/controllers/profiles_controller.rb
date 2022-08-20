@@ -99,6 +99,7 @@ class ProfilesController < ApplicationController
     @num_variations  = []
     @tag_counts = []
     @featured_experiments = []
+    @related_companies = []
     @user_saved_variations = []
 
     if (@experiments.length > 0)
