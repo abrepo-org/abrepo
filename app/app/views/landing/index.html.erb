@@ -75,12 +75,44 @@
 
                                 <div class="dropdown-menu" id="dropdown-menu" role="menu">
                                     <div class="dropdown-content">
-                                        <a href="/search?query=1"
-                                           class="dropdown-item">Dropdown item</a>
-                                        <a href="/search?query=2"
-                                           class="dropdown-item">Other dropdown item</a>
+                                        <strong class="pl-2">
+                                            Example Queries
+                                        </strong>
+
+                                        <% @search_queries.each do |query, description| %>
+
+                                            <%= link_to search_path(query: query),
+                                            class: "dropdown-item" do
+                                            %>
+                                                <div class="is-flex is-justify-content-space-between">
+                                                <span><%= query %></span>
+
+                                                <span class="is-hidden-touch"
+                                                      style="color: hsl(0, 0%, 61%);">
+                                                    <%= description %>
+                                                </span>
+                                                </div>
+                                            <% end %>
+                                        <% end %>
+
                                         <hr class="dropdown-divider">
-                                        <a href="/search?query=3" class="dropdown-item">With a divider</a>
+                                        <span class="dropdown-item">
+                                            <div class="is-flex is-justify-content-space-between">
+                                                <span class="is-family-monospace">[tag]</span>
+                                                <span style="color: hsl(0, 0%, 61%);">
+                                                    filter experiments with specified tag
+                                                </span>
+                                            </div>
+                                        </span>
+                                        <span class="dropdown-item">
+                                            <div class="is-flex is-justify-content-space-between">
+                                                <span class="is-family-monospace">{industry}</span>
+                                                <span style="color: hsl(0, 0%, 61%);">
+                                                    filter experiments within specified industry
+                                                </span>
+                                            </div>
+                                        </span>
+
                                     </div>
                                 </div>
                             </div>
