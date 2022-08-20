@@ -10,6 +10,13 @@ section.section.section-landing {
   font-weight:900;
 }
 
+//override
+.hero.is-medium .hero-body {
+  @include from($tablet) {
+    padding-bottom: 5rem;
+  }
+}
+
 #landing-flash {
   margin-top:-7rem;
   margin-bottom: 1.5rem;
