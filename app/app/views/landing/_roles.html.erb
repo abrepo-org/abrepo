@@ -42,7 +42,7 @@
                 </ul>
 
                 <%= link_to "Sign Up Now", "#pricing",
-                class: "button is-medium is-info is-fullwidth"
+                class: "button is-medium is-info is-fullwidth is-hidden-mobile"
                 %>
             </div>
 
@@ -53,7 +53,15 @@
         </div>
     </div>
 </section>
-<hr/>
+
+<div class="button-break has-text-centered">
+  <hr/>
+  <%# switch display from cta above on mobile view %>
+  <%= link_to "Sign Up Now", "#pricing",
+      class: "button is-medium is-info is-hidden-tablet"
+      %>
+</div>
+
 
 <!-- Ideation and Content -->
 <section class="section section-landing has-background-white roles">
@@ -101,11 +109,22 @@
                     </li>
                 </ul>
 
+                <%= link_to "Sign Up Now", "#pricing",
+                class: "button is-medium is-info is-fullwidth is-hidden-mobile"
+                %>
             </div>
         </div>
     </div>
 </section>
-<hr/>
+
+<div class="button-break has-text-centered">
+  <hr/>
+  <%# switch display from cta above on mobile view %>
+  <%= link_to "Sign Up Now", "#pricing",
+      class: "button is-medium is-info is-hidden-tablet"
+      %>
+</div>
+
 
 <!-- Industry Trends: Tag & Industry Filters -->
 <section class="section section-landing has-background-white roles">
@@ -147,6 +166,9 @@
                     </li>
                 </ul>
 
+                <%= link_to "Sign Up Now", "#pricing",
+                class: "button is-medium is-info is-fullwidth is-hidden-mobile"
+                %>
             </div>
 
             <div class="column is-offset-1 is-7">
@@ -156,3 +178,11 @@
         </div>
     </div>
 </section>
+
+<div class="button-break has-text-centered">
+  <hr/>
+  <%# switch display from cta above on mobile view %>
+  <%= link_to "Sign Up Now", "#pricing",
+      class: "button is-medium is-info is-hidden-tablet"
+      %>
+</div>

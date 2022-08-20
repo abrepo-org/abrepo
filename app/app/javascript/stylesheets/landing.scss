@@ -43,6 +43,7 @@ section.section.section-landing {
 }
 
 
+/* ROLES (2 cols) */
 .roles ul {
   list-style-type: none;
   margin-top: 1.25rem;
@@ -77,6 +78,16 @@ section.section.section-landing {
     padding: 0;
   }
 }
+
+
+//mobile view cta after each role section
+.button-break {
+  a {
+    width: 50%;
+    margin-top:-3rem;
+  }
+}
+
 
 @import "landing-role-filter.scss";
 @import "landing-role-parallel.scss";
