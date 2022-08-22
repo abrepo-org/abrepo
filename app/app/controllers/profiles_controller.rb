@@ -90,11 +90,11 @@ class ProfilesController < ApplicationController
     pname = @profile.company_name.parameterize
     redirect_to "/profiles/#{@profile.id}/#{pname}" unless params[:name] == pname
 
-    @experiments = policy_scope(@profile.experiments)
-                     .includes([:source_vendor,
-                                variations: [:renderables, :tag, :page_tag]
-                               ])
-                     .order(created_at: :desc)
+    @experiments = policy_scope(@profile
+                                  .experiments
+                                  .includes(:source_vendor,
+                                            variations: :renderables)
+                                  .order(created_at: :desc))
 
     @num_variations  = []
     @tag_counts = []
