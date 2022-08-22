@@ -56,7 +56,6 @@ class Experiment < ApplicationRecord
   def tags
     ActsAsTaggableOn::Tagging
       .includes(:tag)
-      .joins(:tag)
       .where(taggable_type: "Variation",
              taggable_id: self.variations.pluck(:id))
       .map(&:tag)
