@@ -159,8 +159,7 @@ class Search
 
       # attach join
       # reorder using exp_ids freetext ordering
-      # otherwise by date
-      # reorder('t.ord') crucial or else get mal-ordred pagy results
+      # reorder Arel.sql crucial or else get non-search order results
       if (exp_ids.empty?)
         experiments = experimentPolicyModel
                         .where(id: variations.pluck(:experiment_id).uniq )
