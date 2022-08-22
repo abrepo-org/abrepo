@@ -20,7 +20,14 @@ class HomeController < ApplicationController
   def index
 
     @experiments = policy_scope(Experiment)
+                     .includes(:source_vendor, :profile, :variations)
                      .order("created_at desc")
+
+    @variations = obfuscate_from(policy_scope(Variation)
+                                   .includes(:experiment,
+                                             :renderables,
+                                             :tag, :page_tag)
+                                   .where(experiment_id: @experiments), 0)
 
     @pagy, @experiments = pagy(@experiments)
     @experiments = obfuscate_from(@experiments, 0) if (not subscribed_or_moderator) &&
