@@ -49,16 +49,21 @@ module ExpvarHelper
 
   def num_by_vendor_id(variations, index)
     vendor_id = variations[index].vendor_id
-    variations.where(vendor_id: vendor_id).count
+    return variations
+             .filter{ |variation| variation.vendor_id == vendor_id}.length
   end
 
   def pageURLHelper(variation)
-    if(variation.renderables.where(control:false).first)
 
-      renderedURL = variation.renderables.where(control:false).first
-                      .obfuscate.renderedURL
+    activeRenderable = variation.renderables
+                         .filter{|renderable| !renderable.control }
+                         .first
 
+    if (activeRenderable)
+
+      renderedURL = activeRenderable.obfuscate.renderedURL
       renderedURL = URI.parse(renderedURL)
+
       return [renderedURL.path, renderedURL.query].join
 
     end
