@@ -35,7 +35,9 @@ class HomeController < ApplicationController
     # choose experiments:
     # 1. featured: true -> defer for now
     # 2. or topN of calcRank
-    @featured_experiments = policy_scope(Experiment).calcRank(5)
+    @featured_experiments = policy_scope(Experiment)
+                              .includes(:profile)
+                              .calcRank(5)
 
     @user_saved_variations = user_saved_variations_hash
   end

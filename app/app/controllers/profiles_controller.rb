@@ -119,7 +119,9 @@ class ProfilesController < ApplicationController
 
       @tag_counts = Sidebar.tag_counts_by_profile_id(@profile.id)
 
-      @featured_experiments = policy_scope(Experiment).calcRank(5)
+      @featured_experiments = policy_scope(Experiment)
+                                .includes(:profile)
+                                .calcRank(5)
 
       @related_companies = @profile.get_related_companies(7)
 
