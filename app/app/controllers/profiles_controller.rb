@@ -106,11 +106,8 @@ class ProfilesController < ApplicationController
 
       @num_variations = policy_scope(Variation)
                           .where(experiment_id: @experiments)
-                          .select('experiment_id, COUNT(variations.id) as count')
-                          .group('experiment_id')
-                          .pluck('variations.count')
-                          .sum
-
+                          .pluck(:id)
+                          .length
 
       @pagy, @experiments = pagy(@experiments)
 

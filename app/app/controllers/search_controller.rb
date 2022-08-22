@@ -24,16 +24,6 @@ class SearchController < ApplicationController
 
     if (@experiments.length > 0)
       @pagy, @experiments = pagy(@experiments)
-
-      # these are num search results, but we keep variable
-      # as @num_variations to reuse partial
-      @num_variations = policy_scope(Variation)
-                          .where(experiment_id: @experiments)
-                          .select('experiment_id, COUNT(variations.id) as count')
-                          .group('experiment_id')
-                          .pluck('variations.count')
-                          .sum
-
     end
 
     # Possible increase search results to 1st page?
