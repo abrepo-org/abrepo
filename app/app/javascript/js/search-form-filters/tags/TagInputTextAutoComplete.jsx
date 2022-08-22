@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { updateURL } from './Util.js';
+import { updateURL } from '../Util.js';
 import debounce from "lodash.debounce";
 
 export const TagInputTextAutoComplete = (props) => {

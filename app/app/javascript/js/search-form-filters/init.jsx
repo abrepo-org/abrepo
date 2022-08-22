@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { TagForm } from './TagForm.jsx';
-import { ProfileForm } from './ProfileForm.jsx';
-import { SearchForm } from './SearchForm.jsx';
+import { TagForm } from './tags/TagForm.jsx';
+import { ProfileForm } from './profiles/ProfileForm.jsx';
+import { SearchForm } from './search/SearchForm.jsx';
 
 /*
  * used for autocomplete and submit on /tags and /industries

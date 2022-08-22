@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import debounce from "lodash.debounce";
+import { Button } from '../Button.jsx';
+import { updateURL, buildFormQuery } from '../Util.js';
 import { ProfileInputTextAutoComplete } from './ProfileInputTextAutoComplete.jsx';
-import { Button } from './Button.jsx';
-import { updateURL, buildFormQuery } from './Util.js';
 import { ProfileTags } from './ProfileTags.jsx';
 import { ProfileSearchFilter } from './ProfileSearchFilter.jsx';
 
@@ -101,12 +101,12 @@ export const ProfileForm = (props) => {
     }, []);
 
     useEffect( () => {
-        console.log("[ProfileForm] useEffect Tags", selectedTags, selectedIndustries)
+        //console.log("[ProfileForm] useEffect Tags", selectedTags, selectedIndustries);
         setFormQuery( buildFormQuery(selectedQuery, selectedTags, selectedIndustries) );
     }, [selectedTags, selectedIndustries]);
 
     useEffect( () => {
-        console.log("[ProfileForm] useEffect Fetch", selectedQuery, formQuery)
+        //console.log("[ProfileForm] useEffect Fetch", selectedQuery, formQuery);
         const _formQuery = buildFormQuery(selectedQuery,
                                           selectedTags,
                                           selectedIndustries);

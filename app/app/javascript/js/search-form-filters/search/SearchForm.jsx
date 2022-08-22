@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from './Button.jsx';
+import { Button } from '../Button.jsx';
+import { buildFormQuery } from '../Util.js';
 import { SearchFilter } from './SearchFilter.jsx';
-import { buildFormQuery } from './Util.js';
+
 
 
 export const SearchForm = (props) => {
@@ -42,7 +43,7 @@ export const SearchForm = (props) => {
 
     //query string for form submission
     const [formQuery, setFormQuery] = useState( () => {
-        return buildFormQuery(selectedQuery, selectedTags, selectedIndustries)
+        return buildFormQuery(selectedQuery, selectedTags, selectedIndustries);
     });
 
 
