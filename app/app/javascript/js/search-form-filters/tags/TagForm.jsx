@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { Button } from '../Button.jsx';
 import { TagInputTextAutoComplete } from './TagInputTextAutoComplete.jsx';
-import { Button } from './Button.jsx';
+
 
 export const TagForm = (props) => {
 

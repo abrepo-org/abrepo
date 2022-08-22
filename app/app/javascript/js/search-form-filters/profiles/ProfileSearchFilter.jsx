@@ -1,35 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { SearchInputTextAutoComplete } from './SearchInputTextAutoComplete.jsx';
-import { AutoCompleteTag } from './AutoCompleteTag.jsx';
+import { SearchInputTextAutoComplete } from '../SearchInputTextAutoComplete.jsx';
+import { AutoCompleteTag } from '../AutoCompleteTag.jsx';
 
-export const SearchFilter = (props) => {
+export const ProfileSearchFilter = (props) => {
 
+    const [selectedTags, setSelectedTags] = useState( props.selectedTags );
     const [autocompleteTags, setAutocompleteTags] = useState([]);
     const [autocompleteTotals, setAutocompleteTotals]  = useState(false);
     const [resetTrigger, setResetTrigger] = useState(0);
 
     const addTag = (tag) => {
-        props.setSelectedTags(selectedTags => [...selectedTags, tag])
+        setSelectedTags(selectedTags => [...selectedTags, tag]);
         setResetTrigger(resetTrigger+1);
     };
 
     const removeTag = (tag) => {
-        props.setSelectedTags(selectedTags => selectedTags.filter(t => t != tag))
+        setSelectedTags(selectedTags => selectedTags.filter(t => t != tag));
         setResetTrigger(resetTrigger+1);
     };
 
     const clearSelected = (selectedTag) => {
 
         //filter auto complete list
-        setAutocompleteTags(autocompleteTags.filter( tag => tag != selectedTag))
-        setResetTrigger(resetTrigger+1)   //trigger useEffect hook to clear input value
+        setAutocompleteTags(autocompleteTags.filter( tag => tag != selectedTag));
+        setResetTrigger(resetTrigger+1);   //trigger useEffect hook to clear input value
     };
 
     //open close Tag dropdown
     const openCloseClickHandler = (e) => {
         e.preventDefault();
-        const update = {}
-        update[props.id] = !props.filterOpenState[props.id]
+        const update = {};
+        update[props.id] = !props.filterOpenState[props.id];
 
         //close All
         Object.keys(props.filterOpenState).forEach( key => {
@@ -38,6 +39,10 @@ export const SearchFilter = (props) => {
 
         //toggle individual (open or close)
         props.setFilterOpenState( {...props.filterOpenState, ...update });
+    };
+
+    const ApplyFiltersClickHandler = (e) => {
+        props.setSelectedTags(selectedTags)
     };
 
     return(
@@ -83,7 +88,7 @@ export const SearchFilter = (props) => {
                                 resetTrigger={resetTrigger}
                                 setAutoCompleteResults={setAutocompleteTags}
                                 setAutoCompleteTotals={setAutocompleteTotals}
-                                selectedTags={props.selectedTags}
+                                selectedTags={selectedTags}
                                 removeTag={removeTag}
                                 placeholder={props.placeholder}
                                 name={props.name}
@@ -124,7 +129,9 @@ export const SearchFilter = (props) => {
 
                         <hr className="dropdown-divider" />
                         <div className="dropdown-item">
-                            <button className="button is-small">
+                            <button
+                                onClick={(e) => ApplyFiltersClickHandler(e)}
+                                className="button is-small">
                                 Apply Filters
                             </button>
                         </div>
