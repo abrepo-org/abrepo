@@ -53,16 +53,6 @@ class Experiment < ApplicationRecord
     return self.audience_name
   end
 
-  def tags
-    ActsAsTaggableOn::Tagging
-      .includes(:tag)
-      .where(taggable_type: "Variation",
-             taggable_id: self.variations.pluck(:id))
-      .map(&:tag)
-      .uniq
-      .sort
-  end
-
   # calculated score for each experiment based on avg number of diffs
   # used at import time; provides numerator score used against decay (calc in db)
   def score

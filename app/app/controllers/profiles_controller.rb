@@ -77,8 +77,7 @@ class ProfilesController < ApplicationController
 
   def show
 
-    @profile = policy_scope(Profile)
-                 .find_by_id(params[:id])
+    @profile = policy_scope(Profile).where(id: params[:id]).first
 
     raise ActionController::RoutingError.new('Not Found') if @profile.nil?
     # only allow mod to see empty profiles
@@ -92,9 +91,20 @@ class ProfilesController < ApplicationController
 
     @experiments = policy_scope(@profile
                                   .experiments
-                                  .includes(:source_vendor,
-                                            variations: :renderables)
-                                  .order(created_at: :desc))
+                                  .includes(:source_vendor, :variations)
+                                  .order([
+                                           "variations.verified desc",
+                                           "variations.created_at desc",
+                                           "variations.summary_name asc",
+                                           "experiments.created_at desc"
+                                         ].join(",")))
+
+    @variations = obfuscate_from(policy_scope(Variation)
+                                   .includes(:experiment,
+                                             :renderables,
+                                             :tag, :page_tag)
+                                   .where(experiment_id: @experiments), 0)
+
 
     @num_variations  = []
     @tag_counts = []
