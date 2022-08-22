@@ -166,9 +166,11 @@ class Search
                         .where(id: variations.pluck(:experiment_id).uniq )
                         .order(created_at: "DESC")
       else
-        experiments = experiments
-                        .joins("JOIN unnest('{#{exp_ids.join(',')}}'::int[]) WITH ORDINALITY t(id, ord) USING (id)")
-                        .reorder('t.ord')
+
+        # NB: can't sort need scope
+        experiments = Experiment
+                        .where(id: exp_ids)
+                        .order(Arel.sql("position(id::text in '#{exp_ids.join(',')}')"))
 
       end
     end

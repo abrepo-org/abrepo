@@ -10,7 +10,10 @@ class SearchController < ApplicationController
     @experiments,
     @experimentsDocHash,
     @variationsDocHash = Search.build(@query, @tags, @industries,
-                                      policy_scope(Experiment),
+                                      policy_scope(Experiment)
+                                        .includes(:profile,
+                                                  :source_vendor,
+                                                  :variations),
                                       policy_scope(Variation))
 
 
@@ -21,7 +24,6 @@ class SearchController < ApplicationController
                                                         policy_scope(Profile)
                                                           .includes(:industry_tag))
     # TODO: filter profiles by (tags, industries)
-
     if (@experiments.length > 0)
       @pagy, @experiments = pagy(@experiments)
     end
@@ -29,6 +31,12 @@ class SearchController < ApplicationController
     # Possible increase search results to 1st page?
     @experiments = obfuscate_from(@experiments,
                                   num_given_pagination(@experiments.length)) if not subscribed_or_moderator
+
+    @variations = obfuscate_from(policy_scope(Variation)
+                                   .includes(:experiment,
+                                             :renderables,
+                                             :tag, :page_tag)
+                                   .where(experiment_id: @experiments), 0)
 
     # autocomplete
     if (params[:partial])
