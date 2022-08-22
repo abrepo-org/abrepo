@@ -68,7 +68,7 @@ export const SearchFilter = (props) => {
                                     <strong>Filter by {props.name}</strong>
                                 </span>
                                 <a href="#"
-                                   class="delete"
+                                   className="delete"
                                    onClick={(e) => openCloseClickHandler(e)}>
                                 </a>
 

@@ -60,7 +60,7 @@ export const SearchInputTextAutoComplete = (props) => {
      * resetTrigger provides change condition to run useEffect;
      */
     useEffect( () => {
-        console.log("[SearchInputTextAutoComplete] useEffect", props.resetTrigger);
+        //console.log("[SearchInputTextAutoComplete] useEffect", props.resetTrigger);
 
         //seems like we don't want to clear the autocomplete query on
         //click
