@@ -33,7 +33,7 @@ class SearchController < ApplicationController
                                   num_given_pagination(@experiments.length)) if not subscribed_or_moderator
 
     @variations = obfuscate_from(policy_scope(Variation)
-                                   .includes(:experiment,
+                                   .includes({experiment: :profile},
                                              :renderables,
                                              :tag, :page_tag)
                                    .where(experiment_id: @experiments), 0)

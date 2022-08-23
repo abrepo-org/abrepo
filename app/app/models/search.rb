@@ -167,7 +167,7 @@ class Search
       else
 
         # NB: can't sort need scope
-        experiments = Experiment
+        experiments = experimentPolicyModel
                         .where(id: exp_ids)
                         .order(Arel.sql("position(id::text in '#{exp_ids.join(',')}')"))
 
