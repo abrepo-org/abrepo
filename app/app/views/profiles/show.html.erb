@@ -98,10 +98,7 @@
                 <%= render partial: "/shared/expvar_table",
                 locals: {profile: @profile,
                          experiment: experiment,
-                         variations: obfuscate_from(policy_scope(experiment.variations
-                                                                 .order(verified: :desc,
-                                                                        summary_name: :asc,
-                                                                        created_at: :desc)), 0),
+                         variations: @variations.filter{ |v| v.experiment_id == experiment.id },
                          audience_name: experiment.audience,
                          source_vendor: experiment.source_vendor,
                          user_saved_variations: @user_saved_variations

@@ -94,9 +94,7 @@ class Profile < ApplicationRecord
     #query result profiles (in order)
     profiles = self
                  .where(id: profile_ids)
-                 .joins("JOIN unnest('{#{profile_order_ids.join(',')}}'::int[]) WITH ORDINALITY t(id, ord) USING (id)")
-                 .reorder('t.ord')
-
+                 .order(Arel.sql("position(id::text in '#{profile_order_ids.join(',')}')"))
 
     return profiles, names_map, domains_map, descriptions_map
   end

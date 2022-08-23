@@ -159,16 +159,17 @@ class Search
 
       # attach join
       # reorder using exp_ids freetext ordering
-      # otherwise by date
-      # reorder('t.ord') crucial or else get mal-ordred pagy results
+      # reorder Arel.sql crucial or else get non-search order results
       if (exp_ids.empty?)
         experiments = experimentPolicyModel
                         .where(id: variations.pluck(:experiment_id).uniq )
                         .order(created_at: "DESC")
       else
-        experiments = experiments
-                        .joins("JOIN unnest('{#{exp_ids.join(',')}}'::int[]) WITH ORDINALITY t(id, ord) USING (id)")
-                        .reorder('t.ord')
+
+        # NB: can't sort need scope
+        experiments = experimentPolicyModel
+                        .where(id: exp_ids)
+                        .order(Arel.sql("position(id::text in '#{exp_ids.join(',')}')"))
 
       end
     end
