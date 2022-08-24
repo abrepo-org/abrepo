@@ -54,6 +54,8 @@ class ImportsController < ApplicationController
                     industry_tag_list: group['tags']['industry_tag_list'],
                     url: profile['url'],
                     description: profile['description'],
+                    description_source_name: profile['description_source_name'],
+                    description_source_url: profile['description_source_url'],
                     favicon_url: profile['favicon_url'],
                     logo_url: profile['logo_url'])
 
