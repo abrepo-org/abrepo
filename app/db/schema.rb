@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_21_031808) do
+ActiveRecord::Schema.define(version: 2022_08_24_200340) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -99,6 +99,8 @@ ActiveRecord::Schema.define(version: 2022_07_21_031808) do
     t.string "description"
     t.string "favicon_url"
     t.string "logo_url"
+    t.string "description_source_name"
+    t.string "description_source_url"
   end
 
   create_table "related_profiles", force: :cascade do |t|
