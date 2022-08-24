@@ -37,7 +37,12 @@ class SearchController < ApplicationController
                                    .includes({experiment: :profile},
                                              :renderables,
                                              :tag, :page_tag)
-                                   .where(experiment_id: @experiments), 0)
+                                   .where(experiment_id: @experiments)
+                                   .order([
+                                            "variations.verified desc",
+                                            "variations.created_at desc",
+                                            "variations.summary_name asc"
+                                          ]), 0)
 
     # autocomplete
     if (params[:partial])

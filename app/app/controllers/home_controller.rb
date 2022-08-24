@@ -28,7 +28,12 @@ class HomeController < ApplicationController
                                    .includes(:experiment,
                                              :renderables,
                                              :tag, :page_tag)
-                                   .where(experiment_id: @experiments), 0)
+                                   .where(experiment_id: @experiments)
+                                   .order([
+                                            "variations.verified desc",
+                                            "variations.created_at desc",
+                                            "variations.summary_name asc"
+                                          ]), 0)
 
     @pagy, @experiments = pagy(@experiments)
     @experiments = obfuscate_from(@experiments, 0) if (not subscribed_or_moderator) &&
