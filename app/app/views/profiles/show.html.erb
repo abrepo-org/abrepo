@@ -27,7 +27,14 @@
     <!-- - About -->
     <% unless @profile.description.nil? %>
         <div class="profile-label has-text-grey mt-3 mb-2">About</div>
-        <p><%= @profile.description %></p>
+        <p><%= @profile.description %>
+        <% unless @profile.description_source_url.blank? %>
+            <span class="profile_source_url">
+                &nbsp;
+                <%= link_to @profile.description_source_name, @profile.description_source_url %>
+            </span>
+        <% end %>
+        </p>
     <% end %>
 
     <!-- Related Companies -->
