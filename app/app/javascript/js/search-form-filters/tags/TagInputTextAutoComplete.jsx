@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { updateURL } from '../Util.js';
 import debounce from "lodash.debounce";
 
-export const InputTextAutoComplete = (props) => {
+export const TagInputTextAutoComplete = (props) => {
 
     const baseURL = props.baseURL;
     const destinationSelector = props.destinationSelector;
     const setInputResults = props.setInputResults;
     const placeholder = props.placeholder;
-    const updateURL = props.updateURL;
     const queryField = props.queryField || "query";
 
     let searchParams = new URLSearchParams(window.location.search);
@@ -20,11 +20,7 @@ export const InputTextAutoComplete = (props) => {
 
     const fetchAPI = (value) => {
 
-        let url = `${baseURL}?query=${value}&partial=true`;
-
-        if (props.industriesParam) {
-            url = `${baseURL}?industries[]=${props.industriesParam}&query=${value}&partial=true`;
-        }
+        const url = `${baseURL}?query=${value}&partial=true`;
 
         return fetch(url)
             .then(res => res.text())
@@ -67,16 +63,6 @@ export const InputTextAutoComplete = (props) => {
             <div className="field">
                 <div id="search-control" className="control has-icons-left">
 
-                    {props.industriesParam &&
-                     <input autoComplete="off"
-                            className="input is-small"
-                            type="hidden"
-                            name="industries[]" id="industries[]"
-                            value={props.industriesParam}
-                     />
-
-                    }
-
                      <input onChange={(e) => changeHandler(e) }
                             autoComplete="off"
                             className="input is-small"
@@ -91,22 +77,9 @@ export const InputTextAutoComplete = (props) => {
                      </span>
                 </div>
             </div>
-
-            <div className="field">
-                {props.industriesParam &&
-                 <span key={props.industriesParam}
-                       className="tags is-inline-flex is-flex-wrap-nowrap has-addons mb-0 mr-2">
-                     <span className="tag is-info mb-0">
-                         {props.industriesParam}
-                     </span>
-                     <a className="tag is-delete mb-0" href={`${baseURL}?query=${query}`}></a>
-                 </span>
-
-                }
-            </div>
         </div>
     );
 
 };
 
-export default { InputTextAutoComplete };
+export default { TagInputTextAutoComplete };

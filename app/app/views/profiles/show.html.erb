@@ -9,10 +9,10 @@
 
         <div class="company-info">
             <h1><%= @profile.company_name %></h1>
-            <h4>
+            <h4 class="is-flex is-align-items-end">
                 <%= link_to profile_path_slug(@profile) do %>
 
-                    <span class="profile_favicon">
+                    <span class="profile_favicon mr-2">
                       <%= image_tag(@profile.favicon_url, loading: 'lazy') if @profile.favicon_url %>
                     </span>
 
@@ -27,7 +27,14 @@
     <!-- - About -->
     <% unless @profile.description.nil? %>
         <div class="profile-label has-text-grey mt-3 mb-2">About</div>
-        <p><%= @profile.description %></p>
+        <p><%= @profile.description %>
+        <% unless @profile.description_source_url.blank? %>
+            <span class="profile_source_url">
+                &nbsp;
+                <%= link_to @profile.description_source_name, @profile.description_source_url %>
+            </span>
+        <% end %>
+        </p>
     <% end %>
 
     <!-- Related Companies -->
@@ -40,18 +47,16 @@
 
                 <% if result[:type] == :active %>
 
-                    <span class="tag is-info is-light">
-                        <%= link_to profile_path_slug(result[:company]), class:'is-flex' do %>
+                    <%= link_to profile_path_slug(result[:company]),
+                        class:'is-flex tag is-success is-light' do %>
+                        <% if result[:company].favicon_url %>
                             <%= image_tag(result[:company].favicon_url,
                                           class:"mr-2",
                                           loading: 'lazy',
-                                          width: '24px', height: '24px') if result[:company].favicon_url%>
-
-                            <span>
-                                <%= result[:company].company_name %>
-                            </span>
+                                          width: '24px', height: '24px') %>
                         <% end %>
-                    </span>
+                        <%= result[:company].company_name %>
+                    <% end %>
 
                 <% else %>
 
@@ -69,11 +74,11 @@
     <% unless @profile.industry_tag.empty? %>
         <div class="profile-label has-text-grey mt-3 mb-2">Industries</div>
         <div class="tags are-medium mt-1">
-            <%= render partial: "shared/search_tag_list", locals: {
+            <%= render partial: "shared/tag_list", locals: {
                 obfuscated: false,
                 tag_param: "industries",
                 tag_list: @profile.industry_tag,
-                classes: "tag is-info is-light",
+                classes: "tag is-warning is-light",
             }%>
         </div>
     <% end %>
@@ -100,10 +105,7 @@
                 <%= render partial: "/shared/expvar_table",
                 locals: {profile: @profile,
                          experiment: experiment,
-                         variations: obfuscate_from(policy_scope(experiment.variations
-                                                                 .order(verified: :desc,
-                                                                        summary_name: :asc,
-                                                                        created_at: :desc)), 0),
+                         variations: @variations.filter{ |v| v.experiment_id == experiment.id },
                          audience_name: experiment.audience,
                          source_vendor: experiment.source_vendor,
                          user_saved_variations: @user_saved_variations

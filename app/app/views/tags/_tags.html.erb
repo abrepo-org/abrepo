@@ -11,7 +11,7 @@
                 locals: {
                     # title
                     name: tag.name,
-                    name_link_path: "/search/?tags[]=#{tag.name}",
+                    name_link_path: "/search/?query=[#{tag.name}]",
 
                     # content
                     examples: @variation_hash_by_id[tag.id],

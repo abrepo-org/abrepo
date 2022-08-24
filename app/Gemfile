@@ -75,6 +75,6 @@ gem "pg_search", "~> 2.3"
 
 gem "pundit", "~> 2.1"
 
-gem "pagy", "~> 4.11"
+gem "pagy", "~> 5.10.1"
 
 gem "distribution", "~> 0.8.0"

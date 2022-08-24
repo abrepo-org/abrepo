@@ -33,8 +33,8 @@ class IndustriesController < ApplicationController
 
     #profiles -> {industry_tag_id: [Profiles]}
     @profile_hash_by_id = Profile.build_tag_examples(current_user,
-                                                     policy_scope(Experiment),
-                                                     @industries)
+                                                     policy_scope(Profile),
+                                                     @industries) unless request.format == "application/json"
 
     # autocomplete
     if (params[:partial])

@@ -1,9 +1,16 @@
-<li class="has-text-left" style="width:100%;">
+<li class="has-text-left is-flex-direction-column" style="width:100%;">
 
     <%= link_to profile_path_slug(experiment.profile,
                                   anchor: "exp#{experiment.id}"),
                                   title: experiment.summary_name do %>
         <%= experiment.summary_name %>
     <% end %>
+
+    <div class="company-info is-size-6-5">
+        <%= link_to profile_path_slug(experiment.profile),
+                    class: "has-text-grey" do %>
+            <%= experiment.profile.domain %>
+        <% end %>
+    </div>
 
 </li>

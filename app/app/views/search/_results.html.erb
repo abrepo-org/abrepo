@@ -8,59 +8,122 @@
 }
 %>
 
-<div class="results is-flex is-justify-content-space-between">
-    <div class="tags-container">
+<div class="results">
 
-        <% @industries.each do |tag| %>
-            <span class ="tags is-inline-flex is-flex-wrap-nowrap has-addons mb-0 mr-2">
-                <span class="tag is-info mb-0">
-                    <%= tag %>
+    <% unless @industries.empty? && @tags.empty? %>
+        <div class="tags-container mb-4">
+
+            <% @industries.each do |tag| %>
+                <span class ="tags is-inline-flex is-flex-wrap-nowrap has-addons mr-2">
+                    <span class="tag is-warning mb-0">
+                        <%= tag %>
+                    </span>
+                    <%= link_to '', tag_link_for(@query, @tags, @industries.excluding(tag)),
+                        class: "tag is-delete mb-0" %>
                 </span>
-                <%= link_to '', tag_link_for(@query, @tags, @industries.excluding(tag)),
-                    class: "tag is-delete mb-0" %>
-            </span>
-        <% end %>
+            <% end %>
 
-        <% @tags.each do |tag| %>
-            <span class ="tags is-inline-flex is-flex-wrap-nowrap has-addons mb-0 mr-2">
-                <span class="tag is-info mb-0">
-                    <%= tag %>
+            <% @tags.each do |tag| %>
+                <span class ="tags is-inline-flex is-flex-wrap-nowrap has-addons mr-2">
+                    <span class="tag is-info mb-0">
+                        <%= tag %>
+                    </span>
+                    <%= link_to '', tag_link_for(@query, @tags.excluding(tag), @industries),
+                        class: "tag is-delete mb-0" %>
                 </span>
-                <%= link_to '', tag_link_for(@query, @tags.excluding(tag), @industries),
-                    class: "tag is-delete mb-0" %>
-            </span>
-        <% end %>
+            <% end %>
 
-    </div>
+        </div>
+    <% end %>
 
-    <div class="num-results-container">
+    <div class="num-results-container mt-2">
         <p>
             <%= pluralize(@pagy ? @pagy.count : @experiments.length, "result") %>
         </p>
+
     </div>
+
 </div>
 <hr />
 
+<% if (@profiles.length > 0) && (@pagy && @pagy.page == 1) %>
+
+    <h3>Companies</h3>
+    <!-- profiles loop -->
+
+    <table class="table">
+        <tbody>
+            <% @profiles[0,3].each do |profile| %>
+                <tr>
+
+                    <td class="profile-search-name is-block-touch">
+                        <%= link_to profile_path(profile) do %>
+                            <span class="profile_favicon">
+                                <%= image_tag(profile.favicon_url ||
+                                              'https://www.' + profile.domain + '/favicon.ico',
+                                              loading: 'lazy',
+                                              width: '16px') %>
+                            </span>
+
+                            <span class="is-size-5-5">
+                                <strong>
+                                    <%= profile_company_name(profile,
+                                                             @profiles_names_map,
+                                                             @profiles_domain_names_map) %>
+                                </strong>
+
+
+                            </span>
+                        <% end %>
+                    </td>
+
+                    <td class="profile-search-description is-block-touch">
+                        <%= profile_description(profile, @profiles_descriptions_map) %>
+                    </td>
+
+                </tr>
+
+            <% end %>
+        </tbody>
+    </table>
+
+    <% if @profiles.length > 3 %>
+        <%= link_to profiles_path(query: @search_input_text) do %>
+            See More Company Search Results
+        <% end %>
+    <% end %>
+
+
+    <% if @profiles.length > 0 %>
+        <hr />
+    <% end %>
+<% end %>
+
 <!-- experiments loop -->
+<h3> Experiments </h3>
+
 <table class="table expvar-table">
-  <tbody>
+    <tbody>
 
       <% @experiments.each do |experiment| %>
+
+          <%
+          # NB: add query to cache key because pg_search_highlight output
+          # will change depending on query
+          %>
 
           <% cache [experiment,
                     experiment.obfuscated?,
                     subscribed_or_moderator,
                     calc_usv_cache_key(@user_saved_variations, experiment),
+                    @search_input_text,
                     '/expvar_table'], expires_in: 1.day do %>
 
               <%= render partial: "/shared/expvar_table",
               locals: {
                   profile: experiment.profile,
                   experiment: experiment,
-                  variations: obfuscate_from(policy_scope(experiment.variations
-                                                          .order(verified: :desc,
-                                                                 summary_name: :asc,
-                                                                 created_at: :desc)), 0),
+                  variations: @variations.filter{ |v| v.experiment_id == experiment.id },
                   audience_name: experiment.audience,
                   source_vendor: experiment.source_vendor,
                   user_saved_variations: @user_saved_variations

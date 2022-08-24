@@ -11,7 +11,7 @@
                 locals: {
                     # title
                     name: industry.name,
-                    name_link_path: "/search/?industries[]=#{industry.name}",
+                    name_link_path: "/profiles?query={#{industry.name}}",
 
                     # content
                     examples: @profile_hash_by_id[industry.id],

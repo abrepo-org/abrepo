@@ -53,13 +53,6 @@ class Experiment < ApplicationRecord
     return self.audience_name
   end
 
-  def tags
-    self.variations.map{ |v| v.tag + v.page_tag}
-      .flatten
-      .uniq
-      .sort
-  end
-
   # calculated score for each experiment based on avg number of diffs
   # used at import time; provides numerator score used against decay (calc in db)
   def score
@@ -75,6 +68,7 @@ class Experiment < ApplicationRecord
   end
 
 
+  # NB: 'calcscoreRank' sql alias can break pagy
   def self.calcRank(num)
 
     select("*, (experiments.calcscore / (POW(( ( (SELECT EXTRACT(EPOCH FROM CURRENT_TIMESTAMP(0))) - (SELECT EXTRACT(EPOCH FROM experiments.created_at)) ) / 3600) + 2, 1.8))) as calcscoreRank")

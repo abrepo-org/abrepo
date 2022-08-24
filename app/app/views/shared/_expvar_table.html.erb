@@ -4,6 +4,10 @@
         <%= render partial: "/shared/expvar_experiment_header",
         locals: {
             experiment: experiment,
+            tags: variations.map{ |v| v.tag + v.page_tag }.flatten.uniq.sort,
+            pg_search_highlight: @experimentsDocHash &&
+                      @experimentsDocHash.key?(experiment.id) &&
+                      @experimentsDocHash[experiment.id].pg_search_highlight,
             profile: profile,
             audience_name: audience_name
         }%>
@@ -21,9 +25,17 @@
 <% variations.each_with_index do |variation, index| %>
     <% cache [variation, variation.obfuscated?,
               @user_saved_variations[variation.id],
+              @search_input_text,
               "/expvar_variation"], expires_in: 1.day do %>
+
         <%= render partial: '/shared/expvar_variation',
-        locals: {variations: variations, variation: variation, variation_counter: index} %>
+            locals: {
+            variations: variations,
+            variation: variation,
+            pg_search_highlight: @variationsDocHash &&
+                     @variationsDocHash.key?(variation.id) &&
+                     @variationsDocHash[variation.id].pg_search_highlight,
+            variation_counter: index} %>
     <% end %>
 <% end %>
 

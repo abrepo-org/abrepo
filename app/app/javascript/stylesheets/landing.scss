@@ -10,6 +10,13 @@ section.section.section-landing {
   font-weight:900;
 }
 
+//override
+.hero.is-medium .hero-body {
+  @include from($tablet) {
+    padding-bottom: 5rem;
+  }
+}
+
 #landing-flash {
   margin-top:-7rem;
   margin-bottom: 1.5rem;
@@ -19,6 +26,15 @@ section.section.section-landing {
     margin-top:0rem;
     margin-bottom:.5rem;
   }
+}
+
+.hero #dropdown-menu {
+  width: 100%;
+}
+
+.hero-tags a {
+  color: hsl(0, 0%, 48%);
+  &:hover { color: #363636; }
 }
 
 //has-background-white-ter good
@@ -34,6 +50,7 @@ section.section.section-landing {
 }
 
 
+/* ROLES (2 cols) */
 .roles ul {
   list-style-type: none;
   margin-top: 1.25rem;
@@ -70,166 +87,19 @@ section.section.section-landing {
 }
 
 
-
-/* ROLE 3 */
-.role-3 {
-  min-height: 550px;
-  font-family: 'lato';
-  overflow:clip;
-
-  .dropdown .dropdown-menu {
-    width: 20rem;
-  }
-
-  #search-control-tag {
-    width: 20rem;
-    overflow: auto;
-  }
-  .searchFilterInput {
-    border: medium none;
-    box-shadow: none;
-    margin-left: -0.5rem;
-  }
-  .role3-tags {
-    margin-left: 14.5rem;
-  }
-
-  .is-delete {
-    cursor: auto;
+//mobile view cta after each role section
+.button-break {
+  a {
+    width: 50%;
+    margin-top:-3rem;
   }
 }
 
 
-/* ROLE 2 */
-.role-2 {
-  .columns {
-    height: 550px;
-    @include until($tablet) {
-      padding: .5rem !important;
-    }
-  }
+@import "landing-role-filter.scss";
+@import "landing-role-parallel.scss";
+@import "landing-role-before-after.scss";
 
-  img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-  }
-
-
-}
-
-.role-2-title {
-
-  top: 1rem;
-
-  @include from($tablet) {
-    top: 2rem;
-    left: 2rem;
-  }
-
-
-  h3 {
-    color: white;
-
-    opacity: .9;
-    margin-bottom: 0;
-    text-shadow: 2px 2px black;
-
-    //change mobile
-    font-size: 4rem;
-    padding: 1rem;
-  }
-
-}
-
-//Diff Summary
-.role-2-diffPanel {
-  //top: 145px;
-  top: 14rem;
-  right: -3%;
-  background: white;
-}
-
-
-//role2 diffpanel hover
-
-@keyframes BorderOffOn {
-  from {
-    outline: none;
-  }
-  to {
-    outline: 3px dashed hsl(141, 71%, 48%);
-  }
-}
-
-.diff-1, .diff-img-1 {
-  animation: BorderOffOn 4s ease-in-out infinite;
-}
-
-.diff-2, .diff-img-2 {
-  animation: BorderOffOn 4s ease-in-out infinite;
-  animation-delay: 2s;
-}
-
-
-
-
-/* ROLE 1 */
-//TODO: refactor this
-.role-1 {
-  .button {
-    border: none;
-    background: #6b006a;
-    color: white;
-  }
-
-  .button.button-secondary {
-    background: white;
-    color: #6b006a;
-    border: 1px solid #6b006a;
-  }
-}
-
-
-@keyframes FadeOutIn {
-  /* from { opacity: 1;} */
-  /* to {opacity: 0;} */
-
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes FadeInOut {
-  /* from { opacity: 0;} */
-  /* to {opacity: 1;} */
-
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-.role-1-a {
-  animation: FadeOutIn 8s ease-in-out infinite;
-  //animation-delay: 1s;
-}
-
-.role-1-b {
-  animation: FadeInOut 8s ease-in-out infinite;
-  //animation-delay: 1s;
-}
 
 /* HOW IT WORKS */
 

@@ -6,10 +6,15 @@
         <div id="exp<%= experiment.id %>" class="experiment-header">
 
             <div class="experiment-header-title-date is-flex-desktop is-justify-content-space-between">
-                <!-- title -->
+              <!-- title -->
+
+              <% # NB: Disable clicks on anchor link for now, but
+                 # still allow input # into url bar
+                %>
                 <h4 class="mb-2">
-                    <%= link_to "#exp#{experiment.id}" do %>
-                        <%= experiment.summary_name || "Experiment Name: Unnamed" %>
+                  <%= link_to "#exp#{experiment.id}",
+                      onclick: "event.preventDefault()" do %>
+                        <%= sanitize(pg_search_highlight) || experiment.summary_name || "Experiment Name: Unnamed" %>
                         <%= is_published?(experiment) %>
                     <% end %>
                 </h4>
@@ -52,12 +57,12 @@
 
 
                 <!-- Tags  -->
-                <% unless experiment.tags.empty? %>
+                <% unless tags.empty? %>
                     <span class="tags mb-2">
-                        <%= render partial: "shared/search_tag_list", locals: {
+                        <%= render partial: "shared/tag_list", locals: {
                             obfuscated: experiment.obfuscated?,
-                            tag_param: "tags",
-                            tag_list: experiment.tags,
+                            tag_param: "query",
+                            tag_list: tags,
                             classes: "tag is-info is-light"
                         }%>
                     </span>

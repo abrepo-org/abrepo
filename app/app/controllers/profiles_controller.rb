@@ -3,39 +3,55 @@ class ProfilesController < ApplicationController
   before_action :require_moderator
 
   def index
-    @query = params[:query].blank? ? nil : params[:query]
-    @industries = [* params[:industries] ]
 
-    @profiles = policy_scope(Profile)
-                  .where.not(experiments: { profile_id: nil})
-                  .order(updated_at: :desc)
+    @query, @tags, @industries = Search.extractSearchParams(params[:query])
 
-    if @query
-      @profiles = @profiles.search_company(@query)
+    @profiles = []
+    @names_map = {}
+    @domains_map = {}
+    @descriptions_map = {}
+
+    unless @query.empty?
+
+      @profiles,
+      @names_map,
+      @domains_map,
+      @descriptions_map = Profile
+                            .search_company(@query.join(" "),
+                                            policy_scope(Profile))
+    else
+
+      @profiles = policy_scope(Profile)
+                    .includes(:industry_tag)
+                    .where.not(experiments: { profile_id: nil})
+                    .order(updated_at: :desc)
+
+    end
+
+
+    # filters tags + industries
+    unless @tags.empty?
+
+      profile_tag_ids = Variation
+        .joins(experiment: :profile)
+        .tagged_with(@tags)
+        .group("profiles.id")
+        .count.map{ |profile_id, count| profile_id}
+        .uniq
+
+      @profiles = @profiles.where(id: profile_tag_ids)
     end
 
     unless @industries.empty?
-
-      profile_ids = @profiles.pluck(:id).uniq
-
-      @profiles = @profiles
-                    .tagged_with(@industries)
-
-
-      # ISSUE: ordering of results
-      # query sets a ranking
-      # if there is no query we have no idea what the "order" should be
-      # even if we have a way to order results, we don't know what that order should be
-      # when there's no query
-      # so back and forth things can move around
-      #
-      #.joins("JOIN unnest('{#{profile_ids.join(',')}}'::int[]) WITH ORDINALITY t(profile_id, ord) USING (profile_id)")
-      #.reorder('t.ord')
-
+      @profiles = @profiles.tagged_with(@industries)
     end
 
     if (@profiles.length > 0)
-      @pagy, @profiles = pagy(@profiles, items: 20)
+      @pagy, @profiles = pagy(@profiles, items: 20,
+                              params: ->(params) {
+                                return params.except(:query, :partial) if params[:query].blank?
+                                return params.except(:partial)
+                              })
     end
 
 
@@ -48,22 +64,21 @@ class ProfilesController < ApplicationController
     # choose experiments:
     # 1. featured: true -> defer for now
     # 2. or topN of calcRank
-    @featured_experiments = policy_scope(Experiment)
-                              .calcRank(5)
+    @featured_experiments = policy_scope(Experiment).calcRank(5)
 
 
     if params[:partial]
       respond_to do |format|
         format.html { render partial: 'profile_cards' }
       end
+
     end
   end
 
 
   def show
 
-    @profile = policy_scope(Profile)
-                 .find_by_id(params[:id])
+    @profile = policy_scope(Profile).where(id: params[:id]).first
 
     raise ActionController::RoutingError.new('Not Found') if @profile.nil?
     # only allow mod to see empty profiles
@@ -75,26 +90,35 @@ class ProfilesController < ApplicationController
     pname = @profile.company_name.parameterize
     redirect_to "/profiles/#{@profile.id}/#{pname}" unless params[:name] == pname
 
-    @experiments = policy_scope(@profile.experiments)
-                     .includes([:source_vendor,
-                                variations: [:renderables, :tag, :page_tag]
-                               ])
-                     .order(created_at: :desc)
+    @experiments = policy_scope(@profile
+                                  .experiments
+                                  .includes(:source_vendor, :variations)
+                                  .order([
+                                           "variations.verified desc",
+                                           "variations.created_at desc",
+                                           "variations.summary_name asc",
+                                           "experiments.created_at desc"
+                                         ].join(",")))
+
+    @variations = obfuscate_from(policy_scope(Variation)
+                                   .includes(:experiment,
+                                             :renderables,
+                                             :tag, :page_tag)
+                                   .where(experiment_id: @experiments), 0)
+
 
     @num_variations  = []
     @tag_counts = []
     @featured_experiments = []
+    @related_companies = []
     @user_saved_variations = []
 
     if (@experiments.length > 0)
 
       @num_variations = policy_scope(Variation)
                           .where(experiment_id: @experiments)
-                          .select('experiment_id, COUNT(variations.id) as count')
-                          .group('experiment_id')
-                          .pluck('variations.count')
-                          .sum
-
+                          .pluck(:id)
+                          .length
 
       @pagy, @experiments = pagy(@experiments)
 
@@ -104,6 +128,7 @@ class ProfilesController < ApplicationController
       @tag_counts = Sidebar.tag_counts_by_profile_id(@profile.id)
 
       @featured_experiments = policy_scope(Experiment)
+                                .includes(:profile)
                                 .calcRank(5)
 
       @related_companies = @profile.get_related_companies(7)

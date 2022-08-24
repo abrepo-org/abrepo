@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { FormTag } from './FormTag.jsx';
-import { SearchForm } from './SearchForm.jsx';
+import { TagForm } from './tags/TagForm.jsx';
+import { ProfileForm } from './profiles/ProfileForm.jsx';
+import { SearchForm } from './search/SearchForm.jsx';
 
 /*
  * used for autocomplete and submit on /tags and /industries
@@ -17,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const render = ($form, props) => {
         ReactDOM.render(
-            <FormTag {...props} />,
+            <TagForm {...props} />,
             $inputTemp
         );
 
@@ -50,11 +51,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const props = {
             baseURL: '/profiles',
             destinationSelector: '#autocomplete-destination',
-            placeholder: "Filter Companies",
-            industriesParam: params.get("industries[]") ? params.get("industries[]") : null
+            placeholder: "Filter Companies"
         };
 
-        render($profileForm, props);
+        ReactDOM.render(
+            <ProfileForm {...props} />,
+            $inputTemp
+        );
+
+        $profileForm.replaceWith($inputTemp);
     }
 
     if ($searchForm) {

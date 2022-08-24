@@ -8,9 +8,10 @@ module ExpvarHelper
     end
   end
 
-  def obfuscate_link_to(obfuscated, path, &block)
+  def obfuscate_link_to(obfuscated, path, classes = "", &block)
     path = "#" if obfuscated
-    link_to(path, class: obfuscated ? "obfuscated-link" : "" ) do
+    classes = obfuscated ? "#{classes} obfuscated-link" : classes
+    link_to(path, class: classes.strip) do
       yield
     end
   end
@@ -48,14 +49,26 @@ module ExpvarHelper
 
   def num_by_vendor_id(variations, index)
     vendor_id = variations[index].vendor_id
-    variations.where(vendor_id: vendor_id).count
+    return variations
+             .filter{ |variation| variation.vendor_id == vendor_id}.length
   end
 
   def pageURLHelper(variation)
-    variation.renderables.where(control:false).first ?
-      variation.renderables.where(control:false).first
-        .obfuscate
-        .renderedURL.sub(/https?\:\/\//, '') :
-      ''
+
+    activeRenderable = variation.renderables
+                         .filter{|renderable| !renderable.control }
+                         .first
+
+    if (activeRenderable)
+
+      renderedURL = activeRenderable.obfuscate.renderedURL
+      renderedURL = URI.parse(renderedURL)
+
+      return [renderedURL.path, renderedURL.query].join
+
+    end
+
+    return ''
+
   end
 end

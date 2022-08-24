@@ -57,7 +57,7 @@ commentary = false
                 <% unless @variation.tag.empty? && @variation.page_tag.empty? %>
 
                     <div class="tags are-medium is-inline-block">
-                        <%= render partial: "shared/search_tag_list",
+                        <%= render partial: "shared/tag_list",
                         locals: {
                             obfuscated: false,
                             tag_param: "tags",
@@ -93,23 +93,12 @@ commentary = false
                         <div><%= @experiment.summary_name || "Experiment name" %></div>
                     </div>
 
-
                     <% if @variation && @variation.audience_name %>
                         <div class="mr-6">
                             <div class="has-text-grey mt-4 is-size-7">Targeting</div>
                             <div><%= @variation.audience_name %></div>
                         </div>
                     <% end %>
-
-                    <!-- campaign not available across vendors,
-                         TODO: deprecate and fold this into variation summary
-                    <% if @campaign && @campaign.name %>
-                        <div class="mr-6">
-                            <div class="has-text-grey mt-4 is-size-7">Group</div>
-                            <div><%= @campaign.name %></div>
-                        </div>
-                    <% end %>
-                    -->
 
                     <!-- Views -->
                     <!-- view not available across vendors -->
@@ -120,23 +109,18 @@ commentary = false
                         </div>
                     <% end %>
 
-                    <!--
-                    <div class="mr-6">
-                        <div class="has-text-grey mt-4 is-size-7"> Page Title:</div>
-                        <div><%= @renderable['renderedTitle'] %> </div>
-                    </div>
-
-                    <div class="mr-6">
-                        <div class="has-text-grey mt-4 is-size-7"> URL:</div>
-                        <div><%= @renderable['renderedURL'] %> </div>
-                    </div>
-                    -->
                     <% if @experiment.source_vendor %>
                         <div class="mr-6">
                             <div class="has-text-grey mt-4 is-size-7"> Vendor</div>
                             <div><%= @experiment.source_vendor.name %> </div>
                         </div>
                     <% end %>
+
+                    <div class="mr-6">
+                        <div class="has-text-grey mt-4 is-size-7"> URL:</div>
+                        <div><%= @renderable['renderedURL'] %> </div>
+                    </div>
+
                 </div>
             </div>
             <% if commentary %>

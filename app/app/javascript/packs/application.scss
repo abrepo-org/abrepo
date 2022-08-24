@@ -18,6 +18,7 @@ $family-sans-serif: "Lato", "Open Sans", "Inter", BlinkMacSystemFont,
 -apple-system, sans-serif;
 
 $tablet: 768px;
+$touch: 1023px;
 
 $navbar-height: 2rem;
 $off-grey-color: rgb(247, 250, 252);
@@ -36,6 +37,7 @@ $border-grey: rgb(227, 232, 238); //#e2e7ee
 @import "../stylesheets/user.scss";
 @import "../stylesheets/landing.scss";
 @import "../stylesheets/modal.scss";
+@import "../stylesheets/search.scss";
 
 /* logo */
 .abrepo {
@@ -74,14 +76,12 @@ $border-grey: rgb(227, 232, 238); //#e2e7ee
   }
 }
 
-.is-flex-direction-column-reverse-mobile {
-  @include until($tablet) {
-    flex-direction: column-reverse;
-  }
-}
-
 .is-size-6-5 {
   font-size: .875rem !important;
+}
+
+.is-size-5-5 {
+  font-size: 1.125rem !important;
 }
 
 .mt-3-tablet {

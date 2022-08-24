@@ -1,30 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { SearchInputTextAutoComplete } from './SearchInputTextAutoComplete.jsx';
-import { AutoCompleteTag } from './AutoCompleteTag.jsx';
+import { SearchInputTextAutoComplete } from '../SearchInputTextAutoComplete.jsx';
+import { AutoCompleteTag } from '../AutoCompleteTag.jsx';
 
 export const SearchFilter = (props) => {
-
-
-    const [selectedTags, setSelectedTags] = useState((props.searchParams &&
-                                                      props.searchParams
-                                                           .getAll(props.queryField)) || '' )
 
     const [autocompleteTags, setAutocompleteTags] = useState([]);
     const [autocompleteTotals, setAutocompleteTotals]  = useState(false);
     const [resetTrigger, setResetTrigger] = useState(0);
 
     const addTag = (tag) => {
-        setSelectedTags(selectedTags => [...selectedTags, tag])
+        props.setSelectedTags(selectedTags => [...selectedTags, tag])
         setResetTrigger(resetTrigger+1);
     };
 
     const removeTag = (tag) => {
-        setSelectedTags(selectedTags => selectedTags.filter(t => t != tag))
+        props.setSelectedTags(selectedTags => selectedTags.filter(t => t != tag))
         setResetTrigger(resetTrigger+1);
     };
 
-    const clearSelected = () => {
-        setAutocompleteTags([])           //clear auto complete list
+    const clearSelected = (selectedTag) => {
+
+        //filter auto complete list
+        setAutocompleteTags(autocompleteTags.filter( tag => tag != selectedTag))
         setResetTrigger(resetTrigger+1)   //trigger useEffect hook to clear input value
     };
 
@@ -43,14 +40,9 @@ export const SearchFilter = (props) => {
         props.setFilterOpenState( {...props.filterOpenState, ...update });
     };
 
-    const cancelStyle = {
-        padding: 'calc(0.5em - 2px) 1em calc(0.5em - 1px) 1em',
-        display: 'inline-flex'
-    }
-
     return(
 
-        <div className="field ml-2">
+        <div className="field mr-2">
 
             <div className={`dropdown ${props.filterOpenState[props.id] ? 'is-active' : ''}`}>
                 <div className="dropdown-trigger">
@@ -75,24 +67,31 @@ export const SearchFilter = (props) => {
                                 <span>
                                     <strong>Filter by {props.name}</strong>
                                 </span>
-                                <span>
-                                    <a href={`/${props.name.toLowerCase()}/`}>
-                                       View All {props.name}
-                                    </a>
-                                </span>
+                                <a href="#"
+                                   className="delete"
+                                   onClick={(e) => openCloseClickHandler(e)}>
+                                </a>
+
                             </p>
 
+                            {
+                                /* list of selected tags */
+                            }
                             <SearchInputTextAutoComplete
                                 baseURL={props.baseURL}
                                 queryField={props.queryField}
                                 resetTrigger={resetTrigger}
                                 setAutoCompleteResults={setAutocompleteTags}
                                 setAutoCompleteTotals={setAutocompleteTotals}
-                                selectedTags={selectedTags}
+                                selectedTags={props.selectedTags}
                                 removeTag={removeTag}
                                 placeholder={props.placeholder}
+                                name={props.name}
                             />
 
+                            {
+                                /* tag list - possible tags (not selected) */
+                            }
                             <div id="tag-destination">
 
                                 <ul className="tags ml-0 is-inline">
@@ -102,6 +101,7 @@ export const SearchFilter = (props) => {
                                             return (<AutoCompleteTag key={tag}
                                                                      tag={tag}
                                                                      i={i}
+
                                                                      clearSelected={clearSelected}
                                                                      addTag={addTag} />);
                                         })
@@ -113,8 +113,8 @@ export const SearchFilter = (props) => {
                                 {!!autocompleteTotals &&
                                  <div className="ml-1 mt-2">
                                      <a href={`/${props.name.toLowerCase()}/`}>
-                                         See All {autocompleteTotals ?
-                                                    `(${autocompleteTotals})` : '' }
+                                         {`See All ${props.name}`}
+                                         {autocompleteTotals ? ` (${autocompleteTotals})` : '' }
                                      </a>
                                  </div>
                                 }
@@ -127,10 +127,6 @@ export const SearchFilter = (props) => {
                             <button className="button is-small">
                                 Apply Filters
                             </button>
-                            <a href="#" style={cancelStyle}
-                               onClick={(e) => openCloseClickHandler(e)}>
-                                Cancel
-                            </a>
                         </div>
 
                     </div>

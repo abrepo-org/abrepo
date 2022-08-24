@@ -2,16 +2,6 @@
  * "Expvar" Main Table component
  */
 
-.expvar-table {
-  @include from($tablet) {
-    /* we add this space so anchor links will always */
-    /* direct to immediate top */
-    /* if page is too "short", clicking an anchor link */
-    /* may jump to middle of page, its not entirely clear which experiment */
-    /* was clicked */
-    margin-bottom: 30rem;
-  }
-}
 //"obfuscated" style
 .obfuscate {
   filter: blur(2px);
@@ -44,6 +34,10 @@ tr.expvar-root-border {
 
   a { color: #363636; }
 
+}
+
+.experiment-header-title-date a {
+  cursor: text;
 }
 
 //expvar table header font
@@ -79,6 +73,8 @@ tr.expvar-root-border {
 //expvar table 'page' column demote visually
 .variation-row-data td.table-col-page {
   word-wrap: anywhere;
+  font-size: .85rem;
+  vertical-align: middle;
   @include from ($tablet) {
     max-width: 25vw;
   }
@@ -110,4 +106,9 @@ tr.expvar-root-border {
 .user-save-variations {
   border: 0;
   background: inherit;
+}
+
+/* expvar search text */
+span.search-highlight-text {
+  background: yellow;
 }

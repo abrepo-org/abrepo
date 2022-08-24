@@ -41,17 +41,23 @@ export default class ActionContainer extends React.Component {
 
      */
 
+
+
     render() {
+
+        const isOnlyNullAction = this.props.data.actions
+                                     .every( action => action.actionType == null);
+
+        if (isOnlyNullAction) return null;
 
         return(
 
-            <table className="table is-fullwidth variation-action">
+            <table className="table variation-action">
                 <thead>
                     <tr>
                         <th>Display</th>
                         <th>Selector</th>
                         <th>Description</th>
-                        <th className="is-hidden-mobile">URL</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -74,22 +80,27 @@ export default class ActionContainer extends React.Component {
 
                          return(
                              <tr key={action.id} style={isHover ? hoverStyle : {}}>
-                                 <td>
+                                 <td className="has-text-centered">
                                      <div className="control">
                                          <input type="radio"
                                                 name="action"
                                                 value={action.id}
-                                                checked={isChecked}
                                                 defaultChecked={isChecked}
                                                 onChange={(e) => this.props.actionSelectHandler(e)}
                                          />
                                      </div>
                                  </td>
 
-                                 <td> { action.selectorDisplayName || action.selector || '-' } </td>
+                                 <td>
+                                     { action.selectorDisplayName || action.selector || '-' }
+                                 </td>
 
-                                 <td> {action.description || ''} </td>
-                                 <td className="is-hidden-mobile"> { action.url } </td>
+                                 <td>
+                                     {
+                                         action.description ||
+                                         (action.actionType == null ? 'Original Page' : '')
+                                     }
+                                 </td>
                              </tr>
                          )
                      })

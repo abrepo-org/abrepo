@@ -1,6 +1,16 @@
 /*
  * profile#index
  */
+
+/* search */
+@include until($touch) {
+  .profile-input-autocomplete, #search-control, .search-control-field {
+    width:100%;
+  }
+}
+
+
+/* card */
 .profile-card .card-content {
   padding: 1.5rem 0;
 }
@@ -20,12 +30,20 @@
  * also expvar
  */
 
+section.company-profile {
+    //allows clicks through to industry tags
+    //tags are blocked by anchor link jump link that requires
+    //offset to accommodate fixed navbar
+    //(see expvar.css uses margin-top:-6rem; height:6rem offset)
+    position: relative;
+    z-index: 10;
+}
+
 .profile_favicon {
   display:inline-block;
   width: 1.25rem; //match is-size-5 font
   vertical-align:middle;
 }
-
 .company-profile span.tag {
   z-index: 29; //navbar set to 30
 }

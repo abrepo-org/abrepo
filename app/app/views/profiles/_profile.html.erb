@@ -20,18 +20,18 @@
               <div style="width:85%;">
                   <%= link_to profile_path_slug(profile) do %>
                       <p class="title is-5">
-                          <%= profile.company_name || profile.domain %>
+                        <%= profile_company_name(profile, @names_map, @domain_names_map) %>
                       </p>
                   <% end  %>
 
                   <p class="mt-1">
-                      <%= profile.description.split(".").first + "." if profile.description %>
+                      <%= profile_description(profile, @descriptions_map) %>
                   </p>
 
                   <p class="tags mb-0">
                       <%== profile_industry_filter_links(params,
-                                                         profile.industry_tag_list,
-                                                         "tag is-info is-light") %>
+                                                         profile.industry_tag.pluck(:name),
+                                                         "tag is-warning is-light") %>
                   </p>
               </div>
 

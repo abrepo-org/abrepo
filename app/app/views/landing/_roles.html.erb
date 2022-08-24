@@ -1,60 +1,9 @@
-<!-- Ideation and Content -->
-<section class="section section-landing has-background-white roles">
-
-    <div class="container">
-
-        <div class="columns content is-vcentered">
-
-            <div class="column is-7">
-              <%= render partial: 'role1' %>
-            </div>
-
-            <div class="column is-offset-1 is-4">
-
-                <h3 class="is-size-2">
-                    Ideation and Content
-                </h3>
-                <h5 class="is-size-5" >
-                    Growth Specialists, Product, and Content Marketers
-                </h5>
-
-
-                <ul class="fa-ul is-size-5">
-                    <li>
-                        <span class="fa-li has-text-info">
-                            &check;
-                        </span>
-                        Inspire ideation with examples from leading companies.
-                    </li>
-
-                    <li>
-                        <span class="fa-li has-text-info">
-                            &check;
-                        </span>
-                        Monitor brand, positioning, and copy variations tested
-                        within your industry.
-                    </li>
-
-                    <li>
-                        <span class="fa-li has-text-info">
-                            &check;
-                        </span>
-                        Leverage patterns from experienced growth
-                        teams to increase your conversions and engagement.
-                    </li>
-                </ul>
-
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- Competitive Intelligence -->
 <section class="section section-landing has-background-white roles">
 
     <div class="container">
 
-        <div class="columns reverse-columns-tablet content  is-justify-content-space-around is-vcentered">
+        <div class="columns is-vcentered content">
 
             <div class="column is-4">
 
@@ -93,30 +42,101 @@
                 </ul>
 
                 <%= link_to "Sign Up Now", "#pricing",
-                class: "button is-medium is-info is-fullwidth"
+                class: "button is-medium is-info is-fullwidth is-hidden-mobile"
                 %>
             </div>
 
             <div class="column is-7 is-offset-1">
-              <%= render partial: 'role2' %>
+              <%= render partial: 'role_parallel' %>
             </div>
 
         </div>
     </div>
 </section>
 
+<div class="button-break has-text-centered">
+  <hr/>
+  <%# switch display from cta above on mobile view %>
+  <%= link_to "Sign Up Now", "#pricing",
+      class: "button is-medium is-info is-hidden-tablet"
+      %>
+</div>
 
-<!-- Industry Trends -->
+
+<!-- Ideation and Content -->
+<section class="section section-landing has-background-white roles">
+
+    <div class="container">
+
+        <div class="columns content reverse-columns-tablet is-vcentered">
+
+            <div class="column is-7">
+                <%= render partial: 'role_before_after' %>
+                <!-- ExpVar Panel -->
+                <div class="expvar-panel box2">
+                    <%= render partial: 'role_before_after_expvar_table' %>
+                </div>
+            </div>
+
+            <div class="column is-offset-1 is-4 mt--10-touch">
+                <h3 class="is-size-2">
+                    Ideation and Content
+                </h3>
+                <h5 class="is-size-5" >
+                    Growth Specialists, Product, and Content Marketers
+                </h5>
+
+
+                <ul class="fa-ul is-size-5">
+                    <li>
+                        <span class="fa-li has-text-info">
+                            &check;
+                        </span>
+                        Inspire ideation with examples from leading companies.
+                    </li>
+
+                    <li>
+                        <span class="fa-li has-text-info">
+                            &check;
+                        </span>
+                        Monitor brand, positioning, and copy variations tested
+                        within your industry.
+                    </li>
+
+                    <li>
+                        <span class="fa-li has-text-info">
+                            &check;
+                        </span>
+                        Leverage patterns from experienced growth
+                        teams to increase your conversions and engagement.
+                    </li>
+                </ul>
+
+                <%= link_to "Sign Up Now", "#pricing",
+                class: "button is-medium is-info is-fullwidth is-hidden-mobile"
+                %>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<div class="button-break has-text-centered mt--10">
+  <hr/>
+  <%# switch display from cta above on mobile view %>
+  <%= link_to "Sign Up Now", "#pricing",
+      class: "button is-medium is-info is-hidden-tablet"
+      %>
+</div>
+
+
+<!-- Industry Trends: Tag & Industry Filters -->
 <section class="section section-landing has-background-white roles">
 
     <div class="container">
         <div class="columns content is-justify-content-space-around is-vcentered">
 
-            <div class="column is-7">
-                <%= render partial: "role3" %>
-            </div>
-
-            <div class="column is-offset-1 is-4">
+            <div class="column is-4">
 
                 <h3 class="is-size-2">
                     Industry Trends
@@ -150,7 +170,23 @@
                     </li>
                 </ul>
 
+                <%= link_to "Sign Up Now", "#pricing",
+                class: "button is-medium is-info is-fullwidth is-hidden-mobile"
+                %>
             </div>
+
+            <div class="column is-offset-1 is-7">
+                <%= render partial: "role_filters" %>
+            </div>
+
         </div>
     </div>
 </section>
+
+<div class="button-break has-text-centered is-hidden-tablet mb-6">
+  <hr/>
+  <%# switch display from cta above on mobile view %>
+  <%= link_to "Sign Up Now", "#pricing",
+  class: "button is-medium is-info"
+  %>
+</div>

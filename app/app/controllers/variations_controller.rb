@@ -7,6 +7,7 @@ class VariationsController < ApplicationController
     @variation = policy_scope(Variation)
                    .includes(:actions,
                              :renderables,
+                             :tag, :page_tag,
                              experiment: [:profile, :campaign])
                    .find_by_id( params[:id] )
 

@@ -5,7 +5,13 @@ PgSearch.multisearch_options = {
   using: {
     tsearch: {
       prefix: true,
-      dictionary: 'english'
+      dictionary: 'english',
+      highlight: {
+        StartSel: '<span class="search-highlight-text">',
+        StopSel: '</span>',
+        HighlightAll: true,
+        MaxFragments: 1
+      }
     }
   }
 }

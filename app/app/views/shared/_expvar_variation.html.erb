@@ -21,13 +21,13 @@
         <!-- indented -->
         <i class="fas fa-caret-down is-invisible"></i>
         <%= obfuscate_link_to variation.obfuscated?, variation_path_slug(variation) do %>
-        <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
+        <%= sanitize(pg_search_highlight) || (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
         <%= is_published?(variation) %>
         <% end %>
 
     <% else %>
         <%= obfuscate_link_to variation.obfuscated?, variation_path_slug(variation) do %>
-        <%= (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
+        <%= sanitize(pg_search_highlight) || (variation.summary_name.nil? ? "unnamed" : variation.summary_name)  %>
         <%= is_published?(variation) %>
         <% end %>
 

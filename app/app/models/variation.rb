@@ -27,18 +27,8 @@ class Variation < ApplicationRecord
   include Obfuscatable
   include PgSearch::Model
 
-  multisearchable against: [:summary_name, :tag_list, :page_tag_list],
-                  #against: [:summary_name],
+  multisearchable against: [:summary_name],
                   additional_attributes: -> (variation) {{ experiment_id: variation.experiment_id }}
-
-  pg_search_scope :search_tag,
-                  associated_against: {
-                    tag: [:name],
-                    page_tag: [:name]
-                  },
-                  using: {
-                    tsearch: { prefix: true, dictionary: 'english' }
-                  }
 
   belongs_to :experiment, touch: true # expvar cache update
   has_many :renderables, dependent: :destroy
@@ -62,24 +52,34 @@ class Variation < ApplicationRecord
 
     tag_variations = {}
 
+    tag_group =
+      ActsAsTaggableOn::Tagging
+      .includes(:tag, :taggable)
+      .where(taggable_type: "Variation", taggable_id: scopedVariation.all)
+      .group_by{ |tagging| tagging.tag_id }
+
+
     tags.each do |tag|
-      val = Rails.cache
-              .fetch(
-                ["#{tag.cache_key_with_version}-#{user && user.moderator?}",
-                 "/variation_build_tag_examples"
-                ].join(),
-                expires_in: 1.day) do
-
-        variations = scopedVariation.tagged_with(tag.name)
-                       .select('DISTINCT ON (summary_name) variations.summary_name')
-                       .select(:id, :summary_name)
-                       .limit(3)
-
-        variations.map{ |v| {id: v.id, summary_name: v.summary_name } }
+      if tag_group.key?(tag.id)
+        tag_variations[tag.id] = tag_group[tag.id]
+                                   .map{ |tag| tag.taggable }
+                                   .filter{ |taggable| !taggable[:summary_name].blank? }
+                                   .uniq{|taggable| taggable[:summary_name] }[0,3]
+      else
+        tag_variations[tag.id] = []
       end
-
-      tag_variations[tag.id] = val
     end
+
+    # Possible cache approach, but query above is actually fast enough
+    # where cache overhead might penalize
+    #
+    # val = Rails.cache
+    #            .fetch(
+    #             ["#{tag.cache_key_with_version}-#{user && user.moderator?}",
+    #              "/variation_build_tag_examples"
+    #             ].join(),
+    #             expires_in: 1.day) do
+    # tag_variations[tag.id] = val
 
     tag_variations
   end

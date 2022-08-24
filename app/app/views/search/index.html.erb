@@ -1,5 +1,30 @@
 <h1>Search Results</h1>
 
+<!-- Search Results -->
+<% if @query.empty? && @tags.empty? && @industries.empty? %>
+
+  <p> Showing most recent experiments and variations </p>
+
+<% else %>
+
+  <p>
+    Results
+
+    <% unless @query.empty? %>
+      for <strong><%= @query.join(" ") %></strong>
+    <% end %>
+
+    <% if @tags.length > 0 || @industries.length > 0 %>
+      tagged with
+      <strong>
+        <%= [@tags, @industries].flatten.join(", ") %>
+      </strong>
+    <% end %>
+  </p>
+
+<% end %>
+
+<!-- Search Form Inputs -->
 <form id="search-form">
     <!-- JS -->
 </form>

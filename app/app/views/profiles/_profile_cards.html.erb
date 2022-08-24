@@ -1,3 +1,22 @@
 <div id="autocomplete-destination" class="profiles-data">
-    <%= render partial: "profile", collection: @profiles, cached: true, expires_in: 1.day %>
+
+    <% if @profiles.empty? %>
+        <p> No results </p>
+    <% end %>
+
+    <%
+    # NB: add query to cache key because pg_search_highlight output
+    # will change depending on query
+    %>
+
+    <% @profiles.each do |profile| %>
+        <% cache [profile, @query.join(" ")], expires_in: 1.day do %>
+
+            <%= render partial: "profile", locals: { profile: profile } %>
+
+        <% end  %>
+    <% end %>
+
 </div>
+
+<%== pagy_bulma_nav(@pagy) if @pagy && (@pagy.pages > 1) if params[:partial] %>

@@ -1,0 +1,12 @@
+/* /search results profiles section */
+td.profile-search-name {
+  padding-right: 2rem !important;
+  white-space: nowrap;
+}
+
+td.profile-search-description {
+  @include until($touch) {
+    padding-left:0 !important;
+    padding-top: 0 !important;
+  }
+}
