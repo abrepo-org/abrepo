@@ -92,19 +92,18 @@ class ProfilesController < ApplicationController
     @experiments = policy_scope(@profile
                                   .experiments
                                   .includes(:source_vendor, :variations)
-                                  .order([
-                                           "variations.verified desc",
-                                           "variations.created_at desc",
-                                           "variations.summary_name asc",
-                                           "experiments.created_at desc"
-                                         ].join(",")))
+                                  .order(created_at: :desc)) #experiments.created_at
 
     @variations = obfuscate_from(policy_scope(Variation)
                                    .includes(:experiment,
                                              :renderables,
                                              :tag, :page_tag)
-                                   .where(experiment_id: @experiments), 0)
-
+                                   .where(experiment_id: @experiments)
+                                   .order([
+                                            "variations.verified desc",
+                                            "variations.created_at desc",
+                                            "variations.summary_name asc"
+                                          ]), 0)
 
     @num_variations  = []
     @tag_counts = []
@@ -123,7 +122,6 @@ class ProfilesController < ApplicationController
 
       @experiments = obfuscate_from(@experiments,
                                     num_given_pagination(@experiments.length)) if not subscribed_or_moderator
-
       @tag_counts = Sidebar.tag_counts_by_profile_id(@profile.id)
 
       @featured_experiments = policy_scope(Experiment)
