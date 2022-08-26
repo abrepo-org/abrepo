@@ -49,16 +49,6 @@ class ImportsController < ApplicationController
       unless @profile.valid?
 
 
-    @profile.update(a_id: profile['_id'],
-                    company_name: profile['company_name'],
-                    industry_tag_list: group['tags']['industry_tag_list'],
-                    url: profile['url'],
-                    description: profile['description'],
-                    description_source_name: profile['description_source_name'],
-                    description_source_url: profile['description_source_url'],
-                    favicon_url: profile['favicon_url'],
-                    logo_url: profile['logo_url'])
-
 
     # if one day the same domain represents wholly different companies
     # look to abextract:/lib/models/README.md
@@ -68,13 +58,20 @@ class ImportsController < ApplicationController
 
       related = Profile.find_or_create_by(domain: related_company['domain'])
       related.company_name = related_company['company_name'] if related.company_name.nil?
+      relateds.push(related)
 
-      if (!@profile.related_companies.include?(related))
-        relateds.push(related)
-      end
     end
 
-    @profile.related_companies = relateds
+    @profile.update(a_id: profile['_id'],
+                    company_name: profile['company_name'],
+                    industry_tag_list: group['tags']['industry_tag_list'],
+                    url: profile['url'],
+                    description: profile['description'],
+                    description_source_name: profile['description_source_name'],
+                    description_source_url: profile['description_source_url'],
+                    favicon_url: profile['favicon_url'],
+                    logo_url: profile['logo_url'],
+                    related_companies: relateds.uniq)
 
 
     #
