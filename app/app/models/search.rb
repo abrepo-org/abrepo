@@ -34,7 +34,7 @@ class Search
   #
   # query freetext Search with pg_search_scope's summation of avg rank
   #
-  def self._querySearch(query, variationPolicyModel)
+  def self._attributeQuerySearch(query)
 
     experimentSummaryNameSearch = Experiment.search_summary_name(query)
                                     .with_pg_search_rank
@@ -47,6 +47,16 @@ class Search
     variationSummaryNameSearch = Variation.search_summary_name(query)
                                    .with_pg_search_rank
                                    .with_pg_search_highlight
+
+    highlightHash = {
+      experiment: {
+        summary_name: experimentSummaryNameSearch.index_by(&:id),
+        audience_name: experimentAudienceNameSearch.index_by(&:id),
+      },
+      variation: {
+        summary_name: variationSummaryNameSearch.index_by(&:id)
+      }
+    }
 
     expIdsRankPairs = experimentSummaryNameSearch.pluck(:id, :rank) +
                       experimentAudienceNameSearch.pluck(:id, :rank) +
@@ -71,11 +81,9 @@ class Search
     exp_ids = exp_order.map{ |r| r[0] }
 
     # we collect relevant variations, and filter with tags below
-    variations = variationPolicyModel
-                   .where(experiment_id: exp_ids)
-
-    return exp_ids, variations
+    return exp_ids, highlightHash
   end
+
 
   #
   # BUILD QUERY
@@ -96,17 +104,20 @@ class Search
 
     exp_ids = []
     experiments = []
-    experimentsDocHash = {}
-    variationsDocHash = {}
+    expvarHighlightHash = {}
     variations = nil
     profiles = nil
 
     #freetext
     unless (query.empty?)
 
-      exp_ids, variations = self._querySearch(query, variationPolicyModel)
+      exp_ids, expvarHighlightHash = self._attributeQuerySearch(query)
+
+      variations = variationPolicyModel
+                     .where(experiment_id: exp_ids)
 
     end
+
 
     #filters: tag/page_tag
     unless (tags.empty?)
@@ -171,20 +182,11 @@ class Search
       end
     end
 
-    #for experiment and variations
-    #but now I do this for each field?
-    variations.each do |variation|
-      if (variationsDocHash.key?(variation.id))
-        variation.expvar_summary_name = variationsDocHash[variation.id].pg_search_highlight
-      else
-        variation.expvar_summary_name =  variation.summary_name
-      end
-    end
-
-    return [experiments, experimentsDocHash, variationsDocHash]
-
+    return experiments, expvarHighlightHash
   end
+
 end
+
 
 #
 # PG_SEARCH Notes Difficulties + Errors with highlighting
