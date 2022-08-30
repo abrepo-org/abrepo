@@ -48,6 +48,10 @@ class Experiment < ApplicationRecord
   obfuscatable attributes: [:summary_name, :domain, :audience_name]
   validates :crawlId, :domain, :a_id, :profile_id, :vendor_id, presence: true
 
+  # expvar table display temp attributes
+  attribute :expvar_summary_name
+  attribute :expvar_audience_name
+
   def audience
     multiple_name = "Targeting: Various"
 
