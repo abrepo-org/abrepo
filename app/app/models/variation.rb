@@ -27,8 +27,9 @@ class Variation < ApplicationRecord
   include Obfuscatable
   include PgSearch::Model
 
-  multisearchable against: [:summary_name],
-                  additional_attributes: -> (variation) {{ experiment_id: variation.experiment_id }}
+  pg_search_scope :search_summary_name,
+                  against: [:summary_name],
+                  using: PgSearch.multisearch_options[:using]
 
   belongs_to :experiment, touch: true # expvar cache update
   has_many :renderables, dependent: :destroy
