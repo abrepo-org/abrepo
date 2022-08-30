@@ -18,12 +18,15 @@ module SearchHelper
   #   }
   # }
   #
-  def expvar_highlight_for(instance, highlightHash, field_name, default_value)
+  # ex call:
+  # expvar_highlight_for(experiment, @expvarHighlightHash[:experiment], :summary_name, "no name")
+  #
+  def expvar_highlight_for(instance, attributeHighlightHash, field_name, default_value)
 
-    if highlightHash[field_name].key?(instance.id)
-      return sanitize highlightHash[field_name][instance.id].pg_search_highlight
+    if attributeHighlightHash[field_name].key?(instance.id)
+      return sanitize attributeHighlightHash[field_name][instance.id].pg_search_highlight
     end
 
-    return instance[field_name].nil? ? default_value : instance[field_name]
+    return instance[field_name].blank? ? default_value : instance[field_name]
   end
 end
