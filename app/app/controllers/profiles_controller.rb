@@ -6,18 +6,13 @@ class ProfilesController < ApplicationController
     @query, @tags, @industries = Search.extractSearchParams(params[:query])
 
     @profiles = []
-    @names_map = {}
-    @domains_map = {}
-    @descriptions_map = {}
+    @profileHighlightHash = {}
 
     unless @query.empty?
 
-      @profiles,
-      @names_map,
-      @domains_map,
-      @descriptions_map = Profile
-                            .search_company(@query.join(" "),
-                                            policy_scope(Profile))
+      @profiles, @profileHighlightHash = Profile
+                                           .search_company(@query.join(" "),
+                                                           policy_scope(Profile))
     else
 
       @profiles = policy_scope(Profile)
