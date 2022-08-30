@@ -6,15 +6,18 @@
         <div id="exp<%= experiment.id %>" class="experiment-header">
 
             <div class="experiment-header-title-date is-flex-desktop is-justify-content-space-between">
-              <!-- title -->
+                <!-- title -->
 
-              <% # NB: Disable clicks on anchor link for now, but
-                 # still allow input # into url bar
+                <% # NB: Disable clicks on anchor link for now, but
+                    # still allow input # into url bar
                 %>
                 <h4 class="mb-2">
-                  <%= link_to "#exp#{experiment.id}",
-                      onclick: "event.preventDefault()" do %>
-                        <%= sanitize(pg_search_highlight) || experiment.summary_name || "Experiment Name: Unnamed" %>
+                    <%= link_to "#exp#{experiment.id}",
+                                onclick: "event.preventDefault()" do %>
+                        <%= expvar_highlight_for(experiment,
+                                                 @expvarHighlightHash[:experiment],
+                                                 :summary_name,
+                                                 "Experiment Name: unnamed") %>
                         <%= is_published?(experiment) %>
                     <% end %>
                 </h4>
@@ -27,11 +30,14 @@
             </div>
 
             <!-- Targeting -->
-            <% unless audience_name.blank? %>
+            <% unless experiment.audience_name.blank? %>
                 <div class="is-flex is-flex-wrap-wrap mb-2">
                     <span title="Targeting"
                           class="targeting-value has-text-grey has-text-weight-normal">
-                        <%= audience_name.split(',').join(", ") %>
+                        <%= expvar_highlight_for(experiment,
+                                                 @expvarHighlightHash[:experiment],
+                                                 :audience_name,
+                                                 "Targeting: Various").split(',').join(", ") %>
                     </span>
                 </div>
             <% end %>
