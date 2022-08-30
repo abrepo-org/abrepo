@@ -43,11 +43,6 @@ class Profile < ApplicationRecord
 
   validates :domain, presence: true, uniqueness: true
 
-  # expvar table display temp attributes
-  attribute :expvar_company_name
-  attribute :expvar_domain
-  attribute :expvar_description
-
   # stub to reuse same views as variations
   def published?
     return true
