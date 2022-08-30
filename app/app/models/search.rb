@@ -32,32 +32,32 @@ class Search
   end
 
   #
-  # query freetext Search with pgSearch + avg rank
+  # query freetext Search with pg_search_scope's summation of avg rank
   #
-  def self.querySearch(query, variationPolicyModel)
+  def self._querySearch(query, variationPolicyModel)
 
-    search = PgSearch.multisearch(query)
-               .with_pg_search_rank
-               .with_pg_search_highlight
+    experimentSummaryNameSearch = Experiment.search_summary_name(query)
+                                    .with_pg_search_rank
+                                    .with_pg_search_highlight
 
-    # NB: only some experiments and/or variations have query highlights
-    # even though we return all parent Experiments to render "ExpVar"
-    experimentsDocHash = search
-                           .where(searchable_type: "Experiment")
-                           .index_by(&:searchable_id)
+    experimentAudienceNameSearch = Experiment.search_audience_name(query)
+                                     .with_pg_search_rank
+                                     .with_pg_search_highlight
 
-    variationsDocHash = search
-                          .where(searchable_type: "Variation")
-                          .index_by(&:searchable_id)
+    variationSummaryNameSearch = Variation.search_summary_name(query)
+                                   .with_pg_search_rank
+                                   .with_pg_search_highlight
+
+    expIdsRankPairs = experimentSummaryNameSearch.pluck(:id, :rank) +
+                      experimentAudienceNameSearch.pluck(:id, :rank) +
+                      variationSummaryNameSearch.pluck(:experiment_id, :rank)
 
     # Currently: calc avg rank across Experiment and Variations this
     # re-score can change; think its somewhat fair a sum would favor
     # large experiments with more variations, not necessarily
     # relevance.
     scores = {}
-    search
-      .pluck(:experiment_id, :rank)
-      .each do |id, rank|
+    expIdsRankPairs.each do |id, rank|
       scores[id] ||= 0
       scores[id] += rank
       scores[id] = scores[id] / 2
@@ -74,7 +74,7 @@ class Search
     variations = variationPolicyModel
                    .where(experiment_id: exp_ids)
 
-    return exp_ids, variations, variationsDocHash, experimentsDocHash
+    return exp_ids, variations
   end
 
   #
@@ -104,10 +104,7 @@ class Search
     #freetext
     unless (query.empty?)
 
-      exp_ids,
-      variations,
-      variationsDocHash,
-      experimentsDocHash = self.querySearch(query, variationPolicyModel)
+      exp_ids, variations = self._querySearch(query, variationPolicyModel)
 
     end
 
@@ -171,6 +168,16 @@ class Search
                         .where(id: exp_ids)
                         .order(Arel.sql("position(id::text in '#{exp_ids.join(',')}')"))
 
+      end
+    end
+
+    #for experiment and variations
+    #but now I do this for each field?
+    variations.each do |variation|
+      if (variationsDocHash.key?(variation.id))
+        variation.expvar_summary_name = variationsDocHash[variation.id].pg_search_highlight
+      else
+        variation.expvar_summary_name =  variation.summary_name
       end
     end
 
