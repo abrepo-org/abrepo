@@ -6,7 +6,9 @@ class ProfilesController < ApplicationController
     @query, @tags, @industries = Search.extractSearchParams(params[:query])
 
     @profiles = []
-    @profileHighlightHash = {}
+    @profileHighlightHash = {
+      profile: {}
+    }
 
     unless @query.empty?
 

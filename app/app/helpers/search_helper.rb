@@ -20,10 +20,12 @@ module SearchHelper
   #
   # ex call:
   # expvar_highlight_for(experiment, @expvarHighlightHash[:experiment], :summary_name, "no name")
+  # expvar_highlight_for(profile, @profileHighlightHash[:profile], :company_name, profile.domain)
   #
   def expvar_highlight_for(instance, attributeHighlightHash, field_name, default_value)
 
-    if attributeHighlightHash[field_name].key?(instance.id)
+    if !attributeHighlightHash.empty? &&
+       attributeHighlightHash[field_name].key?(instance.id)
       return sanitize attributeHighlightHash[field_name][instance.id].pg_search_highlight
     end
 
