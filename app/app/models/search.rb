@@ -89,7 +89,7 @@ class Search
   # BUILD QUERY
   #
   # 1. query with PgSearch across Experiments and Variations
-  #    * store results in DocHash to get pg_search_highlight
+  #    * store pg_search_highlight results in HighlightHash for view
   #
   # 2. filter result set with tags or industry if provided
   #
