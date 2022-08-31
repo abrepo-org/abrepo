@@ -1,12 +1,12 @@
-<ul class="column is-12 is-flex is-flex-direction-row is-justify-content-space-evenly">
+<ul class="column is-12 is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-space-evenly">
 
     <% @profiles.each_with_index do |profile, i| %>
         <%= render partial: "hero_company",
         locals: {
             href: profile_path_slug(profile),
             img_src: profile.logo_url,
-            caption: "C1",
-            classes: i > 2 ? 'is-hidden-mobile' : ''
+            caption: profile.company_name.nil? ? '' : profile.company_name,
+            classes: i > 3 ? 'is-hidden-touch' : ''
         }
         %>
     <% end %>
