@@ -78,9 +78,10 @@
 
                             <span class="is-size-5-5">
                                 <strong>
-                                    <%= profile_company_name(profile,
-                                                             @profiles_names_map,
-                                                             @profiles_domain_names_map) %>
+                                    <%= expvar_highlight_for(profile,
+                                                             @profileHighlightHash[:profile],
+                                                             :company_name,
+                                                             profile.domain) %>
                                 </strong>
 
 
@@ -89,7 +90,10 @@
                     </td>
 
                     <td class="profile-search-description is-block-touch">
-                        <%= profile_description(profile, @profiles_descriptions_map) %>
+                        <%= expvar_highlight_for(profile,
+                                                 @profileHighlightHash[:profile],
+                                                 :description,
+                                                 profile.description) %>
                     </td>
 
                 </tr>
@@ -135,8 +139,6 @@
                   profile: experiment.profile,
                   experiment: experiment,
                   variations: @variations.filter{ |v| v.experiment_id == experiment.id },
-                  audience_name: experiment.audience,
-                  source_vendor: experiment.source_vendor,
                   user_saved_variations: @user_saved_variations
               }
               %>

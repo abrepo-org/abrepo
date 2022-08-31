@@ -18,16 +18,22 @@
                style="width:100%;">
 
               <div style="width:85%;">
+                  <!-- Company Name -->
                   <%= link_to profile_path_slug(profile) do %>
                       <p class="title is-5">
-                        <%= profile_company_name(profile, @names_map, @domain_names_map) %>
+                          <%= expvar_highlight_for(profile,
+                                                   @profileHighlightHash[:profile],
+                                                   :company_name,
+                                                   profile.domain) %>
                       </p>
                   <% end  %>
 
+                  <!-- Description -->
                   <p class="mt-1">
-                      <%= profile_description(profile, @descriptions_map) %>
+                      <%= profile_description(profile, @profileHighlightHash[:profile]) %>
                   </p>
 
+                  <!-- Industry Tags -->
                   <p class="tags mb-0">
                       <%== profile_industry_filter_links(params,
                                                          profile.industry_tag.pluck(:name),

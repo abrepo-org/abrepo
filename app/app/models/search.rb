@@ -32,32 +32,59 @@ class Search
   end
 
   #
-  # query freetext Search with pgSearch + avg rank
+  # query freetext Search with pg_search_scope's summation of avg rank
   #
-  def self.querySearch(query, variationPolicyModel)
+  def self._attributeQuerySearch(query)
 
-    search = PgSearch.multisearch(query)
-               .with_pg_search_rank
-               .with_pg_search_highlight
+    experimentSummaryNameSearch = Experiment.search_summary_name(query)
+                                    .with_pg_search_rank
+                                    .with_pg_search_highlight
 
-    # NB: only some experiments and/or variations have query highlights
-    # even though we return all parent Experiments to render "ExpVar"
-    experimentsDocHash = search
-                           .where(searchable_type: "Experiment")
-                           .index_by(&:searchable_id)
+    experimentAudienceNameSearch = Experiment.search_audience_name(query)
+                                     .with_pg_search_rank
+                                     .with_pg_search_highlight
 
-    variationsDocHash = search
-                          .where(searchable_type: "Variation")
-                          .index_by(&:searchable_id)
+    variationSummaryNameSearch = Variation.search_summary_name(query)
+                                   .with_pg_search_rank
+                                   .with_pg_search_highlight
+
+    #
+    # "last resort" search:
+    # any matching domains, any matching experiments of companies from above
+    #
+    experimentDomainNameSearch = Experiment.search_domain(query)
+                                   .with_pg_search_rank
+                                   .with_pg_search_highlight
+
+
+    highlightHash = {
+      experiment: {
+        summary_name: experimentSummaryNameSearch.index_by(&:id),
+        audience_name: experimentAudienceNameSearch.index_by(&:id),
+        domain: experimentDomainNameSearch.index_by(&:id)
+      },
+      variation: {
+        summary_name: variationSummaryNameSearch.index_by(&:id)
+      }
+    }
+
+    expIdsRankPairs = experimentSummaryNameSearch.pluck(:id, :rank) +
+                      experimentAudienceNameSearch.pluck(:id, :rank) +
+                      variationSummaryNameSearch.pluck(:experiment_id, :rank) +
+                      experimentDomainNameSearch.pluck(:id, :rank)
+
+    #if (expIdsRankPairs.length == 0)
+      #expIdsRankPairs = expIdsRankPairs + experimentDomainNameSearch.pluck(:id, :rank)
+    #end
+
+
 
     # Currently: calc avg rank across Experiment and Variations this
     # re-score can change; think its somewhat fair a sum would favor
     # large experiments with more variations, not necessarily
     # relevance.
     scores = {}
-    search
-      .pluck(:experiment_id, :rank)
-      .each do |id, rank|
+    expIdsRankPairs.each do |id, rank|
       scores[id] ||= 0
       scores[id] += rank
       scores[id] = scores[id] / 2
@@ -71,17 +98,15 @@ class Search
     exp_ids = exp_order.map{ |r| r[0] }
 
     # we collect relevant variations, and filter with tags below
-    variations = variationPolicyModel
-                   .where(experiment_id: exp_ids)
-
-    return exp_ids, variations, variationsDocHash, experimentsDocHash
+    return exp_ids, highlightHash
   end
+
 
   #
   # BUILD QUERY
   #
   # 1. query with PgSearch across Experiments and Variations
-  #    * store results in DocHash to get pg_search_highlight
+  #    * store pg_search_highlight results in HighlightHash for view
   #
   # 2. filter result set with tags or industry if provided
   #
@@ -96,20 +121,23 @@ class Search
 
     exp_ids = []
     experiments = []
-    experimentsDocHash = {}
-    variationsDocHash = {}
+    expvarHighlightHash = {
+      experiment: {},
+      variation: {}
+    }
     variations = nil
     profiles = nil
 
     #freetext
     unless (query.empty?)
 
-      exp_ids,
-      variations,
-      variationsDocHash,
-      experimentsDocHash = self.querySearch(query, variationPolicyModel)
+      exp_ids, expvarHighlightHash = self._attributeQuerySearch(query)
+
+      variations = variationPolicyModel
+                     .where(experiment_id: exp_ids)
 
     end
+
 
     #filters: tag/page_tag
     unless (tags.empty?)
@@ -150,7 +178,7 @@ class Search
 
     # no query, no filters - return all, date orderered
     if (variations.blank? && (industries.empty? && tags.empty? && query.empty?))
-      return [experimentPolicyModel.order(created_at: "DESC"), {}, {}]
+      return [experimentPolicyModel.order(created_at: "DESC"), expvarHighlightHash]
     else
 
       experiments = experimentPolicyModel
@@ -174,10 +202,12 @@ class Search
       end
     end
 
-    return [experiments, experimentsDocHash, variationsDocHash]
 
+    return experiments, expvarHighlightHash
   end
+
 end
+
 
 #
 # PG_SEARCH Notes Difficulties + Errors with highlighting

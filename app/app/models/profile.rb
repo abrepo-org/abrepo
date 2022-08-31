@@ -17,6 +17,7 @@
 #
 
 class Profile < ApplicationRecord
+  include Obfuscatable #NB: set in order to accommodate expvar_* helpers
   include PgSearch::Model
 
   acts_as_taggable_on :industry_tag  # profile.industry_tag_list
@@ -43,7 +44,6 @@ class Profile < ApplicationRecord
 
   validates :domain, presence: true, uniqueness: true
 
-
   # stub to reuse same views as variations
   def published?
     return true
@@ -56,9 +56,9 @@ class Profile < ApplicationRecord
   def self.search_company(query, profilePolicyScope)
 
     # build id -> pg_search_highlight maps id => {name, description, domain)
-    search_names = self.search_company_name(query)
-                     .with_pg_search_rank
-                     .with_pg_search_highlight
+    search_company_names = self.search_company_name(query)
+                             .with_pg_search_rank
+                             .with_pg_search_highlight
 
     search_domains = self.search_domain(query)
                        .with_pg_search_rank
@@ -68,20 +68,25 @@ class Profile < ApplicationRecord
                             .with_pg_search_rank
                             .with_pg_search_highlight
 
-    names_map = search_names.index_by(&:id)
-    domains_map = search_domains.index_by(&:id)
-    descriptions_map = search_descriptions.index_by(&:id)
+    highlightHash = {
+      profile: {
+        company_name: search_company_names.index_by(&:id),
+        domain: search_domains.index_by(&:id),
+        description: search_descriptions.index_by(&:id)
+      }
+    }
 
     # get ids, aggregate score, sort
     scores = {}
     search_collect = [
-      search_names.pluck(:id, :rank),
+      search_company_names.pluck(:id, :rank),
       search_domains.pluck(:id, :rank),
       search_descriptions.pluck(:id, :rank)
     ].flatten(1).each do |id, rank|
       scores[id] ||= 0
       scores[id] += rank
     end
+
     profile_order = scores.sort_by{ |id, rank| -rank }
     profile_order_ids = profile_order.map{ |r| r[0] }
 
@@ -98,7 +103,7 @@ class Profile < ApplicationRecord
                  .where(id: profile_ids)
                  .order(Arel.sql("position(id::text in '#{profile_order_ids.join(',')}')"))
 
-    return profiles, names_map, domains_map, descriptions_map
+    return profiles, highlightHash
   end
 
   def self.build_tag_examples(user, scopedProfile, tags)

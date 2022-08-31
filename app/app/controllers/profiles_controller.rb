@@ -6,18 +6,18 @@ class ProfilesController < ApplicationController
     @query, @tags, @industries = Search.extractSearchParams(params[:query])
 
     @profiles = []
-    @names_map = {}
-    @domains_map = {}
-    @descriptions_map = {}
+    @profileHighlightHash = {
+      profile: {}
+    }
 
     unless @query.empty?
 
-      @profiles,
-      @names_map,
-      @domains_map,
-      @descriptions_map = Profile
-                            .search_company(@query.join(" "),
-                                            policy_scope(Profile))
+      # NB: we're not ordering by rank - see if we can get by with
+      # just notion of "filter" vs "search" + relevance ranking.
+      # Maybe change later if its bad.
+      @profiles, @profileHighlightHash = Profile
+                                           .search_company(@query.join(" "),
+                                                           policy_scope(Profile))
     else
 
       @profiles = policy_scope(Profile)
@@ -42,7 +42,9 @@ class ProfilesController < ApplicationController
     end
 
     unless @industries.empty?
-      @profiles = @profiles.tagged_with(@industries)
+      @profiles = Profile
+                    .where(id: @profiles)
+                    .tagged_with(@industries)
     end
 
     if (@profiles.length > 0)
@@ -88,6 +90,18 @@ class ProfilesController < ApplicationController
     # redirect; serve only to proper parameterized slug url (/:id/slug)
     pname = @profile.company_name.parameterize
     redirect_to "/profiles/#{@profile.id}/#{pname}" unless params[:name] == pname
+
+    # reuse shared/_expvar_ * views
+    @expvarHighlightHash = {
+      experiment: {
+        summary_name: {},
+        audience_name: {},
+        domain: {}
+      },
+      variation: {
+        summary_name: {}
+      }
+    }
 
     @experiments = policy_scope(@profile
                                   .experiments

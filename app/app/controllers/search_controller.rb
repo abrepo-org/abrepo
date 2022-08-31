@@ -7,22 +7,23 @@ class SearchController < ApplicationController
 
     @search_input_text = Search.buildSearchQuery(@query, @tags, @industries)
 
-    @experiments,
-    @experimentsDocHash,
-    @variationsDocHash = Search.build(@query, @tags, @industries,
-                                      policy_scope(Experiment)
-                                        .includes(:profile,
-                                                  :source_vendor,
-                                                  :variations),
-                                      policy_scope(Variation))
+    @experiments, @expvarHighlightHash = Search
+                                           .build(@query, @tags, @industries,
+                                                  policy_scope(Experiment)
+                                                    .includes(:profile,
+                                                              :source_vendor,
+                                                              :variations),
+                                                  policy_scope(Variation))
 
 
-    @profiles,
-    @profiles_names_map,
-    @profiles_domains_map,
-    @profiles_descriptions_map = Profile.search_company(@query,
-                                                        policy_scope(Profile)
-                                                          .includes(:industry_tag))
+    @profiles, @profileHighlightHash = Profile.search_company(@query,
+                                                              policy_scope(Profile)
+                                                                .includes(:industry_tag))
+
+    if (@experiments.empty?)
+      @experiments = policy_scope(Experiment).where(profile: @profiles)
+    end
+
     # TODO: filter profiles by (tags, industries)
     if (@experiments.length > 0)
       @pagy, @experiments = pagy(@experiments)
