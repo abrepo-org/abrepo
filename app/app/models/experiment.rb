@@ -39,6 +39,10 @@ class Experiment < ApplicationRecord
                   against: [:audience_name],
                   using: PgSearch.multisearch_options[:using]
 
+  pg_search_scope :search_domain,
+                  against: [:domain],
+                  using: PgSearch.multisearch_options[:using]
+
 
   belongs_to :profile
   belongs_to :source_vendor

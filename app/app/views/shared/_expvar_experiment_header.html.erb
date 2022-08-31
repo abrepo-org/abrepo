@@ -56,7 +56,10 @@
                         </span>
 
                         <span class="profile_domain has-text-grey has-text-weight-normal">
-                            <%= profile.domain %>
+                            <%= expvar_highlight_for(experiment,
+                                                     @expvarHighlightHash[:experiment],
+                                                     :domain,
+                                                     profile.domain) %>
                         </span >
                     <% end %>
                 </div>

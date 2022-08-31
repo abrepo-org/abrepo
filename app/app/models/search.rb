@@ -48,10 +48,20 @@ class Search
                                    .with_pg_search_rank
                                    .with_pg_search_highlight
 
+    #
+    # "last resort" search:
+    # any matching domains, any matching experiments of companies from above
+    #
+    experimentDomainNameSearch = Experiment.search_domain(query)
+                                   .with_pg_search_rank
+                                   .with_pg_search_highlight
+
+
     highlightHash = {
       experiment: {
         summary_name: experimentSummaryNameSearch.index_by(&:id),
         audience_name: experimentAudienceNameSearch.index_by(&:id),
+        domain: experimentDomainNameSearch.index_by(&:id)
       },
       variation: {
         summary_name: variationSummaryNameSearch.index_by(&:id)
@@ -60,7 +70,14 @@ class Search
 
     expIdsRankPairs = experimentSummaryNameSearch.pluck(:id, :rank) +
                       experimentAudienceNameSearch.pluck(:id, :rank) +
-                      variationSummaryNameSearch.pluck(:experiment_id, :rank)
+                      variationSummaryNameSearch.pluck(:experiment_id, :rank) +
+                      experimentDomainNameSearch.pluck(:id, :rank)
+
+    #if (expIdsRankPairs.length == 0)
+      #expIdsRankPairs = expIdsRankPairs + experimentDomainNameSearch.pluck(:id, :rank)
+    #end
+
+
 
     # Currently: calc avg rank across Experiment and Variations this
     # re-score can change; think its somewhat fair a sum would favor
