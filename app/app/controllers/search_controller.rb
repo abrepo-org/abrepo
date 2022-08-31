@@ -19,6 +19,11 @@ class SearchController < ApplicationController
     @profiles, @profileHighlightHash = Profile.search_company(@query,
                                                               policy_scope(Profile)
                                                                 .includes(:industry_tag))
+
+    if (@experiments.empty?)
+      @experiments = policy_scope(Experiment).where(profile: @profiles)
+    end
+
     # TODO: filter profiles by (tags, industries)
     if (@experiments.length > 0)
       @pagy, @experiments = pagy(@experiments)
