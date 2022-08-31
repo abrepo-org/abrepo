@@ -121,7 +121,10 @@ class Search
 
     exp_ids = []
     experiments = []
-    expvarHighlightHash = {}
+    expvarHighlightHash = {
+      experiment: {},
+      variation: {}
+    }
     variations = nil
     profiles = nil
 
@@ -175,7 +178,7 @@ class Search
 
     # no query, no filters - return all, date orderered
     if (variations.blank? && (industries.empty? && tags.empty? && query.empty?))
-      return [experimentPolicyModel.order(created_at: "DESC"), {}, {}]
+      return [experimentPolicyModel.order(created_at: "DESC"), expvarHighlightHash]
     else
 
       experiments = experimentPolicyModel
@@ -198,6 +201,7 @@ class Search
 
       end
     end
+
 
     return experiments, expvarHighlightHash
   end
