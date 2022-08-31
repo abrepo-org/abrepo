@@ -1,7 +1,7 @@
 <li class="control is-block has-text-left">
     <div class="tags are-medium has-addons is-block">
 
-        <%= link_to search_path(tags: [ tag[:name] ]) do %>
+        <%= link_to search_path({query: "[#{tag[:name]}]"}) do %>
 
             <div class="is-inline-flex" style="max-width:100%;">
 
