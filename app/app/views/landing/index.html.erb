@@ -146,7 +146,14 @@
             </div>
 
         </section>
-        <hr/>
+
+        <div class="button-break-hero has-text-centered">
+            <hr/>
+            <%# switch display from cta above on mobile view %>
+            <%= link_to "Unlock Full Access", "#pricing",
+            class: "button is-medium is-info"
+            %>
+        </div>
 
         <!-- ROLES & USE CASES -->
         <%= render partial: "roles" %>

@@ -24,6 +24,16 @@
   min-width: 100px;
 }
 
+/* profile#index card mobile */
+.media {
+  .image.is-64x64 {
+    @include until($tablet) {
+      height: auto;
+      max-height: 64px;
+      margin-bottom: 1.5rem;
+    }
+  }
+}
 
 /*
  * profile#show
