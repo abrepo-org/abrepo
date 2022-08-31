@@ -86,6 +86,16 @@ section.section.section-landing {
   }
 }
 
+//hero cta
+.button-break-hero {
+  @include until($tablet) {
+    margin-top: 4rem;
+  }
+
+  a {
+    margin-top: -3rem;
+  }
+}
 
 //mobile view cta after each role section
 .button-break {
