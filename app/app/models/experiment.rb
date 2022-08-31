@@ -52,17 +52,6 @@ class Experiment < ApplicationRecord
   obfuscatable attributes: [:summary_name, :domain, :audience_name]
   validates :crawlId, :domain, :a_id, :profile_id, :vendor_id, presence: true
 
-  def audience
-    multiple_name = "Targeting: Various"
-
-    if self.audience_name.blank?
-      return multiple_name unless self.obfuscated
-      return obfuscate_text(multiple_name)
-    end
-
-    return self.audience_name
-  end
-
   # calculated score for each experiment based on avg number of diffs
   # used at import time; provides numerator score used against decay (calc in db)
   def score

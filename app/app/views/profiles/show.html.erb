@@ -106,8 +106,6 @@
                 locals: {profile: @profile,
                          experiment: experiment,
                          variations: @variations.filter{ |v| v.experiment_id == experiment.id },
-                         audience_name: experiment.audience,
-                         source_vendor: experiment.source_vendor,
                          user_saved_variations: @user_saved_variations
                 }
                 %>
