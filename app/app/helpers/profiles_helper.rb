@@ -35,10 +35,16 @@ module ProfilesHelper
   end
 
   def profile_path_slug(profile, options = {})
-    anchor = options[:anchor] ? "##{options[:anchor]}" : ''
+
+    anchor = !options[:anchor].nil? ? "##{options[:anchor]}" : ''
+
+    #name text -> url safe
     slug = profile[:company_name].parameterize
-    return "#{profile_path(profile)}/#{slug}#{anchor}"
-    #return "/profiles/#{profile[:id]}/#{slug}#{anchor}"
+
+    #
+    # use id since profile param isn't necessarily active record obj
+    #
+    return "#{profile_path(profile[:id])}/#{slug}#{anchor}"
   end
 
   def profile_industry_filter_links(params, industries, classes)
