@@ -17,6 +17,7 @@
 #
 
 class Profile < ApplicationRecord
+  include Obfuscatable #NB: set in order to accommodate expvar_* helpers
   include PgSearch::Model
 
   acts_as_taggable_on :industry_tag  # profile.industry_tag_list

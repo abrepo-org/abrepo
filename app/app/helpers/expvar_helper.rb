@@ -91,6 +91,7 @@ module ExpvarHelper
   def expvar_highlight_for(instance, attributeHighlightHash, field_name, default_value)
 
     if !attributeHighlightHash.empty? &&
+       !instance.obfuscated? &&
        attributeHighlightHash[field_name].key?(instance.id)
       return sanitize attributeHighlightHash[field_name][instance.id].pg_search_highlight
     end
