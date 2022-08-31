@@ -20,6 +20,11 @@ class HomeController < ApplicationController
 
   def index
 
+    @expvarHighlightHash = {
+      experiment: {},
+      variation: {}
+    }
+
     @experiments = policy_scope(Experiment)
                      .includes(:source_vendor, :profile, :variations)
                      .order("created_at desc")
