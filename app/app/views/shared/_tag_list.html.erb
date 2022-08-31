@@ -2,11 +2,21 @@
 
     <% tag_list.each do |tag| %>
 
-        <%= obfuscate_link_to obfuscated, search_path(tag_param.to_sym => "[#{tag.name}]"),
-            classes do %>
-            <%= tag.name %>
-        <% end %>
+        <% if tag_param == "industries" %>
 
+            <%= obfuscate_link_to obfuscated, search_path({query: "{#{tag.name}}"}),
+            classes do %>
+                <%= tag.name %>
+            <% end %>
+
+        <% else %>
+
+            <%= obfuscate_link_to obfuscated, search_path({query: "[#{tag.name}]"}),
+            classes do %>
+                <%= tag.name %>
+            <% end %>
+
+        <% end %>
     <% end %>
 
 <% end %>
