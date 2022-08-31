@@ -86,6 +86,18 @@ class ProfilesController < ApplicationController
     pname = @profile.company_name.parameterize
     redirect_to "/profiles/#{@profile.id}/#{pname}" unless params[:name] == pname
 
+    # reuse shared/_expvar_ * views
+    @expvarHighlightHash = {
+      experiment: {
+        summary_name: {},
+        audience_name: {},
+        domain: {}
+      },
+      variation: {
+        summary_name: {}
+      }
+    }
+
     @experiments = policy_scope(@profile
                                   .experiments
                                   .includes(:source_vendor, :variations)
