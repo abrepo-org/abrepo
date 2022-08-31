@@ -12,6 +12,9 @@ class ProfilesController < ApplicationController
 
     unless @query.empty?
 
+      # NB: we're not ordering by rank - see if we can get by with
+      # just notion of "filter" vs "search" + relevance ranking.
+      # Maybe change later if its bad.
       @profiles, @profileHighlightHash = Profile
                                            .search_company(@query.join(" "),
                                                            policy_scope(Profile))
@@ -39,7 +42,9 @@ class ProfilesController < ApplicationController
     end
 
     unless @industries.empty?
-      @profiles = @profiles.tagged_with(@industries)
+      @profiles = Profile
+                    .where(id: @profiles)
+                    .tagged_with(@industries)
     end
 
     if (@profiles.length > 0)
