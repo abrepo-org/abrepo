@@ -1,8 +1,8 @@
 <div class="profile-card card is-shadowless">
   <div class="card-content">
-      <div class="media">
+      <div class="media is-flex-flex-wrap-mobile">
 
-          <div class="media-left is-hidden-mobile">
+          <div class="media-left ">
               <%= link_to profile_path_slug(profile) do %>
                   <figure class="image is-64x64 is-flex is-align-items-center">
                       <% if profile.logo_url %>
@@ -17,7 +17,7 @@
           <div class="content is-flex is-justify-content-space-between is-align-items-baseline"
                style="width:100%;">
 
-              <div style="width:85%;">
+              <div>
                   <!-- Company Name -->
                   <%= link_to profile_path_slug(profile) do %>
                       <p class="title is-5">
@@ -42,7 +42,7 @@
               </div>
 
               <!-- date -->
-              <div class="profile-updated-at is-flex is-flex-direction-column has-text-right">
+              <div class="profile-updated-at is-flex is-flex-direction-column has-text-right is-hidden-mobile">
                   <time datetime="<%= profile.updated_at%>">
                       <%= format_profile_date(profile.updated_at) %>
                   </time>
@@ -51,6 +51,17 @@
                   </span>
 
               </div>
+
+          </div>
+
+          <!-- date mobile -->
+          <div class="profile-updated-at is-flex is-flex-direction-column is-hidden-tablet">
+              <time datetime="<%= profile.updated_at%>">
+                  <%= format_profile_date(profile.updated_at) %>
+              </time>
+              <span class="is-size-7 has-text-grey">
+                  Last Update
+              </span>
 
           </div>
 
