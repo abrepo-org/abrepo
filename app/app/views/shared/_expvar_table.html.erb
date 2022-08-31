@@ -5,11 +5,7 @@
         locals: {
             experiment: experiment,
             tags: variations.map{ |v| v.tag + v.page_tag }.flatten.uniq.sort,
-            pg_search_highlight: @experimentsDocHash &&
-                      @experimentsDocHash.key?(experiment.id) &&
-                      @experimentsDocHash[experiment.id].pg_search_highlight,
-            profile: profile,
-            audience_name: audience_name
+            profile: profile
         }%>
 
     </th>
@@ -32,9 +28,6 @@
             locals: {
             variations: variations,
             variation: variation,
-            pg_search_highlight: @variationsDocHash &&
-                     @variationsDocHash.key?(variation.id) &&
-                     @variationsDocHash[variation.id].pg_search_highlight,
             variation_counter: index} %>
     <% end %>
 <% end %>
