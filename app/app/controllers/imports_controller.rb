@@ -255,6 +255,7 @@ class ImportsController < ApplicationController
                                .where(published: false)
                                .order(updated_at: :desc)
 
+    @pagy, @experiments = pagy(@experiments)
   end
 
   private
