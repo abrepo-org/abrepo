@@ -4,20 +4,29 @@ const DiffSummary = (props) => {
 
     if (!props.summary) return null;
 
-    //TODO: add notes highlighting detection (abanno) and render functions (here)
     const format_css = (diff, summary_delta, summary, summary_format) => {
 
         if (!summary_format) return summary;
 
         if (!summary_format.toLocaleLowerCase().includes('css')) return summary;
 
-        summary = summary.split(";").join(';<br/>');
+        summary = summary
+            .split(";")
+            .map( (s, i) => {
+
+                if (s == "") return null;
+
+                const _s = format_rgb_css(s);
+
+                return <>{_s};<br/></>;
+            });
 
         return summary;
     };
 
     /*
      * replaces css text 'rgb(...' with icon and color
+     * or return original string unmodified if rgb not detected
      */
     const format_rgb_css = (summary) => {
 
@@ -39,7 +48,6 @@ const DiffSummary = (props) => {
                     <span className='cssbox'
                           title={rgb} style={style}>&nbsp;&nbsp;</span>
                     <span>{rgb}</span>
-                    <br/>
                     </>;
 
                 flag = true;
@@ -140,16 +148,27 @@ const DiffSummary = (props) => {
     }
 
     let summary = format_truncate( props.summary, !props.detail );
+
     try {
-        summary = format_css(props.diff, props.diff.summary_delta, summary, props.summary_format);
-        summary = format_rgb_css(summary);
+
+        summary = format_css(props.diff,
+                             props.diff.summary_delta,
+                             summary,
+                             props.summary_format);
+
+        // leave for older submissions without props.summary_format set
+        // if set, above returns jsx so format_rgb_css won't detect
+        if (!props.summary_format) {
+            summary = format_rgb_css(summary);
+        }
+
     } catch(e) {
         console.error("format_css err");
     }
 
     const renderSummary =(summary, summary_format) => {
 
-        if ( ["css", "raw"].includes(summary_format) ) {
+        if ( ["raw"].includes(summary_format) ) {
             return(
                 <div className='diff-summary summary-text pl-2'
                      dangerouslySetInnerHTML={{__html: summary}}>
