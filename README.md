@@ -271,6 +271,10 @@ https://docs.docker.com/compose/compose-file/compose-file-v3/#update_config
 `update_config.order:start-first` allows new container to load first,
 then replace the running container.
 
+NB: `commit --amend` and deploys will mess up container tag
+structure. Just do sequential commits onto a deploy branch (master,
+feature-flag). Working branch amends are fine.
+
 ## Migrations
 
 For schema migrations:
