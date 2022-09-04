@@ -14,6 +14,12 @@ const DiffSummary = (props) => {
             .split(";")
             .map( (s, i) => {
 
+                //preprocess remove surrounding quotes and
+                //resulting empty spaces
+                s = s.replace(/^\"/, '')
+                    .replace(/\"$/, '')
+                    .trim();
+
                 if (s == "") return null;
 
                 const _s = format_rgb_css(s);
@@ -80,8 +86,8 @@ const DiffSummary = (props) => {
         // 1. Remove danging neutral
         const trunc = (text !== null) && !(text => /[£$€¥]/.test(text));
         if (!trunc) {
-            console.log("[format_truncate()] currency detecting,\
-                        skipping dangling neutral truncation");
+            // console.log("[format_truncate()] currency detecting,\
+            //             skipping dangling neutral truncation");
         }
 
         if (trunc && texts && texts.length) {
