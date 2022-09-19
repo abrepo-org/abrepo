@@ -31,6 +31,8 @@ services:
       - ./app:/app
     env_file:
       - .env.dev
+    deploy:
+      replicas: 1
 
 
   nginx:
