@@ -7,7 +7,7 @@
 
 STRIPE_CLI_CMD='stripe listen --skip-verify -a --forward-to localhost:8081'
 
-sudo docker exec -it abrepo_web_1 $STRIPE_CLI_CMD
+docker exec -it abrepo_web_1 $STRIPE_CLI_CMD
 
 # ./docker_run.sh 'stripe listen --skip-verify -a --forward-to localhost:8081 --log-level debug'
 # ./docker_run.sh 'stripe listen --print-secret'

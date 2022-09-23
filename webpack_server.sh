@@ -7,5 +7,5 @@
 echo "do you need to run stripe_cli.sh?"
 
 DEV_SERVER_CMD=./bin/webpack-dev-server
-sudo docker exec -it abrepo_web_1 $DEV_SERVER_CMD
+docker exec -it abrepo_web_1 $DEV_SERVER_CMD
 

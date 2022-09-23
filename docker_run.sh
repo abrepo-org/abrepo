@@ -18,4 +18,4 @@ fi
 sudo chown -R $USER:$USER .
 sudo chown 1001:1001 -R db #bitnami image
 #sudo docker-compose run web $DEFAULT_CMD
-sudo docker exec -it abrepo_web_1 $DEFAULT_CMD
+docker exec -it abrepo_web_1 $DEFAULT_CMD
