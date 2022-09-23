@@ -96,7 +96,12 @@ class Profile < ApplicationRecord
     # first using scope to get ids, then requery based on policy filtered
     # ids and which can be re-ordered
     #
-    profile_ids = profilePolicyScope.where(id: profile_order_ids).pluck(:id).uniq
+    profile_ids = profilePolicyScope
+                    .includes(:experiments)
+                    .where.not(experiments: {profile_id: nil})
+                    .where(id: profile_order_ids)
+                    .pluck(:id)
+                    .uniq
 
     #query result profiles (in order)
     profiles = self
