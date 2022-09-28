@@ -107,6 +107,26 @@ must be logged in as `importer` user. CORS request is enabled via
 credentials are passed via fetch for the import request.
 
 
+NB: CORS allows the request server-side, but to prevent CSRF and for
+privacy considerations, most browsers now prevent 3rd party cookies.
+
+We need 3rd party cookies for to allow authenticated POST requests to
+`/importer` route.
+
+We send requests cross-domain (to localhost, or abrepo.com). For auth
+purposes, the session cookies need to be sent, which is a
+cross-domain request.
+
+We can allow this via adding the cookie owner domains as an exception
+in Firefox:
+
+`Settings -> Privacy & Security -> Cookies and Site Data -> Manage Exceptions`
+
+add domains: `localhost` and `abrepo.com`
+
+There is similar option for chrome but I am too lazy atm.
+
+
 ##### Policies
 
 Authorization policies are designed as extensions to resources; currently:

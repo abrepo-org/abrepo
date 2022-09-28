@@ -4,8 +4,6 @@ services:
 
   pgbouncer:
     image: "bitnami/pgbouncer:1.16.1"
-    depends_on:
-      - pg1
     env_file:
       - .env.db
     environment:
@@ -118,9 +116,9 @@ services:
       #  parallelism: 0
       #  order: stop-first
       restart_policy:
-        condition: on-failure
-        delay: 10s
-        window: 30s
+        condition: any
+        delay: 5s
+        window: 15s
       placement:
         constraints:
           #- node.role == worker
@@ -130,8 +128,6 @@ services:
 
   haproxy:
     image: "haproxy:lts"
-    depends_on:
-      - nginx
     volumes:
       - "${REMOTE_RELEASE_PATH}/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
       - "${REMOTE_RELEASE_PATH}/certbot/:/etc/letsencrypt/live/abrepo.com/"

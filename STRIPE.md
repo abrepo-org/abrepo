@@ -4,6 +4,53 @@ These are notes about general Stripe behavior. This is not necessarily
 specific to `abrepo`, which is integrated with devise and user
 creation; found in [DEVISE-STRIPE.md](./DEVISE-STRIPE.md).
 
+## Business Setup
+
+#### Profile - Account Hierearchy
+
+##### Profile
+
+An Email is associated with a master profile. This profile can be used
+across multiple projects, with ranging permissions. e.g. I can have a
+personal account (alan.verga@gmail.com) used as a developer account on
+`client-business.com`. Each profile can own / access multiple
+unrelated accounts. (upper left dropdown.)
+
+
+##### Accounts
+
+A profile (can) have many accounts. These correspond to "Projects".
+
+Each account (project) has its own public business facing identity and statement
+descriptor.
+
+Each account can only be associated with a single tax id legal
+entity. However, the same legal entity can be used on different
+accounts.
+
+Ergo, different accounts can reference the same legal entity (tax
+id) - like a DBA / Assumed Name.
+
+
+``` When you have multiple projects or businesses that operate under
+the same legal entity, you can use the same tax ID and business
+information across multiple accounts. Make sure to provide suitable
+public business information to avoid customer confusion.  ```
+
+For reference: https://stripe.com/docs/account/multiple-accounts
+
+Current Practice:
+
+* Have a separate profile tied to quirkshopllc@gmail.com
+  * since this is where bank account email - keep llc finances together
+* Create ABrepo Account, that uses quirkshop llc entity (shareable
+  across future separate accounts)
+
+Think it's easier to create quirkshop account in stripe, add quirkshop
+as admin, change entity / bank on account and then remove personal
+account as user. Keep keys and what not.
+
+
 
 ## Quick Accounts
 

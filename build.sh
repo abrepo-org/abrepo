@@ -46,16 +46,20 @@ GIT_COMMIT=$(git log -1 --format=%h)
 #     fi
 #fi
 
-
+# sudo needed to build nginx
 sudo `< .env` \
      REMOTE_RELEASE_PATH=$REMOTE_RELEASE_PATH \
      GIT_COMMIT=$GIT_COMMIT \
      docker-compose build
 
-sudo `< .env` \
-     REMOTE_RELEASE_PATH=$REMOTE_RELEASE_PATH \
-     GIT_COMMIT=$GIT_COMMIT \
-     docker-compose push
+# ecr creds
+aws ecr get-login-password --region us-east-2 | \
+    docker login --password-stdin \
+           --username AWS 424385760710.dkr.ecr.us-east-2.amazonaws.com
+
+REMOTE_RELEASE_PATH=$REMOTE_RELEASE_PATH \
+GIT_COMMIT=$GIT_COMMIT \
+docker-compose push
 
 #build step, current artifact is just a stack.yml, but in future could be
 #a tarball, etc.
