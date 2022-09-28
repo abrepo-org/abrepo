@@ -19,7 +19,24 @@
 </tr>
 
 <% variations.each_with_index do |variation, index| %>
-    <% cache [variation, variation.obfuscated?,
+
+    <%
+    # Quirk:
+    # add experiment to cache key because if we:
+    # 1. import a single variation
+    # 2. visit page and render expvar_variation (caches partial)
+    # 3. then import another variation,
+    # we will have cached set_multiple_views() helper in _expvar_variation partial
+    # (the toggle for multiple views) that will conflict - it needs to be run
+    # on variation collection, not just each individual variation
+    # we touch experiment on new variation so should reset the key
+    # TODO: figure out a better way to do this
+    #
+    %>
+
+    <% cache [experiment.updated_at,
+              variation,
+              variation.obfuscated?,
               @user_saved_variations[variation.id],
               @search_input_text,
               "/expvar_variation"], expires_in: 1.day do %>
