@@ -39,7 +39,7 @@ services:
     environment:
       - PGBACKREST_REPO1_PATH=/mnt/pgbackrest
       - PGBACKREST_LOG_PATH=/mnt/pgbackrest
-      - PGBACKREST_REPO2_S3_BUCKET=abrepo-production-pg1-pgbackrest
+      - PGBACKREST_REPO2_S3_BUCKET=abrepo-production-web-pg-pgbackrest
     deploy:
       replicas: 1
       placement:
@@ -48,7 +48,7 @@ services:
         - node.labels.instance == db1
 
   web:
-    image: "424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abrepo:${GIT_COMMIT-latest}"
+    image: "976034468541.dkr.ecr.us-east-2.amazonaws.com/abrepo/abrepo:${GIT_COMMIT-latest}"
     env_file:
       - .env
     command: bash -c "rm -f tmp/pids/server.pid && rake tmp:cache:clear && bundle exec rails s -p 8081 -b '0.0.0.0'"
@@ -83,7 +83,7 @@ services:
           #- node.role == manager
 
   nginx:
-    image: "424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abnginx:${GIT_COMMIT-latest}"
+    image: "976034468541.dkr.ecr.us-east-2.amazonaws.com/abrepo/abnginx:${GIT_COMMIT-latest}"
     build:
       context: ./nginx
       args:
