@@ -12,7 +12,7 @@ fi
 #      --user $(id -u):$(id -g) \
 #      --mount type=bind,source="$(pwd)"/app,target=/app \
 #      --env-file .env \
-#      -it 424385760710.dkr.ecr.us-east-2.amazonaws.com/vergeman/abrepo:latest \
+#      -it 976034468541.dkr.ecr.us-east-2.amazonaws.com/abrepo/abrepo:latest \
 #      $DEFAULT_CMD
 
 sudo chown -R $USER:$USER .

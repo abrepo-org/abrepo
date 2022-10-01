@@ -7,6 +7,16 @@ These operations have hardcoded release paths and container images
 `docker run` - a bit of a mess -so make sure to upgrade containers,
 paths accordingly.
 
+### .env.pg1
+
+This is used for restoration (during runtime pg envs are in
+docker-compose)
+
+This file is extracted in prod/staging/etc by
+`./restore_pgbackrest_1.sh`
+
+The current `.env.pg1` is for dev.
+
 ## Restore
 
 Generally Speaking, on a fresh instance (e.g. staging) restore is
@@ -42,6 +52,11 @@ cd release/abrepo
 
 ### Restore / Sync: Prod -> Staging
 
+NB: Make sure to make a quick backup of `.env.pg1`: when things break
+in the `restore_pgbackrest_*.sh` you will need these creds to rerun -
+sometimes it may get overwritten with empty.
+
+
 To restore:
 
 ```
@@ -75,7 +90,7 @@ Pull from prod to local dev
 
 To push to dev bcket
 
-1. export PGBACKREST_REPO2_S3_BUCKET=abrepo-dev-pg1-pgbackrest
+1. export PGBACKREST_REPO2_S3_BUCKET=abrepo-dev-web-pg-pgbackrest
 2. create stanza, then exit
 3. recomment ./run.sh and restart pg1
 4. should be set to fresh backup to -dev bucket
@@ -83,7 +98,7 @@ To push to dev bcket
 
 ## Backup
 
-[Ansible](https://www.github.com/vergeman/abrepo_ops/ops/ansible/roles/cron/tasks/main.yml) sets
+[Ansible](https://www.github.com/abrepo/abrepo_ops/ops/ansible/roles/cron/tasks/main.yml) sets
 cron jobs to perform different backup operations.
 
 1. Daily logical backup

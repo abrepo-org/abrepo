@@ -53,9 +53,9 @@ sudo `< .env` \
      docker-compose build
 
 # ecr creds
-aws ecr get-login-password --region us-east-2 | \
+aws ecr get-login-password --region us-east-2 --profile abrepo | \
     docker login --password-stdin \
-           --username AWS 424385760710.dkr.ecr.us-east-2.amazonaws.com
+           --username AWS 976034468541.dkr.ecr.us-east-2.amazonaws.com
 
 REMOTE_RELEASE_PATH=$REMOTE_RELEASE_PATH \
 GIT_COMMIT=$GIT_COMMIT \
