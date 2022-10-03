@@ -6,7 +6,7 @@ creation; found in [DEVISE-STRIPE.md](./DEVISE-STRIPE.md).
 
 ## Business Setup
 
-#### Profile - Account Hierearchy
+#### Profile - Account Hierarchy
 
 ##### Profile
 
@@ -61,9 +61,6 @@ NB: Stripe has a "test" and "live" mode.
 | Accounts     | Status                        | Users  |
 | --------     | -----                         | ------ |
 | ABrepo       | active + sole prop bank       | alan.verga@gmail.com |
-| abrepo dev   | inactive                      | alan.verga@gmail.com |
-| abrepo dev   | inactive                      | test@abrepo.com (developer account) |
-
 
 Accounts - Environment Keys
 
@@ -90,7 +87,6 @@ to bang on. This is a dev-only environment.
 | ABrepo       | production |  live       | pk_live_51KDJ          | whsec_soC2 |
 | ABrepo       | staging    |  test       | pk_test_51KDJ          | whsec_2YOx |
 | ABrepo       | dev        |  test       | pk_test_51KDJ          | stripe-cli generated|
-| abrepo_dev   | dev        |  test       | pk_test_51IHW          | disabled   |
 
 
 ## Install
