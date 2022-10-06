@@ -70,9 +70,9 @@ module App
     config.action_mailer.default_url_options = { host: ENV['MAILER_URL_HOST'] }
     config.action_mailer.smtp_settings = {
       port: 587,
-      address: ENV['AWS_SMTP_ADDRESS'],
-      user_name: ENV['AWS_SMTP_USERNAME'],
-      password: ENV['AWS_SMTP_PASSWORD'],
+      address: ENV['SMTP_SERVER_ADDRESS'],
+      user_name: ENV['SMTP_SERVER_USERNAME'],
+      password: ENV['SMTP_SERVER_PASSWORD'],
       authentication: :plain,
       enable_starttls_auto: true
     }
