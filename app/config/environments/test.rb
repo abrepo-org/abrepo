@@ -37,6 +37,8 @@ Rails.application.configure do
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
+  # disable actual send in dev/test (mailersend key limitation)
+  config.action_mailer.perform_deliveries = false
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
