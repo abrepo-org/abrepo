@@ -1,9 +1,5 @@
 <body class="has-navbar-fixed-top">
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K78DWT6"
-                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
+    <%= render "layouts/analytics_body" %>
     <!-- NAV -->
     <header>
         <% if current_page?(checkout_account_path(params[:lookup_key])) %>
