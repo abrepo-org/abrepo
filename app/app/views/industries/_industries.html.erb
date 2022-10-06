@@ -1,31 +1,40 @@
 <% @DAYS=14  %>
 <div id="autocomplete-destination" class="columns is-multiline">
-
+    <%
+    #
+    # counts (total, past_n) are off since those values
+    # don't account for unpublished profiles (e.g unpublished experiments variations)
+    # but since we only show 3 profiles, and most expvars will be published,
+    # the inconsistency won't be noticeable - and it doesn't really matter
+    #
+    %>
     <% @industries.each do |industry| %>
 
-        <% cache("#{industry.cache_key_with_version}-#{current_user && current_user.moderator?}",
-                 expires_in: 1.day) do  %>
+        <% if @profile_hash_by_id[industry.id].length > 0 %>
 
-            <div class="column is-half-tablet is-one-third-desktop">
-                <%= render partial: '/shared/tag_card',
-                locals: {
-                    # title
-                    name: industry.name,
-                    name_link_path: "/profiles?query={#{industry.name}}",
+            <% cache("#{industry.cache_key_with_version}-#{current_user && current_user.moderator?}",
+                     expires_in: 1.day) do  %>
 
-                    # content
-                    examples: @profile_hash_by_id[industry.id],
+                <div class="column is-half-tablet is-one-third-desktop">
+                    <%= render partial: '/shared/tag_card',
+                    locals: {
+                        # title
+                        name: industry.name,
+                        name_link_path: "/profiles?query={#{industry.name}}",
 
-                    # footer
-                    total: industry.taggings_count,
-                    past_n: @recency_hash_by_id[industry.id] || 0,
-                    updated_at: industry.updated_at
-                }
-                %>
-            </div>
+                        # content
+                        examples: @profile_hash_by_id[industry.id],
 
+                        # footer
+                        total: industry.taggings_count,
+                        past_n: @recency_hash_by_id[industry.id] || 0,
+                        updated_at: industry.updated_at
+                    }
+                    %>
+                </div>
+
+            <% end %>
         <% end %>
-
     <% end %>
 
 </div>
