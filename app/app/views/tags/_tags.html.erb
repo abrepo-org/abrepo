@@ -1,31 +1,40 @@
-<% #NB: this is rendered by #index *and* autocomplete response  %>
+<%
+# NB: this is rendered by #index *and* autocomplete response
+#
+# for non subscribers these tags trigger modals
+#
+# counts will be same situation as industry (inconsistent, but not material)
+#
+%>
 <div id="autocomplete-destination" class="columns is-multiline">
 
     <% @tags.each do |tag| %>
 
-        <% cache("#{tag.cache_key_with_version}-#{current_user && current_user.moderator?}",
-                 expires_in: 1.day) do  %>
+        <% if (@variation_hash_by_id[tag.id] || []).length > 0 %>
 
-            <div class="column is-half-tablet is-one-third-desktop">
-                <%= render partial: '/shared/tag_card',
-                locals: {
-                    # title
-                    name: tag.name,
-                    name_link_path: "/search/?query=[#{tag.name}]",
+            <% cache("#{tag.cache_key_with_version}-#{current_user && current_user.moderator?}",
+                     expires_in: 1.day) do  %>
 
-                    # content
-                    examples: @variation_hash_by_id[tag.id],
+                <div class="column is-half-tablet is-one-third-desktop">
+                    <%= render partial: '/shared/tag_card',
+                    locals: {
+                        # title
+                        name: tag.name,
+                        name_link_path: "/search/?query=[#{tag.name}]",
 
-                    # footer
-                    total: tag.taggings_count,
-                    past_n: @recency_hash_by_id[tag.id] || 0,
-                    updated_at: tag.updated_at
-                }
-                %>
-            </div>
+                        # content
+                        examples: @variation_hash_by_id[tag.id],
 
+                        # footer
+                        total: tag.taggings_count,
+                        past_n: @recency_hash_by_id[tag.id] || 0,
+                        updated_at: tag.updated_at
+                    }
+                    %>
+                </div>
+
+            <% end %>
         <% end %>
-
     <% end %>
 
 </div>

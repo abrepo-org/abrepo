@@ -10,7 +10,7 @@
     %>
     <% @industries.each do |industry| %>
 
-        <% if @profile_hash_by_id[industry.id].length > 0 %>
+        <% if (@profile_hash_by_id[industry.id] || []).length > 0 %>
 
             <% cache("#{industry.cache_key_with_version}-#{current_user && current_user.moderator?}",
                      expires_in: 1.day) do  %>
