@@ -34,7 +34,8 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # Set to false to ignore delivery errors
   config.action_mailer.raise_delivery_errors = true
-
+  # disable actual send in dev/test (mailersend key limitation)
+  config.action_mailer.perform_deliveries = false
   config.action_mailer.perform_caching = false
 
   # Print deprecation notices to the Rails logger.
