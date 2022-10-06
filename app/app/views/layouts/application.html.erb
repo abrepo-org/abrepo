@@ -39,6 +39,9 @@
           if current_page?(profiles_path) or current_page?(industries_path) or current_page?(tags_path) or current_page?(search_path)
         %>
         <%= javascript_pack_tag *packs, 'data-turbolinks-track': 'reload' %>
+
+        <%= render 'layouts/analytics_head' %>
+
         <%= yield :js %>
 
     </head>
@@ -48,7 +51,7 @@
     <% else %>
 
         <body class="has-navbar-fixed-top <%= "devise" if content_for?(:devise) %>" >
-
+            <%= render "layouts/analytics_body" %>
             <!-- NAV -->
             <header>
               <% if current_page?(checkout_account_path(params[:lookup_key])) %>
