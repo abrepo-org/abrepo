@@ -8,6 +8,7 @@ class Sidebar
 
     profiles = Profile
                  .joins(:experiments)
+                 .where(experiments: { published: true })
                  .group(:id, :company_name, :updated_at)
                  .order('sum_experiments_calcscore_pow_select_extract_epoch_from_current desc')
                  .limit(5)
@@ -35,7 +36,7 @@ class Sidebar
         INNER JOIN taggings ON taggings.tag_id = tags.id
         INNER JOIN profiles ON taggings.taggable_id = profiles.id
         INNER JOIN experiments ON experiments.profile_id = profiles.id
-        WHERE taggings.taggable_type = 'Profile'
+        WHERE taggings.taggable_type = 'Profile' AND experiments.published = true
         GROUP BY tags.id
         ORDER BY score DESC
         LIMIT 10
@@ -65,7 +66,7 @@ class Sidebar
              FROM tags
              INNER JOIN taggings ON taggings.tag_id = tags.id
              INNER JOIN variations ON taggings.taggable_id = variations.id
-             WHERE taggings.taggable_type = 'Variation'
+             WHERE taggings.taggable_type = 'Variation' AND variations.published = true
              GROUP BY tags.id, variations.vendor_id) as totals
          GROUP BY totals.id, totals.name
          ORDER BY count DESC
@@ -112,6 +113,8 @@ class Sidebar
              INNER JOIN variations ON taggings.taggable_id = variations.id
              INNER JOIN experiments ON experiments.id = variations.experiment_id
              WHERE taggings.taggable_type = 'Variation' AND experiments.profile_id = ?
+                   AND experiments.published = true
+                   AND variations.published = true
              GROUP BY tags.id, variations.vendor_id) as totals
          GROUP BY totals.id, totals.name
          ORDER BY count DESC
