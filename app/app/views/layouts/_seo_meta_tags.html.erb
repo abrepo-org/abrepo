@@ -1,0 +1,15 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">
+
+<title><%= content_for_title %></title>
+<meta property="og:type" content="website" />
+
+<!-- TODO: not sure about canonical- some paths we *do* want querystring? not exactly correct -->
+<link href="<%= request.path %>" rel="canonical">
+
+<% if content_for?(:seo_meta_tags) %>
+    <%= yield(:seo_meta_tags) %>
+<% else %>
+    <%# defaults defined in config %>
+    <%= seo_meta_tags %>
+<% end %>
