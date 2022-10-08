@@ -2,6 +2,7 @@
 
 User-agent: *
 
+Disallow: /home
 Disallow: /search
 Disallow: /profiles?
 Disallow: /tags?
