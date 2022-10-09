@@ -28,7 +28,6 @@ Rails.application.routes.draw do
   #enable custom 'after_sign_up_path_for'
   devise_for :users, :controllers => {:registrations => "checkout"}
 
-  get 'test_models/test'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   get 'healthcheck', action: :index, controller: 'healthcheck'
 
