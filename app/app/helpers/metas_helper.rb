@@ -15,7 +15,7 @@ module MetasHelper
   # content_for :title set in view, is prioritized and used for meta
   # (it can be overloaded in seo_meta_tags, but aim for consistency)
   def content_for_title
-    default = Rails.application.config.app_title
+    default = "The Leading A/B Search Engine - Find Your Best A/B Test | #{Rails.application.config.app_title}"
     content_for?(:title) ? content_for(:title) : default
   end
 
