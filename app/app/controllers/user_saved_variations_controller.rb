@@ -34,6 +34,9 @@ class UserSavedVariationsController < ApplicationController
 
     @pagy, @experiments = pagy(@experiments)
 
+    #stub to reuse expvar_experiment_table partials
+    @expvarHighlightHash = {}
+
     # sidebar
     @top_profiles = Sidebar.top_profiles
 
