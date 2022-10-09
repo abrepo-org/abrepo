@@ -3,7 +3,7 @@
     is_active: false
 } %>
 
-<% content_for :title, "Experiments by #{(@profile.company_name || @profile.domain)} #{Rails.application.config.app_title}"%>
+<% content_for :title, "Experiments by #{(@profile.company_name || @profile.domain)} | #{Rails.application.config.app_title}"%>
 <% content_for :seo_meta_tags, seo_meta_tags(description: "Browse how #{(@profile.company_name || @profile.domain)} approaches experimentation with ABrepo") %>
 
 <section class="company-profile">

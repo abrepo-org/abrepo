@@ -15,7 +15,7 @@ module MetasHelper
   # content_for :title set in view, is prioritized and used for meta
   # (it can be overloaded in seo_meta_tags, but aim for consistency)
   def content_for_title
-    default = "The Leading A/B Search Engine - Find Your Best A/B Test | #{Rails.application.config.app_title}"
+    default = "The A/B Test Search Engine - Find Your Best A/B Test | #{Rails.application.config.app_title}"
     content_for?(:title) ? content_for(:title) : default
   end
 
@@ -31,7 +31,7 @@ module MetasHelper
 
   def seo_meta_description_tags(meta = {})
     # override on profiles, tags, etc
-    default = "ABrepo is an A/B test search engine. Search, monitor and display A/B tests from leading companies."
+    default = "ABrepo is your A/B test search engine. Instantly search, monitor, and display A/B tests from leading companies."
 
     safe_join([
                 tag("meta", {content: meta[:description] || default, name: "description"}),
