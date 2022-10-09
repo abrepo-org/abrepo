@@ -1,5 +1,5 @@
-<% content_for :title, "#{Rails.application.config.app_title} | Variation - " + (@variation.summary_name || "Unnamed") %>
-
+<% content_for :title, "#{(@variation.summary_name || 'Variation')} | #{(@profile.company_name || @profile.domain)} | #{Rails.application.config.app_title}" %>
+<% content_for :seo_meta_tags, seo_meta_tags(description: "Browse how #{(@profile.company_name || @profile.domain)} approaches experimentation with ABrepo") %>
 <%
 #placeholder for 2 col content in "hero" area
 commentary = false
