@@ -1,4 +1,6 @@
-<% content_for :title, "#{Rails.application.config.app_title} | Company Experimentation" %>
+<% content_for :title, "Company Experimentation | #{Rails.application.config.app_title}" %>
+<% content_for :seo_meta_tags, seo_meta_tags(description: "Browse Experimentation programs by leading companies with ABrepo") %>
+
 <div class="header">
   <h1>Companies</h1>
 </div>
