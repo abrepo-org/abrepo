@@ -2,6 +2,25 @@
 
 Rails based frontend for abrepo web app
 
+## Deploy Branches
+
+0. `master`: general live
+
+1. `feature-flag/maintenance-mode`: toggle when needed
+
+   * Still **requires database**: we toggle this branch on a new staging cluster
+   * Deploy: deploy staging to same region; make sure terraform
+     (tfvars) + ansible (./docker_ansible.sh) use same `region`,
+     `deploy_env` and `env_id` as production
+   * Point Digital Ocean IP to maintenance mode cluster (don't want dns delay with cloudflare)
+   * Do maintenance, tear down, etc. Redeploy prod cluster.
+   * Toggle ip back to updated prod cluster.
+
+2. `feature-flag/landing-page-only`: will eventually be deprecated once 'live'
+
+
+#### Maintenance Mode
+
 
 ## Quickstart Initial Dev Setup
 
