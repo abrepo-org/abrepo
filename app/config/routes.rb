@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   # toggle to send all requests except landing
   # see #landing#index
-  # get '*path', action: 'maintenance', controller: 'errors'
+  get '*path', action: 'maintenance', controller: 'errors'
   #
 
   # exceptions

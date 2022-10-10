@@ -4,8 +4,7 @@ class LandingController < ApplicationController
   def index
     #
     # Maintenance mode flash
-    # flash[:alert] = "Currently in maintenance mode"
-    #
+    flash[:alert] = "Currently in maintenance mode"
 
     @profiles = []
 
@@ -40,6 +39,8 @@ class LandingController < ApplicationController
 
     #NB: helper currently returns 'basic-monthly', 'basic-annual' lookup keys
     @basic_monthly_price, @basic_annual_price = get_all_stripe_data
+
+    render status: 503
   end
 
   #
