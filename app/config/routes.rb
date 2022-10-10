@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   # toggle to send all requests except landing
   # see #landing#index
+  get 'healthcheck', action: :index, controller: 'healthcheck'
   get '*path', action: 'maintenance', controller: 'errors'
   #
 
@@ -29,7 +30,6 @@ Rails.application.routes.draw do
   devise_for :users, only: [:sessions, :registrations, only: [:edit]]
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  get 'healthcheck', action: :index, controller: 'healthcheck'
 
   get 'imports', action: :index, controller: 'imports'
   post 'imports', action: :create, controller: 'imports'
