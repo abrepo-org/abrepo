@@ -71,6 +71,7 @@ class Renderable < ApplicationRecord
               .sort{ |d| d.avgY }
               .each{ |d|
 
+                     d.format_summaries
                      d.obfuscate
 
                      if d.obfuscated?

@@ -93,6 +93,24 @@ class Diff < ApplicationRecord
 
   end
 
+  #
+  # attempt to preserve acronyms get downcased with capitalization
+  # so far only summary_delta
+  def format_summaries
+    unless self.summary_delta.empty?
+      self.summary_delta.capitalize!
+
+      # css capitalize or any lowercase looks best all caps
+      self.summary_delta.gsub!(/\bcss\b/, "CSS")
+      self.summary_delta.gsub!(/\bCss\b/, "CSS")
+
+      # cta same
+      self.summary_delta.gsub!(/\bcta\b/, "CTA")
+      self.summary_delta.gsub!(/\bCta\b/, "CTA")
+
+    end
+  end
+
   def as_json
     json = super
     json[:type] = self.diffType
