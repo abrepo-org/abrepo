@@ -104,12 +104,12 @@ class ImportsController < ApplicationController
     campaign = group['campaign']
     @campaign = Campaign
                   .where(vendor_id: campaign['campaign_id'],
+                         experiment_id: @experiment.id,
                          a_id: campaign['_id'])
                   .order(id: :desc)
                   .first_or_create
 
-    @campaign.update(name: campaign['name'],
-                     experiment: @experiment)
+    @campaign.update(name: campaign['name'])
 
 
     #
