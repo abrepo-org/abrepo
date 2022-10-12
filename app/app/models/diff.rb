@@ -97,7 +97,7 @@ class Diff < ApplicationRecord
   # attempt to preserve acronyms get downcased with capitalization
   # so far only summary_delta
   def format_summaries
-    unless self.summary_delta.empty?
+    unless self.summary_delta.blank?
       self.summary_delta.capitalize!
 
       # css capitalize or any lowercase looks best all caps
