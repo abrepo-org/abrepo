@@ -72,9 +72,11 @@ class Renderable < ApplicationRecord
               .each{ |d|
 
                      d.format_summaries
-                     d.obfuscate
+                     d.obfuscate if self.obfuscated?
 
                      if d.obfuscated?
+                       # aspects we want to obfuscate beyond attributes
+                       # bbox locations, bbox detail button
                        d.randomizeBoundingBox
                        d.removeDetails
                      end
