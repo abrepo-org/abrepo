@@ -28,16 +28,16 @@ class HomeController < ApplicationController
                      .includes(:source_vendor, :profile, :variations)
                      .order("created_at desc")
 
-    @variations = obfuscate_from(policy_scope(Variation)
-                                   .includes(:experiment,
-                                             :renderables,
-                                             :tag, :page_tag)
-                                   .where(experiment_id: @experiments)
-                                   .order([
-                                            "variations.verified desc",
-                                            "variations.created_at desc",
-                                            "variations.summary_name asc"
-                                          ]), 0)
+    @variations = policy_scope(Variation)
+                    .includes(:experiment,
+                              :renderables,
+                              :tag, :page_tag)
+                    .where(experiment_id: @experiments)
+                    .order([
+                             "variations.verified desc",
+                             "variations.created_at desc",
+                             "variations.summary_name asc"
+                           ])
 
     @pagy, @experiments = pagy(@experiments)
     @experiments = obfuscate_from(@experiments, 0) if (not subscribed_or_moderator) &&
