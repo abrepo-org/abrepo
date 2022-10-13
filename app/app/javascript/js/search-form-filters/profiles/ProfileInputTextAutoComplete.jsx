@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
+/*
+ * secondary free text search filter input
+ */
+
 export const ProfileInputTextAutoComplete = (props) => {
 
     const changeHandler = (e) => {
         console.log("ChangeHandler", e.target.value);
         props.setInputBusy && props.setInputBusy(true);
-        props.setSelectedQuery(e.target.value);
+        props.setSelectedQuery( [e.target.value] );
     };
 
     /*
@@ -13,6 +17,9 @@ export const ProfileInputTextAutoComplete = (props) => {
      */
 
     console.log("[ProfileInputTextAutoComplete] Render");
+
+    const selectedQuery = (props.selectedQuery || [])
+          .join(" ");
 
     return(
 
@@ -25,7 +32,7 @@ export const ProfileInputTextAutoComplete = (props) => {
               placeholder={props.placeholder}
               type="text"
               id="query"
-              value={props.selectedQuery}
+              value={selectedQuery}
               />
 
               <span className="icon is-small is-left">

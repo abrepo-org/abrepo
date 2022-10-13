@@ -40,7 +40,7 @@ class Variation < ApplicationRecord
 
   validates :a_id, :experiment_id, :vendor_id, presence: true
 
-  obfuscatable attributes: [:summary_name, :url], dependent: :experiment
+  obfuscatable attributes: [:summary_name, :url]
 
   #expvar table display temp attributes
   attribute :multiple_views

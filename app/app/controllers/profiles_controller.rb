@@ -109,16 +109,16 @@ class ProfilesController < ApplicationController
                                   .includes(:source_vendor, :variations)
                                   .order(created_at: :desc)) #experiments.created_at
 
-    @variations = obfuscate_from(policy_scope(Variation)
-                                   .includes(:experiment,
-                                             :renderables,
-                                             :tag, :page_tag)
-                                   .where(experiment_id: @experiments)
-                                   .order([
-                                            "variations.verified desc",
-                                            "variations.created_at desc",
-                                            "variations.summary_name asc"
-                                          ]), 0)
+    @variations = policy_scope(Variation)
+                    .includes(:experiment,
+                              :renderables,
+                              :tag, :page_tag)
+                    .where(experiment_id: @experiments)
+                    .order([
+                             "variations.verified desc",
+                             "variations.created_at desc",
+                             "variations.summary_name asc"
+                           ])
 
     @num_variations  = []
     @tag_counts = []

@@ -26,15 +26,19 @@ const updateURL = (value) => {
 
 };
 
+//NB: treat selectedQuery as array throughout: []
+//watch inputs and changeHandlers
 const buildFormQuery = (selectedQuery, selectedTags, selectedIndustries) => {
 
-    return [
-        selectedQuery,
+    const formQuery = [
+        (selectedQuery || []).join(" "),
         selectedTags.map( tag => `[${tag}]`).join(" "),
         selectedIndustries.map( tag => `{${tag}}`).join(" ")
     ].filter(q => q)
-        .join(" ")
-        .trim();
+     .join(" ")
+     .trim();
+
+    return formQuery;
 };
 
 
