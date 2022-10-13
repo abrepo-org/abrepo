@@ -1,3 +1,30 @@
+#
+# Obfuscate Policy
+#
+#
+# Two basic triggers:
+# 1. number of expvar in result set
+# 2. number of variation#show page views
+#
+#
+# Accounts:
+#
+# * admin / moderator / subscriber : no obfuscation
+# * account no subscription: currently same as random
+# * random visitor:
+#
+# home#index:          obfuscate_from: all results after 2nd page
+#
+# profile#show:        obfuscate_from:  after max 5 expvars (config.num_obfuscate)
+#                      or 1/2 length of set (application_controller.rb: num_given_pagination)
+#
+# search#index:        obfuscate_from: after 5 expvars (config.num_obfuscate)
+#                      or 1/2 length of set (application_controller.rb: num_given_pagination)
+#
+# variation#show:      obfuscate after 7 (various) variation#show page visits
+#                      (config.max_visits_variation_show)
+#
+
 module Obfuscatable
   extend ActiveSupport::Concern
 

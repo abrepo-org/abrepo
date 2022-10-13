@@ -55,12 +55,14 @@ module App
     #
     # NB: non-existent 'overflow' pages return empty result
     # (see config/initializers/pagy.rb)
+    #
+    # see application_controller.rb:num_given_pagination()
     config.num_obfuscate = 5
 
     # stored in session cookie num_visits to variation#show
     # used by ApplicationController:obfuscate_num_visits_variation_show
     # session[:num_visits_variation_show]
-
+    # specific to this page
     config.max_visits_variation_show = 7
 
     #
