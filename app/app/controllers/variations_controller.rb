@@ -17,7 +17,7 @@ class VariationsController < ApplicationController
     vname = @variation.summary_name.parameterize
     redirect_to "/variations/#{@variation.id}/#{vname}" unless params[:name] == vname
 
-
+    @meta_name = @variation.summary_name
     @experiment = @variation.experiment
     @campaign = @experiment.campaign
     @profile = @experiment.profile
@@ -44,11 +44,8 @@ class VariationsController < ApplicationController
                                                        .max_visits_variation_show)
 
     if @obfuscate
-      # text content
-      [@experiment, @variation].each{ |e| e.obfuscate }
-
-      # TODO:
-      # set images on renderable to some subscribe now
+      @experiment.obfuscate
+      @variation.obfuscate
     end
 
     #
@@ -59,8 +56,10 @@ class VariationsController < ApplicationController
 
     @variation.renderables.where(control: false).each do |renderable|
 
+      renderable.obfuscate if @obfuscate
+
       @actionRenderables[renderable.action_id] = {
-        renderable: renderable.to_render,
+        renderable: renderable.to_render,  #sets diff(s).obfuscate
         controlRenderable: renderable.controlRenderable.to_render,
         visibleActions: renderable.action.actionType.nil? ?
           @variation.visibleActions : defaultVisibleActions

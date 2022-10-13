@@ -22,10 +22,17 @@
                           '/expvar_table'], expires_in: 1.day do %>
 
                     <%= render partial: "/shared/expvar_table",
-                    locals: {profile: experiment.profile,
-                             experiment: experiment,
-                             variations: @variations.filter{ |v| v.experiment_id == experiment.id },
-                             user_saved_variations: @user_saved_variations
+                    locals: {
+                        profile: experiment.profile,
+                        experiment: experiment,
+
+                        # filter here because it more efficiently avoids dependent
+                        # sub queries
+                        variations: @variations
+                        .filter{ |v| v.experiment_id == experiment.id }
+                        .map{ |v| experiment.obfuscated? ? v.obfuscate : v },
+
+                        user_saved_variations: @user_saved_variations
                     }
                     %>
                 <% end %>

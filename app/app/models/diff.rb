@@ -37,8 +37,7 @@ class Diff < ApplicationRecord
   belongs_to :renderable
   delegate :variation, to: :renderable, :allow_nil => true
 
-  obfuscatable attributes: [:summary_added, :summary_removed, :summary_delta],
-               dependent: :variation
+  obfuscatable attributes: [:summary_added, :summary_removed, :summary_delta]
   validates :a_id, :renderable_id, presence: true
 
   def randomizeBoundingBox
@@ -91,6 +90,24 @@ class Diff < ApplicationRecord
 
     return Float::INFINITY
 
+  end
+
+  #
+  # attempt to preserve acronyms get downcased with capitalization
+  # so far only summary_delta
+  def format_summaries
+    unless self.summary_delta.blank?
+      self.summary_delta.capitalize!
+
+      # css capitalize or any lowercase looks best all caps
+      self.summary_delta.gsub!(/\bcss\b/, "CSS")
+      self.summary_delta.gsub!(/\bCss\b/, "CSS")
+
+      # cta same
+      self.summary_delta.gsub!(/\bcta\b/, "CTA")
+      self.summary_delta.gsub!(/\bCta\b/, "CTA")
+
+    end
   end
 
   def as_json
