@@ -55,7 +55,10 @@ class VariationsController < ApplicationController
 
     @variation.renderables.where(control: false).each do |renderable|
 
-      renderable.obfuscate if @obfuscate
+      if @obfuscate
+        renderable.obfuscate
+        renderable.controlRenderable.obfuscate
+      end
 
       @actionRenderables[renderable.action_id] = {
         renderable: renderable.to_render,  #sets diff(s).obfuscate
