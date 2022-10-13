@@ -3,8 +3,6 @@ module Obfuscatable
 
   included do
     class_attribute :obfuscated_attrs
-    class_attribute :obfuscated_dependent
-
     attribute :obfuscated, :boolean, default: false
   end
 
@@ -18,7 +16,6 @@ module Obfuscatable
 
     def obfuscatable(options)
       self.obfuscated_attrs = options[:attributes]
-      self.obfuscated_dependent = options[:dependent]
     end
   end
 
@@ -27,18 +24,14 @@ module Obfuscatable
   # NB: this checks against the in-memory dependency
   # (a freshly query will never be obfuscated)
   def obfuscate(force = false)
-    if force ||
-       (self.obfuscated_dependent && self.send(self.obfuscated_dependent).obfuscated?) ||
-       self.obfuscated_dependent.nil?
 
-      self.readonly!
-
-      self.obfuscated_attrs.each do |attr|
-        self[attr] = obfuscate_text(self[attr]) unless self[attr].blank?
-      end
-
-      self[:obfuscated] = true
+    self.obfuscated_attrs.each do |attr|
+      self[attr] = obfuscate_text(self[attr]) unless self[attr].blank?
     end
+
+    self[:obfuscated] = true
+
+    self.readonly!
 
     self
   end

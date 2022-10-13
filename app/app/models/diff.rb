@@ -37,8 +37,7 @@ class Diff < ApplicationRecord
   belongs_to :renderable
   delegate :variation, to: :renderable, :allow_nil => true
 
-  obfuscatable attributes: [:summary_added, :summary_removed, :summary_delta],
-               dependent: :variation
+  obfuscatable attributes: [:summary_added, :summary_removed, :summary_delta]
   validates :a_id, :renderable_id, presence: true
 
   def randomizeBoundingBox
