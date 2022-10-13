@@ -60,8 +60,9 @@ module ExpvarHelper
                          .first
 
     if (activeRenderable)
-
-      renderedURL = activeRenderable.obfuscate.renderedURL
+      renderedURL = variation.obfuscated? ?
+                      activeRenderable.obfuscate.renderedURL :
+                      activeRenderable.renderedURL
       renderedURL = URI.parse(renderedURL)
 
       return [renderedURL.path, renderedURL.query].join
