@@ -46,7 +46,7 @@ class Renderable < ApplicationRecord
              foreign_key: :renderable_id, optional: true
   has_many :diffs, dependent: :destroy
 
-  obfuscatable attributes: [:renderedURL], dependent: :variation
+  obfuscatable attributes: [:renderedURL]
 
   validates :a_id, :action_id, :variation_id, presence: true
   validates :control, inclusion: [true, false]
@@ -72,9 +72,11 @@ class Renderable < ApplicationRecord
               .each{ |d|
 
                      d.format_summaries
-                     d.obfuscate
+                     d.obfuscate if self.obfuscated?
 
                      if d.obfuscated?
+                       # aspects we want to obfuscate beyond attributes
+                       # bbox locations, bbox detail button
                        d.randomizeBoundingBox
                        d.removeDetails
                      end
