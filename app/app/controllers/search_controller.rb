@@ -33,16 +33,16 @@ class SearchController < ApplicationController
     @experiments = obfuscate_from(@experiments,
                                   num_given_pagination(@experiments.length)) if not subscribed_or_moderator
 
-    @variations = obfuscate_from(policy_scope(Variation)
-                                   .includes({experiment: :profile},
-                                             :renderables,
-                                             :tag, :page_tag)
-                                   .where(experiment_id: @experiments)
-                                   .order([
-                                            "variations.verified desc",
-                                            "variations.created_at desc",
-                                            "variations.summary_name asc"
-                                          ]), 0)
+    @variations = policy_scope(Variation)
+                    .includes({experiment: :profile},
+                              :renderables,
+                              :tag, :page_tag)
+                    .where(experiment_id: @experiments)
+                    .order([
+                             "variations.verified desc",
+                             "variations.created_at desc",
+                             "variations.summary_name asc"
+                           ])
 
     # autocomplete
     if (params[:partial])
