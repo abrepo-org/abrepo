@@ -24,14 +24,13 @@ module Obfuscatable
   # NB: this checks against the in-memory dependency
   # (a freshly query will never be obfuscated)
   def obfuscate(force = false)
+    self.readonly!
 
     self.obfuscated_attrs.each do |attr|
       self[attr] = obfuscate_text(self[attr]) unless self[attr].blank?
     end
 
     self[:obfuscated] = true
-
-    self.readonly!
 
     self
   end
