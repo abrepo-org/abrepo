@@ -181,36 +181,40 @@ export default class RenderableContainer extends React.Component {
 
   render() {
 
-        let marginTop = '0px'
-        if (this.props.shift) {
-            marginTop = `${-this.props.shift}px`
-        }
+      let marginTop = '0px'
+      if (this.props.shift) {
+          marginTop = `${-this.props.shift}px`
+      }
 
-        const wrapStyle = {
-            position: 'relative',
-            //fixes svg size
-            padding: 0,
-            margin: '.75rem',
-            transition: 'margin 400ms ease-out 0s',
-            marginTop,
-            display: this.props.isVisible ? 'block' : 'none'
-        };
+      const wrapStyle = {
+          position: 'relative',
+          //fixes svg size
+          padding: 0,
+          margin: '.75rem',
+          transition: 'margin 400ms ease-out 0s',
+          marginTop,
+          display: this.props.isVisible ? 'block' : 'none'
+      };
 
-        return(
-            <div className="column" style={wrapStyle}>
+      const obfuscateStyle = this.props.renderable.obfuscated ?
+                             { wordBreak: 'break-all' } : {}
 
-                <div className="mb-1">
+      return(
+          <div className="column" style={wrapStyle}>
 
-                    <h4 className="mb-1">{this.props.label}</h4>
+              <div className="mb-1">
 
-                    {this.props.renderable.renderedURL &&
-                     <div className='is-size-6'
-                          title={this.props.renderable.renderedTitle}>
-                         {this.props.renderable.renderedURL.replace(/https?:\/\//, '')}
-                     </div>
-                    }
+                  <h4 className="mb-1">{this.props.label}</h4>
 
-                </div>
+                  {this.props.renderable.renderedURL &&
+                   <div className='is-size-6'
+                        style={obfuscateStyle}
+                        title={this.props.renderable.renderedTitle}>
+                       {this.props.renderable.renderedURL.replace(/https?:\/\//, '')}
+                   </div>
+                  }
+
+              </div>
 
               <RenderableScroll
                   scrollListener = {this.props.renderableScrollHandler}
@@ -222,7 +226,7 @@ export default class RenderableContainer extends React.Component {
               </RenderableScroll>
 
               <Img {...this.props} />
-            </div>
-        )
-    }
+          </div>
+      )
+  }
 }
