@@ -56,6 +56,8 @@ namespace :abrepo do
 
   task :get_industry_companies => :environment do
 
+    collects = []
+
     # get industry -> domains
     ActsAsTaggableOn::Tag
       .for_context("industry_tag")
@@ -69,11 +71,15 @@ namespace :abrepo do
                   .distinct
                   .pluck(:domain)
 
-      #output
-      puts "#{tag.name} #{domains.join(" ")}"
+      list = ([tag.name] + domains).uniq
+
+      collects.push( list )
 
     end
 
+    collects.each do |c|
+      puts c.join(" ")
+    end
   end
 
 end
