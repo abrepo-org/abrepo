@@ -4,7 +4,9 @@
 <title><%= content_for_title %></title>
 <meta property="og:type" content="website" />
 
-<link href="<%= request.path %>" rel="canonical">
+<% if has_canonical_url?(request) %>
+<link href="<%= canonical_pagination_url_for(request) %>" rel="canonical">
+<% end %>
 
 <% if content_for?(:seo_meta_tags) %>
     <%= yield(:seo_meta_tags) %>

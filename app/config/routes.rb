@@ -79,4 +79,6 @@ Rails.application.routes.draw do
   get '/terms-of-service', to: 'legal#tos'
   get '/dmca', to: 'legal#dmca'
 
+  #seo
+  get '/sitemap.xml', to: 'sitemap#index'
 end

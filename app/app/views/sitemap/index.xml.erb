@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc><%= "#{request.base_url}" %></loc>
+  </url>
+
+  <url>
+    <loc><%= "#{request.base_url}#{tags_path}" %></loc>
+  </url>
+
+  <url>
+    <loc><%= "#{request.base_url}#{industries_path}" %></loc>
+  </url>
+
+  <url>
+    <loc><%= "#{request.base_url}#{search_path}" %></loc>
+  </url>
+
+  <url>
+    <loc><%= "#{request.base_url}#{privacy_policy_path}" %></loc>
+  </url>
+
+  <url>
+    <loc><%= "#{request.base_url}#{terms_of_service_path}" %></loc>
+  </url>
+
+  <url>
+    <loc><%= "#{request.base_url}#{dmca_path}" %></loc>
+  </url>
+
+  <url>
+    <loc><%= "#{request.base_url}#{profiles_path}" %></loc>
+  </url>
+
+  <% if @pagy.pages > 1 %>
+    <% (2..@pagy.pages).each do |i| %>
+    <url>
+      <loc><%= "#{request.base_url}#{profiles_path(page: i)}" %></loc>
+    </url>
+    <% end %>
+  <% end %>
+
+  <% @profiles.each do |profile| %>
+  <url>
+    <loc><%= "#{request.base_url}#{profile_path_slug(profile)}" %></loc>
+    <lastmod><%= profile.updated_at.strftime("%Y-%m-%d") %></lastmod>
+  </url>
+
+  <% end %>
+
+  <% @variations.each do |variation|  %>
+  <url>
+    <loc><%= "#{request.base_url}#{variation_path_slug(variation)}" %></loc>
+    <lastmod><%= variation.updated_at.strftime("%Y-%m-%d") %></lastmod>
+  </url>
+
+  <% end %>
+
+</urlset>
