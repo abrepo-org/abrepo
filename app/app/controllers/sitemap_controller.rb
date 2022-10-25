@@ -16,9 +16,10 @@ class SitemapController < ApplicationController
                   .where.not(experiments: {profile_id: nil})
                   .where(experiments: {published: true})
                   .select(:id, :company_name, :updated_at)
+                  .distinct
 
     #profiles page N
-    @pagy, @profiles = pagy(@profiles, items: 20)
+    @pagy, profiles = pagy(@profiles, items: 20)
 
     # variations
     @variations = Variation
