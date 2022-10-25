@@ -8,11 +8,7 @@ Disallow: /profiles?
 Disallow: /profiles?page=*&
 Allow:    /profiles?page=*
 Disallow: /tags?
-Disallow: /tags?page=*&
-Allow:    /tags?page=*
 Disallow: /industries?
-Disallow: /industries?page=*&
-Allow:    /industries?page=*
 Disallow: /users
 Disallow: /saved
 Disallow: /checkout
