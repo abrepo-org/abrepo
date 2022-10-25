@@ -51,4 +51,31 @@ module MetasHelper
       ], "\n")
   end
 
+  #
+  # /tags?query=test :             has_canonical: true -> /tags
+  # /profiles?page=2 :             has_canonical: true -> profiles?page=2
+  # /profiles?query=test&page=2 :  no canonical
+  # /static:                       has_canonical: true -> /static..
+  #
+  def has_canonical_url?(request)
+    qp = request.query_parameters
+    no_canonical_url = qp.has_key?("page") && qp.keys.length > 1
+    return !no_canonical_url
+  end
+
+  #
+  # generate vanilla-pagination full urls
+  # for paginated + filtered query -> these are blocked by robots.txt
+  # canonical link should not be generated
+  def canonical_pagination_url_for(request)
+    qp = request.query_parameters
+
+    if qp.has_key?("page") && qp.keys.length == 1 && qp["page"].to_i.is_a?(Numeric)
+      return "#{url_for(only_path: false)}?page=#{qp[:page]}"
+    end
+
+    return url_for(only_path: false)
+
+  end
+
 end

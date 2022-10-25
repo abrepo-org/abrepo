@@ -82,4 +82,6 @@ Rails.application.routes.draw do
   get '/terms-of-service', action: 'redirect', controller: 'landing'
   get '/dmca', action: 'redirect', controller: 'landing'
 
+  #seo
+  get '/sitemap.xml', to: 'sitemap#index'
 end

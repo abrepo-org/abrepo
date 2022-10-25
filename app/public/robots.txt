@@ -1,15 +1,18 @@
+#
 # I, for one, welcome our new robot overlords
-
+#
 User-agent: *
-
 Disallow: /home
 Disallow: /search
 Disallow: /profiles?
+Disallow: /profiles?page=*&
+Allow:    /profiles?page=*
 Disallow: /tags?
 Disallow: /industries?
 Disallow: /users
 Disallow: /saved
 Disallow: /checkout
-
+Allow:    /
 User-agent: Googlebot-Image
 Disallow: /
+Sitemap: https://www.abrepo.com/sitemap.xml
