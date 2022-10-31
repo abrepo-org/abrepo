@@ -31,7 +31,8 @@ module MetasHelper
 
   def seo_meta_description_tags(meta = {})
     # override on profiles, tags, etc
-    default = "ABrepo is your A/B test search engine. Instantly search, monitor, and display A/B tests from leading companies."
+    default = "See real-world experimentation programs from leading companies and conversion optimization growth teams: search and display split tests, variations, and target audiences with #{Rails.application.config.app_title}."
+
 
     safe_join([
                 tag("meta", {content: meta[:description] || default, name: "description"}),
