@@ -1,4 +1,4 @@
-FROM ruby:2.7.2
+FROM ruby:3.4.1
 
 # stripe CLI
 RUN curl -sL https://github.com/stripe/stripe-cli/releases/download/v1.10.3/stripe_1.10.3_linux_x86_64.tar.gz | tar -xz -C /usr/bin
@@ -17,6 +17,8 @@ COPY Gemfile Gemfile.lock ./
 ENV BUNDLE_PATH=/app/bundler
 RUN bundle install
 
+ENV PYTHON=/usr/bin/python3
+
 # Webpacker & Yarn
 RUN bundle exec rails webpacker:install
 RUN bundle exec rails webpacker:install:react
@@ -29,6 +31,7 @@ COPY . /app
 # not sure what happens when draining nodes and if requests might
 # hit non-existent (replaced by new container) asset files
 # RUN bundle exec rails webpacker:clobber
+ENV NODE_OPTIONS=--openssl-legacy-provider
 ENV RAILS_ENV=production
 ENV SECRET_KEY_BASE=dummyprodprecompileonlykey
 RUN bundle exec rake assets:precompile
