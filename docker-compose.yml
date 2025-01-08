@@ -3,7 +3,7 @@ version: '3.4'
 services:
 
   pgbouncer:
-    image: "bitnami/pgbouncer:1.16.1"
+    image: "bitnami/pgbouncer:1.23.1"
     env_file:
       - .env.db
     environment:
@@ -11,7 +11,7 @@ services:
       - POSTGRESQL_DATABASE=abrepo_www_prod
       - PGBOUNCER_DATABASE=abrepo_www_prod
       # NB: app connects to database 'postgres' - pgbouncer exposes a "view"
-      # set in PGGBOUNER_DATABSE in app; in this case as 'prod'
+      # set in PGBOUNCER_DATABSE in app; in this case as 'prod'
     deploy:
       replicas: 1
       placement:
