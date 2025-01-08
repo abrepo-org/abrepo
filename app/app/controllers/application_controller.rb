@@ -7,8 +7,9 @@ class ApplicationController < ActionController::Base
      (current_user.subscribed? || current_user.moderator?))
   end
 
-
   def obfuscate_from(instances, num_start)
+    return instances  # currently disabling obfuscation
+
     instances.each_with_index do |instance, index|
       instance.obfuscate if index >= num_start && instance.respond_to?('obfuscate')
     end
@@ -17,6 +18,8 @@ class ApplicationController < ActionController::Base
   end
 
   def obfuscate_num_visits_variation_show(limit)
+    return false # currently disabling obfuscation
+
     if session.present? && (not subscribed_or_moderator)
       session[:num_visits_variation_show] ||= 0
       session[:num_visits_variation_show] += 1
