@@ -5,7 +5,7 @@ class ApplicationMailer < ActionMailer::Base
   # (config.action_mailer.raise_delivery_errors = false)
   rescue_from EOFError,
               IOError,
-              TimeoutError,
+              Timeout::Error,
               Errno::ECONNRESET,
               Errno::ECONNABORTED,
               Errno::EPIPE,

@@ -3,7 +3,7 @@ version: '3.4'
 services:
 
   pgbouncer:
-    image: "bitnami/pgbouncer:1.16.1"
+    image: "bitnami/pgbouncer:1.23.1"
     env_file:
       - .env.db
     environment:
@@ -11,7 +11,7 @@ services:
       - POSTGRESQL_DATABASE=abrepo_www_prod
       - PGBOUNCER_DATABASE=abrepo_www_prod
       # NB: app connects to database 'postgres' - pgbouncer exposes a "view"
-      # set in PGGBOUNER_DATABSE in app; in this case as 'prod'
+      # set in PGBOUNCER_DATABSE in app; in this case as 'prod'
     deploy:
       replicas: 1
       placement:
@@ -33,8 +33,8 @@ services:
       - pg1data:/bitnami/postgresql
       - /mnt:/mnt   # pgbackrest backup directory (on instance)
       - /tmp:/tmpdb # exposed mount for scratch db/work output
-      - "${REMOTE_RELEASE_PATH}/db/pgbackrest.conf:/etc/pgbackrest.conf"
-      - "${REMOTE_RELEASE_PATH}/db/postgresql_custom.conf:/opt/bitnami/postgresql/conf/conf.d/postgresql_custom.conf"
+      - "${REMOTE_RELEASE_PATH:-.}/db/pgbackrest.conf:/etc/pgbackrest.conf"
+      - "${REMOTE_RELEASE_PATH:-.}/db/postgresql_custom.conf:/opt/bitnami/postgresql/conf/conf.d/postgresql_custom.conf"
 
     environment:
       - PGBACKREST_REPO1_PATH=/mnt/pgbackrest
@@ -48,7 +48,7 @@ services:
         - node.labels.instance == db1
 
   web:
-    image: "976034468541.dkr.ecr.us-east-2.amazonaws.com/abrepo/abrepo:${GIT_COMMIT-latest}"
+    image: "976034468541.dkr.ecr.us-east-2.amazonaws.com/abrepo/abrepo:${GIT_COMMIT:-latest}"
     env_file:
       - .env
     command: bash -c "rm -f tmp/pids/server.pid && rake tmp:cache:clear && bundle exec rails s -p 8081 -b '0.0.0.0'"
@@ -61,7 +61,7 @@ services:
       retries: 10
 
     deploy:
-      replicas: 2
+      replicas: 1
       update_config:
         parallelism: 1
         order: start-first
@@ -83,11 +83,11 @@ services:
           #- node.role == manager
 
   nginx:
-    image: "976034468541.dkr.ecr.us-east-2.amazonaws.com/abrepo/abnginx:${GIT_COMMIT-latest}"
+    image: "976034468541.dkr.ecr.us-east-2.amazonaws.com/abrepo/abnginx:${GIT_COMMIT:-latest}"
     build:
       context: ./nginx
       args:
-        - GIT_COMMIT=${GIT_COMMIT-latest}
+        - GIT_COMMIT=${GIT_COMMIT:-latest}
     # healthcheck:
     #   test: ["CMD-SHELL",
     #   "curl -o /dev/null -I -f -s -w %{http_code} http://localhost:8080/healthcheck || exit 1"]
@@ -100,8 +100,8 @@ services:
     volumes:
       # image internally uses envsubst to generate /etc/nginx/default.conf
       # allows usage of env variables
-      - "${REMOTE_RELEASE_PATH}/nginx/nginx.conf.template:/etc/nginx/templates/default.conf.template"
-      - "${REMOTE_RELEASE_PATH}/certbot/:/etc/letsencrypt/live/abrepo.com/"
+      - "${REMOTE_RELEASE_PATH:-.}/nginx/nginx.conf.template:/etc/nginx/templates/default.conf.template"
+      - "${REMOTE_RELEASE_PATH:-.}/certbot/:/etc/letsencrypt/live/abrepo.com/"
     deploy:
       mode: global
       update_config:
@@ -129,8 +129,8 @@ services:
   haproxy:
     image: "haproxy:lts"
     volumes:
-      - "${REMOTE_RELEASE_PATH}/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
-      - "${REMOTE_RELEASE_PATH}/certbot/:/etc/letsencrypt/live/abrepo.com/"
+      - "${REMOTE_RELEASE_PATH:-.}/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
+      - "${REMOTE_RELEASE_PATH:-.}/certbot/:/etc/letsencrypt/live/abrepo.com/"
     ports:
       - "8404:8404"  # leave possibly open to access haproxy <host:8404>/stats
     deploy:
