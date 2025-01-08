@@ -3,6 +3,7 @@
 !.env.db.stub
 !.env.staging.stub
 db/*
+!db/.env.pg1.stub
 !db/*.md
 !db/*.sh
 !db/*.conf
