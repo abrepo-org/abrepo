@@ -27,10 +27,13 @@ COPY yarn.lock ./
 
 COPY . /app
 
-# Could put precompile in entrypoint
-# not sure what happens when draining nodes and if requests might
-# hit non-existent (replaced by new container) asset files
-# RUN bundle exec rails webpacker:clobber
+
+# By default Sprockets keeps old generated assets so old running images run
+# concurrently
+# However need to occasionally run:
+#
+# RUN bundle exec rails assets:clobber
+
 ENV NODE_OPTIONS=--openssl-legacy-provider
 ENV RAILS_ENV=production
 ENV SECRET_KEY_BASE=dummyprodprecompileonlykey
