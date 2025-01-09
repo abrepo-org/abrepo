@@ -1,16 +1,34 @@
 # PG_Search Notes
 
-### Rebuilding index
+* General approach is to have ExpVar data as general multisearch
+  corpus
+* augmented by scopes to filter query result given tags, additional information
+* accessed via a singular query route: `POST /search` with multiple querystring params:
+  * `q=`: freetext query
+  * `industries=`: industry tags
+  * `tags=`: expvar tags
+  * `companies=`: company domain ? want higher guarantee of uniqueness
 
-After a bunch of imports, need to rebuild the index. Only used for
-multisearchable corpus/inputs:
+#### Multisearch: multi-model, global index
+
+To rebuild indices:
 
 ```
-# NB: note the []
-
+rake pg_search:multisearch:rebuild[Campaign]
+rake pg_search:multisearch:rebuild[Experiment]
 rake pg_search:multisearch:rebuild[Variation]
-
+rake pg_search:multisearch:rebuild[Audience]
 ```
+
+* To destroy / remove indices, need custom rake task to call:
+`PgSearch::Document.delete_by(searchable_type: "Audience")`
+
+* To add `additional_attributes`, need to explicitly state add column and index
+in a migration to `pg_search_documents` table.
+
+* Search scope rank: To retrieve the rank, call `.with_pg_search_rank` on a
+  scope, and then call `.pg_search_rank` on a returned record.
+
 
 ### Relevance
 
