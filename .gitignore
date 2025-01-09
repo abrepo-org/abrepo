@@ -7,5 +7,5 @@ db/*
 !db/*.md
 !db/*.sh
 !db/*.conf
-cloudflare.ini.stub
 certbot/letsencrypt/*
+!certbot/letsencrypt/cloudflare.ini.stub
