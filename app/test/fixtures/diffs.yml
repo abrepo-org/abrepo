@@ -34,18 +34,45 @@
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  type: 
-  selector: MyString
-  visible: false
-  boundingBox: 
-  calculated: 
-  renderable: one
 
-two:
-  type: 
-  selector: MyString
-  visible: false
-  boundingBox: 
-  calculated: 
-  renderable: two
+diff_one:
+  calculated: '{"key": "value"}'
+  crawlId: 'Crawl_123'
+  diffPanel: 'true'
+  diffType: 'text'
+  newDim: '{"height": 200, "width": 100}'
+  origDim: '{"height": 100, "width": 50}'
+  selector: '.example-selector'
+  selectorDisplayName: 'Example Selector'
+  summary_added: '2 items added'
+  summary_added_format: 'plain'
+  summary_delta: '1 item changed'
+  summary_removed: '1 item removed'
+  summary_removed_format: 'plain'
+  viewMode: 'full'
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= Time.now %>
+  a_id: 'A123'
+  group_id: 'Group_1'
+  renderable_id: renderable_one
+
+diff_two:
+  calculated: '{"key": "another_value"}'
+  crawlId: 'Crawl_456'
+  diffPanel: 'true'
+  diffType: 'json'
+  newDim: '{"height": 300, "width": 150}'
+  origDim: '{"height": 200, "width": 100}'
+  selector: '.another-selector'
+  selectorDisplayName: 'Another Selector'
+  summary_added: '5 items added'
+  summary_added_format: 'plain'
+  summary_delta: '2 items changed'
+  summary_removed: '0 items removed'
+  summary_removed_format: 'plain'
+  viewMode: 'compact'
+  created_at: <%= 2.days.ago %>
+  updated_at: <%= Time.now %>
+  a_id: 'A456'
+  group_id: 'Group_2'
+  renderable_id: renderable_two
