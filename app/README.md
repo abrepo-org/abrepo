@@ -1,4 +1,4 @@
-# README
+# ABRepo Rails
 
 Rails focused notes, concepts are found in parent `/docs`.
 
@@ -6,7 +6,9 @@ Rails focused notes, concepts are found in parent `/docs`.
 * [Caching](../docs/rails_caching.md)
 * [Search via `pg_search`](../docs/rails_pgsearch.md)
 * [Tags and taggable](../docs/rails_taggable.md)
-* [Transactional email](../docs/transactional_email.md)
+* [Rails Assets](../docs/rails_assets.md)
+* [Transactional Email](../docs/transactional_email.md)
+* [Importer User](../docs/rails_importer.md)
 
 Devise:
 
@@ -17,6 +19,7 @@ Brainstorm:
 
 * [Home Feed "Calcrank" brainstorm](../docs/rails_calcrank.md)
 
+---
 
 #### Misc
 
@@ -39,6 +42,6 @@ end
 ---
 
 
-##### Favicons
+##### Favicon
 
 https://redketchup.io/favicon-generator
