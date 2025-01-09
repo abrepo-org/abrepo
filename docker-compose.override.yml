@@ -1,4 +1,4 @@
-#dev settings - stubs for now
+# dev settings - overrides prod
 services:
 
   pgbouncer:
@@ -9,7 +9,7 @@ services:
       - PGBOUNCER_DATABASE=abrepo_www_dev
 
   pg1:
-    #chown -R 1001:1001 /db
+    # chown -R 1001:1001 /db
     volumes:
       - ./db/postgres:/bitnami/postgresql
       - ./db/pgbackrest.conf:/etc/pgbackrest.conf

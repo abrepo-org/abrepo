@@ -66,10 +66,6 @@ services:
         order: start-first
         failure_action: rollback
         delay: 10s
-      #TODO: upgrade docker-compose v3.7
-      #rollback_config:
-      #  parallelism: 0
-      #  order: stop-first
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -105,15 +101,11 @@ services:
       mode: global
       update_config:
         parallelism: 1
-        #start-first runs new container side-by-side then replaces it
-        #allows single replica (host mode) for nginx
+        # start-first runs new container side-by-side then replaces it
+        # allows single replica (host mode) for nginx
         order: start-first
         failure_action: rollback
         delay: 10s
-      #TODO: upgrade docker-compose v3.7
-      #rollback_config:
-      #  parallelism: 0
-      #  order: stop-first
       restart_policy:
         condition: any
         delay: 5s
