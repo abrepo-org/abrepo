@@ -54,7 +54,7 @@ services:
 
   haproxy:
     ports:
-      - "80:8888"
+      - 80:8888
     volumes:
       - ./haproxy/haproxy_dev.cfg:/usr/local/etc/haproxy/haproxy.cfg
 

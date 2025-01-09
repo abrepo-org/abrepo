@@ -20,7 +20,7 @@ services:
 
   haproxy:
     ports:
-      - "443:8888"
+      - 443:8888
 
 
   web:

@@ -123,7 +123,7 @@ services:
       - "${REMOTE_RELEASE_PATH:-.}/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
       - "${REMOTE_RELEASE_PATH:-.}/certbot/:/etc/letsencrypt/live/abrepo.com/"
     ports:
-      - "8404:8404"  # leave possibly open to access haproxy <host:8404>/stats
+      - 8404:8404  # leave possibly open to access haproxy <host:8404>/stats
     deploy:
       mode: global
       restart_policy:
