@@ -1,5 +1,4 @@
 #prod first
-version: '3.4'
 services:
 
   pgbouncer:

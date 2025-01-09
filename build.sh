@@ -75,10 +75,18 @@ touch "$DEFAULT_DIR/.$DEPLOY_ENV"
 # Create singular deploy stack.yml file given environment param
 # combing docker-compose.staging.yml or docker-compose.production.yml
 #
+# NB: docker compose config now generates a less rigorous stack.yml that
+# conflicts with docker swarm expected yml format.
+#
+# 1. remove generated 'name' field in stack.yml
+# 2. replace published ports from string to number (config errantly auto
+# generates quotes)
+#
 REMOTE_RELEASE_PATH=$REMOTE_RELEASE_PATH \
 GIT_COMMIT=$GIT_COMMIT \
 docker compose -f docker-compose.yml -f docker-compose.$DEPLOY_ENV.yml \
-                   config > $DEFAULT_DIR/stack.yml
+                   config | grep -v '^name:' \
+    | sed 's/published: "\([0-9]*\)"/published: \1/'  > $DEFAULT_DIR/stack.yml
 
 #
 # Misc Scripts and Config Files

@@ -1,5 +1,4 @@
 # dev settings - overrides prod
-version: '3.4'
 services:
 
   pgbouncer:
