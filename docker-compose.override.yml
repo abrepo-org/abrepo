@@ -1,5 +1,4 @@
 #dev settings - stubs for now
-version: '3.4'
 services:
 
   pgbouncer:
