@@ -1,34 +1,32 @@
-# Models
+# PG_Search Notes
 
-### PG_Search Notes
+### Rebuilding index
 
-
-#### Rebuilding index
-
-Only used for multisearchable corpus/inputs:
+After a bunch of imports, need to rebuild the index. Only used for
+multisearchable corpus/inputs:
 
 ```
-#NB: note the []
+# NB: note the []
+
 rake pg_search:multisearch:rebuild[Variation]
 
 ```
 
-
-#### Relevance
+### Relevance
 
 Current pg_search inputs are via `Variation` and `Profile`
 models. These include references to `Taggables`.
 
 The `Search` model builds a query and executes them.
 
-##### Relevance Problem
+#### Relevance Problem
 
-There's an issue with highlighting, determining relevance of results.
+Issue with highlighting relevance of results.
 
 Inserting tags (Variation [tag_list, page_tag_list], Profile
-[industry_tag_list]) into the search_scopes makes it difficult to
-determine relevance. e.g. Sometimes you have to stare at the results
-to wonder why it was returned (industry isn't apparent, etc.)
+[industry_tag_list]) into the search_scopes makes it difficult to determine
+relevance. e.g. Sometimes you have to stare at the results to wonder why it was
+returned (industry isn't apparent, etc.)
 
 Approaches:
 
