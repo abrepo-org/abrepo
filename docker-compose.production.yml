@@ -10,7 +10,7 @@
 # docker-compose is production-first, but also serves as config for staging envs.
 # This compose file is for distinct production-only config deploys.
 #
-
+version: '3.4'
 services:
   pg1:
     #chown -R 1001:1001 /db

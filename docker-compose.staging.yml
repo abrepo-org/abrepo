@@ -8,7 +8,7 @@
 #
 # However, this file is necessary as a loop placeholder for ansible
 # when iterating across deploy envs.
-
+version: '3.4'
 services:
   web:
     env_file:
