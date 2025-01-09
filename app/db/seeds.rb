@@ -10,10 +10,10 @@
 # add initial "importer" user with moderator priviledges
 #
 
-user = User.where(email: "importer@abrepo.com")
+user = User.where(email: ENV['USER_IMPORTER_EMAIL'])
 
 if (user.empty?)
-  user = User.where(email: "importer@abrepo.com",
+  user = User.where(email: ENV['USER_IMPORTER_EMAIL'],
                     password: ENV['USER_IMPORTER_PASSWORD'],
                     moderator: true).new
   user.skip_confirmation!

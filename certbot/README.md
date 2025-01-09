@@ -7,8 +7,7 @@ Certbot anticipates two forms of challenge to generate a certificate:
 * dns
 * http
 
-We use `dns` via Cloudflare since it's the only way to
-get a wildcard cert.
+We use `dns` via Cloudflare.
 
 ## Cloudflare API Token
 
@@ -29,15 +28,15 @@ docker pull certbot/dns-cloudflare:latest
 
 # generate or renew creds
 
-sudo docker run \
-    -v /home/vergeman/dev/ab/abrepo/certbot/letsencrypt:/etc/letsencrypt \
-    -it certbot/dns-cloudflare:latest certonly --dns-cloudflare \
-    --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini \
-    -d *.abrepo.com
+docker run \
+       -v /home/vergeman/dev/ab/abrepo/certbot/letsencrypt:/etc/letsencrypt \
+       -it certbot/dns-cloudflare:latest certonly --dns-cloudflare \
+       --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini \
+       -d *.abrepo.com
 
 
-#Certificate is saved at: ./letsencrypt/live/abrepo.com/fullchain.pem
-#Key is saved at:         ./letsencrypt/live/abrepo.com/privkey.pem
+# Certificate is saved at: ./letsencrypt/live/abrepo.com/fullchain.pem
+# Key is saved at:         ./letsencrypt/live/abrepo.com/privkey.pem
 
 ```
 

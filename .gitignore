@@ -3,8 +3,9 @@
 !.env.db.stub
 !.env.staging.stub
 db/*
+!db/.env.pg1.stub
 !db/*.md
 !db/*.sh
 !db/*.conf
-cloudflare.ini.stub
 certbot/letsencrypt/*
+!certbot/letsencrypt/cloudflare.ini.stub
