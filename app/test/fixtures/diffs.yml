@@ -54,7 +54,7 @@ diff_one:
   updated_at: <%= Time.now %>
   a_id: 'A123'
   group_id: 'Group_1'
-  renderable_id: renderable_one
+  renderable: renderable_one
 
 diff_two:
   calculated: '{"key": "another_value"}'
@@ -75,4 +75,4 @@ diff_two:
   updated_at: <%= Time.now %>
   a_id: 'A456'
   group_id: 'Group_2'
-  renderable_id: renderable_two
+  renderable: renderable_two

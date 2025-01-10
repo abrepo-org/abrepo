@@ -25,12 +25,12 @@ campaign_one:
   id: 1
   name: "Spring Launch"
   a_id: "abc123"
-  experiment_id: experiment_1
+  experiment: experiment_one
   vendor_id: "vendor_xyz"
 
 campaign_two:
   id: 2
   name: "Summer Sale"
   a_id: "def456"
-  experiment_id: experiment_2
+  experiment: experiment_two
   vendor_id: "vendor_abc"

@@ -26,23 +26,23 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 variation_one:
-  id: 1
   audience_name: "Audience One"
   published: true
   summary_name: "Summary One"
   url: "http://example.com/variation1"
   verified: true
   a_id: "A1"
-  experiment_id: experiment_one
+  experiment: experiment_one # profile_one
   vendor_id: "Vendor1"
+  tag: [tag_one]
 
 variation_two:
-  id: 2
   audience_name: "Audience Two"
   published: false
   summary_name: "Summary Two"
   url: "http://example.com/variation2"
   verified: false
   a_id: "A2"
-  experiment_id: experiment_two
+  experiment: experiment_two # profile_two
   vendor_id: "Vendor2"
+  tag: [tag_one, tag_two]

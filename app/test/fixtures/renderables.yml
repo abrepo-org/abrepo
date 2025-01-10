@@ -32,33 +32,70 @@
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-renderable_one:
+renderable_control:
   control: true
   crawlId: "crawl_123"
   domain: "acmecorp.com"
-  preExecuteAction: { "type": "script", "action": "fetch_data" }
+  preExecuteAction: null
+  renderedTitle: "Acme Corp: Innovative Solutions"
+  renderedURL: "https://www.acmecorp.com/rendered"
+  screenshotFilename: "screenshot_123.png"
+  screenshotHeight: 600
+  screenshotWidth: 800
+  a_id: "renderable_0"
+  action: null
+  controlRenderable: null
+  variation: variation_one
+
+renderable_one:
+  control: false
+  crawlId: "crawl_123"
+  domain: "acmecorp.com"
+  preExecuteAction:
+    _id: "60af16bed0f2d559e0a35f2a"
+    code: null
+    selector: null
+    type: null
+    url: "https://www.abc.com/business/lp/mindbody"
+    __v: 0
+    createdAt: "2021-05-27T03:49:18.076Z"
+    updatedAt: "2022-01-30T19:46:03.462Z"
+    dim:
+      boundingBox: null
+      isVisible: null
   renderedTitle: "Acme Corp: Innovative Solutions"
   renderedURL: "https://www.acmecorp.com/rendered"
   screenshotFilename: "screenshot_123.png"
   screenshotHeight: 600
   screenshotWidth: 800
   a_id: "renderable_1"
-  action_id: action_one
-  renderable_id: 1
-  variation_id: variation_one
+  action: action_one
+  controlRenderable: renderable_control
+  variation: variation_one
 
 renderable_two:
+  #id: 20
   control: false
   crawlId: "crawl_456"
   domain: "betainc.com"
-  preExecuteAction: { "type": "script", "action": "load_data" }
+  preExecuteAction:
+    _id: "60af16bed0f2d559e0a35f2a"
+    code: null
+    selector: null
+    type: null
+    url: "https://www.abc.com/business/lp/mindbody"
+    __v: 0
+    createdAt: "2021-05-27T03:49:18.076Z"
+    updatedAt: "2022-01-30T19:46:03.462Z"
+    dim:
+      boundingBox: null
+      isVisible: null
   renderedTitle: "Beta Inc: Cutting-edge Technology"
   renderedURL: "https://www.betainc.com/rendered"
   screenshotFilename: "screenshot_456.png"
   screenshotHeight: 600
   screenshotWidth: 800
   a_id: "renderable_2"
-  action_id: action_two
-  renderable_id: 2
-  variation_id: variation_two
+  action: action_two
+  controlRenderable: renderable_control
+  variation: variation_two

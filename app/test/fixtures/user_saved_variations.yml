@@ -18,11 +18,11 @@
 user_saved_variation_1:
   id: 1
   deleted: false
-  user_id: user_one
-  variation_id: variation_one
+  user: user_one
+  variation: variation_one
 
 user_saved_variation_2:
   id: 2
   deleted: true
-  user_id: user_two
-  variation_id: variation_two
+  user: user_two
+  variation: variation_two

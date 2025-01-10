@@ -25,7 +25,7 @@ subscription_one:
   billing_issue: false
   stripe_customer_id: "cus_123456"
   stripe_subscription_id: "sub_123456"
-  user_id: user_one
+  user: user_one
 
 subscription_two:
   id: 2
@@ -33,4 +33,4 @@ subscription_two:
   billing_issue: true
   stripe_customer_id: "cus_654321"
   stripe_subscription_id: "sub_654321"
-  user_id: user_two
+  user: user_two

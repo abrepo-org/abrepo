@@ -27,6 +27,7 @@ profile_one:
   logo_url: "https://www.acmecorp.com/logo.png"
   url: "https://www.acmecorp.com"
   a_id: "profile_1"
+  industry_tag: [tag_three]
 
 profile_two:
   company_name: "Beta Inc."
@@ -38,3 +39,4 @@ profile_two:
   logo_url: "https://www.betainc.com/logo.png"
   url: "https://www.betainc.com"
   a_id: "profile_2"
+  industry_tag: [tag_four, tag_five]
