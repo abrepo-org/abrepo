@@ -1,7 +1,11 @@
 require 'test_helper'
 
 class HealthcheckControllerTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
+
+  test "should get index" do
+    get healthcheck_path
+    assert_response :success
+    assert_match /pong/, @response.body
+  end
+
 end
