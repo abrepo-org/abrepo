@@ -60,7 +60,6 @@ class StripeController < ApplicationController
     begin
       session = purchase_stripe(@price.id, @price_key)
     rescue => e
-      puts e.inspect
       message = "Payment provider error. Please try again."
       render status: 400, json: { user: {ok: true, errors: false},
                                   stripe: { ok: false, errors: { messages: [ message ] } }}
