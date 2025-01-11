@@ -37,7 +37,7 @@ class StripeController < ApplicationController
     rescue => e
 
       out = "Stripe Session Error: #{e}"
-      puts "\e[#{31}m#{out}\e[0m"
+      Rails.logger.info "\e[#{31}m#{out}\e[0m"
 
     end
 

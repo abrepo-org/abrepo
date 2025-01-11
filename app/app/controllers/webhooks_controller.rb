@@ -23,7 +23,7 @@ class WebhooksController < ApplicationController
       data_object = data['object']
 
       #not sure what I need here...maybe just keep a log?
-      puts "EVENT: #{event_type}"
+      Rails.logger.info "EVENT: #{event_type}"
 
       case event.type
       when 'checkout.session.completed'
@@ -72,19 +72,19 @@ class WebhooksController < ApplicationController
       # active:true, billing_issue: false? a flag - we'll allow access until resolved?
 
       else
-        puts "Unhandled event type: #{event_type}"
+        Rails.logger.warn "Unhandled event type: #{event_type}"
 
       end
 
 
     rescue JSON::ParserError => e
       # Invalid payload
-      puts "Invalid Payload", e
+      Rails.logger.error "Invalid Payload", e
       status 400
       return
     rescue Stripe::SignatureVerificationError => e
       # Invalid signature
-      puts "Invalid Signature", e
+      Rails.logger.error "Invalid Signature", e
       status 400
       return
 

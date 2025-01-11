@@ -2,8 +2,8 @@ module CheckoutHelper
 
   def purchase_stripe(price_id, price_key)
 
-    puts "customer", get_stripe_customer_id()
-    puts "email: ", get_customer_email()
+    Rails.logger.info("customer: #{get_stripe_customer_id()}")
+    Rails.logger.info("email: #{get_customer_email()}")
 
     session = Stripe::Checkout::Session.create(
 
