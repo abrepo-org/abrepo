@@ -41,6 +41,7 @@ user_one:
   sign_in_count: 1
   last_sign_in_at: <%= Time.now %>
   last_sign_in_ip: "192.168.1.1"
+  moderator: true
 
 user_two:
   id: 2
@@ -51,3 +52,4 @@ user_two:
   sign_in_count: 0
   last_sign_in_at: <%= Time.now %>
   last_sign_in_ip: "192.168.1.2"
+  moderator: false
