@@ -35,11 +35,12 @@ class WebhooksController < ApplicationController
           user_id: user_id,
           stripe_customer_id: data_object['customer'],
           stripe_subscription_id: data_object['subscription']
-        ).first_or_create.update(
+        ).first_or_create
+
+        subscription.update(
           active: data_object['payment_status'] == "paid",
           billing_issue: data_object['payment_status'] != "paid"
         );
-
 
       #
       # No Sub
@@ -78,16 +79,11 @@ class WebhooksController < ApplicationController
 
 
     rescue JSON::ParserError => e
-      # Invalid payload
-      Rails.logger.error "Invalid Payload", e
-      status 400
+      render json: { error: "Invalid Payload" }, status: :bad_request
       return
     rescue Stripe::SignatureVerificationError => e
-      # Invalid signature
-      Rails.logger.error "Invalid Signature", e
-      status 400
+      render json: { error: "Invalid Signature" }, status: :bad_request
       return
-
       #TODO: some generic catch all error
     end
 
