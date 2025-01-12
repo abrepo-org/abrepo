@@ -46,3 +46,14 @@ variation_two:
   experiment: experiment_two # profile_two
   vendor_id: "Vendor2"
   tag: [tag_one, tag_two]
+
+variation_three:
+  audience_name: "Audience Three"
+  published: false
+  summary_name: "Summary Three"
+  url: "http://example.com/variation3"
+  verified: false
+  a_id: "A3"
+  experiment: experiment_two # profile_two
+  vendor_id: "Vendor3"
+  tag: [tag_one, tag_two]
