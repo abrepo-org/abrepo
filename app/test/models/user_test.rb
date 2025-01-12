@@ -33,8 +33,70 @@
 #
 require "test_helper"
 
+#
+# NB: coverage error from simplecov. Who knows. Combination w/ devise likely
+# culprit.
+#
 class UserTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  def setup
+    @user = users(:user_two)
+  end
+
+  test 'valid user' do
+    assert @user.valid?
+  end
+
+  test 'email presence' do
+    @user.email = nil
+    assert_not @user.valid?
+  end
+
+  test 'email uniqueness' do
+    new_user = User.new(
+      email: @user.email,
+      password: 'password',
+      password_confirmation: 'password'
+    )
+
+    assert_not new_user.valid?
+    assert_includes new_user.errors[:email], 'has already been taken'
+  end
+
+  test 'password presence' do
+    new_user = User.new(
+      email: "abc@email.com",
+      password: '',
+      password_confirmation: ''
+    )
+
+    assert_not new_user.valid?
+    assert_includes new_user.errors[:password], "can't be blank"
+  end
+
+  test 'subscribed? returns true when there are active subscriptions' do
+    # NB: these are set in fixtures
+    active_subscribed_user = users(:user_one)
+    assert active_subscribed_user.subscribed?
+  end
+
+  test 'subscribed? returns false when there are no active subscriptions' do
+    # NB: these are set in fixtures
+    inactive_subscribed_user = users(:user_two);
+    assert_not inactive_subscribed_user.subscribed?
+  end
+
+  test 'stripe_subscription returns nil if no subscriptions' do
+    new_user = User.new(
+      email: 'test@test.com',
+      password: 'password',
+      password_confirmation: 'password'
+    )
+
+    assert_nil new_user.stripe_subscription
+  end
+
+  test 'stripe_subscription retrieves the correct Stripe subscription' do
+    skip "covered by integration test"
+  end
+
 end
