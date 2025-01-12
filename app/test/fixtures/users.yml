@@ -33,7 +33,6 @@
 #
 
 user_one:
-  id: 1
   email: "user_one@example.com"
   encrypted_password: "<%= Devise::Encryptor.digest(User, 'password') %>"
   confirmation_token: "token1"
@@ -44,7 +43,6 @@ user_one:
   moderator: true
 
 user_two:
-  id: 2
   email: "user_two@example.com"
   encrypted_password: "<%= Devise::Encryptor.digest(User, 'password') %>"
   confirmation_token: "token2"

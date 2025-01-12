@@ -51,9 +51,9 @@ class StripeControllerTest < ActionDispatch::IntegrationTest
     }
 
     @checkout_session_params = {
-      customer: nil,
+      customer: @user.subscriptions.last.stripe_customer_id,
       customer_email: @user.email,
-      client_reference_id: 1,
+      client_reference_id: @user.id,
       subscription_data: {metadata: {abrepo_email: @user.email, user_id: @user.id}},
       success_url: "http://www.example.com/checkout/success?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: "http://www.example.com/#pricing",
@@ -68,18 +68,10 @@ class StripeControllerTest < ActionDispatch::IntegrationTest
     )
   end
 
-  # create_checkout_session POST   /create-checkout-session(.:format)        stripe#createSession
-  # checkout_success GET    /checkout/success(.:format)               stripe#success
-  # webhooks_stripe_payments POST   /webhooks/stripe_payments(.:format)       webhooks#index
-  # customer_portal POST   /customer-portal(.:format)                stripe#portal
-
-  #@mock_stripe_price = Stripe::Util.convert_to_stripe_object(@stripe_price, "xyz")
-
   test "should redirect to root if session_id is nil on success" do
     get checkout_success_path, params: { session_id: nil }
     assert_redirected_to root_path(anchor: "pricing")
   end
-
 
   test "should set flash notice and redirect to home on success with valid session_id" do
 

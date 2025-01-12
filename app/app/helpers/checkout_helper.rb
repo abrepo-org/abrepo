@@ -99,7 +99,7 @@ module CheckoutHelper
   end
 
   def get_customer_email()
-    get_stripe_customer_id().nil? && user_signed_in? ?
+    user_signed_in? && !get_stripe_customer_id().nil? ?
       current_user.email : nil
   end
 
