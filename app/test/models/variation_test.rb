@@ -48,4 +48,16 @@ class VariationTest < ActiveSupport::TestCase
     assert_equal expected_result, @variation.visibleActions
   end
 
+
+  test "should obfuscate attributes" do
+    original_summary = @variation.summary_name
+    original_url = @variation.url
+
+    @variation.obfuscate
+
+    assert_not_equal original_summary, @variation.summary_name
+    assert_not_equal original_url, @variation.url
+    assert @variation.obfuscated
+  end
+
 end
