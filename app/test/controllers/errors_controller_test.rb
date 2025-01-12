@@ -14,10 +14,4 @@ class ErrorsControllerTest < ActionDispatch::IntegrationTest
     assert_template 'errors/500'
   end
 
-  test "should render 422 for for unauthorized action" do
-    skip "TODO"
-    # post '/imports'
-    # assert_template 'errors/422'
-  end
-
 end

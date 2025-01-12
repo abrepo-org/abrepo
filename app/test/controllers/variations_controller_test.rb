@@ -1,7 +1,10 @@
 require "test_helper"
 
 class VariationsControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+
   def setup
+    @user = users(:user_one)
     @variation = variations(:variation_one)
   end
 
@@ -34,7 +37,6 @@ class VariationsControllerTest < ActionDispatch::IntegrationTest
   #
 
   test "should update variation when authenticated" do
-    skip "require auth"
     sign_in @user
     patch variation_url(@variation), params: { variation: { published: true } }
     assert_redirected_to imports_path
@@ -43,16 +45,16 @@ class VariationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not update variation when not authenticated" do
-    skip "require auth"
-    patch variation_url(@variation), params: { variation: { published: true } }
-    assert_redirected_to profiles_path
-    @variation.reload
-    assert_not @variation.published
+    variation = variations(:variation_two)
+    sign_out @user
+    patch variation_url(variation), params: { variation: { published: true } }
+    assert_redirected_to new_user_session_path
+    variation.reload
+    assert_not variation.published
   end
 
   test "should handle unauthorized updates gracefully" do
-    skip "require auth"
-    sign_in users(:invalid_user)
+    sign_in users(:user_two) # not moderator
     patch variation_url(@variation), params: { variation: { published: true } }
     assert_redirected_to profiles_path
   end

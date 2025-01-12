@@ -1,6 +1,7 @@
 require "test_helper"
 
 class ProfilesControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
 
   #
   # index
@@ -68,11 +69,11 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
 
 
   test "should not show empty profile for non-moderators" do
-    skip "skip pending login/logout tests"
-    log_out(@user) # Assuming a helper method to log out
-    get profile_url(@profile)
+    user = users(:user_two)
+    sign_out(user)
+
     assert_raises(ActionController::RoutingError) do
-      get profile_url(@profile)
+      get profile_url(-1) #id: -1
     end
   end
 

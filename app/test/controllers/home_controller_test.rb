@@ -30,7 +30,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
 
 
   test "should obfuscate experiments if not subscribed and on page > 2" do
-    skip "cancelled obfuscation for now"
+    skip "NB: obfuscation is toggled off for now"
     sign_out @user
     get home_path, params: { page: 3 }
     assert_response :success

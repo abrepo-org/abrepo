@@ -71,8 +71,8 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
   end
 
 
-  test "should get account view if user not signed in" do
-    skip "for now"
+  test "should render new registration view if user not signed in" do
+    sign_out @user
     Rails.cache.clear
 
     expected_params = {
@@ -88,6 +88,7 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
       assert_not_nil assigns(:price_key)
       assert_not_nil assigns(:price)
       assert_equal assigns(:price).id, 'price_123'
+      assert_template 'checkout/account'
     end
 
     assert mock.verify
