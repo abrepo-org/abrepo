@@ -22,6 +22,8 @@ Rails.application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
+  config.cache_store = :memory_store  # does speed up tests
+
   # Raise exceptions instead of rendering exception templates.
   config.action_dispatch.show_exceptions = false
 
@@ -38,7 +40,7 @@ Rails.application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
   # disable actual send in dev/test (mailersend key limitation)
-  config.action_mailer.perform_deliveries = false
+  config.action_mailer.perform_deliveries = true
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
