@@ -49,12 +49,18 @@ class User < ApplicationRecord
   end
 
   def stripe_subscription
+
     begin
       stripe_subscription_id = self.subscriptions.last&.stripe_subscription_id
+      return nil if stripe_subscription_id.nil?
+
       stripe_subscription = Stripe::Subscription.retrieve(stripe_subscription_id)
       return stripe_subscription
-    rescue
-      return nil
+
+    rescue StandardError => e
+      Rails.logger.error("Error retrieving Stripe subscription: #{e.message}")
     end
+
+    return nil
   end
 end
