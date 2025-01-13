@@ -1,0 +1,69 @@
+name: Rails CI/CD
+
+on:
+ push:
+   branches: [ master ]
+ workflow_dispatch:
+
+env:
+  POSTGRES_DB: abrepo_www_test
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: admin
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      pg1:
+        image: bitnami/postgresql:13.5.0
+        env:
+          POSTGRESQL_USERNAME: postgres
+          POSTGRESQL_PASSWORD: admin
+          POSTGRESQL_DATABASE: abrepo_www_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -h localhost"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: build
+        working-directory: ./app
+        run: docker build -t abrepo/web:latest .
+
+      - name: tests
+        working-directory: ./app
+        env:
+          RAILS_ENV: test
+          DB_PASSWORD: admin
+          PG_HOST: localhost
+          PG_USER: postgres
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
+          STRIPE_DEFAULT_LOOKUP_KEY: ${{ secrets.STRIPE_DEFAULT_LOOKUP_KEY }}
+          ABANNOTATE_HOSTS: http://127.0.0.1:1234,http://localhost:1234
+          MAILER_URL_HOST: http://localhost
+          SMTP_SERVER_ADDRESS: yourmailer.net
+          SMTP_SERVER_USERNAME: testopresto
+          SMTP_SERVER_PASSWORD: sssshhhhh
+        run: |
+          docker run --rm \
+          --network host \
+          -e RAILS_ENV=$RAILS_ENV \
+          -e PG_USER=$PG_USER \
+          -e DB_PASSWORD=$DB_PASSWORD \
+          -e PG_HOST=$PG_HOST \
+          -e STRIPE_SECRET_KEY=$STRIPE_SECRET_KEY \
+          -e STRIPE_PUBLISHABLE_KEY=$STRIPE_PUBLISHABLE_KEY \
+          -e STRIPE_DEFAULT_LOOKUP_KEY=$STRIPE_DEFAULT_LOOKUP_KEY \
+          -e ABANNOTATE_HOSTS=$ABANNOTATE_HOSTS \
+          -e SMTP_SERVER_ADDRESS=$SMTP_SERVER_ADDRESS \
+          -e SMTP_SERVER_USERNAME=$SMTP_SERVER_USERNAME \
+          -e SMTP_SERVER_PASSWORD=$SMTP_SERVER_PASSWORD \
+          -e MAILER_URL_HOST=$MAILER_URL_HOST \
+          abrepo/web:latest sh -c "bundle exec rails db:schema:load && bundle exec rails test"
