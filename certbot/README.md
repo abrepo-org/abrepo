@@ -29,7 +29,7 @@ docker pull certbot/dns-cloudflare:latest
 # generate or renew creds
 
 docker run \
-       -v /home/vergeman/dev/ab/abrepo/certbot/letsencrypt:/etc/letsencrypt \
+       -v $PWD/letsencrypt:/etc/letsencrypt \
        -it certbot/dns-cloudflare:latest certonly --dns-cloudflare \
        --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini \
        -d *.abrepo.com

@@ -77,27 +77,6 @@ class Sidebar
       .find_by_sql(sql)
       .map{ |tag| {id: tag.id, name: tag.name, count: tag['count']} }
 
-
-    #
-    # Previous Company tags and counts - this is across all
-    # variation-views (not grouped by vendor ids) so it overcounts
-    # tags on multi-page variations
-    #
-
-    # ActsAsTaggableOn::Tag
-    #   .joins(:taggings)
-    #   .select('tags.id, tags.name, COUNT(taggings.id) as count')
-    #   .group('tags.id, tags.name')
-    #   .where(taggings: { taggable_type: 'Variation',
-    #                          #taggable_id: policy_scope(Variation)
-    #                      taggable_id: Variation
-    #                        .joins(:experiment)
-    #                        .where({experiment: {profile_id: profile.id}})
-    #                    })
-    #   .order('tags.count desc')
-    #   .limit(10)
-    #   .map{ |tag| { id: tag[:id], name: tag[:name], count: tag['count'] } }
-
   end
 
   #

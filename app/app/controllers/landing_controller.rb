@@ -23,17 +23,9 @@ class LandingController < ApplicationController
     # queries to discern taggable_type - industry/variation to build
     # query url)
 
-    domains = [ 'showtime.com', 'bigcommerce.com', 'aspca.org',
-    'hostgator.com', 'elastic.com', 'freshdesk.com', 'sofi.com',
-    'mongodb.com' ]
-
-    if ENV['RAILS_ENV'] == "development"
-
-      domains = [ 'bigcommerce.com', 'zillow.com','gartner.com',
-        'slack.com', 'mindbody.com', 'change.org', 'doordash.com',
-        'hootsuite.com']
-
-    end
+    domains = [ 'bigcommerce.com', 'zillow.com','gartner.com',
+                'slack.com', 'elastic.com', 'change.org', 'doordash.com',
+                'hootsuite.com']
 
     @profiles = Profile.where(domain: domains)
 

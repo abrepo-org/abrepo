@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-REMOTE_RELEASE_PATH=/root/releases/abrepo/       # host path (for stack.yml mounts)
-DEFAULT_DIR=~/dev/ab/abrepo_ops/releases/abrepo  # local release directory (ansible input)
+REMOTE_RELEASE_PATH=/root/releases/abrepo/           # host path (for stack.yml mounts)
+DEFAULT_DIR=$HOME/dev/ab/abrepo_ops/releases/abrepo  # local release directory for stack.yml (ansible input)
 
 DEPLOY_ENV=$1
 
@@ -9,6 +9,16 @@ if [ -z ${DEPLOY_ENV} ]; then
     echo "e.g. './build.sh staging'"
     exit 1;
 fi
+
+if [ -f .env ]; then
+    source .env
+fi
+
+AWS_ECR_PROFILE=$AWS_ECR_PROFILE
+AWS_ECR_REGION=$AWS_ECR_REGION
+AWS_ECR_ACCOUNT=$AWS_ECR_ACCOUNT
+WEB_IMAGE=$AWS_ECR_ACCOUNT.dkr.ecr.$AWS_ECR_REGION.amazonaws.com/abrepo/abrepo
+NGINX_IMAGE=$AWS_ECR_ACCOUNT.dkr.ecr.$AWS_ECR_REGION.amazonaws.com/abrepo/abnginx
 
 # builds release stack.yml
 mkdir -p $DEFAULT_DIR
@@ -35,18 +45,26 @@ mkdir -p $DEFAULT_DIR/certbot
 # But this May change on CI/CD server
 GIT_COMMIT=$(git log -1 --format=%h)
 
-# sudo needed to build nginx
 REMOTE_RELEASE_PATH=$REMOTE_RELEASE_PATH \
 GIT_COMMIT=$GIT_COMMIT \
 docker compose --env-file=.env build
 
+# tag
+echo "tagging $WEB_IMAGE:$GIT_COMMIT"
+docker tag $WEB_IMAGE:$GIT_COMMIT abrepo/abrepo:$GIT_COMMIT
+
+echo "tagging $NGINX_IMAGE:$GIT_COMMIT"
+docker tag $NGINX_IMAGE:$GIT_COMMIT abrepo/abnginx:$GIT_COMMIT
+
 # ecr creds
-aws ecr get-login-password --region us-east-2 --profile abrepo | \
+aws ecr get-login-password --region $AWS_ECR_REGION --profile $AWS_ECR_PROFILE | \
     docker login --password-stdin \
-           --username AWS 976034468541.dkr.ecr.us-east-2.amazonaws.com
+           --username AWS $AWS_ECR_ACCOUNT.dkr.ecr.$AWS_ECR_REGION.amazonaws.com
 
 REMOTE_RELEASE_PATH=$REMOTE_RELEASE_PATH \
 GIT_COMMIT=$GIT_COMMIT \
+WEB_IMAGE=$WEB_IMAGE \
+NGINX_IMAGE=$NGINX_IMAGE \
 docker compose --env-file=.env push
 
 #build step, current artifact is just a stack.yml, but in future could be
@@ -84,6 +102,8 @@ touch "$DEFAULT_DIR/.$DEPLOY_ENV"
 #
 REMOTE_RELEASE_PATH=$REMOTE_RELEASE_PATH \
 GIT_COMMIT=$GIT_COMMIT \
+WEB_IMAGE=$WEB_IMAGE \
+NGINX_IMAGE=$NGINX_IMAGE \
 docker compose -f docker-compose.yml -f docker-compose.$DEPLOY_ENV.yml \
                    config | grep -v '^name:' \
     | sed 's/published: "\([0-9]*\)"/published: \1/'  > $DEFAULT_DIR/stack.yml
