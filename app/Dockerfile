@@ -9,11 +9,7 @@ RUN apt-get update -qq && apt-get install -y nodejs postgresql-client sqlite3 li
 RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash -
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-
-# chrome (testing)
-RUN curl -sS https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-RUN echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list
-RUN apt-get update && apt-get install -y yarn google-chrome-stable
+RUN apt-get update && apt-get install -y yarn
 
 
 WORKDIR /app
