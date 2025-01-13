@@ -1,5 +1,5 @@
 ARG GIT_COMMIT=latest
-FROM 976034468541.dkr.ecr.us-east-2.amazonaws.com/abrepo/abrepo:${GIT_COMMIT} AS abrepo
+FROM abrepo/abrepo:${GIT_COMMIT} AS abrepo
 FROM nginx:stable
 RUN apt-get update && apt-get install -y nano
 COPY --from=abrepo /app/public/ /app/public/

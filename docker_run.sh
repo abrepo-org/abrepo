@@ -8,14 +8,14 @@ if [ $# -gt "0" ]; then
     DEFAULT_CMD=$1
 fi
 
-# sudo docker run \
+# docker run \
 #      --user $(id -u):$(id -g) \
 #      --mount type=bind,source="$(pwd)"/app,target=/app \
 #      --env-file .env \
-#      -it 976034468541.dkr.ecr.us-east-2.amazonaws.com/abrepo/abrepo:latest \
+#      -it abrepo/abrepo:latest \
 #      $DEFAULT_CMD
 
 sudo chown -R $USER:$USER .
 sudo chown 1001:1001 -R db #bitnami image
-#sudo docker-compose run web $DEFAULT_CMD
+
 docker exec -it abrepo_web_1 $DEFAULT_CMD
