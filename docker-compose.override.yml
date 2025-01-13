@@ -44,7 +44,7 @@ services:
       dockerfile: ./nginx/Dockerfile
     volumes:
       - ./app/public:/app/public
-      - /home/vergeman/dev/ab/screenshots:/app/public/screenshots
+      - ../ab/screenshots:/app/public/screenshots
       - ./app/app/assets:/app/app/assets
       - ./nginx/nginx.conf.dev.template:/etc/nginx/templates/default.conf.template
 
