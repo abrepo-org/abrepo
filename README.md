@@ -65,16 +65,16 @@ Packer, Terraform, Ansible for Docker Swarm creation handled in
 
 #### Rails
 
-* [Authorization](../docs/rails_authorization.md)
-* [Caching](../docs/rails_caching.md)
-* [Search via `pg_search`](../docs/rails_pgsearch.md)
-* [Tags and taggable](../docs/rails_taggable.md)
-* [Rails Assets](../docs/rails_assets.md)
-* [Transactional Email](../docs/transactional_email.md)
+* [Authorization](./docs/rails_authorization.md)
+* [Caching](./docs/rails_caching.md)
+* [Search via `pg_search`](./docs/rails_pgsearch.md)
+* [Tags and taggable](./docs/rails_taggable.md)
+* [Rails Assets](./docs/rails_assets.md)
+* [Transactional Email](./docs/transactional_email.md)
 * [Importer User](./docs/rails_importer.md)
 * [Testing](./docs/rails_testing.md)
 
 ##### Rails Devise:
 
-* [Devise Pages custom styling](../docs/devise_style.md)
-* [Devise Users - Stripe](../docs/devise_stripe.md)
+* [Devise Pages custom styling](./docs/devise_style.md)
+* [Devise Users - Stripe](./docs/devise_stripe.md)
