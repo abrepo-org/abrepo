@@ -51,10 +51,10 @@ docker compose --env-file=.env build
 
 # tag
 echo "tagging $WEB_IMAGE:$GIT_COMMIT"
-docker tag $WEB_IMAGE:$GIT_COMMIT abrepo/abrepo:$GIT_COMMIT
+docker tag abrepo/abrepo:$GIT_COMMIT $WEB_IMAGE:$GIT_COMMIT
 
 echo "tagging $NGINX_IMAGE:$GIT_COMMIT"
-docker tag $NGINX_IMAGE:$GIT_COMMIT abrepo/abnginx:$GIT_COMMIT
+docker tag abrepo/abnginx:$GIT_COMMIT $NGINX_IMAGE:$GIT_COMMIT
 
 # ecr creds
 aws ecr get-login-password --region $AWS_ECR_REGION --profile $AWS_ECR_PROFILE | \
