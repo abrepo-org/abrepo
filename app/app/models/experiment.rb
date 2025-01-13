@@ -54,6 +54,9 @@ class Experiment < ApplicationRecord
 
   # calculated score for each experiment based on avg number of diffs
   # used at import time; provides numerator score used against decay (calc in db)
+  #
+  # TODO: rethink this
+  #
   def score
 
     numDiffs = self.variations.joins(renderables: :diffs).group(:id).count
