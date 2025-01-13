@@ -1,6 +1,6 @@
 # staging settings
 # to run locally:
-# sudo docker-compose -f docker-compose.yml -f docker-compose.override.yml -f staging.yml up
+# docker compose -f docker-compose.yml -f docker-compose.override.yml -f staging.yml up
 #
 # NB: for deployed staging, env is selected via ansible This is for
 # config specific to staging env. It should mimic production so
