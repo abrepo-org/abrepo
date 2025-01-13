@@ -96,7 +96,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'stripe_subscription retrieves the correct Stripe subscription' do
-    skip "covered by integration test"
+    # "covered by integration test"
   end
 
 end
