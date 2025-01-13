@@ -2,6 +2,8 @@
 !.env.stub
 !.env.db.stub
 !.env.staging.stub
+.secrets
+!.secrets.stub
 db/*
 !db/.env.pg1.stub
 !db/*.md

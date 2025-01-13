@@ -17,7 +17,8 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  host: pg1
+  username: <%= ENV['PG_USER'] || "abrepo" %>
+  host: <%= ENV['PG_HOST'] || "pg1" %>
   port: 5432
   database: abrepo_www_test
 
