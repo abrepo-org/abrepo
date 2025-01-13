@@ -2,6 +2,8 @@
 
 Rails based frontend for abrepo web app
 
+[![Rails CI/CD](https://github.com/abrepo-org/abrepo/actions/workflows/ci.yml/badge.svg)](https://github.com/abrepo-org/abrepo/actions/workflows/ci.yml)
+
 ## Branches
 
 0. `master`: general live
