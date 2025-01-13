@@ -21,10 +21,16 @@
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
-  experiment: one
+campaign_one:
+  id: 1
+  name: "Spring Launch"
+  a_id: "abc123"
+  experiment: experiment_one
+  vendor_id: "vendor_xyz"
 
-two:
-  name: MyString
-  experiment: two
+campaign_two:
+  id: 2
+  name: "Summer Sale"
+  a_id: "def456"
+  experiment: experiment_two
+  vendor_id: "vendor_abc"

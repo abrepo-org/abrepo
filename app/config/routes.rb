@@ -81,4 +81,7 @@ Rails.application.routes.draw do
 
   #seo
   get '/sitemap.xml', to: 'sitemap#index'
+
+  match '*everythingelse', to: 'errors#show', via: :all,  defaults: { code: 404 }
+
 end

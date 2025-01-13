@@ -17,18 +17,22 @@
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  type: MyString
-  url: MyString
-  selector: MyString
+action_one:
+  actionType: "MyString"
+  crawlId: "MyString"
+  description: "MyString"
+  selector: "MyString"
+  selectorDisplayName: "MyString"
+  url: "MyString"
   waitfor: 1
-  variation: one
-  renderable: one
+  a_id: "MyString"
 
-two:
-  type: MyString
-  url: MyString
-  selector: MyString
-  waitfor: 1
-  variation: two
-  renderable: two
+action_two:
+  actionType: "AnotherString"
+  crawlId: "AnotherString"
+  description: "AnotherString"
+  selector: "AnotherString"
+  selectorDisplayName: "AnotherString"
+  url: "AnotherString"
+  waitfor: 2
+  a_id: "AnotherString"

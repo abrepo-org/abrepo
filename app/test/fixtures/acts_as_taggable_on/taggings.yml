@@ -1,0 +1,30 @@
+# acts_as_taggable_on/taggings.yml
+tagging_one:
+  tag: tag_one
+  taggable_type: "Variation"
+  taggable: variation_one
+  context: "tag"
+
+tagging_two:
+  tag: tag_two
+  taggable_type: "Variation"
+  taggable: variation_two
+  context: "tag"
+
+tagging_three:
+  tag: tag_three
+  taggable_type: "Profile"
+  taggable: profile_one
+  context: "industry_tag"
+
+tagging_four:
+  tag: tag_four
+  taggable_type: "Profile"
+  taggable: profile_two
+  context: "industry_tag"
+
+tagging_five:
+  tag: tag_five
+  taggable_type: "Profile"
+  taggable: profile_two
+  context: "industry_tag"

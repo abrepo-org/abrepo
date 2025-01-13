@@ -1,5 +1,5 @@
 class Search
-  include Pundit
+  include Pundit::Authorization
 
   def self.extractSearchParams(queryParam)
 

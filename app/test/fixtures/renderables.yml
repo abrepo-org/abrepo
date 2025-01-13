@@ -32,15 +32,62 @@
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+renderable_control:
+  control: true
+  crawlId: "crawl_123"
+  domain: "acmecorp.com"
+  preExecuteAction: null
+  renderedTitle: "Acme Corp: Innovative Solutions"
+  renderedURL: "https://www.acmecorp.com/rendered"
+  screenshotFilename: "screenshot_123.png"
+  screenshotHeight: 600
+  screenshotWidth: 800
+  a_id: "renderable_0"
+  action: null
+  controlRenderable: null
+  variation: variation_one
 
-one:
-  screenshotFilename: MyString
-  renderedURL: MyString
-  renderedTitle: MyString
-  domain: MyString
+renderable_one:
+  control: false
+  crawlId: "crawl_123"
+  domain: "acmecorp.com"
+  preExecuteAction:
+    code: null
+    selector: null
+    type: null
+    url: "https://www.abc.com/business/lp/mindbody"
+    dim:
+      boundingBox: null
+      isVisible: null
+  renderedTitle: "Acme Corp: Innovative Solutions"
+  renderedURL: "https://www.acmecorp.com/rendered"
+  screenshotFilename: "screenshot_123.png"
+  screenshotHeight: 600
+  screenshotWidth: 800
+  a_id: "renderable_1"
+  action: action_one
+  controlRenderable: renderable_control
+  variation: variation_one
 
-two:
-  screenshotFilename: MyString
-  renderedURL: MyString
-  renderedTitle: MyString
-  domain: MyString
+renderable_two:
+  #id: 20
+  control: false
+  crawlId: "crawl_456"
+  domain: "betainc.com"
+  preExecuteAction:
+    code: null
+    selector: null
+    type: null
+    url: "https://www.abc.com/business/lp/mindbody"
+    dim:
+      boundingBox: null
+      isVisible: null
+  renderedTitle: "Beta Inc: Cutting-edge Technology"
+  renderedURL: "https://www.betainc.com/rendered"
+  screenshotFilename: "screenshot_456.png"
+  screenshotHeight: 600
+  screenshotWidth: 800
+  a_id: "renderable_2"
+  action: action_two
+  controlRenderable: renderable_control
+  variation: variation_two

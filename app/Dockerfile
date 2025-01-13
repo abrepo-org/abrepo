@@ -4,10 +4,12 @@ FROM ruby:3.4.1
 RUN curl -sL https://github.com/stripe/stripe-cli/releases/download/v1.10.3/stripe_1.10.3_linux_x86_64.tar.gz | tar -xz -C /usr/bin
 
 RUN apt-get update -qq && apt-get install -y nodejs postgresql-client sqlite3 libsqlite3-dev nano
+
+# yarn
 RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash -
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN apt-get update && apt-get install yarn
+RUN apt-get update && apt-get install -y yarn
 
 
 WORKDIR /app

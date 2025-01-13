@@ -30,7 +30,22 @@
 require 'test_helper'
 
 class ExperimentTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+
+  def setup
+    @experiment = experiments(:experiment_one)
+  end
+
+  test "should obfuscate attributes" do
+    original_summary = @experiment.summary_name
+    original_audience = @experiment.audience_name
+    original_domain = @experiment.domain
+
+    @experiment.obfuscate
+
+    assert_not_equal original_summary, @experiment.summary_name
+    assert_not_equal original_audience, @experiment.audience_name
+    assert_not_equal original_domain, @experiment.domain
+    assert @experiment.obfuscated
+  end
+
 end

@@ -15,12 +15,12 @@
 #  index_user_saved_variations_on_variation_id  (variation_id)
 #
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+user_saved_variation_1:
+  deleted: false
+  user: user_one
+  variation: variation_one
+
+user_saved_variation_2:
+  deleted: true
+  user: user_two
+  variation: variation_two

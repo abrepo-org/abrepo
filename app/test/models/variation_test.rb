@@ -26,7 +26,38 @@
 require 'test_helper'
 
 class VariationTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+
+  def setup
+    @variation = renderables(:renderable_one).variation
+    @renderable1 = renderables(:renderable_one)
+  end
+
+  test 'visibleActions returns actions from associated renderables that are not nil' do
+
+    preExecuteAction = @renderable1['preExecuteAction']
+
+    # see renderable:preExecuteAction()
+    preExecuteAction["id"] = @renderable1.action.id
+    preExecuteAction["actionType"] = @renderable1.action['type']
+
+    expected_result = {
+      active: [@renderable1['preExecuteAction']],
+      control: [nil] # controlRenderable's action
+    }
+
+    assert_equal expected_result, @variation.visibleActions
+  end
+
+
+  test "should obfuscate attributes" do
+    original_summary = @variation.summary_name
+    original_url = @variation.url
+
+    @variation.obfuscate
+
+    assert_not_equal original_summary, @variation.summary_name
+    assert_not_equal original_url, @variation.url
+    assert @variation.obfuscated
+  end
+
 end

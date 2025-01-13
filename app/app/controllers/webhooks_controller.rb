@@ -23,7 +23,7 @@ class WebhooksController < ApplicationController
       data_object = data['object']
 
       #not sure what I need here...maybe just keep a log?
-      puts "EVENT: #{event_type}"
+      Rails.logger.info "EVENT: #{event_type}"
 
       case event.type
       when 'checkout.session.completed'
@@ -35,11 +35,12 @@ class WebhooksController < ApplicationController
           user_id: user_id,
           stripe_customer_id: data_object['customer'],
           stripe_subscription_id: data_object['subscription']
-        ).first_or_create.update(
+        ).first_or_create
+
+        subscription.update(
           active: data_object['payment_status'] == "paid",
           billing_issue: data_object['payment_status'] != "paid"
         );
-
 
       #
       # No Sub
@@ -72,22 +73,17 @@ class WebhooksController < ApplicationController
       # active:true, billing_issue: false? a flag - we'll allow access until resolved?
 
       else
-        puts "Unhandled event type: #{event_type}"
+        Rails.logger.warn "Unhandled event type: #{event_type}"
 
       end
 
 
     rescue JSON::ParserError => e
-      # Invalid payload
-      puts "Invalid Payload", e
-      status 400
+      render json: { error: "Invalid Payload" }, status: :bad_request
       return
     rescue Stripe::SignatureVerificationError => e
-      # Invalid signature
-      puts "Invalid Signature", e
-      status 400
+      render json: { error: "Invalid Signature" }, status: :bad_request
       return
-
       #TODO: some generic catch all error
     end
 

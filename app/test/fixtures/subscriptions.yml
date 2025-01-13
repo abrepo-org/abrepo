@@ -19,15 +19,18 @@
 #
 #  fk_rails_...  (user_id => users.id)
 #
-
-one:
-  user_id: 1
-  stripe_customer_id: 1
-  active: false
+subscription_one:
+  id: 1
+  active: true
   billing_issue: false
+  stripe_customer_id: "cus_123456"
+  stripe_subscription_id: "sub_123456"
+  user: user_one
 
-two:
-  user_id: 1
-  stripe_customer_id: 1
+subscription_two:
+  id: 2
   active: false
-  billing_issue: false
+  billing_issue: true
+  stripe_customer_id: "cus_654321"
+  stripe_subscription_id: "sub_654321"
+  user: user_two

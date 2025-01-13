@@ -37,7 +37,7 @@ class StripeController < ApplicationController
     rescue => e
 
       out = "Stripe Session Error: #{e}"
-      puts "\e[#{31}m#{out}\e[0m"
+      Rails.logger.info "\e[#{31}m#{out}\e[0m"
 
     end
 
@@ -60,7 +60,6 @@ class StripeController < ApplicationController
     begin
       session = purchase_stripe(@price.id, @price_key)
     rescue => e
-      puts e.inspect
       message = "Payment provider error. Please try again."
       render status: 400, json: { user: {ok: true, errors: false},
                                   stripe: { ok: false, errors: { messages: [ message ] } }}

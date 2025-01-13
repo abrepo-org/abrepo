@@ -17,11 +17,26 @@
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+profile_one:
+  company_name: "Acme Corp"
+  description: "Leading provider of innovative solutions."
+  description_source_name: "Official Website"
+  description_source_url: "https://www.acmecorp.com"
+  domain: "acmecorp.com"
+  favicon_url: "https://www.acmecorp.com/favicon.ico"
+  logo_url: "https://www.acmecorp.com/logo.png"
+  url: "https://www.acmecorp.com"
+  a_id: "profile_1"
+  industry_tag: [tag_three]
 
-one:
-  domain: MyString
-  company_name: MyString
-
-two:
-  domain: MyString
-  company_name: MyString
+profile_two:
+  company_name: "Beta Inc."
+  description: "Beta Inc. offers cutting-edge technology."
+  description_source_name: "Tech Review"
+  description_source_url: "https://www.techreview.com/betainc"
+  domain: "betainc.com"
+  favicon_url: "https://www.betainc.com/favicon.ico"
+  logo_url: "https://www.betainc.com/logo.png"
+  url: "https://www.betainc.com"
+  a_id: "profile_2"
+  industry_tag: [tag_four, tag_five]

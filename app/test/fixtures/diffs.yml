@@ -34,18 +34,111 @@
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  type: 
-  selector: MyString
-  visible: false
-  boundingBox: 
-  calculated: 
-  renderable: one
 
-two:
-  type: 
-  selector: MyString
-  visible: false
-  boundingBox: 
-  calculated: 
-  renderable: two
+diff_one:
+  calculated:
+    text:
+      - count: 9
+        value: "Solutions"
+        removed: true
+      - count: 13
+        value: "SASE Products"
+        added: true
+    innerText:
+      - count: 9
+        value: "Solutions"
+        removed: true
+      - count: 13
+        value: "SASE Products"
+        added: true
+    tag: null
+    css: null
+    attrJSON:
+      class:
+        - value: "black f2 fw6 lh-6 bb b--transparent bw2 h-100 flex items-end pb0 pb4px-ns"
+          count: 1
+  crawlId: 'Crawl_123'
+  diffPanel: 'true'
+  diffType: 'text'
+  newDim:
+    pageDims:
+      viewport:
+        width: 1366
+        height: 4203
+        deviceScaleFactor: 1
+      screenshot_dimensions:
+        width: 1366
+        height: 4203
+        type: png
+    boundingBox:
+      selector: "SPAN[abrepoid='e0e69056c3efd361a1f5af219082c053']"
+      rect:
+        x: 351.625
+        y: 46
+        width: 103
+        height: 40
+        top: 46
+        right: 454.625
+        bottom: 86
+        left: 351.625
+      renderLayer: active
+      selectorDisplayName: "SPAN.black.f2.fw6.lh-6.bb.b--transparent.bw2.h-100.flex.items-end.pb0.pb4px-ns"
+    isVisible: true
+  origDim:
+    pageDims:
+      screenshot_dimensions:
+        width: 1366
+        height: 4203
+        type: png
+      viewport:
+        width: 1366
+        height: 4203
+        deviceScaleFactor: 1
+    boundingBox:
+      selector: "SPAN[abrepoid='e0e69056c3efd361a1f5af219082c053']"
+      rect:
+        x: 351.625
+        y: 46
+        width: 66
+        height: 40
+        top: 46
+        right: 417.625
+        bottom: 86
+        left: 351.625
+      renderLayer: base
+      selectorDisplayName: "SPAN.black.f2.fw6.lh-6.bb.b--transparent.bw2.h-100.flex.items-end.pb0.pb4px-ns"
+    isVisible: true
+  selector: '.example-selector'
+  selectorDisplayName: 'Example Selector'
+  summary_added: '2 items added'
+  summary_added_format: 'plain'
+  summary_delta: '1 item changed'
+  summary_removed: '1 item removed'
+  summary_removed_format: 'plain'
+  viewMode: 'full'
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= Time.now %>
+  a_id: 'A123'
+  group_id: 'Group_1'
+  renderable: renderable_one
+
+diff_two:
+  calculated: '{"key": "another_value"}'
+  crawlId: 'Crawl_456'
+  diffPanel: 'true'
+  diffType: 'json'
+  newDim: '{"height": 300, "width": 150}'
+  origDim: '{"height": 200, "width": 100}'
+  selector: '.another-selector'
+  selectorDisplayName: 'Another Selector'
+  summary_added: '5 items added'
+  summary_added_format: 'plain'
+  summary_delta: '2 items changed'
+  summary_removed: '0 items removed'
+  summary_removed_format: 'plain'
+  viewMode: 'compact'
+  created_at: <%= 2.days.ago %>
+  updated_at: <%= Time.now %>
+  a_id: 'A456'
+  group_id: 'Group_2'
+  renderable: renderable_two

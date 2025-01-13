@@ -1,5 +1,5 @@
 class Sidebar
-  include Pundit
+  include Pundit::Authorization
 
   # topcompanies
   # sum of a companies calcscores

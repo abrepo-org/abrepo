@@ -29,14 +29,26 @@
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
-  crawlID: Mystring
-  domain: MyString
-  profile: one
+experiment_one:
+  audience_name: "Demo Audience"
+  calcscore: 1.5
+  crawlId: "Crawl2023"
+  domain: "example.com"
+  published: true
+  summary_name: "Experiment Summary One"
+  a_id: "A123"
+  profile: profile_one
+  source_vendor: source_vendor_one
+  vendor_id: "VendorX"
 
-two:
-  name: MyString
-  crawlID: Mystring
-  domain: MyString
-  profile: two
+experiment_two:
+  audience_name: "Control Audience"
+  calcscore: 0.0
+  crawlId: "Crawl2024"
+  domain: "example.org"
+  published: true
+  summary_name: "Experiment Summary Two"
+  a_id: "A456"
+  profile: profile_two
+  source_vendor: source_vendor_two
+  vendor_id: "VendorY"

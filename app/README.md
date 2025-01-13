@@ -9,6 +9,7 @@ Rails focused notes, concepts are found in parent `/docs`.
 * [Rails Assets](../docs/rails_assets.md)
 * [Transactional Email](../docs/transactional_email.md)
 * [Importer User](../docs/rails_importer.md)
+* [Testing](../docs/rails_testing.md)
 
 Devise:
 
