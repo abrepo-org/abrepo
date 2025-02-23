@@ -24,9 +24,24 @@ class HomeController < ApplicationController
       variation: {}
     }
 
+    #
+    # interleave experiment order:
+    # loop each profile ordered by total tag count
+    # pop out experiments in order until profile / experiments are exhausted
+    #
+    # want to show experiments from "popular" profiles, but also novelty
+    # by rotating through each profile
+    # contrast previously ordering by date, often get uninteresting experiments / companies
+    #
+
+    profile_ids = policy_scope(Profile).ids_by_total_tag_counts
+
+    experiment_ids = Experiment.interleave_order(profile_ids)
+
     @experiments = policy_scope(Experiment)
                      .includes(:source_vendor, :profile, :variations)
-                     .order("created_at desc")
+                     .where(id: experiment_ids)
+                     .order(Arel.sql("position(id::text in '#{experiment_ids.join(',')}')"))
 
     @variations = policy_scope(Variation)
                     .includes(:experiment,
