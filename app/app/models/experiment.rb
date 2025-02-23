@@ -99,22 +99,20 @@ class Experiment < ApplicationRecord
     while profile_ids.any?
       profile_ids.each do |profile_id|
 
-        # Check if there are still experiments for this profile_id
+        # check if there are still experiments for this profile_id
         if experiments_by_profile[profile_id].present?
 
-          # Pop experiment_id per profile
+          # pop experiment_id per profile
           experiment_ids << experiments_by_profile[profile_id].shift.id
         else
 
-          # Remove empty profile_id
+          # remove empty profile_id
           profile_ids.delete(profile_id)
         end
       end
     end
 
-    # Store the result in the cache
-    Rails.cache.write(cache_key, experiment_ids, expires_in: 1.hour)
-
+    Rails.cache.write(cache_key, experiment_ids, expires_in: 12.hour)
     experiment_ids
   end
 end

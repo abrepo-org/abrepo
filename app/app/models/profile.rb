@@ -61,7 +61,7 @@ class Profile < ApplicationRecord
                     .order('total_tag_count DESC')
                     .map(&:id)
 
-    Rails.cache.write(cache_key, profile_ids, expires_in: 1.hour)
+    Rails.cache.write(cache_key, profile_ids, expires_in: 12.hour)
     profile_ids
   end
   #
