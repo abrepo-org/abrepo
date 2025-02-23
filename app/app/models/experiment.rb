@@ -78,4 +78,41 @@ class Experiment < ApplicationRecord
       .limit(num)
   end
 
+
+  def self.interleave_order(profile_ids)
+
+    cache_key = "Experiment-interleaved-order/#{profile_ids.join('-')}"
+    cached_result = Rails.cache.read(cache_key)
+    return cached_result if cached_result.present?
+
+    #
+    # calc interleaved order
+    #
+
+    experiments_by_profile = self
+                               .select(:id, :profile_id)
+                               .includes(:profile)
+                               .group_by{ |experiment| experiment.profile_id }
+
+    experiment_ids = []
+
+    while profile_ids.any?
+      profile_ids.each do |profile_id|
+
+        # check if there are still experiments for this profile_id
+        if experiments_by_profile[profile_id].present?
+
+          # pop experiment_id per profile
+          experiment_ids << experiments_by_profile[profile_id].shift.id
+        else
+
+          # remove empty profile_id
+          profile_ids.delete(profile_id)
+        end
+      end
+    end
+
+    Rails.cache.write(cache_key, experiment_ids, expires_in: 12.hour)
+    experiment_ids
+  end
 end

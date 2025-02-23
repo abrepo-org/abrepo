@@ -75,6 +75,7 @@
 </td>
 
 <!-- Watch / Saved -->
+<% if user_signed_in? %>
 <td align="right">
     <button class="button is-small user-save-variations
                    <%= 'obfuscated-link' if variation.obfuscated? %>"
@@ -91,5 +92,5 @@
         </span>
     </button>
 </td>
-
+<% end %>
 </tr>

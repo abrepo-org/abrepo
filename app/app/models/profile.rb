@@ -49,6 +49,21 @@ class Profile < ApplicationRecord
     return true
   end
 
+  def self.ids_by_total_tag_counts
+    cache_key = "Profile-ids-by-total-tag-counts/#{self.select(:id).map(&:id).join('-')}"
+    cached_result = Rails.cache.read(cache_key)
+    return cached_result if cached_result.present?
+
+    profile_ids = self
+                    .select('profiles.id, COUNT(taggings.id) AS total_tag_count')
+                    .joins(experiments: { variations: :taggings })
+                    .group('profiles.id')
+                    .order('total_tag_count DESC')
+                    .map(&:id)
+
+    Rails.cache.write(cache_key, profile_ids, expires_in: 12.hour)
+    profile_ids
+  end
   #
   # combo search
   # do this so we can get pg_search_highlight attributes

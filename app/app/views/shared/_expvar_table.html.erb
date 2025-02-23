@@ -11,11 +11,15 @@
     </th>
 </tr>
 
+<!-- Variation Table Headers -->
 <tr class="variation-row-header is-size-7 <%= 'obfuscate' if experiment.obfuscated? %> ">
     <th>Variations</th>
     <th class="is-hidden-mobile">Page</th>
     <th align="right">Verified</th>
-    <th align="right">Watch</th>
+
+    <% if user_signed_in? %>
+        <th align="right">Watch</th>
+    <% end %>
 </tr>
 
 <% variations.each_with_index do |variation, index| %>
