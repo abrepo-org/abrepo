@@ -20,11 +20,26 @@ class ProfilesController < ApplicationController
                                                            policy_scope(Profile))
     else
 
+      #
+      # Default ordering attempt 2: "companies with most tags"
+      # prioritize by "popularity" - most variations, and most tags
+      #
+      # Previously ordered by most recent date, which tended toward unknown,
+      # "uninteresting" companies, albeit new. Since in demo mode, ordering by
+      # "tag volume" displays more established, stronger branded companies
+      #
+
+      profile_ids = policy_scope(Profile)
+                      .select('profiles.id, COUNT(taggings.id) AS total_tag_count')
+                      .joins(experiments: { variations: :taggings })
+                      .group('profiles.id')
+                      .order('total_tag_count DESC')
+                      .map(&:id)
+
       @profiles = policy_scope(Profile)
                     .includes(:industry_tag)
-                    .where.not(experiments: { profile_id: nil})
-                    .order(updated_at: :desc)
-
+                    .where(id: profile_ids)
+                    .order(Arel.sql("position(profile_id::text in '#{profile_ids.join(',')}')"))
     end
 
 
