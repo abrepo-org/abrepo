@@ -29,12 +29,7 @@ class ProfilesController < ApplicationController
       # "tag volume" displays more established, stronger branded companies
       #
 
-      profile_ids = policy_scope(Profile)
-                      .select('profiles.id, COUNT(taggings.id) AS total_tag_count')
-                      .joins(experiments: { variations: :taggings })
-                      .group('profiles.id')
-                      .order('total_tag_count DESC')
-                      .map(&:id)
+      profile_ids = policy_scope(Profile).ids_by_total_tag_counts
 
       @profiles = policy_scope(Profile)
                     .includes(:industry_tag)
