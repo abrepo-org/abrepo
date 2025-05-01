@@ -76,7 +76,7 @@ class VariationsController < ApplicationController
     @submitPath = [
       ENV['ABANNOTATE_HOSTS'].split(",").first,
       'examples/profiles', @profile.a_id,
-      'groups', @campaign.vendor_id,
+      'groups', @campaign&.vendor_id || @experiment.vendor_id,
       'variations', @variation.a_id
      ].join('/')
 
