@@ -55,20 +55,24 @@ class StripeController < ApplicationController
     @price_key = params_price_key
     @price = get_stripe_data(@price_key)
 
-    session = nil
-
-    begin
-      session = purchase_stripe(@price.id, @price_key)
-    rescue => e
-      message = "Payment provider error. Please try again."
-      render status: 400, json: { user: {ok: true, errors: false},
-                                  stripe: { ok: false, errors: { messages: [ message ] } }}
-      return
-    end
-
-
     render status: 200, json: { user: { ok: true, errors: false },
-                                stripe: { ok: true, errors: false, sessionId: session.id }}
+                                stripe: { ok: true, errors: false, sessionId: {id: "disabled"} }}
+
+    # -- Stripe --
+    # session = nil
+
+    # begin
+    #   session = purchase_stripe(@price.id, @price_key)
+    # rescue => e
+    #   message = "Payment provider error. Please try again."
+    #   render status: 400, json: { user: {ok: true, errors: false},
+    #                               stripe: { ok: false, errors: { messages: [ message ] } }}
+    #   return
+    # end
+
+
+    # render status: 200, json: { user: { ok: true, errors: false },
+    #                             stripe: { ok: true, errors: false, sessionId: session.id }}
   end
 
 
