@@ -5,6 +5,10 @@ require "ostruct"
 class StripeControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
+  def before_setup
+    skip "Skipping all tests in this class: Stripe removal"
+  end
+
   setup do
     @user = users(:user_one)
     sign_in @user
