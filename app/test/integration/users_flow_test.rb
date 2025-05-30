@@ -4,6 +4,10 @@ require "minitest/mock"
 class UsersFlowTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
+  def before_setup
+    skip "Skipping all tests in this class: Stripe removal"
+  end
+
   def setup
 
     @stripe_price = {

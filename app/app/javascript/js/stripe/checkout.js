@@ -61,8 +61,8 @@ const createCheckoutSession = (url, csrf_token, payload) => {
             "X-CSRF-Token": csrf_token
         },
         body: JSON.stringify(payload)
-    }).then( (result) => {
-        return result.json();
+    }).then( (response) => {
+        return response.json();
     });
 };
 
@@ -73,15 +73,20 @@ const subscribeClickHandler = (e, $stripedata) => {
 
     const { stripeKey, priceKey, priceId, url, csrfToken } = {...$stripedata};
 
-    const stripe = Stripe(stripeKey);
+    // const stripe = Stripe(stripeKey);
     const payload = buildPayload(priceId, priceKey);
 
     createCheckoutSession(url, csrfToken, payload)
         .then( data => {
 
-            if (data.user.ok && data.stripe.ok) {
-                return stripe.redirectToCheckout({ sessionId: data.stripe.sessionId });
+            if (data.location) {
+                window.location.href = data.location;
+                return null;
             }
+
+            // if (data.user.ok && data.stripe.ok) {
+            //     return stripe.redirectToCheckout({ sessionId: data.stripe.sessionId });
+            // }
 
             if (data.user.ok && !data.stripe.ok) {
                 return renderErrors(data.stripe.errors.messages);

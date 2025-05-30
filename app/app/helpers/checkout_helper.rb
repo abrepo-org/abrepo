@@ -1,5 +1,20 @@
 module CheckoutHelper
 
+  # static override to preserve functionality but sunset Stripe
+  def stripe_static
+    prices = {
+      object: 'list',
+      data: [
+        {"id":"price_123","object":"price","active":true,"billing_scheme":"per_unit","created":1748617948,"currency":"usd","custom_unit_amount":nil,"livemode":false,"lookup_key":"basic-annual","metadata":{},"nickname":"Annual Subscription","product":"prod_123","recurring":{"aggregate_usage":nil,"interval":"year","interval_count":1,"meter":nil,"trial_period_days":nil,"usage_type":"licensed"},"tax_behavior":"unspecified","tiers_mode":nil,"transform_quantity":nil,"type":"recurring","unit_amount":94800,"unit_amount_decimal":"94800"},
+        {"id":"price_456","object":"price","active":true,"billing_scheme":"per_unit","created":1748617948,"currency":"usd","custom_unit_amount":nil,"livemode":false,"lookup_key":"basic-monthly","metadata":{},"nickname":"Monthly Subscription","product":"prod_456","recurring":{"aggregate_usage":nil,"interval":"month","interval_count":1,"meter":nil,"trial_period_days":nil,"usage_type":"licensed"},"tax_behavior":"unspecified","tiers_mode":nil,"transform_quantity":nil,"type":"recurring","unit_amount":9900,"unit_amount_decimal":"9900"}
+      ],
+      has_more: false,
+      url: '/v1/prices'
+    }
+
+    Stripe::Util.convert_to_stripe_object(prices, "abc")
+  end
+
   def purchase_stripe(price_id, price_key)
 
     Rails.logger.info("customer: #{get_stripe_customer_id()}")
@@ -56,7 +71,8 @@ module CheckoutHelper
     lookup_keys = ['basic-monthly', 'basic-annual']
 
     prices = Rails.cache.fetch("#{lookup_keys}/get_all_stripe_data", expires_in: 1.hours) do
-      Stripe::Price.list({ lookup_keys: lookup_keys })
+      #Stripe::Price.list({ lookup_keys: lookup_keys })
+      stripe_static
     end
 
     basic_monthly = prices[:data].find{ |price| price['lookup_key'] == 'basic-monthly' }
@@ -65,13 +81,15 @@ module CheckoutHelper
     return basic_monthly, basic_annual
   end
 
+
   # used in checkout, stripe controllers
   # NB: Price.list does not return lookup_keys by order initially requested
   def get_stripe_data(price_lookup_key)
 
     prices = Rails.cache.fetch("#{price_lookup_key}/get_stripe_data", expires_in: 1.hours) do
-      Stripe::Price.list({ lookup_keys:[price_lookup_key,
-                                        ENV['STRIPE_DEFAULT_LOOKUP_KEY']] })
+      # Stripe::Price.list({ lookup_keys:[price_lookup_key,
+      #                                   ENV['STRIPE_DEFAULT_LOOKUP_KEY']] })
+      stripe_static
     end
 
     price = prices[:data].find{ |price| price['lookup_key'] == price_lookup_key } ||
