@@ -16,7 +16,7 @@ jobs:
 
     services:
       pg1:
-        image: bitnami/postgresql:13.5.0
+        image: bitnamilegacy/postgresql:13.5.0
         env:
           POSTGRESQL_USERNAME: postgres
           POSTGRESQL_PASSWORD: admin
