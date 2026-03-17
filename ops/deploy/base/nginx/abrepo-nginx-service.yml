@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: abrepo-nginx-service
+  namespace: abrepo
+  labels:
+    app: abrepo-nginx-service
+spec:
+  selector:
+    app: abrepo-nginx
+  ports:
+    - name: "http"
+      protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP

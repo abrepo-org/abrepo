@@ -24,4 +24,6 @@ test:
 
 production:
   <<: *default
+  host: <%= ENV['PG_HOST'] || "pgbouncer" %>
+  port: <%= ENV['PG_PORT'] || 6432 %>
   database: abrepo_www_prod

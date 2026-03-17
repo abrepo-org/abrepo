@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: abrepo-rails
+  name: abrepo-rails
+  namespace: abrepo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: abrepo-rails
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: abrepo-rails
+    spec:
+      affinity:
+        nodeAffinity:
+          # Hard requirement: Avoid `node.kubernetes.io=cntrl`
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node.kubernetes.io/class_id
+                    operator: NotIn
+                    values:
+                      - cntrl
+          # Soft preference: Prefer `node.kubernetes.io=app`
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: node.kubernetes.io/class_id
+                    operator: In
+                    values:
+                      - app
+            # Lower priority preference for `node.kubernetes.io=gen`
+            - weight: 10
+              preference:
+                matchExpressions:
+                  - key: node.kubernetes.io/class_id
+                    operator: In
+                    values:
+                      - gen
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - image: ${IMAGE_REPO}/abrepo/abrepo:${GIT_COMMIT}
+          name: abrepo-rails
+          command: ["/bin/bash", "-c"]
+          args: ["rm -f tmp/pids/server.pid && rake tmp:cache:clear && bundle exec rails s -p 8081 -b '0.0.0.0'"]
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "256Mi"        # Minimum memory requested
+            limits:
+              memory: "512Mi"        # Maximum memory allowed
+          envFrom:
+          - secretRef:
+              name: abrepo-rails-secrets
+          - configMapRef:
+              name: abrepo-rails-configmap

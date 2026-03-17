@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: abrepo
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: core-db
