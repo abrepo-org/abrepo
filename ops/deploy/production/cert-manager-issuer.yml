@@ -1,0 +1,29 @@
+# PRODUCTION
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-abrepo-issuer
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: ${CERT_MANAGER_EMAIL}
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-abrepo-issuer-secret
+    # Enable the DNS-01 challenge provider
+    # w/ fallback HTTP-01 challenge provider
+    solvers:
+      - dns01:
+          cloudflare:
+            apiTokenSecretRef:
+              name: cloudflare-api-token-secrets
+              key: api-token
+        selector:
+          dnsNames:
+            - 'abrepo.com'
+            - 'www.abrepo.com'
+      - http01:
+          ingress:
+            class: traefik
