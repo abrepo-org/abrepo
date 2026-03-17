@@ -2,6 +2,7 @@
 !.env.stub
 !.env.db.stub
 !.env.staging.stub
+!.env.k3s.stub
 .secrets
 !.secrets.stub
 db/*
