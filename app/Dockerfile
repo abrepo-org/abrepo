@@ -1,52 +1,62 @@
-FROM ruby:3.4.1
+ARG RUBY_VERSION=3.4.10
+FROM ruby:${RUBY_VERSION}-slim-bookworm
 
-# stripe CLI
-RUN curl -sL https://github.com/stripe/stripe-cli/releases/download/v1.10.3/stripe_1.10.3_linux_x86_64.tar.gz | tar -xz -C /usr/bin
+ARG NODE_MAJOR=20
+ARG STRIPE_CLI_VERSION=1.10.3
 
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client sqlite3 libsqlite3-dev nano
+ENV BUNDLE_PATH=/usr/local/bundle \
+    NODE_OPTIONS=--openssl-legacy-provider \
+    PYTHON=/usr/bin/python3
 
-# yarn
-RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash -
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN apt-get update && apt-get install -y yarn
-
+# Webpacker 5 requires the OpenSSL legacy provider, so stay on Node 20 until
+# the JavaScript pipeline is migrated. The project uses Yarn 1, which Corepack
+# supplies without adding the deprecated Yarn APT repository.
+RUN apt-get update -qq \
+    && apt-get install --no-install-recommends -y \
+        build-essential \
+        ca-certificates \
+        curl \
+        gpg \
+        libffi-dev \
+        libpq-dev \
+        pkg-config \
+        postgresql-client \
+        python3 \
+        sqlite3 \
+        libsqlite3-dev \
+    && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
+        | gpg --dearmor -o /usr/share/keyrings/nodesource.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_MAJOR}.x nodistro main" \
+        > /etc/apt/sources.list.d/nodesource.list \
+    && apt-get update -qq \
+    && apt-get install --no-install-recommends -y nodejs \
+    && corepack enable \
+    && corepack prepare yarn@1.22.22 --activate \
+    && curl -fsSL https://github.com/stripe/stripe-cli/releases/download/v${STRIPE_CLI_VERSION}/stripe_${STRIPE_CLI_VERSION}_linux_x86_64.tar.gz \
+        | tar -xz -C /usr/local/bin \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-COPY Gemfile Gemfile.lock ./
 
-# bundler gems
-ENV BUNDLE_PATH=/app/bundler
+# Install dependencies before application code so Docker can cache these layers.
+COPY Gemfile Gemfile.lock ./
 RUN bundle install
 
-ENV PYTHON=/usr/bin/python3
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 
-# Webpacker & Yarn
-RUN bundle exec rails webpacker:install
-RUN bundle exec rails webpacker:install:react
-RUN yarn install
-COPY yarn.lock ./
+COPY . ./
 
-COPY . /app
-
-
-# By default Sprockets keeps old generated assets so old running images run
-# concurrently
-# However need to occasionally run:
-#
-# RUN bundle exec rails assets:clobber
-
-ENV NODE_OPTIONS=--openssl-legacy-provider
+# The Webpacker configuration and React support are already checked in. Running
+# the installer during an image build mutates source files and defeats caching.
+# NODE_OPTIONS also remains available for Webpacker's on-demand development build.
 ENV RAILS_ENV=production
-ENV SECRET_KEY_BASE=dummyprodprecompileonlykey
-RUN bundle exec rake assets:precompile
+RUN SECRET_KEY_BASE=dummyprodprecompileonlykey \
+    bundle exec rails assets:precompile
 
+COPY entrypoint.sh /usr/local/bin/entrypoint
+RUN chmod +x /usr/local/bin/entrypoint
+ENTRYPOINT ["entrypoint"]
 
-# Add a script to be executed every time the container starts.
-COPY entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 8081
-
-# Start the main process.
 CMD ["rails", "server", "-b", "0.0.0.0", "-p", "8081"]
