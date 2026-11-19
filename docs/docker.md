@@ -131,25 +131,15 @@ sudo ./aws/install
 
 ## Docker Compose Healthcheck
 
-Typical check run via docker-compose. Operates in all env; dev, prod, etc:
+`pg1 → pgbouncer → web → nginx → haproxy`
 
-```
-# web, nginx
-healthcheck:
-  test: ["CMD-SHELL",
-    "curl -o /dev/null -I -f -s -w %{http_code} http://localhost:8081/?healthcheck=true || exit 1"]
-  interval: 1
-  timeout: 1m30s
-  retries: 3
-
-#pg
-  test: ["CMD-SHELL", "pg_isready -U postgres"]
-```
-
-
-Look at status:
-
-`docker inspect abrepo_web_1 --format='{{json .State.Health}}'  | jq`
+- Postgres accepts TCP connections before PgBouncer starts.
+- PgBouncer runs `SELECT 1` before Rails starts.
+- Rails checks `/healthcheck` on port 8081 before nginx starts.
+- nginx proxies `/healthcheck` on port 8080 before HAProxy starts.
+- Development inherits these checks; there is no circular dependency.
+- Start with `docker compose up -d --wait`; check with `docker compose ps`.
+- Startup ordering applies to Compose; `./build.sh` only builds and pushes.
 
 
 ---

@@ -30,7 +30,7 @@ NGINX_IMAGE=$AWS_ECR_ACCOUNT.dkr.ecr.$AWS_ECR_REGION.amazonaws.com/abrepo/abngin
 # But this May change on CI/CD server
 GIT_COMMIT=$(git log -1 --format=%h)
 GIT_COMMIT=$GIT_COMMIT \
-docker compose --env-file=.env build
+docker compose --env-file=.env build --pull
 
 # tag
 echo "tagging $WEB_IMAGE:$GIT_COMMIT"
