@@ -25,7 +25,6 @@ services:
       - PGBACKREST_REPO2_S3_BUCKET=abrepo-dev-web-pg-pgbackrest
 
   web:
-    build: ./app
     healthcheck:
       test: ""
     volumes:
@@ -39,16 +38,13 @@ services:
 
 
   nginx:
-    build:
-      context: .
-      dockerfile: ./nginx/Dockerfile
     volumes:
       - ./app/public:/app/public
       - ../ab/screenshots:/app/public/screenshots
       - ./app/app/assets:/app/app/assets
       - ./nginx/nginx.conf.dev.template:/etc/nginx/templates/default.conf.template
 
-    # needed for build
+    # Start Rails before nginx in development.
     depends_on:
       - web
 

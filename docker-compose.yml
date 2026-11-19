@@ -45,6 +45,7 @@ services:
         - node.labels.instance == db1
 
   web:
+    build: ./app
     image: "${WEB_IMAGE:-abrepo/abrepo}:${GIT_COMMIT:-latest}"
     env_file:
       - .env
@@ -78,6 +79,8 @@ services:
     image: "${NGINX_IMAGE:-abrepo/abnginx}:${GIT_COMMIT:-latest}"
     build:
       context: ./nginx
+      additional_contexts:
+        rails_assets: service:web
     # healthcheck:
     #   test: ["CMD-SHELL",
     #   "curl -o /dev/null -I -f -s -w %{http_code} http://localhost:8080/healthcheck || exit 1"]
