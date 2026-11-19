@@ -3,6 +3,21 @@ services:
 
   pgbouncer:
     image: "bitnamilegacy/pgbouncer:1.23.1"
+    depends_on:
+      pg1:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          PGCONNECT_TIMEOUT=3 PGPASSWORD="$${POSTGRESQL_PASSWORD}"
+          psql -h 127.0.0.1 -p "$${PGBOUNCER_PORT:-6432}"
+          -U "$${POSTGRESQL_USERNAME}" -d "$${PGBOUNCER_DATABASE}"
+          -w -tAc 'SELECT 1' > /dev/null
+      interval: 5s
+      timeout: 5s
+      start_period: 15s
+      retries: 12
     env_file:
       - .env.db
     environment:
@@ -20,10 +35,11 @@ services:
   pg1:
     image: 'bitnami/postgresql:13.5.0'
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", 'pg_isready -h 127.0.0.1 -p 5432 -U "$${POSTGRESQL_USERNAME:-postgres}" -d "$${POSTGRESQL_DATABASE:-postgres}"']
       interval: 3s
-      timeout: 10s
-      retries: 3
+      timeout: 5s
+      start_period: 30s
+      retries: 20
     env_file:
       - .env.db
     volumes:
@@ -45,17 +61,20 @@ services:
         - node.labels.instance == db1
 
   web:
+    depends_on:
+      pgbouncer:
+        condition: service_healthy
     build: ./app
     image: "${WEB_IMAGE:-abrepo/abrepo}:${GIT_COMMIT:-latest}"
     env_file:
       - .env
     command: bash -c "rm -f tmp/pids/server.pid && rake tmp:cache:clear && bundle exec rails s -p 8081 -b '0.0.0.0'"
     healthcheck:
-      test: ["CMD-SHELL", "curl -o /dev/null -I -f -s -w %{http_code} http://127.0.0.1:8081/healthcheck || exit 1"]
-      interval: 60s
-      start_period: 15s
+      test: ["CMD", "curl", "--fail", "--silent", "--show-error", "--max-time", "3", "--output", "/dev/null", "http://127.0.0.1:8081/healthcheck"]
+      interval: 5s
+      start_period: 30s
       timeout: 5s
-      retries: 10
+      retries: 24
 
     deploy:
       replicas: 1
@@ -76,17 +95,20 @@ services:
           #- node.role == manager
 
   nginx:
+    depends_on:
+      web:
+        condition: service_healthy
     image: "${NGINX_IMAGE:-abrepo/abnginx}:${GIT_COMMIT:-latest}"
     build:
       context: ./nginx
       additional_contexts:
         rails_assets: service:web
-    # healthcheck:
-    #   test: ["CMD-SHELL",
-    #   "curl -o /dev/null -I -f -s -w %{http_code} http://localhost:8080/healthcheck || exit 1"]
-    #   interval: 3s
-    #   timeout: 10s
-    #   retries: 3
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "--show-error", "--max-time", "3", "--output", "/dev/null", "http://127.0.0.1:8080/healthcheck"]
+      interval: 5s
+      timeout: 5s
+      start_period: 10s
+      retries: 12
     environment:
       - NGINX_PORT=8080
 
@@ -116,6 +138,9 @@ services:
           #- node.role == manager
 
   haproxy:
+    depends_on:
+      nginx:
+        condition: service_healthy
     image: "haproxy:lts"
     volumes:
       - "${REMOTE_RELEASE_PATH:-.}/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
